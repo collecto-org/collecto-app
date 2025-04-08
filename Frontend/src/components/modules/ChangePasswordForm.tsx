@@ -15,7 +15,7 @@ const schema = z.object({
     message: "Las contraseñas no coinciden"
   })
 
-function RegisterForm() {
+function ChangePasswordForm() {
   const {
     register,
     handleSubmit,
@@ -24,14 +24,12 @@ function RegisterForm() {
     resolver: zodResolver(schema),
     mode: "onSubmit",
     defaultValues: {
-      email: "email@example.com",
       password: "",
-      confirmPassword: "",
-      consent: false
+      confirmPassword: ""
     }
   })
 
-  const onSubmit = (data: { email: string; password: string; confirmPassword: string; consent: boolean; }) => {
+  const onSubmit = (data: {  password: string; confirmPassword: string; }) => {
     console.log("Datos del formulario:", data) //TODO conectar con el endpoint
   }
 
@@ -39,15 +37,7 @@ function RegisterForm() {
     <div className="container">
         
       <Form onSubmit={handleSubmit(onSubmit)} className="form">
-      <h2>Registrarse</h2>
-        <InputField
-          label="Email"
-          name="email"
-          register={register}
-          type="email"
-          error={errors.email?.message}
-
-        />
+      <h2>Cambiar contraseña</h2>
 
         <InputField
           label="Contraseña"
@@ -65,17 +55,10 @@ function RegisterForm() {
           error={errors.confirmPassword?.message}
         />
 
-        <InputField
-          label="Acepto que Collecto.es me envíe notificaciones"
-          name="consent"
-          register={register}
-          type="checkbox"
-        />
-
         <Button className="submit-button">Enviar</Button>
       </Form>
     </div>
   )
 }
 
-export default RegisterForm
+export default ChangePasswordForm
