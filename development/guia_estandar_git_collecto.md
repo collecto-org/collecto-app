@@ -39,6 +39,25 @@ $ git pull origin main
 $ git push -u origin feature/nombre-de-la-tarea
 
 # 7. Crear Pull Request desde GitHub hacia main
+
+##  Importante: creación de Pull Request obligatoria
+
+Una vez que hayas terminado tu tarea en una rama nueva, **no basta con hacer commit y push**.
+
+Debes completar el proceso creando un **Pull Request** (PR) en GitHub para que tu código pueda ser revisado e integrado a `main`.
+
+###  Pasos para crear el Pull Request:
+
+1. Ve a GitHub → pestaña **Pull Requests** → botón **“New Pull Request”**
+2. Selecciona tu rama como origen (ej: `feature/crear-formulario`)
+3. Asegúrate de que el destino es `main`
+4. Escribe un título claro (ej: `feat: formulario de registro terminado`)
+5. (Opcional) Agrega una descripción de los cambios
+6. Haz clic en **“Create Pull Request”**
+
+Solo después de esto, el administrador podrá revisar y hacer merge.  
+No se fusionará código directamente a `main` sin PR.
+
 ```
 
 ---
