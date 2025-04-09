@@ -13,6 +13,7 @@ connectDB();
 
 // Middleware para parsear JSON
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Rutas de autenticación
 app.use('/api/auth', authRoutes);
