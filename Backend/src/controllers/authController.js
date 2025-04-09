@@ -20,16 +20,16 @@ export const register = async (req, res) => {
   } = req.body;
 
   try {
-    // mirar si ya se ha registrado
+    // Verificar si el usuario ya existe
     const userExists = await User.findOne({
-      $or: [{ email }, { username }] // ojo!!!!!!!!! revisar si hay que añadir otro campo que no se repita
+      $or: [{ email }, { username }] // Ojo!!!!!! revisar si hay que añadir otro campo que no se repita!!!
     });
 
     if (userExists) {
       return res.status(400).json({ message: 'El usuario ya existe' });
     }
 
-    // hasheo de la contraseña
+    // Hashear la contraseña
     const passwordHash = await bcrypt.hash(password, 10);
 
     // Crear nuevo usuario
@@ -46,16 +46,83 @@ export const register = async (req, res) => {
       direccionId,
     });
 
-    res.status(201).json({
-      message: 'Usuario registrado',
-      user: {
-        id: newUser._id,
-        username: newUser.username,
-        email: newUser.email
+    // Token de verificación de email (expira en 1h)
+    const emailVerificationToken = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Configurar el transportador de correo
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    // Configura las opciones del correo
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: newUser.email,
+      subject: 'Verificación de cuenta',
+      text: `Haga clic en el siguiente enlace para verificar su correo: http://localhost:3000/api/auth/verify-email/${emailVerificationToken}`,
+    };
+
+    // Enviar el correo de verificación
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log('Error al enviar el correo:', err);
+        return res.status(500).json({ message: 'Error al enviar correo de verificación' });
       }
+      console.log('Correo de verificación enviado:', info.response);
+      
+      // Responder solo después de enviar el correo correctamente
+      res.status(201).json({
+        message: 'Usuario registrado. Verifica tu correo para activarlo.',
+        user: {
+          id: newUser._id,
+          username: newUser.username,
+          email: newUser.email
+        }
+      });
     });
   } catch (err) {
     res.status(500).json({ message: 'Error al registrar usuario', error: err.message });
+  }
+};
+
+
+// Verificacion del correo electronico
+export const verifyRegisterEmail = async (req, res) => {
+  const { token } = req.params;
+
+  try {
+    // Verifica el token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // verifica la base de datos
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // activa si es valido
+    user.emailVerified = true;
+    await user.save();
+
+    res.status(200).json({
+      message: 'Correo electrónico verificado exitosamente',
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email
+      }
+    });
+    
+  } catch (err) {
+    res.status(400).json({ message: 'Token inválido' });
   }
 };
 
@@ -70,6 +137,11 @@ export const login = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // revisa si el mail está verificado
+    if (!user.emailVerified) {
+      return res.status(400).json({ message: 'Debe verificar su correo electrónico antes de iniciar sesión' });
     }
 
     // Verifica contraseña
@@ -137,6 +209,9 @@ export const recoverPassword = async (req, res) => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
 
     const mailOptions = {
@@ -182,18 +257,16 @@ export const resetPassword = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id);
-
+  
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
-
+  
     const passwordHash = await bcrypt.hash(newPassword, 10);
-
-    user.passwordHash = passwordHash; 
+    user.passwordHash = passwordHash;
     user.updatedAt = Date.now(); 
     await user.save();
-
-    // COnfirmacion de contraseña restablecida
+  
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -201,25 +274,21 @@ export const resetPassword = async (req, res) => {
         pass: process.env.EMAIL_PASS,
       },
     });
-
+  
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: user.email,
       subject: 'Contraseña restablecida',
       text: 'Su contraseña ha sido restablecida correctamente.',
     };
-
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json({ message: 'Error al enviar el correo de confirmación' });
-      } else {
-        console.log('Correo de confirmación enviado:', info.response);
-        return res.status(200).json({ message: 'Contraseña actualizada y correo de confirmación enviado' });
-      }
-    });
-
+  
+    // Usar await en vez de callback
+    await transporter.sendMail(mailOptions);
+  
+    res.status(200).json({ message: 'Contraseña actualizada y correo de confirmación enviado' });
+  
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: 'Error al restablecer la contraseña', error: err.message });
-  }
+  }  
 };
