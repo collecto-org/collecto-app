@@ -4,11 +4,13 @@ import { z } from "zod"
 import Form from "../Form"
 import InputField from "../InputField"
 import Button from "../Button"
+import { useLoginMutation } from "../../services/authApi"
+import { Meta } from "react-router-dom"
 
 const schema = z.object({
-  email: z.string().email("Email no válido"),
+  username: z.string().min(3,"El nombre de usuario es obligatorio"),
   password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
-  session:z.boolean()})
+  rememberMe:z.boolean()})
 
 function LoginForm() {
   const {
@@ -19,14 +21,22 @@ function LoginForm() {
     resolver: zodResolver(schema),
     mode: "onSubmit",
     defaultValues: {
-      email: "email@example.com",
+      username: "user",
       password: "",
-      session: false
+      rememberMe: false
     }
   })
 
-  const onSubmit = (data: { email: string; password: string; session: boolean }) => {
-    console.log("Datos del formulario:", data) //TODO conectar con el endpoint
+  const [login,{data, error, isLoading}] = useLoginMutation()
+
+  const onSubmit = async (data: { username: string; password: string; rememberMe: boolean }) => {
+    try {
+      const result = await login({username:data.username,password:data.password,rememberMe:data.rememberMe}).unwrap()
+      console.log("Login exitoso")
+      localStorage.setItem("token",result.token)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -35,11 +45,11 @@ function LoginForm() {
       <Form onSubmit={handleSubmit(onSubmit)} className="form">
       <h2>Login</h2>
         <InputField
-          label="Email"
-          name="email"
+          label="username"
+          name="username"
           register={register}
-          type="email"
-          error={errors.email?.message}
+          type="text"
+          error={errors.username?.message}
         />
 
         <InputField
@@ -52,12 +62,14 @@ function LoginForm() {
 
         <InputField
           label="Recordar sesión"
-          name="session"
+          name="rememberMe"
           register={register}
           type="checkbox"
         />
 
-        <Button className="submit-button">Enviar</Button>
+    <Button className="submit-button" >
+          {isLoading ? 'Cargando...' : 'Enviar'}
+        </Button>
       </Form>
     </div>
   )
