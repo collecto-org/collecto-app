@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -13,6 +14,9 @@ connectDB();
 
 // Middleware para parsear JSON
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
 
 // Rutas de autenticación
 app.use('/api/auth', authRoutes);
