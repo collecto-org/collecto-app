@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/styles.css">
+  <title>Document</title>
+
+</head>
+<body>
+  <nav>
+    
+
+    <div class="navbar-left">
+      <img src="../logos/collecto.png" alt="logo" class="logo_nav">
+
+      <ul>
+        <li>
+          <a href="/">All</a>
+        </li>
+        <li>
+          <img src="../logos/hasbro.svg" alt="menu" class="logo_nav">
+        </li>
+        <li>
+          <img src="../logos/mattel.png" alt="menu" class="logo_nav">
+        </li>
+        <li>
+          <img src="../logos/neca.jpeg" alt="menu" class="logo_nav">
+        </li>
+        <li>
+
+          <img src="../logos/bandai.png" alt="menu" class="logo_nav">
+        </li>
+        <li>
+          <a href="/">Otros</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="navbar-right">
+      <ul>
+
+        <li class="navbar-email">example@example.com</li>
+        <li class="navbar-shopping-cart">
+          <button class="primary-button login-button" id="navbar-login">Login</button>
+        </li>
+        <li>
+          <button class="primary-button login-button" id="navbar-signup">Sign up</button>
+        </li>
+        <li>
+          <img src="../icons/icon_menu.svg" alt="menu" class="menu">
+        </li>
+      </ul>
+  </div>
+
+  <div class="desktop-menu">
+    <ul>
+      <li>
+        <a href="editmyprofile.html" class="title">Mi perfil</a>
+      </li>
+
+      <li>
+        <a href="changePassword.html">Cambiar contraseña</a>
+      </li>
+
+      <li>
+        <a href="index.html">Mis direcciones</a>
+      </li>
+
+      <li>
+        <a href="index.html">Mis anuncios</a>
+      </li>
+
+      <li>
+        <a href="index.html">Mis ordenes</a>
+      </li>
+
+      <li>
+        <a href="/">Sign out</a>
+      </li>
+    </ul>
+  </div>
+
+  </nav>
+  <script>
+    const menuIcon = document.querySelector('.menu');
+    const desktopMenu = document.querySelector('.desktop-menu');
+  
+    menuIcon.addEventListener('click', () => {
+      desktopMenu.classList.toggle('inactive');
+    });
+
+    const navbarLoginButton = document.getElementById('navbar-login');
+
+    navbarLoginButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      window.location.href = 'login.html';
+    });
+
+    const navbarSignupButton = document.getElementById('navbar-signup');
+
+    navbarSignupButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      window.location.href = 'signup.html';
+    });
+    
+  </script>
+</body>
+</html>
