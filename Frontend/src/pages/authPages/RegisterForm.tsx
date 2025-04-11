@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import Form from "../Form"
-import InputField from "../InputField"
-import Button from "../Button"
+import Form from "../../components/Form"
+import InputField from "../../components/InputField"
+import Button from "../../components/Button"
 import { useRegisterMutation } from "../../services/authApi"
 import { ApiError } from "../../services/schemas"
 

@@ -1,9 +1,8 @@
 // src/pages/ConfirmEmail.tsx
 import { useEffect } from "react";
 import {  useParams } from "react-router-dom";
-import { useVerifyPasswordTokenMutation } from "../services/authApi";
-import ChangePasswordForm from "../components/modules/ChangePasswordForm";
-
+import { useVerifyPasswordTokenMutation } from "../../services/authApi"; 
+import ChangePasswordForm from "../../components/modules/ChangePasswordForm";
 const ChangePassPage = () => {
     const [verifyToken, { isLoading, isSuccess, isError }] = useVerifyPasswordTokenMutation();
     const { token } = useParams<{ token: string }>();

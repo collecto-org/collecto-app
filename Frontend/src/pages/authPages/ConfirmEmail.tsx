@@ -1,7 +1,7 @@
 // src/pages/ConfirmEmail.tsx
 import { useEffect } from "react";
 import {  useParams } from "react-router-dom";
-import { useVerifyMutation } from "../services/authApi"; 
+import { useVerifyMutation } from "../../services/authApi"; 
 
 const ConfirmEmail = () => {
     const [confirmEmail, { isLoading, isSuccess, isError }] = useVerifyMutation();
