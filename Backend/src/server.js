@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
+import advertsRoutes from './routes/advertsRoutes.js';
+import usersRoutes from './routes/usersRoutes.js';
 import cors from 'cors';
 
 dotenv.config();
@@ -20,6 +22,13 @@ app.use(cors());
 
 // Rutas de autenticación
 app.use('/api/auth', authRoutes);
+// Rutas de anuncios
+app.use('/api/adverts', advertsRoutes);
+// Rutas de usuarios
+app.use('/api/users', usersRoutes);
+
+
+
 
 // Ruta básica de prueba
 app.get('/', (req, res) => {
