@@ -4,14 +4,19 @@ import { z } from "zod"
 import Form from "../Form"
 import InputField from "../InputField"
 import Button from "../Button"
+import { useRegisterMutation } from "../../services/authApi"
+import { ApiError } from "../../services/schemas"
 
 const schema = z.object({
   email: z.string().email("Email no válido"),
+  username:z.string().nonempty("El nombre de usuario es obligatorio"),
+  firstName:z.string().nonempty("El nombre es obligatorio"),
+  lastName:z.string().nonempty("Los apellidos son obligatorios"),
   password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
   confirmPassword:z.string(),
   consent:z.boolean()
   }).refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"], // El error aparece en el campo confirmPassword
+    path: ["confirmPassword"], 
     message: "Las contraseñas no coinciden"
   })
 
@@ -24,16 +29,26 @@ function RegisterForm() {
     resolver: zodResolver(schema),
     mode: "onSubmit",
     defaultValues: {
-      email: "email@example.com",
+      email: "",
+      username:"",
       password: "",
+      lastName:"",
+      firstName:"",
       confirmPassword: "",
       consent: false
     }
   })
 
-  const onSubmit = (data: { email: string; password: string; confirmPassword: string; consent: boolean; }) => {
-    console.log("Datos del formulario:", data) //TODO conectar con el endpoint
-  }
+  const [registerApi,{isLoading}] = useRegisterMutation()
+
+  const onSubmit = async (data: {username:string; email: string; password: string; firstName:string; lastName:string;  }) => {
+try {
+      const result = await registerApi(data).unwrap();
+      console.log(result)
+    } catch (err) {
+      const apiError = err as ApiError;
+      console.log(apiError?.data?.message ?? "Error desconocido");
+    }  }
 
   return (
     <div className="container">
@@ -46,7 +61,27 @@ function RegisterForm() {
           register={register}
           type="email"
           error={errors.email?.message}
-
+        />
+        <InputField
+          label="Nombre de usuario"
+          name="username"
+          register={register}
+          type="text"
+          error={errors.username?.message}
+        />
+        <InputField
+          label="Nombre"
+          name="firstName"
+          register={register}
+          type="text"
+          error={errors.firstName?.message}
+        />
+        <InputField
+          label="Apellidos"
+          name="lastName"
+          register={register}
+          type="text"
+          error={errors.lastName?.message}
         />
 
         <InputField
@@ -72,8 +107,9 @@ function RegisterForm() {
           type="checkbox"
         />
 
-        <Button className="submit-button">Enviar</Button>
-      </Form>
+    <Button variant="login-button" tipe="primary-button" >
+          {isLoading ? 'Cargando...' : 'Enviar'}
+        </Button>      </Form>
     </div>
   )
 }
