@@ -342,3 +342,68 @@ export const createAdvert = async (req, res) => {
     res.status(500).json({ message: 'Error al crear el anuncio', error: err.message });
   }
 };
+
+
+// Editar un anuncio propio
+export const editAdvert = async (req, res) => {
+  const { id } = req.params;
+  const {
+    title,
+    description,
+    price,
+    transaction,
+    status,
+    product_type,
+    universe,
+    condition,
+    collection,
+    brand,
+    tags,
+    images,
+  } = req.body;
+
+  try {
+    // Buscar la ID
+    const advert = await Advert.findById(id);
+    
+    if (!advert) {
+      return res.status(404).json({ message: 'Anuncio no encontrado' });
+    }
+
+    // Check de si está vendido
+    if (advert.status === 'vendido') {
+      return res.status(400).json({ message: 'No se puede editar un anuncio ya vendido.' });
+    }
+
+    // check de que sea propietario 
+    if (advert.user.toString() !== req.user) {
+      return res.status(403).json({ message: 'No tienes permiso para editar este anuncio.' });
+    }
+
+    // Actualiza los campos
+    advert.title = title || advert.title;
+    advert.description = description || advert.description;
+    advert.price = price || advert.price;
+    advert.transaction = transaction || advert.transaction;
+    advert.status = status || advert.status;
+    advert.product_type = product_type || advert.product_type;
+    advert.universe = universe || advert.universe;
+    advert.condition = condition || advert.condition;
+    advert.collection = collection || advert.collection;
+    advert.brand = brand || advert.brand;
+    advert.tags = tags || advert.tags;
+    advert.images = images || advert.images;
+    
+    advert.updatedAt = Date.now();
+
+    await advert.save();
+
+    res.status(200).json({
+      message: 'Anuncio actualizado',
+      advert,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al actualizar el anuncio', error: err.message });
+  }
+};
