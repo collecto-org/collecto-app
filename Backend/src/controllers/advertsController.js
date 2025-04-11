@@ -1,8 +1,5 @@
 import Advert from '../models/advert.js';
-import User from '../models/user.js';
 import Notification from '../models/notification.js';
-
-import multer from 'multer';
 
 
 
@@ -159,30 +156,6 @@ export const getAdvertStatusBySlug = async (req, res) => {
 };
 
 
-// Ver anuncios de un usuario
-export const getUserAdverts = async (req, res) => {
-  const { username } = req.params;  // Traemos el username desde los params de la URL
-
-  try {
-    const user = await User.findOne({ username: username });
-
-    if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
-    
-    const adverts = await Advert.find({ user: user._id });
-
-    if (!adverts.length) {
-      return res.status(404).json({ message: 'No se encontraron anuncios para este usuario' });
-    }
-
-    res.status(200).json(adverts);
-  } catch (err) {
-    res.status(500).json({ message: 'Error al obtener los anuncios del usuario', error: err.message });
-  }
-};
-
-
 // Actualizar estado y visibilidad
 export const updateAdvertStatus = async (req, res) => {
   const { id } = req.params;
@@ -281,7 +254,7 @@ export const getImages = async (req, res) => {
 
 
 
-// Crear nuevo anuncio
+// Crear nuevo anuncio (Endpoint de Gestión de usuario)
 export const createAdvert = async (req, res) => {
   const {
     title,
@@ -344,7 +317,7 @@ export const createAdvert = async (req, res) => {
 };
 
 
-// Editar un anuncio propio
+// Editar un anuncio propio (Endpoint de Gestión de usuario)
 export const editAdvert = async (req, res) => {
   const { id } = req.params;
   const {
@@ -409,7 +382,7 @@ export const editAdvert = async (req, res) => {
 };
 
 
-// Borrar anuncio propio
+// Borrar anuncio propio (Endpoint de Gestión de usuario)
 export const deleteAdvert = async (req, res) => {
   const { id } = req.params;
 

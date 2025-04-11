@@ -16,6 +16,7 @@ router.patch('/:id/status', verifyToken, updateAdvertStatus);  // Cambiar estado
 router.post('/:id/picture', verifyToken, upload, uploadImages); // Subir imagenes
 router.get('/:id/picture', verifyToken, getImages); // Ver imágenes de un anuncio
 
+
 // Gestión de usuarios
 router.post('/', verifyToken, upload, createAdvert); // Crear nuevo anuncio
 router.put('/:id', verifyToken, verifyAdvertOwner, editAdvert);  // Editar anuncio
