@@ -219,7 +219,7 @@ export const recoverPassword = async (req, res) => {
       to: user.email,
       subject: 'Recuperación de contraseña',
       text: `Haga clic en el siguiente enlace para restablecer su contraseña: http://localhost:3000/api/auth/reset/${resetToken}`,
-    };
+    };    
 
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
@@ -267,6 +267,8 @@ export const resetPassword = async (req, res) => {
     user.updatedAt = Date.now(); 
     await user.save();
   
+
+// Enviar correo de confirmación
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
