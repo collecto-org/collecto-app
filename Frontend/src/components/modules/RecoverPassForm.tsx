@@ -4,22 +4,14 @@ import { z } from "zod"
 import Form from "../Form"
 import InputField from "../InputField"
 import Button from "../Button"
-import { useChangePasswordMutation } from "../../services/authApi"
+import { useRecoverPassMutation } from "../../services/authApi"
 import logo from "../../assets/logos/collecto.png"
 import { ApiError } from "../../services/schemas"
 import { useState } from "react"
 const schema = z.object({
-  newPassword: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
-  confirmPassword:z.string()
-  }).refine((data) => data.newPassword === data.confirmPassword, {
-    path: ["confirmPassword"], 
-    message: "Las contraseñas no coinciden"
-  })
+  email: z.string().email("Email no válido")})
 
-  type Props = {
-    token: string;
-  };
-function ChangePasswordForm({token}:Props) {
+function RecoverPassForm() {
   const {
     register,
     handleSubmit,
@@ -28,22 +20,19 @@ function ChangePasswordForm({token}:Props) {
     resolver: zodResolver(schema),
     mode: "onSubmit",
     defaultValues: {
-      newPassword: "",
-      confirmPassword:""
+      email: ""
     }
   })
 
-  const [change,{isLoading}] = useChangePasswordMutation()
+  const [recover,{isLoading}] = useRecoverPassMutation()
   const [recoverError, setrecover] = useState<string | null>(null)
 
 
 
 
-  const onSubmit = async (data: { newPassword:string }) => {
+  const onSubmit = async (data: { email:string }) => {
     try {
-      console.log("hola")
-       const res= await change({data,token}).unwrap();
-       console.log(res)
+       await recover(data).unwrap();
     } catch (err) {
       const apiError = err as ApiError;
       setrecover(apiError?.data?.message ?? "Error desconocido")    }
@@ -55,22 +44,13 @@ function ChangePasswordForm({token}:Props) {
     <img src={logo} alt="logo" className="logo"/>        
       <Form onSubmit={handleSubmit(onSubmit)} >
         <InputField
-          label="Nueva contraseña"
+          label="Email"
           props={{placeholder:"Tu email"}}
-          name="newPassword"
+          name="email"
           register={register}
-          type="password"
-          error={errors.newPassword?.message}
+          type="text"
+          error={errors.email?.message}
         />
-        <InputField
-          label="Confirma tu contraseña"
-          props={{placeholder:"Tu email"}}
-          name="confirmPassword"
-          register={register}
-          type="password"
-          error={errors.confirmPassword?.message}
-        />
- 
  
     <Button variant="login-button" tipe="primary-button" >
           {isLoading ? 'Cargando...' : 'Enviar'}
@@ -87,4 +67,4 @@ function ChangePasswordForm({token}:Props) {
   )
 }
 
-export default ChangePasswordForm
+export default RecoverPassForm

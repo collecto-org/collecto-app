@@ -8,6 +8,7 @@ import { useLoginMutation } from "../../services/authApi"
 import logo from "../../assets/logos/collecto.png"
 import { Link } from "react-router-dom"
 import { ApiError } from "../../services/schemas"
+import { useState } from "react"
 const schema = z.object({
   username: z.string().min(3,"El nombre de usuario es obligatorio"),
   password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
@@ -29,6 +30,9 @@ function LoginForm() {
   })
 
   const [login,{isLoading}] = useLoginMutation()
+  const [loginError, setLoginError] = useState<string | null>(null)
+
+
 
 
   const onSubmit = async (data: { username: string; password: string; rememberMe: boolean }) => {
@@ -37,8 +41,7 @@ function LoginForm() {
       localStorage.setItem("token", result.token);
     } catch (err) {
       const apiError = err as ApiError;
-      console.log(apiError?.data?.message ?? "Error desconocido");
-    }
+      setLoginError(apiError?.data?.message ?? "Error desconocido")    }
   };
 
   return (
@@ -74,7 +77,12 @@ function LoginForm() {
     <Button variant="login-button" tipe="primary-button" >
           {isLoading ? 'Cargando...' : 'Enviar'}
         </Button>
-
+      
+{loginError && (
+  <p className="text-red-500">
+    {loginError}
+  </p>
+)}  
     <Link to="/recover">Olvidé mi contraseña</Link>        
     <Button to="/register" variant="signup-button" tipe="secondary-button">Registrarme </Button>       
         

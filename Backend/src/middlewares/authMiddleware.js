@@ -6,6 +6,9 @@ function verifyToken(req, res, next) {
   if (!authHeader) {
     return res.status(401).json({ error: 'No hay token de autenticación.' });
   }
+  console.log("aaa")
+
+
 
   // Verificacion que el formato del token sea correcto (Bearer <token>)
   const parts = authHeader.split(' ');

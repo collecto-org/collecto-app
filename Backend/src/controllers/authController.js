@@ -237,6 +237,7 @@ export const recoverPassword = async (req, res) => {
 // Verificar el token que recuipera la contraseña
 export const verifyRecoverToken = async (req, res) => {
   const { token } = req.params;
+ 
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
