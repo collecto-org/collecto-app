@@ -407,3 +407,23 @@ export const editAdvert = async (req, res) => {
     res.status(500).json({ message: 'Error al actualizar el anuncio', error: err.message });
   }
 };
+
+
+// Borrar anuncio propio
+export const deleteAdvert = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Buscar el anuncio por ID y eliminarlo
+    const advert = await Advert.findByIdAndDelete(id);
+
+    if (!advert) {
+      return res.status(404).json({ message: 'Anuncio no encontrado' });
+    }
+
+    res.status(200).json({ message: 'Anuncio eliminado' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error al borrar el anuncio', error: err.message });
+  }
+};
