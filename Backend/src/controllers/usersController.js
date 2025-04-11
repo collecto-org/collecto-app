@@ -89,3 +89,21 @@ export const deleteUserProfile = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar el perfil', error: err.message });
   }
 };
+
+
+// Ver anuncios de uno mismo
+export const getOwnAdverts = async (req, res) => {
+  try {
+    const userId = req.user;
+
+    const adverts = await Advert.find({ user: userId });
+
+    if (!adverts.length) {
+      return res.status(404).json({ message: 'No tienes anuncios publicados.' });
+    }
+
+    res.status(200).json(adverts);
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener los anuncios', error: err.message });
+  }
+};

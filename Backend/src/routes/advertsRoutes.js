@@ -22,4 +22,6 @@ router.post('/', verifyToken, upload, createAdvert); // Crear nuevo anuncio
 router.put('/:id', verifyToken, verifyAdvertOwner, editAdvert);  // Editar anuncio
 router.delete('/:id', verifyToken, verifyAdvertOwner, deleteAdvert); // Eliminar anuncio
 
+
+
 export default router;
