@@ -1,4 +1,6 @@
 import Advert from '../models/advert.js';
+
+
 import User from '../models/user.js';
 import Notification from '../models/notification.js';
 
@@ -109,7 +111,11 @@ export const searchAdverts = async (req, res) => {
     if (universe) {
       query.universe = universe;
     }
+
+    // Filtro por condición (nuevo, usado, roto)
+
     // Filtro por condición (nuevo/usado/roto)
+
     if (condition) {
       query.condition = condition;
     }
@@ -154,6 +160,8 @@ export const getAdvertStatusBySlug = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener el estado del anuncio', error: err.message });
   }
 };
+
+
 
 
 // Ver anuncios de un usuario
@@ -276,3 +284,4 @@ export const getImages = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener las imágenes', error: err.message });
   }
 };
+
