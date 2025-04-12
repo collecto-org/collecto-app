@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
   updatedAt: { type: Date },
   isAdmin: { type: Boolean, default: false },
   direccionId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Direcciones' },
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Advert' }],
 });
 
 const User = mongoose.model('User', userSchema);

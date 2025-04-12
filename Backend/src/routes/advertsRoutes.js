@@ -1,8 +1,20 @@
 import express from 'express';
 import upload from '../utils/upload.js';
-import { getAllAdverts, getAdvertBySlug, searchAdverts, getAdvertStatusBySlug, updateAdvertStatus, uploadImages, getImages, createAdvert, editAdvert, deleteAdvert   } from '../controllers/advertsController.js';
 import { verifyToken } from '../middlewares/authMiddleware.js';
 import verifyAdvertOwner from '../middlewares/verifyAdvertOwner.js';
+import {
+  getAllAdverts,
+  getAdvertBySlug,
+  searchAdverts,
+  getAdvertStatusBySlug,
+  updateAdvertStatus,
+  uploadImages,
+  getImages,
+  createAdvert,
+  editAdvert,
+  deleteAdvert
+} from '../controllers/advertsController.js';
+
 
 const router = express.Router();
 

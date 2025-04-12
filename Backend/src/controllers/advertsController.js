@@ -177,6 +177,7 @@ export const updateAdvertStatus = async (req, res) => {
     }
 
     await advert.save();
+
     // Notificar a los usuarios si el anuncio está en favoritos
     const usersWithFavorite = await User.find({ 'favorites': advert._id });
 
@@ -184,9 +185,10 @@ export const updateAdvertStatus = async (req, res) => {
       usersWithFavorite.forEach(async (user) => {
         const newNotification = new Notification({
           user: user._id,
+          notificationType: 'status-change',
+          advertId: advert._id,
           message: `El anuncio "${advert.title}" ha cambiado su estado a ${advert.status}.`,
-          read: false,
-          advert: advert._id,
+          isRead: false,
         });
         await newNotification.save();
       });
@@ -202,6 +204,7 @@ export const updateAdvertStatus = async (req, res) => {
     res.status(500).json({ message: 'Error al actualizar el estado del anuncio', error: err.message });
   }
 };
+
 
 
 // Subir imagen de un anuncio
