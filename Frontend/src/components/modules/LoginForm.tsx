@@ -5,8 +5,10 @@ import Form from "../Form"
 import InputField from "../InputField"
 import Button from "../Button"
 import { useLoginMutation } from "../../services/authApi"
-import { Meta } from "react-router-dom"
-
+import logo from "../../assets/logos/collecto.png"
+import { Link } from "react-router-dom"
+import { ApiError } from "../../services/schemas"
+import { useState } from "react"
 const schema = z.object({
   username: z.string().min(3,"El nombre de usuario es obligatorio"),
   password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
@@ -21,31 +23,35 @@ function LoginForm() {
     resolver: zodResolver(schema),
     mode: "onSubmit",
     defaultValues: {
-      username: "user",
+      username: "",
       password: "",
       rememberMe: false
     }
   })
 
-  const [login,{data, error, isLoading}] = useLoginMutation()
+  const [login,{isLoading}] = useLoginMutation()
+  const [loginError, setLoginError] = useState<string | null>(null)
+
+
+
 
   const onSubmit = async (data: { username: string; password: string; rememberMe: boolean }) => {
     try {
-      const result = await login({username:data.username,password:data.password,rememberMe:data.rememberMe}).unwrap()
-      console.log("Login exitoso")
-      localStorage.setItem("token",result.token)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+      const result = await login(data).unwrap();
+      localStorage.setItem("token", result.token);
+    } catch (err) {
+      const apiError = err as ApiError;
+      setLoginError(apiError?.data?.message ?? "Error desconocido")    }
+  };
 
   return (
-    <div className="container">
-        
-      <Form onSubmit={handleSubmit(onSubmit)} className="form">
-      <h2>Login</h2>
+    <div className="login">
+    <div className="form-container">
+    <img src={logo} alt="logo" className="logo"/>        
+      <Form onSubmit={handleSubmit(onSubmit)} >
         <InputField
-          label="username"
+          label="Nombre de usuario"
+          props={{placeholder:"Usuario"}}
           name="username"
           register={register}
           type="text"
@@ -54,6 +60,7 @@ function LoginForm() {
 
         <InputField
           label="Password"
+          props={{placeholder:"*****"}}
           name="password"
           register={register}
           type="password"
@@ -66,11 +73,21 @@ function LoginForm() {
           register={register}
           type="checkbox"
         />
-
-    <Button className="submit-button" >
+ 
+    <Button variant="login-button" tipe="primary-button" >
           {isLoading ? 'Cargando...' : 'Enviar'}
         </Button>
+      
+{loginError && (
+  <p className="text-red-500">
+    {loginError}
+  </p>
+)}  
+    <Link to="/recover">Olvidé mi contraseña</Link>        
+    <Button to="/register" variant="signup-button" tipe="secondary-button">Registrarme </Button>       
+        
       </Form>
+    </div>
     </div>
   )
 }
