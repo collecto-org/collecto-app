@@ -38,10 +38,12 @@ export const advertsApi = createApi({
         method: "DELETE",
       }),
     }),
-    getAllAdverts: builder.query<Advert[], void>({
-      query: () => ({
+    getAllAdverts: builder.query<Advert[],  FilterAdverts >({
+      query: (filters) => ({
         url: `/api/adverts`,
         method: "GET",
+        params:filters
+
       }),
     }),
     getAdvertDetail: builder.query<Advert, { slug: string }>({

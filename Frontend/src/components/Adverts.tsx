@@ -9,19 +9,22 @@ import { setAdverts } from '../store/slices/advertsSlice';
 
 
 function Adverts() {
-
-
     const dispatch = useDispatch()
     const adverts = useSelector((state:RootState) => state.adverts.adverts)
-    const { data: newAdverts } = useGetAllAdvertsQuery(undefined, {
-        skip: adverts.length > 0, 
-    });
+	const skip = 2;
+	const [position, setPosition] = useState<number>(1);
+
+	const filter = {
+		page:position,
+		limit:skip
+	}
+	
+    const { data: newAdverts } = useGetAllAdvertsQuery(filter, );
     useEffect(() => {
         const fetchAdverts = async () => {
           try {
-            if(newAdverts && adverts.length === 0){
+            if(newAdverts ){
                 dispatch(setAdverts(newAdverts))
-            console.log(adverts)            
             }
           } catch (error) {
             console.error("Error in getAdverts:", error);
@@ -29,39 +32,20 @@ function Adverts() {
         };
       
         fetchAdverts();
-      }, [dispatch,newAdverts,adverts]); 
-      
-
-
-	const adds = adverts
-
-	const skip = 6;
-
-	const [position, setPosition] = useState<number>(1);
-
-	const [paginatedFilter, setPaginate] = useState<number[]>([0, skip]);
-
-	const limit = Math.ceil(adds.length / skip);
+      }, [dispatch,newAdverts,adverts]);    
+	  
+	const limit = Math.ceil(4 / skip);
 
 	const handlePaginate = (isNext: boolean) => {
 		// lógica de la paginación
 		let newPosition = isNext ? position + 1 : position - 1;
 		newPosition = Math.max(1, Math.min(newPosition, limit));
 		setPosition(newPosition);
-		setPaginate([skip * (newPosition - 1), skip * newPosition]);
 	};
 
-	useEffect(() => {
-		if (adds.length) {
-			if (position > limit) {
-				setPosition(1);
-				setPaginate([0, skip]);
-			}
-		}
-	}, [adds, position, limit]);
 
 	const paginatedAdds =
-		adds.slice(paginatedFilter[0], paginatedFilter[1]) ?? []; // crear un nuevo array con los anuncios que se van a mostrar en la página
+		adverts
 
 	return (
 		<div className="container ml-4 mb-10">

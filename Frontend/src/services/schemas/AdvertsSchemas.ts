@@ -68,8 +68,8 @@ export type FilterAdverts = {
       universe?: string;
       condition?: string;
       slug?: string;
-      page?: string;
-      limit?: string;
+      page?: number;
+      limit?: number;
       sortBy?: string;
       sortOrder?: string;
 }

@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { useGetMeQuery } from "../services/usersApi";
 import { useEffect } from "react";
 import { setUser } from "../store/slices/userSlice";
+import { login } from "../store/slices/authSlice";
 
 
 function App() { 
@@ -19,8 +20,9 @@ function App() {
   const { data: user } = useGetMeQuery({ token: token || '' }, { skip: !token });
  
   useEffect(()=>{
-    if(user){
+    if(user && token){
       dispatch(setUser(user))
+      dispatch(login({token,user}))
     }
   },[user,dispatch])
   return (
