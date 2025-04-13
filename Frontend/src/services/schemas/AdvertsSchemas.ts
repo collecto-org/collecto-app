@@ -25,7 +25,7 @@ export type InputAdvert = {
 
     title: string;
     description: string;
-    price: string;
+    price: number;
     transaction: string;
     status: string;
     product_type: string;

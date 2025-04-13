@@ -1,74 +1,70 @@
-import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react"
-import { NewAdvertInput, NewAdvertResponse, EditAdvertInput, Advert, FilterAdverts } from "./schemas/AdvertsSchemas";
-
-
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {  NewAdvertResponse, EditAdvertInput, Advert, FilterAdverts } from "./schemas/AdvertsSchemas";
 
 export const advertsApi = createApi({
-    reducerPath:"advertsApi",
-    baseQuery:fetchBaseQuery({
-        baseUrl:import.meta.env.VITE_API_URL
-    }),
-    endpoints:(builder) => ({
-        newAdvert:builder.mutation<NewAdvertResponse,NewAdvertInput>({
-            query:({data,token}) => ({
-                url:"/api/adverts",
-                headers: {
-                  "Authorization": `Bearer ${token}`,
-                  "Content-Type": "application/json"
-                },
-                method:"POST",
-                body:data
-            })
-        }),
-        editAdvert:builder.mutation<NewAdvertResponse,EditAdvertInput>({
-          query:({data,token,id}) => ({
-              url:`/api/adverts/${id}`,
-              headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-              },
-              method:"PUT",
-              params:data
-          })
-      }),
-      deleteAdvert:builder.mutation<{message:string;},{token:string; id:string;}>({
-        query:({token,id}) => ({
-            url:`/api/adverts/${id}`,
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json"
-            },
-            method:"DELETE",
-        })
-    }),
-    getAllAdverts:builder.mutation<{adverts:[Advert];},{}>({
-      query:() => ({
-          url:`/api/adverts`,
-          method:"GET",
-      })
+  reducerPath: "advertsApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_API_URL,
   }),
-  getAdvertDetail:builder.mutation<{adverts:[Advert];},{slug:string}>({
-    query:(slug) => ({
-        url:`/api/adverts/${slug}`,
-        method:"GET",
-    })
-}),
-filterAdverts:builder.mutation<{adverts:[Advert];},{filters:FilterAdverts}>({
-  query:(filters) => ({
-      url:`/api/adverts/${filters}`,
-      method:"GET",
-  })
-}),
+  endpoints: (builder) => ({
+    newAdvert: builder.mutation<NewAdvertResponse, { token: string; formData: FormData }>({
+      query: ({ formData, token }) => ({
+        url: "/api/adverts",
+        headers: {
+          Authorization: `Bearer ${token}`,          
+        },
+        method: "POST",
+        body: formData,
+      }),
+    }),
+    editAdvert: builder.mutation<NewAdvertResponse, EditAdvertInput>({
+      query: ({ data, token, id }) => ({
+        url: `/api/adverts/${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        method: "PUT",
+        params: data,
+      }),
+    }),
+    deleteAdvert: builder.mutation<{ message: string }, { token: string; id: string }>({
+      query: ({ token, id }) => ({
+        url: `/api/adverts/${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        method: "DELETE",
+      }),
+    }),
+    getAllAdverts: builder.query<Advert[], void>({
+      query: () => ({
+        url: `/api/adverts`,
+        method: "GET",
+      }),
+    }),
+    getAdvertDetail: builder.query<Advert, { slug: string }>({
+      query: ({ slug }) => ({
+        url: `/api/adverts/${slug}`,
+        method: "GET",
+      }),
+    }),
+    filterAdverts: builder.query<{ adverts: Advert[] }, { filters: FilterAdverts }>({
+      query: (filters) => ({
+        url: `/api/adverts`,
+        params: filters,
+        method: "GET",
+      }),
+    }),
+  }),
+});
 
-    })
-})
-
-export const { 
+export const {
   useNewAdvertMutation,
   useEditAdvertMutation,
   useDeleteAdvertMutation,
-  useGetAllAdvertsMutation,
-  useGetAdvertDetailMutation
-
-  
-             } = advertsApi
+  useGetAllAdvertsQuery,
+  useGetAdvertDetailQuery,
+  useFilterAdvertsQuery,
+} = advertsApi;

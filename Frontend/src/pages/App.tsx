@@ -4,12 +4,17 @@ import { Routes, Route} from 'react-router-dom';
 import ConfirmEmail from "./ConfirmEmail";
 import RecoverPassForm from "../components/modules/RecoverPassForm";
 import ChangePassPage from "./ChangePassPage";
+import Index from ".";
+import AdvertDetail from "./AdvertDetail";
+import NewAdvert from "./NewAdvert";
 
 
 function App() { 
   return (
     <Routes>      
-      <Route path="/" element={"Aquí iria el index"}/>
+      <Route path="/" element={<Index/>}/>
+      <Route path="/adverts/:slug" element={<AdvertDetail/>}/>
+      <Route path="/new-advert" element={<NewAdvert/>}/>
       <Route path="/login" element={<LoginForm/>}/>
       <Route path="/register" element={<RegisterForm/>}/>
       <Route path="/recover" element={<RecoverPassForm/>}/>
