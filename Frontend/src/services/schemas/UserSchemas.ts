@@ -8,3 +8,4 @@ export type User = {
       avatarUrl?: string;
       bio?: string;
 }
+

@@ -1,18 +1,19 @@
 import { RootState } from '../../../store/store'; 
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { selectuser } from '../../../store/selectors/userSelectors';
 
 
 
 function Navbar() {
-    const username = useSelector((state: RootState) => state.auth.user?.username); 
+    const user = useSelector((state: RootState) => selectuser(state)); 
     
     return (
         <header>
             <NavLink to="/login">Login</NavLink>
             <NavLink to="/register">Registro</NavLink>
             <NavLink to="/">Inicio</NavLink>
-            {username ? <p>{username}</p> : <p>No hay usuario</p>}
+            {user.username? <p>{user.username}</p> : <p>No hay usuario</p>}
         </header>
     );
 }

@@ -29,7 +29,7 @@ function Adverts() {
         };
       
         fetchAdverts();
-      }, [dispatch, useGetAllAdvertsQuery]); // ← importante el array vacío o dependencias
+      }, [dispatch,newAdverts,adverts]); 
       
 
 

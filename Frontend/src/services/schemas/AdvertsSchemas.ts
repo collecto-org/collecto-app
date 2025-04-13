@@ -13,11 +13,11 @@ export type Advert = {
       condition: string;
       collection: string;                                  
       brand: string;
-      tags: [String],
+      tags: string[],
       user:string;
       createdAt: Date;
       updatedAt?: Date;
-      images: [String],
+      images: string[],
     
 }
 

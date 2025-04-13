@@ -7,9 +7,22 @@ import ChangePassPage from "./ChangePassPage";
 import Index from ".";
 import AdvertDetail from "./AdvertDetail";
 import NewAdvert from "./NewAdvert";
+import { useDispatch } from "react-redux";
+import { useGetMeQuery } from "../services/usersApi";
+import { useEffect } from "react";
+import { setUser } from "../store/slices/userSlice";
 
 
 function App() { 
+  const token = localStorage.getItem("token")
+  const dispatch = useDispatch()
+  const { data: user } = useGetMeQuery({ token: token || '' }, { skip: !token });
+ 
+  useEffect(()=>{
+    if(user){
+      dispatch(setUser(user))
+    }
+  },[user,dispatch])
   return (
     <Routes>      
       <Route path="/" element={<Index/>}/>
