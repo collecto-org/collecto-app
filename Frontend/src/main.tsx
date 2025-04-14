@@ -7,8 +7,10 @@ import Layout from './components/shared/layout/Layout.tsx';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
 
-
 function main(){
+
+
+
 
   const router = createBrowserRouter([
     {

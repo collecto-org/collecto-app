@@ -5,7 +5,7 @@ import Form from "../Form"
 import InputField from "../InputField"
 import Button from "../Button"
 import { useRegisterMutation } from "../../services/authApi"
-import { ApiError } from "../../services/schemas"
+import { ApiError } from "../../services/schemas/AdvertsSchemas"
 
 const schema = z.object({
   email: z.string().email("Email no válido"),

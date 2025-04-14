@@ -7,7 +7,9 @@ import Button from "../Button"
 import { useLoginMutation } from "../../services/authApi"
 import logo from "../../assets/logos/collecto.png"
 import { Link } from "react-router-dom"
-import { ApiError } from "../../services/schemas"
+
+import { ApiError } from "../../services/schemas/AdvertsSchemas"
+
 import { useState } from "react"
 const schema = z.object({
   username: z.string().min(3,"El nombre de usuario es obligatorio"),

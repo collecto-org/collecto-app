@@ -1,3 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
 :root {
     --white: #FFFFFF;
     --black: #000000;
@@ -14,6 +22,8 @@
     --md: 16px;
     --lg: 18px;
   }
+  
+  html,
   body {
     margin: 0;
     font-family: 'Quicksand', sans-serif;
@@ -265,3 +275,50 @@
         display: none;
       }
   }
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  @apply font-['Quicksand'] bg-cream text-darkblue leading-relaxed;
+}
+
+/* ====== PARÁGRAFOS ====== */
+p {
+  @apply text-base text-darkblue mb-4;
+}
+
+/* ====== TITULOS ====== */
+h1 {
+  @apply text-3xl font-bold mb-4;
+}
+h2 {
+  @apply text-2xl font-semibold mb-3;
+}
+h3 {
+  @apply text-xl font-medium mb-2;
+}
+
+/* ====== ENLACES ====== */
+a {
+  @apply text-darkblue no-underline transition duration-200;
+}
+a:hover {
+  @apply text-coral;
+}
+
+/* ====== BOTONES ====== */
+button {
+  @apply px-4 py-2 rounded-lg font-semibold;
+}
+
+/* ====== INPUTS ====== */
+input {
+  @apply rounded-md px-3 py-2 border border-pinklight focus:outline-none focus:ring-2 focus:ring-coral;
+}

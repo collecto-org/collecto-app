@@ -6,7 +6,8 @@ import InputField from "../InputField"
 import Button from "../Button"
 import { useChangePasswordMutation } from "../../services/authApi"
 import logo from "../../assets/logos/collecto.png"
-import { ApiError } from "../../services/schemas"
+import { ApiError } from "../../services/schemas/AdvertsSchemas"
+
 import { useState } from "react"
 const schema = z.object({
   newPassword: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
