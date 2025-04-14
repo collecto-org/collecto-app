@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import MaterialButton from "../components/MaterialButton";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
@@ -12,11 +12,13 @@ export default function Navbar() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* LOGO + SEARCH */}
           <div className="flex items-center w-full gap-4">
+          <Link to="/">
             <img
               src="/logos/logo-horizontal-collecto.png"
               alt="Logo"
               className="h-10"
             />
+            </Link>
 
             <div className="relative w-full max-w-sm">
               <MagnifyingGlassIcon className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-darkblue/60 pointer-events-none" />
