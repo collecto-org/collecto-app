@@ -6,7 +6,9 @@ import InputField from "../InputField"
 import Button from "../Button"
 import { useRecoverPassMutation } from "../../services/authApi"
 import logo from "../../assets/logos/collecto.png"
+
 import { ApiError } from "../../services/schemas/AdvertsSchemas"
+
 import { useState } from "react"
 const schema = z.object({
   email: z.string().email("Email no válido")})

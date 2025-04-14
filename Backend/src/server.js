@@ -4,6 +4,8 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import advertsRoutes from './routes/advertsRoutes.js';
 import usersRoutes from './routes/usersRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 import cors from 'cors';
 
 dotenv.config();
@@ -20,12 +22,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 
-// Rutas de autenticación
-app.use('/api/auth', authRoutes);
-// Rutas de anuncios
-app.use('/api/adverts', advertsRoutes);
-// Rutas de usuarios
-app.use('/api/users', usersRoutes);
+app.use('/api/auth', authRoutes); // Autenticación y gestión de sesión
+app.use('/api/adverts', advertsRoutes); // Anuncios
+app.use('/api/users', usersRoutes); // Gestión de usuarios
+app.use('/api/orders', orderRoutes); // Ordenes de pedido
+app.use('/api/payments', paymentRoutes); // Pagos
+
 
 
 
