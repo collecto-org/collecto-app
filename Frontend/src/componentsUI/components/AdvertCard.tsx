@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-interface ProductCardProps {
-  imageUrl: string;
+export interface ProductCardProps {
+  mainImage: string;
   brand: string;
-  name: string;
-  price: string;
+  title: string;
+  price: number;
 }
 
 export default function ProductCard({
-  imageUrl,
+  mainImage,
   brand,
-  name,
+  title,
   price,
 }: ProductCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -20,6 +20,7 @@ export default function ProductCard({
   };
 
   return (
+    
     <div
       className="relative rounded-xl border-2 border-turquoise overflow-hidden shadow-sm transition hover:shadow-md bg-white max-w-7xl mx-auto w-full"
       style={{ width: "180px", height: "325px" }}
@@ -47,8 +48,8 @@ export default function ProductCard({
       {/* IMAGEN */}
       <div className="relative w-full h-60 overflow-hidden bg-white">
         <img
-          src={imageUrl}
-          alt={name}
+          src={`http://localhost:3000/images/${mainImage}`}
+          alt={title}
           className="w-full h-full object-cover"
           loading="lazy"
         />
@@ -57,7 +58,7 @@ export default function ProductCard({
       {/* DETALLES */}
       <div className="p-2 pb-2 bg-white text-sm">
         <p className="text-xs text-coral font-semibold">{brand}</p>
-        <p className="text-darkblue leading-none line-clamp-2">{name}</p>
+        <p className="text-darkblue leading-none line-clamp-2">{title}</p>
         <p className="text-sm font-semibold text-darkblue mt-1">{price}</p>
       </div>
     </div>
