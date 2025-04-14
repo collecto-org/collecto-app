@@ -8,9 +8,7 @@ const apiUrl = process.env.VITE_API_URL;
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),
-    tailwindcss(),
-  ],
+  plugins: [react()],
  server:{
   proxy:{
     "/api":apiUrl || "http://localhost:3000",
