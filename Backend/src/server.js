@@ -6,6 +6,7 @@ import advertsRoutes from './routes/advertsRoutes.js';
 import usersRoutes from './routes/usersRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
+import shipmentRoutes from './routes/shipmentRoutes.js';
 import cors from 'cors';
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use('/api/adverts', advertsRoutes); // Anuncios
 app.use('/api/users', usersRoutes); // Gestión de usuarios
 app.use('/api/orders', orderRoutes); // Ordenes de pedido
 app.use('/api/payments', paymentRoutes); // Pagos
+app.use('/api/shipments', shipmentRoutes); // Envíos
 
 
 
