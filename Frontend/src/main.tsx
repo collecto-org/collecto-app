@@ -1,16 +1,18 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/index.css'
-import App from './pages/App.tsx'
+import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Layout from './components/shared/layout/Layout.tsx';
+import Layout from './componentsUI/layouts/Layout.tsx';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
+import "@material/web/all.js"; // registra todos los componentes
+import "./styles/index.css";
+import "./styles/styles.css";
+import "@material/web/iconbutton/icon-button.js";
+
 
 function main(){
-
-
-
 
   const router = createBrowserRouter([
     {
