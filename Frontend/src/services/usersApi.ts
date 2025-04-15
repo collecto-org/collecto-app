@@ -8,31 +8,31 @@ export const userApi = createApi({
     }),
     endpoints:(builder) => ({
       getMe: builder.query<User, { token: string }>({
-        query: ({ token}) => ({
+        query: () => ({
           url: `/api/users/me`,
+          credentials: "include",
           headers: {
-            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
           },
           method: "GET"
         })
       }),
-      editMe: builder.mutation<User, { token: string, data:User }>({
-        query: ({ token,data}) => ({
+      editMe: builder.mutation<User, { data:User }>({
+        query: ({data}) => ({
           url: `/api/users/me`,
+          credentials: "include",
           headers: {
-            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
           },
           method: "PUT",
           body:data
         })
       }),
-      deleteMe: builder.mutation<User, { token: string }>({
-        query: ({ token}) => ({
+      deleteMe: builder.mutation<User, { }>({
+        query: () => ({
           url: `/api/users/me`,
+          credentials: "include",
           headers: {
-            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
           },
           method: "DELETE"
