@@ -37,7 +37,7 @@ export const advertsApi = createApi({
         method: "DELETE",
       }),
     }),
-    getAllAdverts: builder.query<Advert[],  FilterAdverts >({
+    getAllAdverts: builder.query<{adverts:Advert[]; total:string},  FilterAdverts >({
       query: (filters) => ({
         url: `/api/adverts`,
         method: "GET",
