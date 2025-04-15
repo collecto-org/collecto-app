@@ -110,4 +110,55 @@ style: ajustar márgenes en vista de perfil
 ---
 
 
+## 6.  Estructura de carpetas y niveles de componentes Collecto
+
+## 6.1 Estructura
+| Nivel                       | Tu propuesta                                       | Observaciones y mejoras |
+|----------------------------|----------------------------------------------------|--------------------------|
+| **1. Elementos (atoms)**   | labels, inputs, etc.                               | Aquí van también: `Icon`, `Text`, `Image`, `Badge`, `Divider`, etc. |
+| **2. Componentes (molecules)** | Buttons, switches, form groups                   | Puedes tener combinaciones como: `Input + Label`, `Select + Label`, `RatingStar`, `Avatar + Nombre` |
+| **3. Contenedores (organisms)** | Cards, filtros, producto, carruseles           |  Aquí incluirías: `ProductCard`, `UserCard`, `FilterSidebar`, `ProductGrid`, etc. |
+| **4. Layouts**              | Agrupan contenedores y secciones comunes          |  Ej: `MainLayout`, `DashboardLayout`, `AuthLayout`. Contienen elementos globales como `Navbar`, `Footer`. |
+| **5. Templates**           | Estructuras grandes reutilizables por tipo de página |  Útil para encapsular estructuras como `ProductDetailTemplate`, `SearchResultsTemplate`. Son layout + containers sin lógica de página. |
+| **6. Páginas (pages)**      | Página final completa (Home, Profile, etc.)       | Cada `page` importa un `Layout` y un `Template`, maneja rutas, lógica de carga, efectos, etc. |
+
+---
+
+## 6.2 Estructura de carpetas `src/`
+
+```bash
+src/
+├── elementos/              # ELEMENTOS Y COMPONENTES BÁSICOS
+│   ├── Button.jsx           # Atom
+│   ├── Input.jsx            # Atom
+│   ├── Select.jsx           # Atom
+│   ├── Badge.jsx
+├── components/              # ELEMENTOS Y COMPONENTES BÁSICOS
+│   ├── ProductCard.jsx      # Molecule
+│   ├── sort.jsx             # Molecule
+│   ├── filter.jsx           # Molecule
+│
+├── containers/              # CONTENEDORES / ORGANISMOS
+│   ├── FilterSidebar.jsx
+│   ├── ProductGrid.jsx
+│   ├── ProductHeader.jsx
+│   └── PaginationControls.jsx
+│
+├── layouts/                 # LAYOUTS
+│   ├── MainLayout.jsx
+│   └── AuthLayout.jsx
+│
+├── templates/               # TEMPLATES (estructura de pantalla reutilizable)
+│   ├── ProductSearchTemplate.jsx    # Incluye filtros + buscador + grid
+│   └── ProductDetailTemplate.jsx    # Imagen + info + vendedor + relacionados
+│
+├── pages/                   # PÁGINAS (composición final con lógica de carga)
+│   ├── Home.jsx
+│   ├── UniversePage.jsx
+│   ├── ProductDetail.jsx
+│   ├── Profile.jsx
+│   ├── Login.jsx
+│   └── Register.jsx
+```
+
 ¿Dudas? Comunícalas al equipo.
