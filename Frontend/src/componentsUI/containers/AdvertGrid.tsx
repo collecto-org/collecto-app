@@ -1,18 +1,16 @@
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import ProductCard from "../components/AdvertCard";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { useGetAllAdvertsQuery } from '../../services/advertsApi';
-import { setAdverts } from '../../store/slices/advertsSlice';
 
 interface ProductGridProps {
   filter?: FilterAdverts;
 }
 
 export default function ProductGrid({ filter = {} }: ProductGridProps) {
-  const dispatch = useDispatch();
   const {adverts,total} = useSelector((state: RootState) => state.adverts.adverts);
   const skip = 6;
   const [position, setPosition] = useState<number>(1);
@@ -23,13 +21,8 @@ export default function ProductGrid({ filter = {} }: ProductGridProps) {
     limit: skip,
   };
 
-  const { data, isLoading, isError } = useGetAllAdvertsQuery(filterProducts);
+  const { isLoading, isError } = useGetAllAdvertsQuery(filterProducts);
 
-  useEffect(() => {
-    if (data?.adverts) {
-      dispatch(setAdverts(data));
-    }
-  }, [data, dispatch]);
   const totalPages = (Math.ceil(Number(total|| 0 )) / skip);
 
 

@@ -56,7 +56,8 @@ interface AdvertsState {
         .addMatcher( // carga de adverts
           advertsApi.endpoints.getAllAdverts.matchFulfilled,
           (state, action) => {
-            state.adverts = action.payload;  
+            state.adverts.adverts = action.payload.adverts;  
+            state.adverts.total = action.payload.total;  
             state.loading = false;  }
         )
         .addMatcher(
