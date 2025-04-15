@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {  NewAdvertResponse, EditAdvertInput, Advert, FilterAdverts } from "./schemas/AdvertsSchemas";
+import {  NewAdvertResponse,  Advert, FilterAdverts } from "./schemas/AdvertsSchemas";
 
 export const advertsApi = createApi({
   reducerPath: "advertsApi",
@@ -17,15 +17,14 @@ export const advertsApi = createApi({
         body: formData,
       }),
     }),
-    editAdvert: builder.mutation<NewAdvertResponse, EditAdvertInput>({
-      query: ({ data, token, id }) => ({
-        url: `/api/adverts/${id}`,
+    editAdvert: builder.mutation<NewAdvertResponse, { token: string; formData: FormData; slug:string }>({
+      query: ({ formData, token,slug }) => ({
+        url: `/api/adverts/${slug}`,
         headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,          
         },
         method: "PUT",
-        params: data,
+        body: formData,
       }),
     }),
     deleteAdvert: builder.mutation<{ message: string }, { token: string; id: string }>({
@@ -52,7 +51,7 @@ export const advertsApi = createApi({
         method: "GET",
       }),
     }),
-    filterAdverts: builder.query<{ adverts: Advert[] }, { filters: FilterAdverts }>({
+    filterAdverts: builder.query<Advert[],  FilterAdverts >({
       query: (filters) => ({
         url: `/api/adverts`,
         params: filters,

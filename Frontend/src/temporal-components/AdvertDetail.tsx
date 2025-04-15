@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { setSelectedAdvert, setSelectedAdvertAndLoad } from "../../store/slices/advertsSlice";
-import { selectAdvertBySlug} from "../../store/selectors/advertsSelectors";
-import { RootState } from "../../store/store";
-import { useGetAdvertDetailQuery } from "../../services/advertsApi";
+
 import Editadvert from "@/temporal-components/EditAdvert";
+import { selectAdvertBySlug } from "@/store/selectors/advertsSelectors";
+import { useGetAdvertDetailQuery } from "@/services/advertsApi";
+import { RootState } from "@/store/store";
+import { setSelectedAdvert, setSelectedAdvertAndLoad } from "@/store/slices/advertsSlice";
 
 function AdvertDetail() {
   const params = useParams();

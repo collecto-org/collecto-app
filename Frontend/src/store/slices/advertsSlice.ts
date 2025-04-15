@@ -30,6 +30,10 @@ interface AdvertsState {
       setSelectedAdvert: (state, action: PayloadAction<Advert>) => {
         state.selectedAdvert = action.payload;
       },
+      setSelectedAdvertAndLoad: (state, action: PayloadAction<Advert>) => {
+        state.selectedAdvert = action.payload;
+        state.adverts = [...state.adverts , action.payload];
+      },
       clearSelectedAdvert: (state) => {
         state.selectedAdvert = null;
       },
@@ -77,6 +81,7 @@ interface AdvertsState {
     clearFilter,
     setEditMode,
     toggleDeleteModal,
+    setSelectedAdvertAndLoad
   } = advertsSlice.actions;
 
   export default advertsSlice.reducer;
