@@ -75,8 +75,9 @@ import { RootState } from "@/store/store";
                     
                   }
                 )
-                const slug = "67fc0affb3466997a0e7746f"
-                await Editadvert({formData,slug})
+                const id = advertToedit._id
+                console.log(id)
+                await Editadvert({formData,id})
                 }
                } catch (error) {
                 console.log(error)

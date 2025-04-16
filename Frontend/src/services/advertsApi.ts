@@ -15,9 +15,9 @@ export const advertsApi = createApi({
         body: formData,
       }),
     }),
-    editAdvert: builder.mutation<NewAdvertResponse, { formData: FormData; slug:string }>({
-      query: ({ formData, slug }) => ({
-        url: `/api/adverts/${slug}`,
+    editAdvert: builder.mutation<NewAdvertResponse, { formData: FormData; id:string }>({
+      query: ({ formData, id }) => ({
+        url: `/api/adverts/${id}`,
         credentials: "include",
         method: "PUT",
         body: formData,
