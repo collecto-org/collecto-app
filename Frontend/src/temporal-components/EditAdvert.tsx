@@ -29,7 +29,7 @@ import { RootState } from "@/store/store";
     function Editadvert(){
         const advertToedit = useSelector((state:RootState) => selectSelectedAdvert(state));
         
-        console.log(advertToedit?.slug)
+  
         const [Editadvert] = useEditAdvertMutation()
         const defaultValues = advertToedit
         ? {
@@ -57,9 +57,8 @@ import { RootState } from "@/store/store";
             
          })
          const onSubmit = async (data: FormData) => {
-            const token = localStorage.getItem("token")
             try {
-                if(token && advertToedit){
+                if( advertToedit){
                 const formData = new FormData();
 
                 Object.entries(data).forEach(([key, value]) => {
@@ -77,7 +76,7 @@ import { RootState } from "@/store/store";
                   }
                 )
                 const slug = "67fc0affb3466997a0e7746f"
-                await Editadvert({token,formData,slug})
+                await Editadvert({formData,slug})
                 }
                } catch (error) {
                 console.log(error)

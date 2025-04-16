@@ -7,37 +7,33 @@ export const advertsApi = createApi({
     baseUrl: import.meta.env.VITE_API_URL,
   }),
   endpoints: (builder) => ({
-    newAdvert: builder.mutation<NewAdvertResponse, { token: string; formData: FormData }>({
-      query: ({ formData, token }) => ({
+    newAdvert: builder.mutation<NewAdvertResponse, { formData: FormData }>({
+      query: ({ formData }) => ({
         url: "/api/adverts",
-        headers: {
-          Authorization: `Bearer ${token}`,          
-        },
+        credentials: "include",
         method: "POST",
         body: formData,
       }),
     }),
-    editAdvert: builder.mutation<NewAdvertResponse, { token: string; formData: FormData; slug:string }>({
-      query: ({ formData, token,slug }) => ({
+    editAdvert: builder.mutation<NewAdvertResponse, { formData: FormData; slug:string }>({
+      query: ({ formData, slug }) => ({
         url: `/api/adverts/${slug}`,
-        headers: {
-          Authorization: `Bearer ${token}`,          
-        },
+        credentials: "include",
         method: "PUT",
         body: formData,
       }),
     }),
-    deleteAdvert: builder.mutation<{ message: string }, { token: string; id: string }>({
-      query: ({ token, id }) => ({
+    deleteAdvert: builder.mutation<{ message: string }, { id: string }>({
+      query: ({ id }) => ({
         url: `/api/adverts/${id}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+        credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
         method: "DELETE",
       }),
     }),
-    getAllAdverts: builder.query<Advert[],  FilterAdverts >({
+    getAllAdverts: builder.query<{adverts:Advert[]; total:string},  FilterAdverts >({
       query: (filters) => ({
         url: `/api/adverts`,
         method: "GET",

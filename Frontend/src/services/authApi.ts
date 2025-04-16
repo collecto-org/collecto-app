@@ -6,11 +6,13 @@ export const authApi = createApi({
         baseUrl:import.meta.env.VITE_API_URL
     }),
     endpoints:(builder) => ({
-        login:builder.mutation<{token:string},{username:string; password:string; rememberMe:boolean}>({
+        login:builder.mutation<{data:{user:{id:string; username:string;email:string;},message:string;}} ,{username:string; password:string; rememberMe:boolean}>({
             query:(credentials) => ({
                 url:"/api/auth/login",
                 method:"POST",
-                body:credentials
+                body:credentials,
+                credentials: "include",
+                
             })
         }),
         register:builder.mutation<{

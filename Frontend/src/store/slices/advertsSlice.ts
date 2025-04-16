@@ -7,7 +7,7 @@ interface AdvertsState {
     filter: FilterAdverts;
     isEditMode: boolean;
     showDeleteModal: boolean;
-    adverts: Advert[];  
+    adverts: {adverts:Advert[]; total:string;};  
     loading: boolean;  
   }
   
@@ -16,7 +16,7 @@ interface AdvertsState {
     filter: {},
     isEditMode: false,
     showDeleteModal: false,
-    adverts: [],
+    adverts: {adverts:[], total:"0"},
     loading: false,
   };
   
@@ -24,15 +24,16 @@ interface AdvertsState {
     name: "adverts",
     initialState,
     reducers: {
-        setAdverts: (state, action: PayloadAction<Advert[]>) => {
-        state.adverts = action.payload;
+        setAdverts: (state, action: PayloadAction<{adverts:Advert[]; total:string;}>) => {
+        state.adverts.adverts = action.payload.adverts;
+        state.adverts.total = action.payload.total;
       },
       setSelectedAdvert: (state, action: PayloadAction<Advert>) => {
         state.selectedAdvert = action.payload;
       },
       setSelectedAdvertAndLoad: (state, action: PayloadAction<Advert>) => {
         state.selectedAdvert = action.payload;
-        state.adverts = [...state.adverts , action.payload];
+        state.adverts.adverts = [...state.adverts.adverts , action.payload];
       },
       clearSelectedAdvert: (state) => {
         state.selectedAdvert = null;
@@ -55,7 +56,8 @@ interface AdvertsState {
         .addMatcher( // carga de adverts
           advertsApi.endpoints.getAllAdverts.matchFulfilled,
           (state, action) => {
-            state.adverts = action.payload;  
+            state.adverts.adverts = action.payload.adverts;  
+            state.adverts.total = action.payload.total;  
             state.loading = false;  }
         )
         .addMatcher(
