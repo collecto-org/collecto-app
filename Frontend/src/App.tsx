@@ -11,23 +11,23 @@ import { useDispatch } from "react-redux";
 import { useGetMeQuery } from "./services/usersApi";
 import { useEffect } from "react";
 import { setUser } from "./store/slices/userSlice";
-import { login } from "./store/slices/authSlice";
 import './styles/index.css';
 import Edituser from "./temporal-components/EditUser";
 import MyAdvertsGrid from "./temporal-components/MyAdvertsGrid";
 import MyAdvertsFavGrid from "./temporal-components/MyAdvertsFavGrid";
+import { useGetNotificationsQuery } from "./services/notificationsApi";
+import { NotificationView } from "./temporal-components/NotificationView";
 
 
 
 function App() { 
-  const token = localStorage.getItem("token")
   const dispatch = useDispatch()
-  const { data: user } = useGetMeQuery({ token: token || '' }, { skip: !token });
+  const { data: user } = useGetMeQuery({});
+   useGetNotificationsQuery({})
  
   useEffect(()=>{
-    if(user && token){
+    if(user){
       dispatch(setUser(user))
-      dispatch(login({token,user}))
     }
   },[user,dispatch])
   return (
@@ -48,6 +48,7 @@ function App() {
       <Route path="/editMe" element={<Edituser />} />
       <Route path="/adverts/me" element={<MyAdvertsGrid />} />
       <Route path="/adverts/favorites" element={<MyAdvertsFavGrid/>} />
+      <Route path="/notifications" element={<NotificationView/>} />
 
       </Routes>
   )
