@@ -18,9 +18,7 @@ function main(){
     {
       path:"*",
       element:(
-        <Layout>
           <App/>
-        </Layout>
       )
     }
   ])

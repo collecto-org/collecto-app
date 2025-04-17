@@ -23,7 +23,7 @@ export default function UserMenu(){
                 <Logo 
                     src="https://github.com/mdo.png" 
                     alt="usuario"
-                    size={40} 
+                    width={40} 
                     rounded
                 />
                     <svg

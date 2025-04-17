@@ -10,8 +10,8 @@ export default function Navbar() {
   return (
     <nav className="flex justify-between bg-cream text-darkblue shadow-md items-center  z-10 top-0 w-full py-2 px-1">
       
-        <div className="flex items-center p-2">
-          <Logo src="/logos/logo-horizontal-collecto.png" alt="Collecto logo" size={150} />
+        <div className="flex items-end p-2">
+          <Logo src="/logos/logo-horizontal-collecto.png" alt="Collecto logo" width={250} height={40}/>
         </div>
         <div className="flex-1 max-w-lg">
           <SearchBar/>

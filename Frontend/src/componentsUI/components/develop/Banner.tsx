@@ -1,9 +1,43 @@
-import React from "react";
+import React, { useMemo } from "react";
+import ImageGrid from "../../components/develop/ImageGrid";
+import HighlightedText from "../../elements/HighlightedText";
 
-export default function Banner() {
+interface BannerProps {
+  backgroundImages: string[];
+  text: string;
+  highlights: string | string[];
+  logos: string[];
+  height?: string;
+}
+
+
+export default function Banner({ backgroundImages, text, highlights, logos, height = "h-80" }: BannerProps) {
+  const selectedImage = useMemo(() => {
+    const randomIndex = Math.floor(Math.random() * backgroundImages.length)
+    return backgroundImages[randomIndex]
+  },[backgroundImages])
   return (
-    <div className="bg-white border shadow rounded-md p-4 mb-4 h-40 w-full flex items-center justify-center">
-      <h1 className="text-lg font-semibold text-center">Banner</h1>
+    <div className={`relative w-full ${height ?? "h-80"} rounded-md overflow-hidden`}>
+      <img
+        src={selectedImage}
+        alt="Banner"
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      />
+
+      <div className="relative z-10 w-full h-full flex flex-col justify-center items-center
+       bg-black bg-opacity-30 text-white text-center px-2 md:px-4 max-w-screen-xl mx-auto">
+
+        <h2 className="text-2xl md:text-3xl font-semibold">
+              <HighlightedText text={text} highlights={highlights} />
+        </h2>
+          <ImageGrid
+            logos={logos}
+            columns={4}
+            width={180}
+            height={80}
+            onClickLogo={(src) => alert(`Filtrar por universo: ${src}`)}
+          />
+      </div>
     </div>
   );
 }
