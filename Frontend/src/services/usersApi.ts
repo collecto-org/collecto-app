@@ -38,7 +38,7 @@ export const userApi = createApi({
           method: "DELETE"
         })
       }),
-      getMyadverts: builder.query<{adverts:Advert[]; totalAdverts:string},FilterAdverts>({
+      getMyadverts: builder.query<{adverts:Advert[]; total:string},FilterAdverts>({
         query: (filters) => ({
           url: `/api/users/me/adverts`,
           method: "GET",
@@ -47,7 +47,7 @@ export const userApi = createApi({
   
         }),
       }),
-      getMyFavAdverts: builder.query<{favorites:Advert[]; totalFavorites:string},FilterAdverts>({
+      getMyFavAdverts: builder.query<{adverts:Advert[]; total:string},FilterAdverts>({
         query: (filters) => ({
           url: `/api/users/me/favorites`,
           method: "GET",

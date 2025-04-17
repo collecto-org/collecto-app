@@ -77,6 +77,8 @@ export type FilterAdverts = {
 
 export type listingId = string
 
+export type AdvertId = string
+
 export type ApiError ={
     status:string
     data:{message:string
