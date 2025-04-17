@@ -39,7 +39,9 @@ function LoginForm() {
 
   const onSubmit = async (data: { username: string; password: string; rememberMe: boolean }) => {
     try {
+      console.log("data enviada:", data)
       const result = await login(data).unwrap();
+      console.log(result)
       localStorage.setItem("token", result.token);
     } catch (err) {
       const apiError = err as ApiError;

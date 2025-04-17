@@ -1,0 +1,40 @@
+import React from "react";
+import classNames from "classnames"
+
+interface ButtonProps {
+    children: React.ReactNode;
+    variant?: "primary" | "outline" | "turquoise";
+    onClick?: () => void;
+    className?: string;
+    type?: "button" | "submit" | "reset";
+  }
+
+  //  button {
+  //  background-color: #f9f9f9;
+  //}
+export default function Button({
+    children,
+    variant = "primary",
+    onClick,
+    className,
+    type = "button",
+}: ButtonProps){
+    const baseClasses = 
+    "px-4 py-2 rounded-full font-semibold text-sm transition duration-200";
+
+    const variantClasses = {
+        primary: "bg-coral text-white hover:bg-[#e4685c]",
+        outline: "bg-cream border border-lightgray text-darkblue hover:bg-lightgray",
+        turquoise: "bg-cream border border-turquoise text-darkblue hover:bg-[#e0f7f8]",
+      };
+
+    return(
+        <button
+        type={type}
+        onClick={onClick}
+        className={classNames(baseClasses, variantClasses[variant],className)}
+        >
+            {children}
+        </button>
+    )
+}

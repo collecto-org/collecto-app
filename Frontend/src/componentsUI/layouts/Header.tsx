@@ -1,12 +1,12 @@
 import { RootState } from '../../store/store'; 
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { selectuser } from '../../store/selectors/userSelectors';
+import { selectUser } from '../../store/selectors/userSelectors';
 
 
 
 function Header() {
-    const user = useSelector((state: RootState) => selectuser(state)); 
+    const user = useSelector((state: RootState) => selectUser(state)); 
     
     return (
         <header>
