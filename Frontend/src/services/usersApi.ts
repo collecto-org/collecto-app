@@ -10,7 +10,7 @@ export const userApi = createApi({
         baseUrl:import.meta.env.VITE_API_URL
     }),
     endpoints:(builder) => ({
-      getMe: builder.query<User, { token: string }>({
+      getMe: builder.query<User, {}>({
         query: () => ({
           url: `/api/users/me`,
           credentials: "include",
@@ -38,7 +38,7 @@ export const userApi = createApi({
           method: "DELETE"
         })
       }),
-      getMyadverts: builder.query<{adverts:Advert[]; total:string},FilterAdverts>({
+      getMyadverts: builder.query<{adverts:Advert[]; totalAdverts:string},FilterAdverts>({
         query: (filters) => ({
           url: `/api/users/me/adverts`,
           method: "GET",
@@ -47,7 +47,7 @@ export const userApi = createApi({
   
         }),
       }),
-      getMyFavAdverts: builder.query<{adverts:Advert[]; total:string},FilterAdverts>({
+      getMyFavAdverts: builder.query<{favorites:Advert[]; totalFavorites:string},FilterAdverts>({
         query: (filters) => ({
           url: `/api/users/me/favorites`,
           method: "GET",

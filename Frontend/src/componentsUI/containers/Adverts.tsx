@@ -10,7 +10,7 @@ import { setAdverts } from '../../store/slices/advertsSlice';
 
 function Adverts() {
     const dispatch = useDispatch()
-    const adverts = useSelector((state:RootState) => state.adverts.adverts)
+    const adverts = useSelector((state:RootState) => state.adverts.adverts.adverts)
 	const skip = 2;
 	const [position, setPosition] = useState<number>(1);
 
