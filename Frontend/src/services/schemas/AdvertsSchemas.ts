@@ -18,6 +18,7 @@ export type Advert = {
       createdAt: Date;
       updatedAt?: Date;
       images: string[],
+      _id:string
     
 }
 
@@ -44,7 +45,7 @@ export type NewAdvertInput = {
 
 export type NewAdvertResponse = {
   message: string;
-  anuncio: Advert
+  advert: Advert
 }
 
 export type EditAdvertInput = {
@@ -73,6 +74,9 @@ export type FilterAdverts = {
       sortBy?: string;
       sortOrder?: string;
 }
+
+export type listingId = string
+
 export type ApiError ={
     status:string
     data:{message:string
