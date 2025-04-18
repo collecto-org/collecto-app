@@ -1,18 +1,13 @@
-import react, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../store/store";
+import { useState } from "react";
 import Dropdown from "./Dropdown";
 import Logo from "../../elements/Logo";
+import { User } from "@/services/schemas/UserSchemas";
 
-export default function UserMenu(){
-   // const isLogged = useSelector((state: RootState) => state.auth.isLogged);
-    const isLogged = true
-    const user = useSelector((state: RootState) => state.auth.user);
-    const dispatch = useDispatch();
+export default function UserMenu(user:{user:User}){
+    
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-    if (!isLogged) return null; 
+    if (!user) return null; 
 
     return(
         <div className="px-2">

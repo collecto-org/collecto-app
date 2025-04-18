@@ -8,6 +8,7 @@ import { RootState } from "@/store/store";
 import { useGetAllAdvertsQuery } from "@/services/advertsApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { useState } from "react";
+import { ApiError } from "@/services/schemas";
 //import AdvertSlider from "../../containers/develop/AdvertSlidercopy";
 
 
@@ -90,16 +91,20 @@ export default function HomePage() {
 
   const { isLoading, isError,error } = useGetAllAdvertsQuery(filterProducts);
 
-if(isLoading){
-  return (
-    <p>Cargando...</p>
-  )
-}
-if(isError){
+  if (isError){
+  }
+  
+  if(isLoading){
+    return (
+      <p>Cargando...</p>
+    )
+  }
+  if(isError){
+  const err= error as ApiError
   return (
     <div>
     <p>Hubo un error</p>
-    <p>{error}</p>
+    <p>{err.data.message}</p>
     </div>
   )
 }

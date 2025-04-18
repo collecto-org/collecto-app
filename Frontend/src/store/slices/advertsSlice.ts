@@ -51,7 +51,10 @@ const advertsSlice = createSlice({
       state.selectedAdvert = null;
     },
     setFilter: (state, action: PayloadAction<FilterAdverts>) => {
-      state.filter = action.payload;
+      state.filter = {
+        ...state.filter,     
+        ...action.payload
+      };
     },
     clearFilter: (state) => {
       state.filter = {};
@@ -121,6 +124,25 @@ const advertsSlice = createSlice({
           state.selectedAdvert = null 
         }
       ) 
+      .addMatcher(
+        
+        advertsApi.endpoints.filterAdverts.matchFulfilled,
+        (state, action) => {
+          state.adverts.adverts = action.payload.adverts;
+          state.adverts.total = action.payload.total;
+          state.loading = false;
+        }
+      )
+      .addMatcher(
+        
+        advertsApi.endpoints.filterAdverts.matchRejected,
+        (state) => {
+          state.adverts.adverts = []
+          state.adverts.total = "0"
+          state.loading = false;
+        }
+      )
+      
   },
 });
 

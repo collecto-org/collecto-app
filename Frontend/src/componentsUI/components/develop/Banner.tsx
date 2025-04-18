@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import  { useMemo } from "react";
 import ImageGrid from "../../components/develop/ImageGrid";
 import HighlightedText from "../../elements/HighlightedText";
 

@@ -4,29 +4,46 @@ import SideBarMenu from "../../containers/develop/SidebarMenu";
 //import ProductGrid from "../../containers/develop/ProductGrid";
 import PaginationBlock  from "../../containers/develop/PaginationBlock";
 import Title from "@/componentsUI/components/develop/Title";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductGrid from "../../containers/develop/AdvertGrid"
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { selectAdverts, selectFilters } from "@/store/selectors/advertsSelectors";
+import { useFilterAdvertsQuery } from "@/services/advertsApi";
 //import ProductGrid from "../../../../../collecto-maquetado/src/components/AdvertGrid"
 
 
 
 export default function HomePage() {
 
- const [currentPage, setCurrentPage] = useState(1)
- const [pageSize, setPageSize] = useState(10)
- const [searchTerm, setSearchTerm] = useState("")
+  const {adverts,total} = useSelector((state: RootState) => selectAdverts(state));//  obtener los anuncios y el total
+  
+  const filter = useSelector((state:RootState)=> selectFilters(state)) //  obtener los valores del filtro 
 
- const totalitems = 45
+  
+  const { refetch  } = useFilterAdvertsQuery(filter); // Peticion para obtener adverts filtrados
+
+  useEffect(() => {
+    if (filter) {
+      refetch(); // Llamamos a refetch cada vez que el filtro cambie
+    }
+  }, [filter, refetch])
+
+ const [currentPage, setCurrentPage] = useState(1)
+
+ const [pageSize, setPageSize] = useState(10)
+
+ const totalitems = Number(total)
  const totalPages = Math.ceil(totalitems/pageSize) 
 
  const banners = [
-  "/images/dragon1.jpeg",
-  "/images/dragon2.jpeg",
-  "/images/simpsons1.jpeg",
-  "/images/simpsons2.jpeg",
-  "/images/startswars1.jpg",
-  "/images/startswars2.jpeg",
-  "/images/startswars3.jpg"
+  "/gridImages/dragon1.jpeg",
+  "/gridImages/dragon2.jpeg",
+  "/gridImages/simpsons1.jpeg",
+  "/gridImages/simpsons2.jpeg",
+  "/gridImages/startswars1.jpg",
+  "/gridImages/startswars2.jpeg",
+  "/gridImages/startswars3.jpg"
  ]
 
  const universeLogos = [
@@ -81,8 +98,7 @@ export default function HomePage() {
               setPageSize(size);
               setCurrentPage(1);
             }}
-            searchTerm={searchTerm}
-            onSearch={setSearchTerm}
+  
           />
         </div>
         
@@ -94,7 +110,7 @@ export default function HomePage() {
         </div>
 
         <div className="col-span-12 md:col-span-9 border border-black">
-          <ProductGrid />
+          <ProductGrid adverts={adverts} />
         </div>
       </div>
     </MainLayout>

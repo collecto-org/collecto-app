@@ -1,12 +1,5 @@
 import { Advert } from "@/services/schemas/AdvertsSchemas";
-import React, { useState } from "react";
-
-interface ProductCardProps { //desuso
-  imageUrl: string;
-  brand: string;
-  name: string;
-  price: string;
-}
+import { useState } from "react";
 
 export default function ProductCard({
   images,
@@ -16,10 +9,6 @@ export default function ProductCard({
 }: Advert) {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  console.log(  images,
-    brand,
-    title,
-    price,)
 
   const toggleFavorite = () => {
     setIsFavorite((prev) => !prev);
