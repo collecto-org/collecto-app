@@ -5,9 +5,14 @@ import LanguajeSelector from "../../components/develop/LanguajeSelector";
 import UserMenu from "../../components/develop/UserMenu";
 import NavActions from "../../components/develop/NavActions";
 import NavIcons from "../../components/develop/NavIcons"
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { selectUser } from "@/store/selectors/userSelectors";
 
 export default function Navbar() {
   const [query, setQuery] = useState("");
+  const user = useSelector((state: RootState) => selectUser(state));
+
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-cream text-darkblue shadow-md flex justify-between items-center py-0 px-4">
@@ -25,9 +30,9 @@ export default function Navbar() {
           />
         </div>
         <div className="flex items-center">
-          <NavIcons/>
-          <NavActions/>
-          <UserMenu/>
+          <NavIcons user={user}/>
+          <NavActions user={user} />
+          <UserMenu user={user}/>
           <LanguajeSelector/>
         </div>
       

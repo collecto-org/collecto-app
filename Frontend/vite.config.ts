@@ -14,6 +14,7 @@ export default defineConfig({
  server:{
   proxy:{
     "/api":apiUrl || "http://localhost:3000",
+    '/images': 'http://localhost:3000',
   }},
   resolve: {
     alias: {

@@ -3,17 +3,23 @@ import Banner from "../../components/develop/Banner";
 import ImageGrid from "../../components/develop/ImageGrid";
 import AdvertSlider from "../../containers/develop/AdvertSlider";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { useGetAllAdvertsQuery } from "@/services/advertsApi";
+import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
+import { useState } from "react";
+import { ApiError } from "@/services/schemas";
 //import AdvertSlider from "../../containers/develop/AdvertSlidercopy";
 
 
 const banners = [
-  "/images/dragon1.jpeg",
-  "/images/dragon2.jpeg",
-  "/images/simpsons1.jpeg",
-  "/images/simpsons2.jpeg",
-  "/images/startswars1.jpg",
-  "/images/startswars2.jpeg",
-  "/images/startswars3.jpg"
+  "/gridImages/dragon1.jpeg",
+  "/gridImages/dragon2.jpeg",
+  "/gridImages/simpsons1.jpeg",
+  "/gridImages/simpsons2.jpeg",
+  "/gridImages/startswars1.jpg",
+  "/gridImages/startswars2.jpeg",
+  "/gridImages/startswars3.jpg"
 ];
 
 const logosBanner = [
@@ -72,6 +78,36 @@ const mockProducts = Array.from({ length: 20 }, (_, i) => {
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const {adverts,total} = useSelector((state: RootState) => state.adverts.adverts);
+  const skip = 6;
+  const filter = {}
+  const [position, setPosition] = useState<number>(1);
+
+  const filterProducts: FilterAdverts = {
+    ...filter,
+    page: position,
+    limit: skip,
+  };
+
+  const { isLoading, isError,error } = useGetAllAdvertsQuery(filterProducts);
+
+  if (isError){
+  }
+  
+  if(isLoading){
+    return (
+      <p>Cargando...</p>
+    )
+  }
+  if(isError){
+  const err= error as ApiError
+  return (
+    <div>
+    <p>Hubo un error</p>
+    <p>{err.data.message}</p>
+    </div>
+  )
+}
   return (
     <MainLayout>
       <Banner
@@ -98,9 +134,9 @@ export default function HomePage() {
 
 
       <div className="space-y-10 px-4 mt-8">
-        <AdvertSlider title="Nuevos lanzamientos" products={mockProducts} />
-        <AdvertSlider title="Recomendados para ti" products={mockProducts} />
-        <AdvertSlider title="Ver todos los artículos" products={mockProducts} />
+        <AdvertSlider title="Nuevos lanzamientos" products={adverts} />
+        <AdvertSlider title="Recomendados para ti" products={adverts} />
+        <AdvertSlider title="Ver todos los artículos" products={adverts} />
       </div>
     </MainLayout>
   );

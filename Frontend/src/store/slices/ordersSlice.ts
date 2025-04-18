@@ -1,5 +1,5 @@
 import { ordersApi } from "@/services/ordersApi";
-import { Order } from "@/services/schemas/OrderSchema";
+import { Order } from "@/services/schemas/OrderSchemas";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface OrdersState {

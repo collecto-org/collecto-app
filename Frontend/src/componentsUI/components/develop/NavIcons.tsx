@@ -1,9 +1,12 @@
 
-import React from "react";
 import Icon from "../../elements/Icon"
 import NotificationBadge from "../../elements/NotificationBadge"
+import { User } from "@/services/schemas/UserSchemas";
 
-export default function NavIcons() {
+export default function NavIcons(user:{user:User}) {
+    if(!user){
+        return null
+    }
   return (
     <div className="flex items-center gap-2 text-darkblue text-sm px-5">
         <div className="relative">

@@ -6,7 +6,8 @@ import {
   Order,
   OrderId,
   UpdateOrder,
-} from "./schemas/OrderSchema";
+
+} from "./schemas/OrderSchemas";
 
 export const ordersApi = createApi({
   reducerPath: "ordersApi ",
@@ -76,3 +77,4 @@ export const {
   useDeleteOrderMutation,
   useGetOrderQuery,
 } = ordersApi;
+

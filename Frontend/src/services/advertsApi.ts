@@ -47,12 +47,13 @@ export const advertsApi = createApi({
         method: "GET",
       }),
     }),
-    filterAdverts: builder.query<Advert[],  FilterAdverts >({
+    filterAdverts: builder.query<{adverts:Advert[]; total:string},  FilterAdverts >({
       query: (filters) => ({
-        url: `/api/adverts`,
+        url: `/api/adverts/search`,
         params: filters,
         method: "GET",
       }),
+      
     }),
   }),
 });
@@ -64,4 +65,5 @@ export const {
   useGetAllAdvertsQuery,
   useGetAdvertDetailQuery,
   useFilterAdvertsQuery,
+  useLazyFilterAdvertsQuery
 } = advertsApi;

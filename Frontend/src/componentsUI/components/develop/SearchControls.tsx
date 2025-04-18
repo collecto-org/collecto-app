@@ -10,7 +10,7 @@ interface SearchControlsProps {
 }
 
 
-export default function SearchControls({searchTerm, onSearch}: SearchControlsProps ) {
+export default function SearchControls( ) {
   const [brand, setBrand] = useState("Marca")
   const [filter, setFilter] = useState("filtrar por")
 
@@ -35,11 +35,7 @@ export default function SearchControls({searchTerm, onSearch}: SearchControlsPro
   return (
     <div className="flex flex-wrap items-center justify-center gap-2 text-[0.7rem]">
       <div className="flex-1 ">
-        <SearchBar
-          value={searchTerm}
-          onChange={onSearch}
-          onSearch={() => console.log("Buscando:", searchTerm)}
-          placeholder="Nombre, colección…"
+        <SearchBar placeholder="Nombre, colección…"
           />
       </div>
       
