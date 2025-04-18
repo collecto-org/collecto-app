@@ -9,6 +9,8 @@ interface AdvertsState {
   isEditMode: boolean;
   showDeleteModal: boolean;
   adverts: { adverts: Advert[]; total: string };
+  RecomendedAdverts: { adverts: Advert[]; total: string };
+  NewAdverts:{ adverts: Advert[]; total: string };
   loading: boolean;
 }
 
@@ -18,6 +20,8 @@ const initialState: AdvertsState = {
   isEditMode: false,
   showDeleteModal: false,
   adverts: { adverts: [], total: "0" },
+  RecomendedAdverts:{ adverts: [], total: "0" },
+  NewAdverts:{ adverts: [], total: "0" },
   loading: false,
 };
 

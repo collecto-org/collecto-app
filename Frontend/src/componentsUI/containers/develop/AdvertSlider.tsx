@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import ProductCard from "@/componentsUI/components/develop/AdvertCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Advert } from "@/services/schemas/AdvertsSchemas";
 
 interface Product {
   imageUrl: string;
@@ -11,7 +12,7 @@ interface Product {
 
 interface ProductCarouselProps {
   title: string;
-  products: Product[];
+  products: Advert[];
 }
 
 export default function AdvertSlider({ title, products }: ProductCarouselProps) {

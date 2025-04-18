@@ -1,6 +1,7 @@
+import { Advert } from "@/services/schemas/AdvertsSchemas";
 import React, { useState } from "react";
 
-interface ProductCardProps {
+interface ProductCardProps { //desuso
   imageUrl: string;
   brand: string;
   name: string;
@@ -8,12 +9,17 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({
-  imageUrl,
+  images,
   brand,
-  name,
+  title,
   price,
-}: ProductCardProps) {
+}: Advert) {
   const [isFavorite, setIsFavorite] = useState(false);
+
+  console.log(  images,
+    brand,
+    title,
+    price,)
 
   const toggleFavorite = () => {
     setIsFavorite((prev) => !prev);
@@ -47,8 +53,8 @@ export default function ProductCard({
       {/* IMAGEN */}
       <div className="relative w-full h-60 overflow-hidden bg-white">
         <img
-          src={imageUrl}
-          alt={name}
+          src={`/images/${images[0]}`}
+          alt={title}
           className="w-full h-full object-cover"
           loading="lazy"
         />
@@ -57,7 +63,7 @@ export default function ProductCard({
       {/* DETALLES */}
       <div className="p-2 pb-2 bg-white text-sm">
         <p className="text-xs text-coral font-semibold">{brand}</p>
-        <p className="text-darkblue leading-none line-clamp-2">{name}</p>
+        <p className="text-darkblue leading-none line-clamp-2">{title}</p>
         <p className="text-sm font-semibold text-darkblue mt-1">{price}</p>
       </div>
     </div>
