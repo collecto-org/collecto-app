@@ -105,15 +105,15 @@ const advertsSlice = createSlice({
         userApi.endpoints.getMyadverts.matchFulfilled,
         (state,action) =>{
           state.adverts.adverts = action.payload.adverts
-          state.adverts.total = action.payload.totalAdverts
+          state.adverts.total = action.payload.total
           state.selectedAdvert = null 
         }
       ) 
       .addMatcher(
         userApi.endpoints.getMyFavAdverts.matchFulfilled,
         (state,action) =>{
-          state.adverts.adverts = action.payload.favorites
-          state.adverts.total = action.payload.totalFavorites
+          state.adverts.adverts = action.payload.adverts
+          state.adverts.total = action.payload.total
           state.selectedAdvert = null 
         }
       ) 
