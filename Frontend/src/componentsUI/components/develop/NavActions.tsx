@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import MaterialButton from "../../components/MaterialButton";
-import Button from "../../elements/Button";
 import { useNavigate } from "react-router-dom";
+import Modal from "../../components/develop/Modal";
+import LoginForm from "../../containers/LoginForm";
 
 export default function NavActions(){
     const navigate = useNavigate();
+  
     return(
         <div className="flex gap-2">
             {/* LOGO + SEARCH 
@@ -24,6 +26,7 @@ export default function NavActions(){
                 >
                 Haz login
                 </MaterialButton>
+
             </NavLink>
         </div>
     )

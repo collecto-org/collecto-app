@@ -6,6 +6,7 @@ import InputField from "../components/InputField"
 import Button from "../components/Button"
 import { useRegisterMutation } from "../../services/authApi"
 import { ApiError } from "../../services/schemas/AdvertsSchemas"
+import AuthLayout from "@/componentsUI/layouts/develop/AuthLayout";
 import "../../styles/index copy.css"
 
 const schema = z.object({
@@ -52,6 +53,7 @@ try {
     }  }
 
   return (
+    <AuthLayout>
     <div className="login">
         
       <Form onSubmit={handleSubmit(onSubmit)} className="form">
@@ -108,10 +110,11 @@ try {
           type="checkbox"
         />
 
-    <Button variant="login-button" tipe="primary-button" >
-          {isLoading ? 'Cargando...' : 'Enviar'}
-        </Button>      </Form>
-    </div>
+        <Button variant="login-button" tipe="primary-button" >
+              {isLoading ? 'Cargando...' : 'Enviar'}
+            </Button>      </Form>
+        </div>
+    </AuthLayout>
   )
 }
 

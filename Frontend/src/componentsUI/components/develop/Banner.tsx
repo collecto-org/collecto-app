@@ -27,14 +27,14 @@ export default function Banner({ backgroundImages, text, highlights, logos, heig
       <div className="relative z-10 w-full h-full flex flex-col justify-center items-center
        bg-black bg-opacity-30 text-white text-center px-2 md:px-4 max-w-screen-xl mx-auto">
 
-        <h2 className="text-2xl md:text-3xl font-semibold">
+        <h2 className="text-xl md:text-xl font-semibold">
               <HighlightedText text={text} highlights={highlights} />
         </h2>
-          <ImageGrid
+        <ImageGrid
             logos={logos}
             columns={4}
-            width={180}
-            height={80}
+            width={150}
+            height={75}
             onClickLogo={(src) => alert(`Filtrar por universo: ${src}`)}
           />
       </div>

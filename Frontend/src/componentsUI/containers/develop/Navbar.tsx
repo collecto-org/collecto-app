@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState} from "react";
 import Logo from "../../elements/Logo";
 import SearchBar from "../../components/develop/SearchBar";
 import LanguajeSelector from "../../components/develop/LanguajeSelector";
@@ -7,14 +7,22 @@ import NavActions from "../../components/develop/NavActions";
 import NavIcons from "../../components/develop/NavIcons"
 
 export default function Navbar() {
+  const [query, setQuery] = useState("");
+
   return (
-    <nav className="flex justify-between bg-cream text-darkblue shadow-md items-center  z-10 top-0 w-full py-2 px-1">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-cream text-darkblue shadow-md flex justify-between items-center py-0 px-4">
       
         <div className="flex items-end p-2">
-          <Logo src="/logos/logo-horizontal-collecto.png" alt="Collecto logo" width={250} height={40}/>
+          <Logo src="/logos/logo-horizontal-collecto.png" alt="Collecto logo" width={100} height={15} redirectTo="/"/>
         </div>
         <div className="flex-1 max-w-lg">
-          <SearchBar/>
+          <SearchBar
+          placeholder="Busca en todos los universos"
+          value={query}
+          onChange={setQuery}
+          onSearch={() => console.log("Buscar en navbar:", query)}
+          width="w-full"
+          />
         </div>
         <div className="flex items-center">
           <NavIcons/>

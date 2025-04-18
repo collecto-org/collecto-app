@@ -252,3 +252,13 @@ button {
     color: #747bff;
   }
 }
+
+
+/* tailwind.config.js o archivo global */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

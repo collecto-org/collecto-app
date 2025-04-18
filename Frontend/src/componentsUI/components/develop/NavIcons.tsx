@@ -5,7 +5,7 @@ import NotificationBadge from "../../elements/NotificationBadge"
 
 export default function NavIcons() {
   return (
-    <div className="flex items-center gap-2 text-darkblue text-lg px-5">
+    <div className="flex items-center gap-2 text-darkblue text-sm px-5">
         <div className="relative">
             <Icon name="mail" size={20}  className="hover:text-coral transition-colors" 
             onClick={() => alert("revisar correo")}/>
@@ -25,7 +25,7 @@ export default function NavIcons() {
         </div>
 
         <div className="relative">
-            <Icon name="chat"  size={24} className="hover:text-coral transition-colors text-darkblue"  
+            <Icon name="chat"  size={20} className="hover:text-coral transition-colors text-darkblue"  
             onClick={() => alert("Iniciando chat")}
             />
             <NotificationBadge count={10} position="bottom-right" variant="danger" />

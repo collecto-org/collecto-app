@@ -9,6 +9,7 @@ import logo from "../../assets/logos/collecto.png"
 import { Link } from "react-router-dom"
 import "../../styles/index copy.css"
 import { ApiError } from "../../services/schemas/AdvertsSchemas"
+import AuthLayout from "@/componentsUI/layouts/develop/AuthLayout";
 
 import { useState } from "react"
 const schema = z.object({
@@ -49,6 +50,7 @@ function LoginForm() {
   };
 
   return (
+
     <div className="login">
     <div className="form-container">
     <img src={logo} alt="logo" className="logo"/>        
@@ -82,17 +84,18 @@ function LoginForm() {
           {isLoading ? 'Cargando...' : 'Enviar'}
         </Button>
       
-{loginError && (
-  <p className="text-red-500">
-    {loginError}
-  </p>
-)}  
+      {loginError && (
+        <p className="text-red-500">
+          {loginError}
+        </p>
+      )}  
     <Link to="/recover">Olvidé mi contraseña</Link>        
     <Button to="/register" variant="signup-button" tipe="secondary-button">Registrarme </Button>       
         
       </Form>
     </div>
     </div>
+
   )
 }
 

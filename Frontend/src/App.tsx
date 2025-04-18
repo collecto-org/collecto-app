@@ -4,7 +4,6 @@ import { Routes, Route} from 'react-router-dom';
 import ConfirmEmail from "./componentsUI/containers/ConfirmEmail";
 import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
 import ChangePassPage from "./componentsUI/containers/ChangePassPage";
-import Index from "./componentsUI/pages/index";
 import AdvertDetail from "./temporal-components/AdvertDetail";
 import NewAdvert from "./componentsUI/pages/NewAdvert";
 import { useDispatch } from "react-redux";
@@ -17,6 +16,8 @@ import MyAdvertsGrid from "./temporal-components/MyAdvertsGrid";
 import MyAdvertsFavGrid from "./temporal-components/MyAdvertsFavGrid";
 import { useGetNotificationsQuery } from "./services/notificationsApi";
 import { NotificationView } from "./temporal-components/NotificationView";
+import HomePage from "./componentsUI/pages/develop/HomePage";
+import UniversePage from "./componentsUI/pages/develop/UniversePage"
 
 
 
@@ -32,8 +33,10 @@ function App() {
   },[user,dispatch])
   return (
     <Routes>      
-      <Route path="/" element={<Index/>}/>
+      <Route path="/" element={<HomePage/>}/>
       
+      <Route path="/universe/:slug" element={<UniversePage />} />
+
       <Route path="/adverts/:slug" element={<AdvertDetail/>}/>
       <Route path="/new-advert" element={<NewAdvert/>}/>
 

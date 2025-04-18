@@ -1,4 +1,6 @@
 import { ReactNode } from "react";
+import Navbar from "@/componentsUI/containers/develop/Navbar";
+import Footer from "@/componentsUI/containers/develop/Footer";
 
 type Props = {
   children: ReactNode;
@@ -6,10 +8,13 @@ type Props = {
 
 export default function MainLayout({ children }:Props) {
   return (
-    <div className=" bg-gray-100 ">
-      <div className="bg-white p-0 rounded-md shadow">
+    <div className="flex flex-col min-h-screen">
+      <Navbar/>
+      <main className="flex-1 bg-background text-darkblue">
         {children}
-      </div>
+      
+      </main>
+      <Footer/>
     </div>
   );
 }

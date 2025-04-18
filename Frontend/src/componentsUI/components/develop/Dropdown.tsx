@@ -1,12 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, ReactNode, ReactElement } from "react";
+
+interface DropdownItemProps {
+  children: string;
+  onClick?: () => void;
+}
 
 interface DropdownProps {
   label: React.ReactNode;
-  children: React.ReactNode;
+  children: ReactElement<DropdownItemProps>[] | ReactElement<DropdownItemProps>;
   onToggle?: () => void;
+  onSelect?: (value: string) => void
 }
 
-export default function Dropdown({ label, children, onToggle }: DropdownProps) {
+export default function Dropdown({ label, children, onToggle, onSelect }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -21,6 +27,11 @@ export default function Dropdown({ label, children, onToggle }: DropdownProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleItemClick = (value:string) =>{
+    onSelect?.(value);
+    setOpen(false)
+  }
+
   return (
     <div className="relative inline-block" ref={menuRef}>
       <button
@@ -33,9 +44,18 @@ export default function Dropdown({ label, children, onToggle }: DropdownProps) {
         {label}
       </button>
       {open && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-lightgray rounded-md shadow-lg z-10">
-          {children}
-        </div>
+        <div className="absolute left-0 mt-0 w-48 bg-white border border-lightgray rounded-md shadow-lg z-10">
+        {
+          React.Children.map(children, (child) => {
+            if (React.isValidElement<DropdownItemProps>(child)) {
+              return React.cloneElement(child, {
+                onClick: () => handleItemClick(child.props.children)
+              });
+            }
+            return child;
+          })
+        }
+      </div>
       )}
     </div>
   );
@@ -51,7 +71,7 @@ Dropdown.Item = function DropdownItem({
   return (
     <button
       onClick={onClick}
-      className="w-full text-left px-4 py-2 text-sm  hover:bg-lightgray"
+      className="w-full text-left px-2 py-0 text-[0.7rem]  hover:bg-lightgray"
     >
       {children}
     </button>

@@ -1,14 +1,17 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
+import Footer from "@/componentsUI/containers/develop/Footer";
 
-type Props = {
+interface Props {
   children: ReactNode;
-};
+}
 
 export default function AuthLayout({ children }: Props) {
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl font-bold mb-4">Auth Layout</h1>
-      <div className="bg-white p-4 rounded-md shadow">{children}</div>
+    <div className="min-h-screen flex flex-col bg-cream text-darkblue">
+      <main className="flex-1 flex justify-center items-center px-4 py-12">
+        {children}
+      </main>
+      <Footer />
     </div>
   );
 }

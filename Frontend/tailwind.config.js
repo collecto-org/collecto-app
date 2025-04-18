@@ -16,6 +16,9 @@ export default {
           hospitalgreen: '#ACD9B2',
           lightgray: '#d2d4d5',
           pinklight: '#C7C7C7',
+          fontSize:{
+            xxs: '0.7rem'
+          }
         },
         fontFamily: {
           quicksand: ['Quicksand', 'sans-serif'],

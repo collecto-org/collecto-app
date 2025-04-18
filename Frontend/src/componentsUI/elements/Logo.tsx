@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface LogoProps {
   src: string;
@@ -8,6 +9,7 @@ interface LogoProps {
   rounded?: boolean;
   className?: string;
   onClick?: () => void;
+  redirectTo?: string; 
 }
 
 export default function Logo({
@@ -18,15 +20,25 @@ export default function Logo({
   rounded = false,
   className = "",
   onClick,
+  redirectTo,
 }: LogoProps) {
+  const navigate = useNavigate();
   const finalHeight = height || width;
+
+  const handleClick = () => {
+    if (redirectTo) {
+      navigate(redirectTo);
+    } else {
+      onClick?.();
+    }
+  };
 
   return (
     <img
       src={src}
       alt={alt}
-      onClick={onClick}
-      className={`object-cover ${rounded ? "rounded-full" : ""} ${className}`}
+      onClick={handleClick}
+      className={`object-cover ${rounded ? "rounded-full" : ""} ${className} cursor-pointer`}
       style={{ width: `${width}px`, height: `${finalHeight}px` }}
     />
   );

@@ -1,9 +1,91 @@
 import React from "react";
 
-export default function PaginationControls() {
+interface PaginationControlProps{
+  currentPage: number;
+  totalPages: number;
+  pageSize:number;
+  pageSizeOptions?: number[];
+  onPageChange:(page:number) =>void;
+  onPageSizeChange:(size:number) =>void;
+}
+
+export default function PaginationControls({
+  currentPage=1,
+  totalPages=10,
+  pageSize,
+  pageSizeOptions =[10,20,50],
+  onPageChange,
+  onPageSizeChange,
+  
+}: PaginationControlProps) {
   return (
-    <div className="bg-white border shadow rounded-md p-4 mb-4 h-16 w-full flex items-center justify-center">
-      <h1 className="text-lg font-semibold text-center">Pagination Controls</h1>
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[0.7rem]  text-darkblue font-quicksand">
+     
+      {/* cantidad por página */}
+      <div className="flex items-center gap-2 relative">
+        <span className="font-medium">Mostrar:</span>
+        <select
+          className="bg-cream border border-turquoise rounded-full px-3 py-1 text-turquoise font-quicksand appearance-none pr-8"
+          value={pageSize}
+          onChange={(e) => onPageSizeChange(Number(e.target.value))}
+        >
+          {pageSizeOptions.map((size) => (
+            <option key={size} value={size}>
+              {size} / página
+            </option>
+          ))}
+        </select>
+        <svg
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-turquoise pointer-events-none"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 01.02-1.06z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+
+
+       {/* Controles de navegación */}
+      <div className="flex items-center gap-3">
+         {/* boton Anterior */}
+        <button
+          disabled={currentPage === 1}
+          onClick={() => onPageChange(currentPage - 1)}
+         className="px-3 py-1 border border-turquoise rounded-full text-darkblue hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed transition font-quicksand"
+        >
+          <span className="flex items-center gap-1">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M12.293 16.293a1 1 0 010 1.414l-6-6a1 1 0 010-1.414l6-6a1 1 0 111.414 1.414L8.414 10l5.293 5.293a1 1 0 010 1.414z" />
+            </svg>
+            Anterior
+          </span>
+        </button>
+       
+       
+         {/* paginado 1 de X */}
+         <span className=" text-darkblue font-quicksand">
+            Página <strong>{currentPage}</strong> de <strong>{totalPages}</strong>
+        </span>
+      </div>
+       
+       
+       {/* boton Siguiente */}
+      <button
+          disabled={currentPage === totalPages}
+          onClick={() => onPageChange(currentPage + 1)}
+          className="px-3 py-1 border border-turquoise rounded-full text-darkblue hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed transition font-quicksand"
+        >
+          <span className="flex items-center gap-1">
+            Siguiente
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M7.707 3.707a1 1 0 010-1.414l6 6a1 1 0 010 1.414l-6 6a1 1 0 11-1.414-1.414L11.586 10 6.293 4.707a1 1 0 011.414-1.414z" />
+            </svg>
+          </span>
+        </button>
     </div>
   );
 }
