@@ -3,10 +3,12 @@ import Dropdown from "./Dropdown";
 import Logo from "../../elements/Logo";
 import { User } from "@/services/schemas/UserSchemas";
 import { useLogoutMutation } from "@/services/authApi";
+import { useNavigate } from "react-router-dom";
 
 export default function UserMenu(user: { user: User }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [logout] = useLogoutMutation();
+  const navigate = useNavigate()
 
   const handleLogout = async () => {
     try {
@@ -47,7 +49,7 @@ export default function UserMenu(user: { user: User }) {
           </div>
         }
       >
-        <Dropdown.Item onClick={() => console.log("perfil")}>
+        <Dropdown.Item onClick={() => navigate("/userprofile")}>
           Mi perfil
         </Dropdown.Item>
         <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>

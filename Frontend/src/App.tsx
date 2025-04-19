@@ -52,7 +52,7 @@ const { refetch }= useGetNotificationsQuery({})
 
 
       <Route path="/adverts/:slug" element={<AdvertDetailPage/>}/>
-      <Route path="/UserProfile" element={<UserProfilePage/>}/>
+      <Route path="/userprofile" element={<UserProfilePage/>}/>
 
 
       <Route path="/new-advert" element={<NewAdvert/>}/>
