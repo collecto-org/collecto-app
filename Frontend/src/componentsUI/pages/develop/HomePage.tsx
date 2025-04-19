@@ -11,76 +11,84 @@ import { useState } from "react";
 import { ApiError } from "@/services/schemas";
 //import AdvertSlider from "../../containers/develop/AdvertSlidercopy";
 
-
 const banners = [
-  "/gridImages/dragon1.jpeg",
-  "/gridImages/dragon2.jpeg",
-  "/gridImages/simpsons1.jpeg",
-  "/gridImages/simpsons2.jpeg",
-  "/gridImages/startswars1.jpg",
-  "/gridImages/startswars2.jpeg",
-  "/gridImages/startswars3.jpg"
+  "/gridImages/dc.jpg",
+  "/gridImages/dragon-ball.jpg",
+  "/gridImages/harry-potter.jpg",
+  "/gridImages/marvel.jpg",
+  "/gridImages/nintendo.jpg",
+  "/gridImages/pokemon.jpeg",
+  "/gridImages/star-wars.jpg",
+  "/gridImages/disney.jpg",
+  "/gridImages/the-lord-of-the-ring.jpg",
+  "/gridImages/transformers.jpg",
 ];
 
 const logosBanner = [
-  "/logos/universos/DCComics.svg",
-  "/logos/universos/Disney.svg",
-  "/logos/universos/DragonBallZ.svg",
-  "/logos/universos/HarryPotter.svg",
-  "/logos/universos/Marvel.svg",
-  "/logos/universos/Nintendo.svg",
-  "/logos/universos/Pokemon.svg",
-  "/logos/universos/StarWars.svg",
-  "/logos/universos/TheSimpsons.svg",
-  "/logos/universos/Tloftr.svg"
+
+  "/logos/universos/disney.png",
+  "/logos/universos/marvel.png",
+  "/logos/universos/harry-potter.png",
+  "/logos/universos/pokemon.png",
+  "/logos/universos/nintendo.png",
+  "/logos/universos/star-wars.png",
+  "/logos/universos/the-lord-of-the-rings.png",
+  "/logos/universos/dragon-ball.png",
+  "/logos/universos/dc.png",
+  "/logos/universos/the-transformers.png",
+
 ];
 
 const universeLogos = [
-  "/logos/marcas/Bandai.svg",
-  "/logos/marcas/GoodSmile.svg",
-  "/logos/marcas/Hasbro.svg",
-  "/logos/marcas/Iron.jpeg",
-  "/logos/marcas/Mattel.svg",
-  "/logos/marcas/mezco.png",
-  "/logos/marcas/Neca.png",
-  "/logos/marcas/Super7.svg"
+  "/logos/marcas/banday-spirits.png",
+  "/logos/marcas/sideshow.png",
+  "/logos/marcas/lego.png",
+  "/logos/marcas/mcfarlane-toys.png",
+  "/logos/marcas/funko.png",
+  "/logos/marcas/threezero.png",
+  "/logos/marcas/hot-toys.png",
+  "/logos/marcas/iron-studios.png",
+  "/logos/marcas/hasbro.png",
+  "/logos/marcas/diamond-select-toys.png",
 ];
 
 const mockProducts = Array.from({ length: 20 }, (_, i) => {
-    const base = [
-      {
-        imageUrl: "/adverts/ventress.png",
-        brand: "Hot Toys",
-        name: "Asajj Ventress",
-        price: "1.099,99€",
-      },
-      {
-        imageUrl: "/adverts/rebel-trooper-stormtrooper.png",
-        brand: "Hasbro",
-        name: "Rebel Trooper & Stormtrooper",
-        price: "49,99€",
-      },
-      {
-        imageUrl: "/adverts/obi-wan-kenobi.png",
-        brand: "Hot Toys",
-        name: "Obi-Wan Kenobi",
-        price: "388,00€",
-      },
-      {
-        imageUrl: "/adverts/boba-fett.png",
-        brand: "Hot Toys",
-        name: "Boba Fett Repaint Armor",
-        price: "216,99€",
-      },
-    ];
-    return base[i % base.length]; 
-  });
+  const base = [
+    {
+      imageUrl: "/adverts/ventress.png",
+      brand: "Hot Toys",
+      name: "Asajj Ventress",
+      price: "1.099,99€",
+    },
+    {
+      imageUrl: "/adverts/rebel-trooper-stormtrooper.png",
+      brand: "Hasbro",
+      name: "Rebel Trooper & Stormtrooper",
+      price: "49,99€",
+    },
+    {
+      imageUrl: "/adverts/obi-wan-kenobi.png",
+      brand: "Hot Toys",
+      name: "Obi-Wan Kenobi",
+      price: "388,00€",
+    },
+    {
+      imageUrl: "/adverts/boba-fett.png",
+      brand: "Hot Toys",
+      name: "Boba Fett Repaint Armor",
+      price: "216,99€",
+    },
+  ];
+  return base[i % base.length];
+});
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const {adverts,total} = useSelector((state: RootState) => state.adverts.adverts);
+  const { adverts, total } = useSelector(
+    (state: RootState) => state.adverts.adverts
+  );
   const skip = 6;
-  const filter = {}
+  const filter = {};
   const [position, setPosition] = useState<number>(1);
 
   const filterProducts: FilterAdverts = {
@@ -89,51 +97,54 @@ export default function HomePage() {
     limit: skip,
   };
 
-  const { isLoading, isError,error } = useGetAllAdvertsQuery(filterProducts);
+  const { isLoading, isError, error } = useGetAllAdvertsQuery(filterProducts);
 
-  if (isError){
+  if (isError) {
   }
-  
-  if(isLoading){
+
+  if (isLoading) {
+    return <p>Cargando...</p>;
+  }
+  if (isError) {
+    const err = error as ApiError;
     return (
-      <p>Cargando...</p>
-    )
+      <div>
+        <p>Hubo un error</p>
+        <p>{err.data.message}</p>
+      </div>
+    );
   }
-  if(isError){
-  const err= error as ApiError
-  return (
-    <div>
-    <p>Hubo un error</p>
-    <p>{err.data.message}</p>
-    </div>
-  )
-}
   return (
     <MainLayout>
       <Banner
         backgroundImages={banners}
         text="Estás a una búsqueda de completar tu colección"
         highlights={["búsqueda", "colección"]}
-        height="h-60"
+
+        height="h-80 md:h-96"
         logos={universeLogos}
       />
-    <section className="my-4">
-    <ImageGrid
-        logos={logosBanner}
-        columns={8}
-        width={170}
-        height={80}
-        onClickLogo={(src) => {
-            const slug = src.split("/").pop()?.replace(".svg", "").toLowerCase(); 
-            navigate(`/universe/${slug}`);
-        }}
-        />
-    </section>
-    
+      <div className="max-w-7xl mx-auto px-4">
+        <section className="my-4">
+          <ImageGrid
+            logos={logosBanner}
+            columns={8}
+            width={170}
+            height={80}
+            onClickLogo={(src) => {
+              const slug = src
+                .split("/")
+                .pop()
+                ?.replace(".svg", "")
+                .toLowerCase();
+              navigate(`/universe/${slug}`);
+            }}
+          />
+        </section>
+      </div>
 
 
-
-      <div className="space-y-10 px-4 mt-8">
+      <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
         <AdvertSlider title="Nuevos lanzamientos" products={adverts} />
         <AdvertSlider title="Recomendados para ti" products={adverts} />
         <AdvertSlider title="Ver todos los artículos" products={adverts} />

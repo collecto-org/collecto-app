@@ -7,6 +7,13 @@ import {
   FaHeart,
   FaEdit,
   FaTrash,
+  FaUser,
+  FaMapPin,
+  FaCreditCard,
+  FaFileArchive,
+  FaList,
+  FaHelicopter,
+  FaCalendar,
   
 } from "react-icons/fa";
 import { IconType } from "react-icons";
@@ -19,6 +26,13 @@ const icons: Record<string, IconType> = {
   mail: FaRegEnvelope,
   Edit: FaEdit, 
   Trash: FaTrash,
+  user: FaUser,
+  mapPin: FaMapPin, 
+  creditCard: FaCreditCard,
+  fileText: FaFileArchive, 
+  list:FaList, 
+  helpCircle:FaHelicopter, 
+  calendar: FaCalendar,
 };
 
 interface IconProps {
