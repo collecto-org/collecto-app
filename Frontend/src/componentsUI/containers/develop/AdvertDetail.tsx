@@ -8,26 +8,10 @@ import SellerCard from "@/componentsUI/components/develop/SellerCard";
 import Tags from "@/componentsUI/elements/tags"
 import ActionBar from "@/componentsUI/components/develop/ActionBar";
 import Button from "@/componentsUI/elements/Button";
+import { Advert } from "@/services/schemas/AdvertsSchemas";
 
 interface AdvertDetailProps {
-  title: string;
-  description: string;
-  price: number;
-  status: "available" | "reserved" | "sold";
-  images: string[];
-  transaction: string;
-  tags: string[];
-  universe: string;
-  product_type: string;
-  collection?: string;
-  manufacturer?: string;
-  condition: "new" | "used" | "broken";
-  author: {
-    username: string;
-    avatarUrl?: string;
-    rating?: number;
-    userId?: string;
-  };
+  advert:Advert;
   onEdit?: () => void;
   onDelete?: () => void;
   onAddToFav?: () => void;
@@ -35,48 +19,43 @@ interface AdvertDetailProps {
 }
 
 export default function AdvertDetail({
-  title,
-  description,
-  images,
-  price,
-  transaction,
-  status,
-  product_type,
-  universe,
-  condition,
-  collection,
-  manufacturer,
-  tags,
-  author,
+  advert,
   onEdit,
   onDelete,
   onAddToFav,
   onRemoveFromFav,
 }: AdvertDetailProps) {
+
+  const {
+    images,
+    universe,
+    product_type,
+    title,
+    transaction,
+    brand,
+    isFavorite,
+    price,
+    collection,
+    status,
+    condition,
+    tags,
+    description,
+    user
+} = advert
   const descriptionExample = description + "// Conmemora el 40º aniversario de Star Wars: El Retorno del Jedi. Esta línea cuenta con diseño y embalaje clásicos. Esta figura coleccionable viene a escala de 15 cm de la línea The Black Series con diseño premium y múltiples puntos de articulación."
-  const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
-  const handleToggleFav  = () => {
-    setIsFavorite(!isFavorite);
-   // onAddToFav?.();
-   if (!isFavorite){
-      alert("Anuncio agregado a favoritos");
-   }else{
-      alert("Anuncio afuera de favoritos");
-   }
-    
-  };
+
 
 
   return (
     <div className="max-w-3xl mx-auto px-6 pt-4 pb-10, mt-5 text-darkblue">
       <div className="mb-4">
-        <Title headerLabel="Universo" label={universe.toUpperCase()} />
+        <Title headerLabel="Universo" label={universe || "universoAPI"} />
         <div className="text-sm text-gray-500 flex flex-wrap gap-1">
           <span className="hover:underline cursor-pointer">Inicio</span> /
           <span className="hover:underline cursor-pointer">{universe}</span> /
-          <span className="hover:underline cursor-pointer">{manufacturer}</span> /
+          <span className="hover:underline cursor-pointer">{brand}</span> /
           <span className="hover:underline cursor-pointer">{product_type}</span> /
           <span className="font-medium text-darkblue">{title}</span>
         </div>
@@ -92,14 +71,14 @@ export default function AdvertDetail({
         <div className="w-full lg:w-1/2 space-y-3">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-coral text-sm font-medium">{manufacturer}</p>
+              <p className="text-coral text-sm font-medium">{brand}</p>
               <p className="text-xs text-sage">Transacción: {transaction} / Estado: {status}</p>
             </div>
             <div>
             <ActionBar 
-              onEdit={onEdit} 
-              onDelete={onDelete} 
-              onToggleFav={handleToggleFav} 
+              onEdit={()=>{}} 
+              onDelete={()=>{}} 
+              onToggleFav={()=>{}} 
               isFavorite={isFavorite}
             />
             </div>
@@ -135,7 +114,7 @@ export default function AdvertDetail({
 
             <Button
               variant="outline"
-              onClick={() => navigate(`/chat/${author.userId}`)}
+              onClick={() => navigate(`/chat/${user._id}`)}
             >
               Iniciar Chat
             </Button>
@@ -143,10 +122,9 @@ export default function AdvertDetail({
 
           {/* Vendedor */}
           <SellerCard 
-              username={author.username}
-              avatarUrl={author.avatarUrl}
-              rating={author.rating}
-              userId={author.userId}
+              username={user.username || "autor API"}
+              avatarUrl={user.avatar|| "IMAGEAPI"}
+              rating={user.rating|| 4}
             />
 
         </div>

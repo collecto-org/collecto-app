@@ -5,7 +5,6 @@ import ConfirmEmail from "./componentsUI/containers/ConfirmEmail";
 import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
 import ChangePassPage from "./componentsUI/containers/ChangePassPage";
 //import AdvertDetail from "./temporal-components/AdvertDetail";
-import AdvertDetailPage from "./componentsUI/pages/develop/AdvertDetailPage";
 import NewAdvert from "./componentsUI/pages/NewAdvert";
 import { useDispatch } from "react-redux";
 import { useGetMeQuery } from "./services/usersApi";
@@ -26,6 +25,7 @@ import Orderpage from "./componentsUI/pages/develop/RatingPage";
 import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage"
 
 import { MyOrders } from "./temporal-components/myOrdersJosemi";
+import AdvertDetailPage from "./componentsUI/pages/develop/AdvertDetailPage";
 
 
 

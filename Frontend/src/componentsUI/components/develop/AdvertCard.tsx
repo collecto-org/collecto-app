@@ -1,11 +1,13 @@
 import { Advert } from "@/services/schemas/AdvertsSchemas";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({
   images,
   brand,
   title,
   price,
+  slug
 }: Advert) {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -15,6 +17,7 @@ export default function ProductCard({
   };
 
   return (
+    <Link to={`/adverts/${slug}`}>
     <div
       className="relative rounded-xl border-2 border-turquoise overflow-hidden shadow-sm transition hover:shadow-md bg-white max-w-7xl mx-auto w-full"
       style={{ width: "180px", height: "325px" }}
@@ -56,5 +59,6 @@ export default function ProductCard({
         <p className="text-sm font-semibold text-darkblue mt-1">{price}</p>
       </div>
     </div>
+    </Link>
   );
 }

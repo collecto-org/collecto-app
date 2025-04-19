@@ -8,16 +8,17 @@ import { useEffect, useState } from "react";
 import ProductGrid from "../../containers/develop/AdvertGrid"
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { selectAdverts, selectFilters } from "@/store/selectors/advertsSelectors";
+import {selectFilterAdverts, selectFilters } from "@/store/selectors/advertsSelectors";
 import { useFilterAdvertsQuery } from "@/services/advertsApi";
+import { useParams } from "react-router-dom";
 //import ProductGrid from "../../../../../collecto-maquetado/src/components/AdvertGrid"
 
 
 
 export default function UniversePage() {
 
-  const {adverts,total} = useSelector((state: RootState) => selectAdverts(state));//  obtener los anuncios y el total
-  
+  const {adverts,total} = useSelector((state: RootState) => selectFilterAdverts(state));//  obtener los anuncios y el total
+  const { slug } = useParams()
   const filter = useSelector((state:RootState)=> selectFilters(state)) //  obtener los valores del filtro 
 
   
@@ -84,7 +85,7 @@ export default function UniversePage() {
         <div className="col-span-12 md:col-span-3 flex  items-center  justify-center">
             <Title 
             headerLabel="Universo" 
-            label="STAR WARS" 
+            label={slug || ""} 
              />
 
         </div>
