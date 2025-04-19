@@ -2,6 +2,7 @@ import MainLayout from "../../layouts/MainLayout";
 import Banner from "../../components/develop/Banner";
 import ImageGrid from "../../components/develop/ImageGrid";
 import AdvertSlider from "../../containers/develop/AdvertSlider";
+import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection"
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -9,48 +10,9 @@ import { useGetAllAdvertsQuery } from "@/services/advertsApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { useState } from "react";
 import { ApiError } from "@/services/schemas";
-//import AdvertSlider from "../../containers/develop/AdvertSlidercopy";
+import { logosBanner, universeLogos, sideBarMenu } from "../../containers/develop/MockData"
 
-const banners = [
-  "/gridImages/dc.jpg",
-  "/gridImages/dragon-ball.jpg",
-  "/gridImages/harry-potter.jpg",
-  "/gridImages/marvel.jpg",
-  "/gridImages/nintendo.jpg",
-  "/gridImages/pokemon.jpeg",
-  "/gridImages/star-wars.jpg",
-  "/gridImages/disney.jpg",
-  "/gridImages/the-lord-of-the-ring.jpg",
-  "/gridImages/transformers.jpg",
-];
 
-const logosBanner = [
-
-  "/logos/universos/disney.png",
-  "/logos/universos/marvel.png",
-  "/logos/universos/harry-potter.png",
-  "/logos/universos/pokemon.png",
-  "/logos/universos/nintendo.png",
-  "/logos/universos/star-wars.png",
-  "/logos/universos/the-lord-of-the-rings.png",
-  "/logos/universos/dragon-ball.png",
-  "/logos/universos/dc.png",
-  "/logos/universos/the-transformers.png",
-
-];
-
-const universeLogos = [
-  "/logos/marcas/banday-spirits.png",
-  "/logos/marcas/sideshow.png",
-  "/logos/marcas/lego.png",
-  "/logos/marcas/mcfarlane-toys.png",
-  "/logos/marcas/funko.png",
-  "/logos/marcas/threezero.png",
-  "/logos/marcas/hot-toys.png",
-  "/logos/marcas/iron-studios.png",
-  "/logos/marcas/hasbro.png",
-  "/logos/marcas/diamond-select-toys.png",
-];
 
 
 export default function HomePage() {
@@ -58,6 +20,12 @@ export default function HomePage() {
   const { adverts, total } = useSelector(
     (state: RootState) => state.adverts.adverts
   );
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const totalitems = Number(total)  
+
+
   const skip = 6;
   const filter = {};
   const [position, setPosition] = useState<number>(1);
@@ -88,7 +56,7 @@ export default function HomePage() {
   return (
     <MainLayout>
       <Banner
-        backgroundImages={banners}
+        backgroundImages={logosBanner}
         text="Estás a una búsqueda de completar tu colección"
         highlights={["búsqueda", "colección"]}
 
@@ -97,8 +65,26 @@ export default function HomePage() {
       />
       <div className="max-w-7xl mx-auto px-4">
         <section className="my-4">
+
+          {/*
+          
+                  <FilteredAdvertSectionProps
+                        headerLabel="Universo"
+                        label= "STAR WARS" 
+                        totalAdverts={totalitems}
+                        onFilterChange={(page, size) => {
+                          setCurrentPage(page),
+                          setPageSize(size)
+                        }}
+                        barsidetitle="Tipo de producto"
+                        barsideoptions={sideBarMenu}
+                        adverts={adverts}
+                  />
+          */}
+
+          
           <ImageGrid
-            logos={logosBanner}
+            logos={universeLogos}
             columns={8}
             width={170}
             height={80}

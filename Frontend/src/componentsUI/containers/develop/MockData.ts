@@ -170,3 +170,43 @@ export const mockAdverts = [
     createdAt: "2024-03-30T10:00:00Z"
   }
 ];
+
+export const logosBanner = [
+  "/gridImages/dc.jpg",
+  "/gridImages/dragon-ball.jpg",
+  "/gridImages/harry-potter.jpg",
+  "/gridImages/marvel.jpg",
+  "/gridImages/nintendo.jpg",
+  "/gridImages/pokemon.jpeg",
+  "/gridImages/star-wars.jpg",
+  "/gridImages/disney.jpg",
+  "/gridImages/the-lord-of-the-ring.jpg",
+  "/gridImages/transformers.jpg",
+ ]
+
+ export const universeLogos = [
+
+  "/logos/universos/disney.png",
+  "/logos/universos/marvel.png",
+  "/logos/universos/harry-potter.png",
+  "/logos/universos/pokemon.png",
+  "/logos/universos/nintendo.png",
+  "/logos/universos/star-wars.png",
+  "/logos/universos/the-lord-of-the-rings.png",
+  "/logos/universos/dragon-ball.png",
+  "/logos/universos/dc.png",
+  "/logos/universos/the-transformers.png",
+];
+
+ export const sideBarMenu = [
+      "Todos",
+      "Estatuas y réplicas",
+      "Figuras de acción",
+      "Funko Pop!",
+      "Ropa y accesorios",
+      "Láminas y póster",
+      "Tarjetas, juegos y juguetes",
+      "Libros y cómics",
+      "Hogar y oficina"
+ ]
+

@@ -13,8 +13,8 @@ export default function UserProfilePage() {
     avatar: "https://github.com/mdo.png",
     firstName: "Martin",
     lastName: "Rivas Reynoso",
-    email: "martin.rivas.r@hotmail.com",
-    birthdate: "1977-07-18",
+    email: "test@hotmail.com",
+    birthdate: "2000-10-10",
   };
 
   return (
