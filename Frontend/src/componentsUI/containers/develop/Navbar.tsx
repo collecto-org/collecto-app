@@ -18,7 +18,12 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50 bg-cream text-darkblue shadow-md flex justify-between items-center py-0 px-4">
       
         <div className="flex items-end p-2">
-          <Logo src="/logos/logo-horizontal-collecto.png" alt="Collecto logo" width={100} height={15} redirectTo="/"/>
+          <Logo 
+            src="/logos/logo-horizontal-collecto.png" 
+            alt="Collecto logo" 
+            width={100} 
+            height={15} 
+            redirectTo="/"/>
         </div>
         <div className="flex-1 max-w-lg">
           <SearchBar

@@ -14,7 +14,12 @@ export type Advert = {
   collection: string;                                  
   brand: string;
   tags: string[],
-  user:string;
+  user: string | {
+    _id: string;
+    username: string;
+    avatar?: string;
+    rating?: number;
+  };
   createdAt: Date;
   updatedAt?: Date;
   images: string[],
