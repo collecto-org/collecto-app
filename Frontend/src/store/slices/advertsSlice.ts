@@ -9,6 +9,7 @@ interface AdvertsState {
   isEditMode: boolean;
   showDeleteModal: boolean;
   adverts: { adverts: Advert[]; total: string };
+  filterAdverts: { adverts: Advert[]; total: string };
   RecomendedAdverts: { adverts: Advert[]; total: string };
   NewAdverts:{ adverts: Advert[]; total: string };
   loading: boolean;
@@ -20,6 +21,7 @@ const initialState: AdvertsState = {
   isEditMode: false,
   showDeleteModal: false,
   adverts: { adverts: [], total: "0" },
+  filterAdverts: { adverts: [], total: "0" },
   RecomendedAdverts:{ adverts: [], total: "0" },
   NewAdverts:{ adverts: [], total: "0" },
   loading: false,
@@ -98,6 +100,13 @@ const advertsSlice = createSlice({
           if (index !== -1) {
             state.adverts.adverts[index] = updated;
           }
+          const filterIndex = state.filterAdverts.adverts.findIndex(
+            (adv) => adv._id === updated._id
+          );
+          if (filterIndex !== -1) {
+            state.adverts.adverts[filterIndex] = updated;
+          }
+          
           state.selectedAdvert = updated;
         }
       )
@@ -128,8 +137,8 @@ const advertsSlice = createSlice({
         
         advertsApi.endpoints.filterAdverts.matchFulfilled,
         (state, action) => {
-          state.adverts.adverts = action.payload.adverts;
-          state.adverts.total = action.payload.total;
+          state.filterAdverts.adverts = action.payload.adverts;
+          state.filterAdverts.total = action.payload.total;
           state.loading = false;
         }
       )
@@ -137,8 +146,8 @@ const advertsSlice = createSlice({
         
         advertsApi.endpoints.filterAdverts.matchRejected,
         (state) => {
-          state.adverts.adverts = []
-          state.adverts.total = "0"
+          state.filterAdverts.adverts = []
+          state.filterAdverts.total = "0"
           state.loading = false;
         }
       )

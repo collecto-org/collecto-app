@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useGetAllAdvertsQuery } from "@/services/advertsApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ApiError } from "@/services/schemas";
 import { logosBanner, universeLogos, sideBarMenu } from "../../containers/develop/MockData"
 
@@ -36,7 +36,15 @@ export default function HomePage() {
     limit: skip,
   };
 
-  const { isLoading, isError, error } = useGetAllAdvertsQuery(filterProducts);
+  const { isLoading, isError, error,refetch } = useGetAllAdvertsQuery(filterProducts);
+
+
+  useEffect(()=>{
+    if(adverts.length === 0){
+      refetch()
+    }
+  },adverts)
+
 
   if (isError) {
   }

@@ -7,16 +7,17 @@ export type Advert = {
   price: number;
   transaction: string;
   status: string;
-  isVisible: string;                      
+  isVisible: string; 
+  isFavorite?:boolean                    
   product_type: string;
   universe: string;
   condition: string;
   collection: string;                                  
   brand: string;
   tags: string[],
-  user: string | {
-    _id: string;
-    username: string;
+  user:  {
+    _id?: string;
+    username?: string;
     avatar?: string;
     rating?: number;
   };
