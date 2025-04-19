@@ -1,7 +1,7 @@
 import ProductCard from "../../components/AdvertCard";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { mockAdverts } from '../develop/advertsMock'; // <-- importa aquí
+import { mockAdverts } from './MockData'; // <-- importa aquí
 
 const skip = 6;
 

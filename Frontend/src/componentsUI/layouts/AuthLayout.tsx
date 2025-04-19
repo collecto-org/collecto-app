@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import Footer from "@/componentsUI/containers/develop/Footer";
 
 interface Props {

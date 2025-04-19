@@ -1,84 +1,44 @@
 import MainLayout from "../../layouts/MainLayout";
 import Banner from "../../components/develop/Banner";
-import SideBarMenu from "../../containers/develop/SidebarMenu";
-//import ProductGrid from "../../containers/develop/ProductGrid";
-import PaginationBlock  from "../../containers/develop/PaginationBlock";
-import Title from "@/componentsUI/components/develop/Title";
 import { useEffect, useState } from "react";
-import ProductGrid from "../../containers/develop/AdvertGrid"
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {selectFilterAdverts, selectFilters } from "@/store/selectors/advertsSelectors";
 import { useFilterAdvertsQuery } from "@/services/advertsApi";
 import { useParams } from "react-router-dom";
+import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection"
+import { logosBanner, universeLogos, sideBarMenu} from "../../containers/develop/MockData"
 //import ProductGrid from "../../../../../collecto-maquetado/src/components/AdvertGrid"
 
 
 
 export default function UniversePage() {
 
+
   const {adverts,total} = useSelector((state: RootState) => selectFilterAdverts(state));//  obtener los anuncios y el total
   const { slug } = useParams()
+
+  const {adverts,total} = useSelector((state: RootState) => selectAdverts(state));//  obtener los anuncios y el total
+
   const filter = useSelector((state:RootState)=> selectFilters(state)) //  obtener los valores del filtro 
-
-  
   const { refetch  } = useFilterAdvertsQuery(filter); // Peticion para obtener adverts filtrados
+  
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const totalitems = Number(total)  
 
-  useEffect(() => {
-    if (filter) {
-      refetch(); // Llamamos a refetch cada vez que el filtro cambie
-    }
-  }, [filter, refetch])
-
- const [currentPage, setCurrentPage] = useState(1)
-
- const [pageSize, setPageSize] = useState(10)
-
- const totalitems = Number(total)
- const totalPages = Math.ceil(totalitems/pageSize) 
-
- const banners = [
-  "/gridImages/dragon1.jpeg",
-  "/gridImages/dragon2.jpeg",
-  "/gridImages/simpsons1.jpeg",
-  "/gridImages/simpsons2.jpeg",
-  "/gridImages/startswars1.jpg",
-  "/gridImages/startswars2.jpeg",
-  "/gridImages/startswars3.jpg"
- ]
-
- const universeLogos = [
-  "/logos/marcas/Bandai.svg",
-  "/logos/marcas/GoodSmile.svg",
-  "/logos/marcas/Hasbro.svg",
-  "/logos/marcas/Iron.jpeg",
-  "/logos/marcas/Mattel.svg",
-  "/logos/marcas/mezco.png",
-  "/logos/marcas/Neca.png",
-  "/logos/marcas/Super7.svg"
-];
-
- const sideBarMenu = [
-      "Todos",
-      "Estatuas y réplicas",
-      "Figuras de acción",
-      "Funko Pop!",
-      "Ropa y accesorios",
-      "Láminas y póster",
-      "Tarjetas, juegos y juguetes",
-      "Libros y cómics",
-      "Hogar y oficina"
- ]
+ 
 
   return (
     <MainLayout>
       <Banner
-          backgroundImages={banners}
+          backgroundImages={logosBanner}
           text="Estás a una búsqueda de completar tu colección"
           highlights={["búsqueda", "colección"]}
           height="h-60"
           logos={universeLogos}
         />
+
 
       
       <div className="grid grid-cols-12 gap-1 px-1 py-1">
@@ -115,6 +75,20 @@ export default function UniversePage() {
           <ProductGrid adverts={adverts} />
         </div>
       </div>
+
+        <FilteredAdvertSectionProps
+              headerLabel="Universo"
+              label= "STAR WARS" 
+              totalAdverts={totalitems}
+              onFilterChange={(page, size) => {
+                setCurrentPage(page),
+                setPageSize(size)
+              }}
+              barsidetitle="Tipo de producto"
+              barsideoptions={sideBarMenu}
+              adverts={adverts}
+        />
+
     </MainLayout>
   );
 }
