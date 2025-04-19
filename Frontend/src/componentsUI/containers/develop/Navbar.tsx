@@ -1,4 +1,3 @@
-import React, { useState} from "react";
 import Logo from "../../elements/Logo";
 import SearchBar from "../../components/develop/SearchBar";
 import LanguajeSelector from "../../components/develop/LanguajeSelector";
@@ -10,7 +9,6 @@ import { RootState } from "@/store/store";
 import { selectUser } from "@/store/selectors/userSelectors";
 
 export default function Navbar() {
-  const [query, setQuery] = useState("");
   const user = useSelector((state: RootState) => selectUser(state));
 
 
@@ -28,9 +26,6 @@ export default function Navbar() {
         <div className="flex-1 max-w-lg">
           <SearchBar
           placeholder="Busca en todos los universos"
-          value={query}
-          onChange={setQuery}
-          onSearch={() => console.log("Buscar en navbar:", query)}
           width="w-full"
           />
         </div>

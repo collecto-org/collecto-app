@@ -1,19 +1,32 @@
-import react, {useState} from "react"
+import  {useState} from "react"
 import SearchBar from "./SearchBar";
 import Dropdown from "./Dropdown";
 import DropdownLabel from "../../elements/DropdownLabel";
+import { useDispatch } from "react-redux";
+import { setFilter } from "@/store/slices/advertsSlice";
 
 
-interface SearchControlsProps {
-  searchTerm: string;
-  onSearch: (query: string) => void;
-}
+
+
 
 
 export default function SearchControls( ) {
-  const [brand, setBrand] = useState("Marca")
-  const [filter, setFilter] = useState("filtrar por")
+  const dispatch = useDispatch()
+  const [brand, setBrand] = useState("")
+  const [filter, setFilterParams] = useState("filtrar por")
 
+  const handleBrand = (selectedBrand: string) => {
+    setBrand(selectedBrand);
+    dispatch(setFilter({ brand: selectedBrand }));
+  };
+
+  const handleFilter = (filterParams: string) => {
+    setFilterParams(filterParams);
+    dispatch(setFilter({ sortBy: filterParams }));
+  };
+
+    
+  console.log(brand)
   const brands = [            
       "Funko",
       "Hot Toys",
@@ -40,11 +53,11 @@ export default function SearchControls( ) {
       </div>
       
       <Dropdown
-            label={<DropdownLabel text={brand} />}
+            label={<DropdownLabel text={brand || "Marca"} />}
             onSelect={setBrand}
         >
         {brands.map((b) => (
-          <Dropdown.Item key={b} onClick={() => setBrand(b)}>
+          <Dropdown.Item key={b} onClick={() => handleBrand(b)}>
             {b}
           </Dropdown.Item>
         ))}
@@ -52,11 +65,11 @@ export default function SearchControls( ) {
         
         <Dropdown
             label={<DropdownLabel text={filter} />}
-            onSelect={setFilter}
+            onSelect={setFilterParams}
           >
 
             {sortBy.map((f) => (
-              <Dropdown.Item key={f} onClick={() => setFilter(f)}>
+              <Dropdown.Item key={f} onClick={() => handleFilter(f)}>
                 {f}
               </Dropdown.Item>
             ))}

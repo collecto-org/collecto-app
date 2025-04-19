@@ -6,10 +6,9 @@ import InputField from "../components/InputField"
 import Button from "../components/Button"
 import { useLoginMutation } from "../../services/authApi"
 import logo from "../../assets/logos/collecto.png"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "../../styles/index copy.css"
 import { ApiError } from "../../services/schemas/AdvertsSchemas"
-import AuthLayout from "@/componentsUI/layouts/develop/AuthLayout";
 
 import { useState } from "react"
 const schema = z.object({
@@ -35,15 +34,15 @@ function LoginForm() {
   const [login,{isLoading}] = useLoginMutation()
   const [loginError, setLoginError] = useState<string | null>(null)
 
+  const navigate = useNavigate()
+
 
 
 
   const onSubmit = async (data: { username: string; password: string; rememberMe: boolean }) => {
     try {
-      console.log("data enviada:", data)
-      const result = await login(data).unwrap();
-      console.log(result)
-      localStorage.setItem("token", result.token);
+       await login(data).unwrap();
+       navigate("/")
     } catch (err) {
       const apiError = err as ApiError;
       setLoginError(apiError?.data?.message ?? "Error desconocido")    }

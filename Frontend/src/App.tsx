@@ -35,6 +35,8 @@ function App() {
       dispatch(setUser(user))
     }
   },[user,dispatch])
+
+  
   return (
     <Routes>      
       <Route path="/" element={<HomePage/>}/>

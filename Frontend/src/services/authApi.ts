@@ -15,6 +15,14 @@ export const authApi = createApi({
                 
             })
         }),
+        logout:builder.mutation<{message:string;} ,void>({
+          query:() => ({
+              url:"/api/auth/logout",
+              method:"POST",
+              credentials: "include",
+              
+          })
+      }),
         register:builder.mutation<{
             message: string,
             user: {
@@ -78,6 +86,7 @@ export const authApi = createApi({
 })
 
 export const { useLoginMutation,
+              useLogoutMutation,
              useRegisterMutation,
              useVerifyMutation,
              useRecoverPassMutation,
