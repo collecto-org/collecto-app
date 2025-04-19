@@ -1,4 +1,4 @@
-import MainLayout from "../../layouts/develop/MainLayout";
+import MainLayout from "../../layouts/MainLayout";
 import Banner from "../../components/develop/Banner";
 import SideBarMenu from "../../containers/develop/SidebarMenu";
 //import ProductGrid from "../../containers/develop/ProductGrid";
@@ -14,7 +14,7 @@ import { useFilterAdvertsQuery } from "@/services/advertsApi";
 
 
 
-export default function HomePage() {
+export default function UniversePage() {
 
   const {adverts,total} = useSelector((state: RootState) => selectAdverts(state));//  obtener los anuncios y el total
   

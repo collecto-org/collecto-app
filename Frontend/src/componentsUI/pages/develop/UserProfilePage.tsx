@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import MainLayout from "@/componentsUI/layouts/develop/MainLayout";
+import MainLayout from "@/componentsUI/layouts/MainLayout";
 import Icon from "@/componentsUI/elements/Icon";
 import Button from "@/componentsUI/elements/Button";
 

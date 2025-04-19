@@ -1,4 +1,4 @@
-import MainLayout from "../../layouts/develop/MainLayout";
+import MainLayout from "../../layouts/MainLayout";
 import Banner from "../../components/develop/Banner";
 import ImageGrid from "../../components/develop/ImageGrid";
 import AdvertSlider from "../../containers/develop/AdvertSlider";
@@ -52,35 +52,6 @@ const universeLogos = [
   "/logos/marcas/diamond-select-toys.png",
 ];
 
-const mockProducts = Array.from({ length: 20 }, (_, i) => {
-  const base = [
-    {
-      imageUrl: "/adverts/ventress.png",
-      brand: "Hot Toys",
-      name: "Asajj Ventress",
-      price: "1.099,99€",
-    },
-    {
-      imageUrl: "/adverts/rebel-trooper-stormtrooper.png",
-      brand: "Hasbro",
-      name: "Rebel Trooper & Stormtrooper",
-      price: "49,99€",
-    },
-    {
-      imageUrl: "/adverts/obi-wan-kenobi.png",
-      brand: "Hot Toys",
-      name: "Obi-Wan Kenobi",
-      price: "388,00€",
-    },
-    {
-      imageUrl: "/adverts/boba-fett.png",
-      brand: "Hot Toys",
-      name: "Boba Fett Repaint Armor",
-      price: "216,99€",
-    },
-  ];
-  return base[i % base.length];
-});
 
 export default function HomePage() {
   const navigate = useNavigate();

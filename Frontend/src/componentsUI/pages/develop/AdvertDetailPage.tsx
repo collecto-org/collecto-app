@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
 
-import MainLayout from "@/componentsUI/layouts/develop/MainLayout";
+import MainLayout from "@/componentsUI/layouts/MainLayout";
 import AdvertDetail from "@/componentsUI/containers/develop/AdvertDetail"
 import AdvertSlider from "@/componentsUI/containers/develop/AdvertSlider";
 import Editadvert from "@/temporal-components/EditAdvert";

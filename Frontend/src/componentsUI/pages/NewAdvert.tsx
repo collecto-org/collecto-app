@@ -51,7 +51,7 @@ import { useNewAdvertMutation } from "../../services/advertsApi";
                     
                   }
                 )
-                await newAdvert({token,formData})}
+                await newAdvert({formData})}
                } catch (error) {
                 console.log(error)
             }

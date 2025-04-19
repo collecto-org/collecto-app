@@ -23,8 +23,8 @@ import UniversePage from "./componentsUI/pages/develop/UniversePage"
 import ChatPage from "./componentsUI/pages/develop/ChatPage"
 import RatingsPage from "./componentsUI/pages/develop/RatingPage";
 import Orderpage from "./componentsUI/pages/develop/RatingPage";
+import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage"
 
-import AdvertDetail from "./temporal-components/AdvertDetail";
 import { MyOrders } from "./temporal-components/myOrdersJosemi";
 
 
@@ -53,7 +53,7 @@ const { refetch }= useGetNotificationsQuery({})
 
       <Route path="/adverts/:slug" element={<AdvertDetailPage/>}/>
       <Route path="/UserProfile" element={<UserProfilePage/>}/>
-      <Route path="/UserProfilePage1" element={<UserProfilePage1/>}/>
+
 
       <Route path="/new-advert" element={<NewAdvert/>}/>
 

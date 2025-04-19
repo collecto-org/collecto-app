@@ -6,7 +6,7 @@ import InputField from "../components/InputField"
 import Button from "../components/Button"
 import { useRegisterMutation } from "../../services/authApi"
 import { ApiError } from "../../services/schemas/AdvertsSchemas"
-import AuthLayout from "@/componentsUI/layouts/develop/AuthLayout";
+import AuthLayout from "@/componentsUI/layouts/AuthLayout";
 import "../../styles/index copy.css"
 
 const schema = z.object({
