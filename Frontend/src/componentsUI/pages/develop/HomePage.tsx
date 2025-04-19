@@ -23,7 +23,7 @@ const banners = [
 ];
 
 const logosBanner = [
-  "/logos/universos/DCComics.svg",
+  "/logos/universos/DCComics.svg", 
   "/logos/universos/Disney.svg",
   "/logos/universos/DragonBallZ.svg",
   "/logos/universos/HarryPotter.svg",
@@ -115,11 +115,11 @@ export default function HomePage() {
         text="Estás a una búsqueda de completar tu colección"
         highlights={["búsqueda", "colección"]}
         height="h-60"
-        logos={universeLogos}
+        logos={logosBanner}
       />
     <section className="my-4">
     <ImageGrid
-        logos={logosBanner}
+        logos={universeLogos}
         columns={8}
         width={170}
         height={80}

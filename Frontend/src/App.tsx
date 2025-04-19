@@ -22,6 +22,8 @@ import UniversePage from "./componentsUI/pages/develop/UniversePage"
 import ChatPage from "./componentsUI/pages/develop/ChatPage"
 import RatingsPage from "./componentsUI/pages/develop/RatingPage";
 import Orderpage from "./componentsUI/pages/develop/RatingPage";
+import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage";
+import UserProfilePage1 from "./componentsUI/pages/develop/UserProfilePage";
 
 
 
@@ -42,6 +44,9 @@ function App() {
       <Route path="/universe/:slug" element={<UniversePage />} />
 
       <Route path="/adverts/:slug" element={<AdvertDetailPage/>}/>
+      <Route path="/UserProfile" element={<UserProfilePage/>}/>
+      <Route path="/UserProfilePage1" element={<UserProfilePage1/>}/>
+
       <Route path="/new-advert" element={<NewAdvert/>}/>
 
       <Route path="/login" element={<LoginForm/>}/>
