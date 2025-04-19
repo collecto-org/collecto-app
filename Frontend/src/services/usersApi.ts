@@ -78,6 +78,7 @@ export const userApi = createApi({
 
 export const {
   useGetMeQuery,
+  useLazyGetMeQuery,
   useDeleteMeMutation, 
   useEditMeMutation,
   useGetMyadvertsQuery,

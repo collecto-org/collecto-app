@@ -8,6 +8,7 @@ import { selectAdvertBySlug } from "@/store/selectors/advertsSelectors";
 import { setSelectedAdvert, setSelectedAdvertAndLoad } from "@/store/slices/advertsSlice";
 import { useDeleteAdvertMutation, useGetAdvertDetailQuery } from "@/services/advertsApi";
 import { useRemoveAdvertFavMutation, useSetAdvertFavMutation } from "@/services/usersApi";
+import { useNewOrderMutation } from "@/services/ordersApi";
 
 function AdvertDetail() {
   const params = useParams();
@@ -35,6 +36,7 @@ function AdvertDetail() {
   const [deleteAdvert,{isError:isDeleteError, isLoading:isDeleteLoading}] = useDeleteAdvertMutation()
   const [setFavAdvert,{isError:isFavError, isLoading:isFavLoading}] = useSetAdvertFavMutation()
   const [deleteFavAdvert,{isError:isFavDeleteError, isLoading:isFavDeleteLoading}] = useRemoveAdvertFavMutation()
+  const [newOrder] = useNewOrderMutation()
   const [isEdit, setEdit] = useState(false);
 
   useEffect(() => {
@@ -78,6 +80,20 @@ function AdvertDetail() {
     }}
   };
 
+
+  const handleBuy= async () => {
+    if(advert){
+    try {
+      const advertId = advert._id
+      await newOrder(advertId).unwrap();
+      navigate("/")
+      console.log("Anuncio favorito");
+    } catch (err) {
+      console.log("Error al marcar como favorito");
+    }}
+  };
+
+
   const handleDeleteFav= async () => {
     if(advert){
     try {
@@ -98,7 +114,7 @@ function AdvertDetail() {
     isEdit ? (
       <Editadvert />
     ) : (
-      <div>
+      <div className="text-darkblue">
         <h1 className="material-symbols-outlined text-darkblue">
           {advert.title}
         </h1>
@@ -109,6 +125,7 @@ function AdvertDetail() {
         <button onClick={handleDelete}>Borrar</button>
         <button onClick={handleDeleteFav}>Eliminar de favoritos</button>
         <button onClick={handleFav}>Añadir a favoritos</button>
+        <button onClick={handleBuy}>Comprar</button>
 
       </div>
     )

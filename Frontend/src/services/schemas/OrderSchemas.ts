@@ -1,7 +1,10 @@
 export type Order = {
     buyerId: string,
         sellerId: string,
-        advertId: string,
+        advertId: {_id:string,
+            title:string,
+            price:number
+        }
         price: number,
         commission: number,
         paymentStatus: "pending" | "completed",

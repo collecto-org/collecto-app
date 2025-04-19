@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import './styles/index.css'
 import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Layout from './componentsUI/layouts/Layout.tsx';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
 import "@material/web/all.js"; // registra todos los componentes

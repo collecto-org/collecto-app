@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { userApi } from "../../services/usersApi";
 import { User } from "../../services/schemas/UserSchemas";
+import { authApi } from "@/services/authApi";
 
 const initialState: User = {
   username: '',
@@ -11,6 +12,7 @@ const initialState: User = {
   location: undefined,
   avatarUrl: undefined,
   bio: undefined,
+  isLogged: false,
 };
 
   
@@ -41,6 +43,13 @@ const initialState: User = {
                     state.location = action.payload.location;
                     state.avatarUrl = action.payload.avatarUrl;
                     state.bio = action.payload.bio;
+                    state.isLogged = true
+                }
+            )
+            .addMatcher(
+                authApi.endpoints.logout.matchFulfilled, 
+                () => {
+                    return initialState
                 }
             )
             .addMatcher(
@@ -56,8 +65,14 @@ const initialState: User = {
             )
             .addMatcher(
                 userApi.endpoints.deleteMe.matchFulfilled, 
-                (state) => {
-                    state = { ...initialState }; 
+                () => {
+                    return initialState
+                }
+            )
+            .addMatcher(
+                authApi.endpoints.login.matchFulfilled, 
+                (state) => {                    
+                    state.isLogged = true
                 }
             )
             

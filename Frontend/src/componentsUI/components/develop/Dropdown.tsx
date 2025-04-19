@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, ReactNode, ReactElement } from "react";
+import React, { useState, useRef, useEffect,  ReactElement } from "react";
 
 interface DropdownItemProps {
   children: string;
@@ -44,19 +44,22 @@ export default function Dropdown({ label, children, onToggle, onSelect }: Dropdo
         {label}
       </button>
       {open && (
-        <div className="absolute left-0 mt-0 w-48 bg-white border border-lightgray rounded-md shadow-lg z-10">
-        {
-          React.Children.map(children, (child) => {
-            if (React.isValidElement<DropdownItemProps>(child)) {
-              return React.cloneElement(child, {
-                onClick: () => handleItemClick(child.props.children)
-              });
+  <div className="absolute left-0 mt-0 w-48 bg-white border border-lightgray rounded-md shadow-lg z-10">
+    {
+      React.Children.map(children, (child) => {
+        if (React.isValidElement<DropdownItemProps>(child)) {
+          return React.cloneElement(child, {
+            onClick: () => {
+              child.props.onClick?.(); // ✅ importante: ejecuta handleLogout o cualquier otro onClick que hayas pasado
+              handleItemClick(child.props.children); // si quieres que se cierre el menú o se dispare onSelect
             }
-            return child;
-          })
+          });
         }
-      </div>
-      )}
+        return child;
+      })
+    }
+  </div>
+)}
     </div>
   );
 }

@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { setFilter } from "@/store/slices/advertsSlice";
+import  { useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface FiltersSidebarProps {
   title: string;
@@ -8,15 +10,17 @@ interface FiltersSidebarProps {
 
 export default function FiltersSidebar({ title, options, onSelect }: FiltersSidebarProps) {
   const [selected, setSelected] = useState<string | null>(null);
+  const dispatch = useDispatch()
+ 
 
   const handleClick = (option: string) => {
     setSelected(option);
+    if(option === "Todos"){
+      dispatch(setFilter({product_type:""}))} 
+    else if(option){
+      console.log(option)
+      dispatch(setFilter({product_type:option}))} 
     onSelect?.(option);
-  };
-
-  const handleReset = () => {
-    setSelected(null);
-    onSelect?.(null);
   };
 
   return (

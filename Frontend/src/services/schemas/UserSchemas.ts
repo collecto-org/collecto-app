@@ -7,5 +7,6 @@ export type User = {
       location?: string;
       avatarUrl?: string;
       bio?: string;
+      isLogged: boolean;
 }
 

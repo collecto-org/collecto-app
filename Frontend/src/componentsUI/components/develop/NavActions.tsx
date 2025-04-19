@@ -4,7 +4,7 @@ import MaterialButton from "../../components/MaterialButton";
 import { User } from "@/services/schemas/UserSchemas";
 
 export default function NavActions(user:{user:User}) {
-  if (!user) {
+  if (!user.user.username) {
     return (
         <div className="flex gap-2">
 

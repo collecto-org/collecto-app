@@ -58,6 +58,7 @@ export default function HomePage() {
 ];
 
  const sideBarMenu = [
+      "Todos",
       "Estatuas y réplicas",
       "Figuras de acción",
       "Funko Pop!",

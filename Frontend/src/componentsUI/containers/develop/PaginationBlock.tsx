@@ -1,6 +1,5 @@
 import SearchControls from "../../components/develop/SearchControls";
 import PaginationControls from "../../components/develop/PaginationControls";
-import { UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 
 
 

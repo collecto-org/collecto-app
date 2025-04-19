@@ -17,7 +17,7 @@ export const ordersApi = createApi({
   endpoints: (builder) => ({
     getMyOrders: builder.query<Order[], {}>({
       query: () => ({
-        url: `/api/users/me/notifications/favorite-status-change`,
+        url: `/api/orders/user/me`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -37,12 +37,12 @@ export const ordersApi = createApi({
     }),
     newOrder: builder.mutation<NewOrder, AdvertId>({
       query: (advertId) => ({
-        url: `/api/users/me/notifications/favorite-status-change`,
+        url: `/api/orders`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: advertId,
+        body: JSON.stringify({ advertId }), 
         method: "POST",
       }),
     }),
