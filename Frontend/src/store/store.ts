@@ -8,6 +8,8 @@ import { advertsApi } from "../services/advertsApi";
 import { userApi } from "../services/usersApi";
 import { notificationApi } from "@/services/notificationsApi";
 import { ordersApi } from "@/services/ordersApi";
+import { paymentsApi } from "@/services/paymentsApi";
+import { shipmentsApi } from "@/services/shipmentsApi";
 
 export const store = configureStore({
     reducer: {
@@ -21,6 +23,8 @@ export const store = configureStore({
         [userApi.reducerPath]: userApi.reducer,
         [notificationApi.reducerPath]:notificationApi.reducer,
         [ordersApi.reducerPath]:ordersApi.reducer,
+        [paymentsApi.reducerPath]:paymentsApi.reducer,
+        [shipmentsApi.reducerPath]:shipmentsApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -29,6 +33,8 @@ export const store = configureStore({
     .concat(userApi.middleware)
     .concat(notificationApi.middleware)
     .concat(ordersApi.middleware)
+    .concat(paymentsApi.middleware)
+    .concat(shipmentsApi.middleware)
 
 });
 
