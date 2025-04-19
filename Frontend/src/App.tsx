@@ -4,7 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import ConfirmEmail from "./componentsUI/containers/ConfirmEmail";
 import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
 import ChangePassPage from "./componentsUI/containers/ChangePassPage";
-import AdvertDetail from "./temporal-components/AdvertDetail";
+//import AdvertDetail from "./temporal-components/AdvertDetail";
+import AdvertDetailPage from "./componentsUI/pages/develop/AdvertDetailPage";
 import NewAdvert from "./componentsUI/pages/NewAdvert";
 import { useDispatch } from "react-redux";
 import { useGetMeQuery } from "./services/usersApi";
@@ -17,7 +18,14 @@ import MyAdvertsFavGrid from "./temporal-components/MyAdvertsFavGrid";
 import { useGetNotificationsQuery } from "./services/notificationsApi";
 import { NotificationView } from "./temporal-components/NotificationView";
 import HomePage from "./componentsUI/pages/develop/HomePage";
-import UniversePage from "./componentsUI/pages/develop/UniversePage";
+
+import UniversePage from "./componentsUI/pages/develop/UniversePage"
+import ChatPage from "./componentsUI/pages/develop/ChatPage"
+import RatingsPage from "./componentsUI/pages/develop/RatingPage";
+import Orderpage from "./componentsUI/pages/develop/RatingPage";
+import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage";
+import UserProfilePage1 from "./componentsUI/pages/develop/UserProfilePage";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -35,8 +43,16 @@ function App() {
 
       <Route path="/universe/:slug" element={<UniversePage />} />
 
-      <Route path="/adverts/:slug" element={<AdvertDetail />} />
-      <Route path="/new-advert" element={<NewAdvert />} />
+
+      <Route path="/adverts/:slug" element={<AdvertDetailPage/>}/>
+      <Route path="/UserProfile" element={<UserProfilePage/>}/>
+      <Route path="/UserProfilePage1" element={<UserProfilePage1/>}/>
+
+      <Route path="/new-advert" element={<NewAdvert/>}/>
+
+
+
+
 
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
@@ -47,10 +63,15 @@ function App() {
 
       <Route path="/editMe" element={<Edituser />} />
       <Route path="/adverts/me" element={<MyAdvertsGrid />} />
-      <Route path="/adverts/favorites" element={<MyAdvertsFavGrid />} />
-      <Route path="/notifications" element={<NotificationView />} />
-    </Routes>
-  );
+
+      <Route path="/adverts/favorites" element={<MyAdvertsFavGrid/>} />
+      <Route path="/notifications" element={<NotificationView/>} />
+      <Route path="/chat/:userId" element={<ChatPage />} />
+      <Route path="/ratings/:userId" element={<RatingsPage />} />
+      <Route path="/Orderpage" element={<Orderpage />} />
+      </Routes>
+  )
+
 }
 
 export default App;

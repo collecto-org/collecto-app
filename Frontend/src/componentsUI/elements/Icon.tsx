@@ -5,6 +5,16 @@ import {
   FaRegCommentDots,
   FaRegEnvelope,
   FaHeart,
+  FaEdit,
+  FaTrash,
+  FaUser,
+  FaMapPin,
+  FaCreditCard,
+  FaFileArchive,
+  FaList,
+  FaHelicopter,
+  FaCalendar,
+  
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 
@@ -14,6 +24,15 @@ const icons: Record<string, IconType> = {
   bell: FaRegBell,
   chat: FaRegCommentDots,
   mail: FaRegEnvelope,
+  Edit: FaEdit, 
+  Trash: FaTrash,
+  user: FaUser,
+  mapPin: FaMapPin, 
+  creditCard: FaCreditCard,
+  fileText: FaFileArchive, 
+  list:FaList, 
+  helpCircle:FaHelicopter, 
+  calendar: FaCalendar,
 };
 
 interface IconProps {
@@ -21,9 +40,17 @@ interface IconProps {
   size?: number;
   className?: string;
   onClick?: () => void;
+  active?: boolean;
 }
 
-export default function Icon({ name, size = 20, className, onClick }: IconProps) {
-  const Component = icons[name];
-  return <Component size={size} className={className} onClick={onClick} />;
+export default function Icon({ name, size = 20, className, onClick, active }: IconProps) {
+
+  const Component = active && name === "heart" ? icons["heartFilled"] : icons[name];
+  return (
+  <Component 
+    size={size} 
+    className={className} 
+    onClick={onClick} 
+    style={{ cursor: onClick ? "pointer" : "default"}}
+    />);
 }

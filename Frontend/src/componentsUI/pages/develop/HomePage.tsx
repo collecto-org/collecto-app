@@ -25,6 +25,7 @@ const banners = [
 ];
 
 const logosBanner = [
+
   "/logos/universos/disney.png",
   "/logos/universos/marvel.png",
   "/logos/universos/harry-potter.png",
@@ -35,6 +36,7 @@ const logosBanner = [
   "/logos/universos/dragon-ball.png",
   "/logos/universos/dc.png",
   "/logos/universos/the-transformers.png",
+
 ];
 
 const universeLogos = [
@@ -118,6 +120,7 @@ export default function HomePage() {
         backgroundImages={banners}
         text="Estás a una búsqueda de completar tu colección"
         highlights={["búsqueda", "colección"]}
+
         height="h-80 md:h-96"
         logos={universeLogos}
       />
@@ -139,6 +142,7 @@ export default function HomePage() {
           />
         </section>
       </div>
+
 
       <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
         <AdvertSlider title="Nuevos lanzamientos" products={adverts} />

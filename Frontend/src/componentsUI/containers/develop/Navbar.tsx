@@ -14,6 +14,7 @@ export default function Navbar() {
   const user = useSelector((state: RootState) => selectUser(state));
 
   return (
+
     <nav className="fixed top-0 left-0 w-full z-50 bg-white text-darkblue shadow-md flex justify-between items-center py-0 px-4">
       <div className="flex items-end p-2">
         <Logo
@@ -26,6 +27,7 @@ export default function Navbar() {
       </div>
       <div className="flex-1 max-w-lg">
         <SearchBar
+
           placeholder="Busca en todos los universos"
           value={query}
           onChange={setQuery}
