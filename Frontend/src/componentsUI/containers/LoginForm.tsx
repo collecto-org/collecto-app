@@ -11,6 +11,7 @@ import "../../styles/index copy.css"
 import { ApiError } from "../../services/schemas/AdvertsSchemas"
 
 import { useState } from "react"
+import {  useLazyGetMeQuery } from "@/services/usersApi"
 const schema = z.object({
   username: z.string().min(3,"El nombre de usuario es obligatorio"),
   password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
@@ -33,7 +34,7 @@ function LoginForm() {
 
   const [login,{isLoading}] = useLoginMutation()
   const [loginError, setLoginError] = useState<string | null>(null)
-
+const [trigger,] = useLazyGetMeQuery()
   const navigate = useNavigate()
 
 
@@ -42,8 +43,10 @@ function LoginForm() {
   const onSubmit = async (data: { username: string; password: string; rememberMe: boolean }) => {
     try {
        await login(data).unwrap();
+       trigger({})
        navigate("/")
     } catch (err) {
+      console.log(err)
       const apiError = err as ApiError;
       setLoginError(apiError?.data?.message ?? "Error desconocido")    }
   };

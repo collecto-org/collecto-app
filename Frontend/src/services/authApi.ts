@@ -1,4 +1,5 @@
 import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+import { LoginResponse, LoginSchema } from "./schemas/AuthSchemas";
 
 export const authApi = createApi({
     reducerPath:"authApi",
@@ -6,7 +7,7 @@ export const authApi = createApi({
         baseUrl:import.meta.env.VITE_API_URL
     }),
     endpoints:(builder) => ({
-        login:builder.mutation<{data:{user:{id:string; username:string;email:string;},message:string;}} ,{username:string; password:string; rememberMe:boolean}>({
+        login:builder.mutation<LoginResponse ,LoginSchema>({
             query:(credentials) => ({
                 url:"/api/auth/login",
                 method:"POST",

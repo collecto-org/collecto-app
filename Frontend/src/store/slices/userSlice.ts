@@ -12,6 +12,7 @@ const initialState: User = {
   location: undefined,
   avatarUrl: undefined,
   bio: undefined,
+  isLogged: false,
 };
 
   
@@ -42,6 +43,7 @@ const initialState: User = {
                     state.location = action.payload.location;
                     state.avatarUrl = action.payload.avatarUrl;
                     state.bio = action.payload.bio;
+                    state.isLogged = true
                 }
             )
             .addMatcher(
@@ -65,6 +67,12 @@ const initialState: User = {
                 userApi.endpoints.deleteMe.matchFulfilled, 
                 () => {
                     return initialState
+                }
+            )
+            .addMatcher(
+                authApi.endpoints.login.matchFulfilled, 
+                (state) => {                    
+                    state.isLogged = true
                 }
             )
             

@@ -27,7 +27,7 @@ export default function NavIcons(user: { user: User }) {
 
       <div className="relative">
       <Link
-          to="/adverts/favorites"
+          to="/notifications" 
           className="text-darkblue hover:text-coral"
         >
         <Icon

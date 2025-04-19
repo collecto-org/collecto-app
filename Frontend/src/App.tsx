@@ -22,17 +22,20 @@ import UniversePage from "./componentsUI/pages/develop/UniversePage"
 import ChatPage from "./componentsUI/pages/develop/ChatPage"
 import RatingsPage from "./componentsUI/pages/develop/RatingPage";
 import Orderpage from "./componentsUI/pages/develop/RatingPage";
+import AdvertDetail from "./temporal-components/AdvertDetail";
+import { MyOrders } from "./temporal-components/myOrdersJosemi";
 
 
 
 function App() { 
   const dispatch = useDispatch()
   const { data: user } = useGetMeQuery({});
-   useGetNotificationsQuery({})
+const { refetch }= useGetNotificationsQuery({})
  
   useEffect(()=>{
     if(user){
       dispatch(setUser(user))
+      refetch()
     }
   },[user,dispatch])
 
@@ -54,13 +57,14 @@ function App() {
       <Route path="/verify-email/:token" element={<ConfirmEmail />} />
       
 
-      <Route path="/editMe" element={<Edituser />} />
+      <Route path="/edit-me" element={<Edituser />} />
       <Route path="/adverts/me" element={<MyAdvertsGrid />} />
       <Route path="/adverts/favorites" element={<MyAdvertsFavGrid/>} />
       <Route path="/notifications" element={<NotificationView/>} />
       <Route path="/chat/:userId" element={<ChatPage />} />
       <Route path="/ratings/:userId" element={<RatingsPage />} />
       <Route path="/Orderpage" element={<Orderpage />} />
+      <Route path="/my-orders" element={<MyOrders/>} />
       </Routes>
   )
 }

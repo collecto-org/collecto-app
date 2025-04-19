@@ -36,6 +36,10 @@ export const advertsApi = createApi({
     getAllAdverts: builder.query<{adverts:Advert[]; total:string},  FilterAdverts >({
       query: (filters) => ({
         url: `/api/adverts`,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
         method: "GET",
         params:filters
 
@@ -44,6 +48,10 @@ export const advertsApi = createApi({
     getAdvertDetail: builder.query<Advert, { slug: string }>({
       query: ({ slug }) => ({
         url: `/api/adverts/${slug}`,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
         method: "GET",
       }),
     }),
