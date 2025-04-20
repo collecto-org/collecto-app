@@ -34,6 +34,15 @@ body {
   --md-sys-color-on-surface: var(--white);
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE y Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 /*fonts*/
 
 /*lato*/
@@ -230,18 +239,12 @@ h1 {
 }
 
 button {
-
-
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
 
   cursor: pointer;
-
 }
-
-
-
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -252,7 +255,6 @@ button {
     color: #747bff;
   }
 }
-
 
 /* tailwind.config.js o archivo global */
 .no-scrollbar::-webkit-scrollbar {
