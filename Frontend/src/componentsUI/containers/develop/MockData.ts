@@ -207,7 +207,7 @@ export const logosBanner = [
   "/gridImages/harry-potter.jpg",
   "/gridImages/marvel.jpg",
   "/gridImages/nintendo.jpg",
-  "/gridImages/pokemon.jpeg",
+  "/gridImages/pokemon.jpg",
   "/gridImages/star-wars.jpg",
   "/gridImages/disney.jpg",
   "/gridImages/the-lord-of-the-ring.jpg",
@@ -225,6 +225,21 @@ export const universeLogos = [
   "/logos/universos/dragon-ball.png",
   "/logos/universos/dc.png",
   "/logos/universos/the-transformers.png",
+];
+
+export const brandLogos = [
+  "/logos/marcas/banday-spirits.png",
+  "/logos/marcas/diamond-select-toys.png",
+  "/logos/marcas/mcfarlane-toys.png",
+  "/logos/marcas/lego.png",
+  "/logos/marcas/iron-studios.png",
+  "/logos/marcas/funko.png",
+  "/logos/marcas/threezero.png",
+  "/logos/marcas/hot-toys.png",
+  "/logos/marcas/sideshow.png",
+  "/logos/marcas/hasbro.png",
+  "/logos/marcas/figma-action-figure-series.png",
+  "/logos/marcas/good-smile-company.png",
 ];
 
 export const sideBarMenu = [

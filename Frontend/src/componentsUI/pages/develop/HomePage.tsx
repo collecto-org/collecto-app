@@ -10,9 +10,11 @@ import { useGetAllAdvertsQuery } from "@/services/advertsApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { useEffect, useState } from "react";
 import { ApiError } from "@/services/schemas";
+import BrandCarousel from "../../components/develop/BrandCarousel";
 import {
   logosBanner,
   universeLogos,
+  brandLogos,
   sideBarMenu,
 } from "../../containers/develop/MockData";
 
@@ -87,11 +89,25 @@ export default function HomePage() {
                   />
           */}
 
-          <ImageGrid
-            logos={universeLogos}
-            columns={8}
-            width={170}
-            height={80}
+          <BrandCarousel
+            logos={brandLogos}
+            width={90}
+            height={90}
+            onClickLogo={(src) => {
+              const slug = src
+                .split("/")
+                .pop()
+                ?.replace(".svg", "")
+                .toLowerCase();
+              navigate(`/universe/${slug}`);
+            }}
+          />
+
+          {/* <ImageGrid
+            logos={brandLogos}
+            columns={10}
+            width={90}
+            height={90}
             // onClickLogo={(src) => {
             //   const slug = src
             //     .split("/")
@@ -100,7 +116,7 @@ export default function HomePage() {
             //     .toLowerCase();
             //   navigate(`/universe/${slug}`);
             // }}
-          />
+          /> */}
         </section>
       </div>
 

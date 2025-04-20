@@ -12,7 +12,7 @@ export default function ImageGrid({
   logos,
   columns = 4,
   onClickLogo,
-  width = 180,
+  width = 80,
   height,
 }: ImageGridProps) {
   return (
@@ -28,7 +28,7 @@ export default function ImageGrid({
             alt={`Logo ${i}`}
             width={width + 5}
             height={height ? height + 5 : undefined}
-            className="bg-white/50 rounded-sm border border-white hover:scale-105 hover:drop-shadow-[0_0_3px_#fff] transition duration-200"
+            className="hover:scale-110 hover:drop-shadow-[0_0_3px_#fff] transition duration-200"
             onClick={() => onClickLogo?.(logoSrc)}
           />
         ))}
