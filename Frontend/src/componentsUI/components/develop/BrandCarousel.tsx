@@ -27,7 +27,7 @@ export default function BrandCarousel({
       {/* Flechas de navegación: visibles desde sm en adelante */}
       <button
         onClick={() => scrollBy("left")}
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-30 hidden sm:flex items-center justify-center bg-[#1d313c] text-white rounded-full w-9 h-9 shadow hover:scale-105 transition"
+        className="absolute left-2 top-1/2 -translate-y-1/2 z-30 hidden sm:flex items-center justify-center bg-[#1d313c]/40 text-white rounded-full w-9 h-9 shadow hover:scale-105 transition"
         aria-label="Scroll left"
       >
         <svg
@@ -42,7 +42,7 @@ export default function BrandCarousel({
 
       <button
         onClick={() => scrollBy("right")}
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-30 hidden sm:flex items-center justify-center bg-[#1d313c] text-white rounded-full w-9 h-9 shadow hover:scale-105 transition"
+        className="absolute right-2 top-1/2 -translate-y-1/2 z-30 hidden sm:flex items-center justify-center bg-[#1d313c]/40 text-white rounded-full w-9 h-9 shadow hover:scale-105 transition"
         aria-label="Scroll right"
       >
         <svg
