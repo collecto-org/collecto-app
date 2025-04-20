@@ -151,7 +151,22 @@ const advertsSlice = createSlice({
           state.loading = false;
         }
       )
-      
+      .addMatcher(       
+        userApi.endpoints.setAdvertFav.matchFulfilled,
+      (state) => {
+        if (state.selectedAdvert) {
+          state.selectedAdvert.isFavorite = true;
+        }
+      }
+      )
+      .addMatcher(       
+        userApi.endpoints.removeAdvertFav.matchFulfilled,
+      (state) => {
+        if (state.selectedAdvert) {
+          state.selectedAdvert.isFavorite = false;
+        }
+      }
+      )
   },
 });
 

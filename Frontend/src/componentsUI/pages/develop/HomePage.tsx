@@ -18,6 +18,7 @@ import {
   sideBarMenu,
 } from "../../containers/develop/MockData";
 
+
 export default function HomePage() {
   const navigate = useNavigate();
   const { adverts, total } = useSelector(
@@ -38,14 +39,20 @@ export default function HomePage() {
     limit: skip,
   };
 
+
   const { isLoading, isError, error, refetch } =
     useGetAllAdvertsQuery(filterProducts);
+
 
   useEffect(() => {
     if (adverts.length === 0) {
       refetch();
     }
+
+  },[adverts.length])
+
   }, adverts);
+
 
   if (isError) {
   }
@@ -62,6 +69,7 @@ export default function HomePage() {
       </div>
     );
   }
+  if(universe ){
   return (
     <MainLayout>
       <Banner
@@ -93,6 +101,7 @@ export default function HomePage() {
             logos={brandLogos}
             width={90}
             height={90}
+
             onClickLogo={(src) => {
               const slug = src
                 .split("/")
@@ -126,5 +135,5 @@ export default function HomePage() {
         <AdvertSlider title="Ver todos los artículos" products={adverts} />
       </div>
     </MainLayout>
-  );
+  );}
 }

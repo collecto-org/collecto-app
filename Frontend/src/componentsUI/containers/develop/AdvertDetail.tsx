@@ -12,18 +12,17 @@ import { Advert } from "@/services/schemas/AdvertsSchemas";
 
 interface AdvertDetailProps {
   advert:Advert;
-  onEdit?: () => void;
+  onEdit?: () => void ;
   onDelete?: () => void;
-  onAddToFav?: () => void;
-  onRemoveFromFav?: () => void;
+  onToggleFav?: () => void;
+ 
 }
 
 export default function AdvertDetail({
   advert,
   onEdit,
   onDelete,
-  onAddToFav,
-  onRemoveFromFav,
+  onToggleFav,
 }: AdvertDetailProps) {
 
   const {
@@ -76,9 +75,9 @@ export default function AdvertDetail({
             </div>
             <div>
             <ActionBar 
-              onEdit={()=>{}} 
-              onDelete={()=>{}} 
-              onToggleFav={()=>{}} 
+              onEdit={onEdit} 
+              onDelete={onDelete} 
+              onToggleFav={ onToggleFav} 
               isFavorite={isFavorite}
             />
             </div>
