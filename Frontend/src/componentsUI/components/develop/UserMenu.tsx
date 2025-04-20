@@ -52,6 +52,12 @@ export default function UserMenu(user: { user: User }) {
         <Dropdown.Item onClick={() => navigate("/userprofile")}>
           Mi perfil
         </Dropdown.Item>
+
+        <Dropdown.Item onClick={() => navigate("/catalogmanager")}>
+        Administrar catálogos
+        </Dropdown.Item>
+
+        
         <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
       </Dropdown>
     </div>

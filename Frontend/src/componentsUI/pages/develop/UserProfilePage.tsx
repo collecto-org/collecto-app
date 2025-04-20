@@ -1,13 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import MainLayout from "@/componentsUI/layouts/MainLayout";
 import Icon from "@/componentsUI/elements/Icon";
 import Button from "@/componentsUI/elements/Button";
 
-
-
 export default function UserProfilePage() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  const [activeSection, setActiveSection] = useState("Mi Perfil");
 
   const user = {
     avatar: "https://github.com/mdo.png",
@@ -21,7 +20,6 @@ export default function UserProfilePage() {
     <MainLayout>
       {/* Notificaciones y Chat - flotantes */}
       <div className="mt-10 absolute top-4 right-4 flex gap-4 z-50">
-        {/* Notificaciones */}
         <div className="relative">
           <Icon
             name="bell"
@@ -43,7 +41,6 @@ export default function UserProfilePage() {
           )}
         </div>
 
-        {/* Chat */}
         <div className="relative">
           <Icon
             name="chat"
@@ -79,10 +76,14 @@ export default function UserProfilePage() {
               { icon: "fileText", label: "Datos de facturación" },
               { icon: "list", label: "Historial de pedidos" },
               { icon: "helpCircle", label: "Preguntas frecuentes" },
+              { icon: "database", label: "Mis datos" },
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-center gap-2 hover:underline cursor-pointer"
+                onClick={() => setActiveSection(item.label)}
+                className={`flex items-center gap-2 hover:underline cursor-pointer ${
+                  activeSection === item.label ? "font-bold underline" : ""
+                }`}
               >
                 <Icon name={item.icon as any} size={20} />
                 <span>{item.label}</span>
@@ -90,55 +91,68 @@ export default function UserProfilePage() {
             ))}
           </aside>
 
-          {/* Perfil */}
+          {/* Sección derecha dinámica */}
           <section className="w-full md:w-3/4 bg-white rounded-lg p-6 shadow space-y-4">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-4">
-                <img
-                  src={user.avatar}
-                  alt="avatar"
-                  className="w-16 h-16 rounded-full object-cover border"
-                />
-                <div>
-                  <p className="text-gray-600 text-sm">Hola</p>
-                  <h2 className="text-xl font-bold text-darkblue uppercase">{user.firstName}</h2>
+            {activeSection === "Mi Perfil" && (
+              <>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={user.avatar}
+                      alt="avatar"
+                      className="w-16 h-16 rounded-full object-cover border"
+                    />
+                    <div>
+                      <p className="text-gray-600 text-sm">Hola</p>
+                      <h2 className="text-xl font-bold text-darkblue uppercase">{user.firstName}</h2>
+                    </div>
+                  </div>
+                  <Button variant="turquoise">Editar</Button>
                 </div>
-              </div>
-              <Button variant="turquoise">Editar</Button>
-            </div>
 
-            <hr />
+                <hr />
 
-            <div className="space-y-2 text-sm text-darkblue">
-              <div className="flex items-center gap-2">
-                <Icon name="mail" size={18} />
-                <div>
-                  <p className="text-sage text-xs">Correo electrónico</p>
-                  <p>{user.email}</p>
+                <div className="space-y-2 text-sm text-darkblue">
+                  <div className="flex items-center gap-2">
+                    <Icon name="mail" size={18} />
+                    <div>
+                      <p className="text-sage text-xs">Correo electrónico</p>
+                      <p>{user.email}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Icon name="user" size={18} />
+                    <div>
+                      <p className="text-sage text-xs">Nombre</p>
+                      <p>{user.firstName}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Icon name="user" size={18} />
+                    <div>
+                      <p className="text-sage text-xs">Apellidos</p>
+                      <p>{user.lastName}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Icon name="calendar" size={18} />
+                    <div>
+                      <p className="text-sage text-xs">Fecha de nacimiento</p>
+                      <p>{user.birthdate}</p>
+                    </div>
+                  </div>
                 </div>
+              </>
+            )}
+
+            {activeSection === "Mis datos" && (
+              <div>
+                <h2 className="text-xl font-bold text-darkblue mb-4">Mis datos</h2>
+                <p className="text-sm text-gray-600">
+                  Aquí irá el formulario o la tabla para capturar y gestionar tus datos.
+                </p>
               </div>
-              <div className="flex items-center gap-2">
-                <Icon name="user" size={18} />
-                <div>
-                  <p className="text-sage text-xs">Nombre</p>
-                  <p>{user.firstName}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon name="user" size={18} />
-                <div>
-                  <p className="text-sage text-xs">Apellidos</p>
-                  <p>{user.lastName}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon name="calendar" size={18} />
-                <div>
-                  <p className="text-sage text-xs">Fecha de nacimiento</p>
-                  <p>{user.birthdate}</p>
-                </div>
-              </div>
-            </div>
+            )}
           </section>
         </div>
       </div>
