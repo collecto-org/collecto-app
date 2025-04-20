@@ -7,7 +7,7 @@ export const conditionsApi = createApi({
     { baseUrl: import.meta.env.VITE_API_URL }),
   tagTypes: ['conditions'], // 
   endpoints: (builder) => ({
-    getConditions: builder.query<ConditionSchema, void>({
+    getConditions: builder.query<ConditionSchema[], void>({
       query: () => '/api/conditions',
       providesTags: ['conditions'], // 
     }),

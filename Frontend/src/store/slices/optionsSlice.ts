@@ -1,5 +1,6 @@
 import { brandsApi } from "@/services/brandsApi";
 import { collectionsApi } from "@/services/collectionsApi";
+import { conditionsApi } from "@/services/conditionsApi";
 import { productTypesApi } from "@/services/productTypesApi";
 import { BrandSchema, CollectionSchema, ConditionSchema, ProductTypeSchema, ShippingMethodSchema, TransactionSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
 import { shippingMethodsApi } from "@/services/shipmentMethodsApi";
@@ -84,6 +85,12 @@ const optionsSlice = createSlice({
         transactionsApi.endpoints.getTransactions.matchFulfilled,
         (state, action) => {
           state.transactions= action.payload
+        }
+      )
+      .addMatcher(
+        conditionsApi.endpoints.getConditions.matchFulfilled,
+        (state, action) => {
+          state.conditions= action.payload
         }
       )
   },
