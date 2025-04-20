@@ -1,7 +1,9 @@
+import { BrandSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
 import Logo from "../../elements/Logo";
+import { universeLogos } from "@/componentsUI/containers/develop/MockData";
 
 interface ImageGridProps {
-  logos: string[];
+  logos: BrandSchema[] | UniverseSchema[];
   columns?: number;
   onClickLogo?: (src: string) => void;
   width?: number;
@@ -24,12 +26,12 @@ export default function ImageGrid({
         {logos.map((logoSrc, i) => (
           <Logo
             key={i}
-            src={logoSrc}
+            src={logoSrc.logoUrl || universeLogos[0]}
             alt={`Logo ${i}`}
             width={width}
             height={height}
             className="border border-white hover:scale-110 hover:drop-shadow-[0_0_6px_#e8796e] transition duration-200"
-            onClick={() => onClickLogo?.(logoSrc)}
+            onClick={() => onClickLogo?.(logoSrc.logoUrl|| universeLogos[0])}
           />
         ))}
       </div>

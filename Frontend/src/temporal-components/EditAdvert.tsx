@@ -6,6 +6,7 @@ import { selectSelectedAdvert } from "@/store/selectors/advertsSelectors";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { usePriceChangeMutation, useStatusChangeMutation } from "@/services/notificationsApi";
+import { Advert } from "@/services/schemas/AdvertsSchemas";
 
 const schema = z.object({
   title: z.string(),
@@ -24,10 +25,12 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-function Editadvert() {
-  const advertToedit = useSelector((state: RootState) =>
-    selectSelectedAdvert(state)
-  );
+type Props = {
+  advert:Advert
+}
+function Editadvert({...props}:Props) {
+  const advertToedit = props.advert
+  
   const originalAdvert = advertToedit
 
   const [Editadvert] = useEditAdvertMutation();

@@ -11,6 +11,8 @@ import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { useEffect, useState } from "react";
 import { ApiError } from "@/services/schemas";
 import { logosBanner, universeLogos, sideBarMenu } from "../../containers/develop/MockData"
+import { useGetBrandsQuery } from "@/services/brandsApi";
+import { useGetUniversesQuery } from "@/services/universesApi";
 
 
 
@@ -37,13 +39,14 @@ export default function HomePage() {
   };
 
   const { isLoading, isError, error,refetch } = useGetAllAdvertsQuery(filterProducts);
-
+  const {data:brands} = useGetBrandsQuery()
+  const {data:universe} = useGetUniversesQuery()
 
   useEffect(()=>{
     if(adverts.length === 0){
       refetch()
     }
-  },adverts)
+  },[adverts.length])
 
 
   if (isError) {
@@ -61,6 +64,7 @@ export default function HomePage() {
       </div>
     );
   }
+  if(universe ){
   return (
     <MainLayout>
       <Banner
@@ -92,7 +96,7 @@ export default function HomePage() {
 
           
           <ImageGrid
-            logos={universeLogos}
+            logos={universe }
             columns={8}
             width={170}
             height={80}
@@ -115,5 +119,5 @@ export default function HomePage() {
         <AdvertSlider title="Ver todos los artículos" products={adverts} />
       </div>
     </MainLayout>
-  );
+  );}
 }

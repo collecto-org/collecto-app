@@ -1,16 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Universe } from './schemas/UniverseSchemas';
+import { UniverseSchema } from './schemas/UniverseSchemas';
 
 export const universesApi = createApi({
   reducerPath: 'universesApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
   tagTypes: ['Universes'], // 
   endpoints: (builder) => ({
-    getUniverses: builder.query<Universe[], void>({
+    getUniverses: builder.query<UniverseSchema[], void>({
       query: () => '/universes',
-      providesTags: ['Universes'], // 
+      providesTags: ['Universes'], // Schema
     }),
-    createUniverse: builder.mutation<Universe, Partial<Universe>>({
+    createUniverse: builder.mutation<UniverseSchema, Partial<UniverseSchema>>({
       query: (newData) => ({
         url: '/universes',
         method: 'POST',
@@ -18,7 +18,7 @@ export const universesApi = createApi({
       }),
       invalidatesTags: ['Universes'], 
     }),
-    updateUniverse: builder.mutation<Universe, { id: string; data: Partial<Universe> }>({
+    updateUniverse: builder.mutation<UniverseSchema, { id: string; data: Partial<UniverseSchema> }>({
       query: ({ id, data }) => ({
         url: `/universes/${id}`,
         method: 'PUT',
