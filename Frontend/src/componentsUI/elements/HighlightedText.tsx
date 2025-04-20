@@ -5,7 +5,10 @@ interface HighlightedTextProps {
   highlights: string | string[];
 }
 
-export default function HighlightedText({ text, highlights }: HighlightedTextProps) {
+export default function HighlightedText({
+  text,
+  highlights,
+}: HighlightedTextProps) {
   const terms = Array.isArray(highlights) ? highlights : [highlights];
 
   const regex = new RegExp(`(${terms.join("|")})`, "gi");
@@ -15,7 +18,7 @@ export default function HighlightedText({ text, highlights }: HighlightedTextPro
     <>
       {parts.map((part, i) =>
         terms.includes(part) ? (
-          <span key={i} className="text-coral font-semibold">
+          <span key={i} className="text-coral font-bold">
             {part}
           </span>
         ) : (
