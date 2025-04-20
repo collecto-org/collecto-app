@@ -67,7 +67,7 @@ export default function BrandCarousel({
             alt={`Logo ${index}`}
             width={width}
             height={height}
-            className="shrink-0 bg-white border border-gray-200 rounded hover:scale-105 transition"
+            className="shrink-0 bg-white hover:scale-110 transition"
             onClick={() => onClickLogo?.(logo)}
           />
         ))}

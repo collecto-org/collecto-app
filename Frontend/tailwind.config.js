@@ -12,7 +12,7 @@ export default {
         cream: "#f0eee1",
         sage: "#72847f",
         darkblue: "#1d313c",
-        hospitalgreen: "#ACD9B2",
+        greengrey: "#72847f",
         lightgray: "#d2d4d5",
         pinklight: "#C7C7C7",
         fontSize: {
