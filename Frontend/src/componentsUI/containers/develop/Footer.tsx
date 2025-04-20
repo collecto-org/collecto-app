@@ -1,70 +1,79 @@
-import React from "react"
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa"
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
-    return (
-        <footer className="bg-cream text-darkblue text-[0.7rem] px-6 py-10 mt-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {/* sección 1 */}
-                <div>
-                    <h3 className="font-semibold mb-2">Collecto</h3>
-                    <ul className="space-y-1 text-gray-600"> 
-                        <li>Quienes somos</li>
-                        <li>Trabaja con nosotros</li>
-                        <li>Prensa</li>
-                    </ul>
-                </div>
-                
-                {/* sección 2 */}
-                <div>
-                    <h3 className="font-semibold mb-2">Descrubre</h3>
-                    <ul className="space-y-1 text-gray-600"> 
-                        <li>Cómo funciona</li>
-                        <li>Marcas destacadas</li>
-                        <li>Universos Populares</li>
-                    </ul>
-                </div>
-                
-                {/* sección 3 */}
-                <div>
-                    <h3 className="font-semibold mb-2">Ayuda</h3>
-                    <ul className="space-y-1 text-gray-600"> 
-                        <li>Centro de ayuda</li>
-                        <li>Contacto</li>
-                    </ul>
-                </div>
+  return (
+    <footer className="bg-cream text-darkblue text-xs px-4 sm:px-6 py-10 mt-12">
+      <div className="max-w-7xl mx-auto space-y-10">
+        {/* Grid de secciones */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-left">
+          <div>
+            <h3 className="font-semibold mb-2">Collecto</h3>
+            <ul className="space-y-1 text-darkblue/70">
+              <li>Quiénes somos</li>
+              <li>Trabaja con nosotros</li>
+              <li>Prensa</li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold mb-2">Descubre</h3>
+            <ul className="space-y-1 text-darkblue/70">
+              <li>Cómo funciona</li>
+              <li>Marcas destacadas</li>
+              <li>Universos Populares</li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold mb-2">Ayuda</h3>
+            <ul className="space-y-1 text-darkblue/70">
+              <li>Centro de ayuda</li>
+              <li>Contacto</li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold mb-2">Legal</h3>
+            <ul className="space-y-1 text-darkblue/70">
+              <li>Términos y condiciones</li>
+              <li>Aviso de privacidad</li>
+              <li>Política de cookies</li>
+            </ul>
+          </div>
+        </div>
 
-                {/* sección 4 */}
-                <div>
-                    <h3 className="font-semibold mb-2">Legal</h3>
-                    <ul className="space-y-1 text-gray-600"> 
-                        <li>Términos y condiciones</li>
-                        <li>Aviso de privacidad</li>
-                        <li>Política de cookies</li>
-                    </ul>
-                </div>
-                
-                {/* Separador */}
-                <div className="border-t border-lightgray my-6"></div>
+        {/* Línea divisoria */}
+        <div className="border-t border-lightgray" />
 
-                {/* Social y Copiright */}
-                <div className="flex flex-col md:flex-row items-center justify-between gasp-4">
-                  <div className="flex gap-4 text-gray-600 text-xl">
-                    <a href="#" className="hover:text-coral">
-                      <FaFacebook/>
-                    </a>
-                    <a href="#" className="hover:text-coral">
-                      <FaInstagram/>
-                    </a>
-                    <a href="#" className="hover:text-coral">
-                      <FaTwitter/>
-                    </a>
-                    <p className="text-gray-600 text-[0.7rem]">
-                      &copy; 2025 Collecto. Todos los derechos reservados.
-                     </p>
-                  </div>
-                </div>
-            </div>
-        </footer>
-    )
+        {/* Social icons + copyright */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="flex gap-3 justify-center sm:justify-start">
+            <a
+              href="#"
+              aria-label="Facebook"
+              className="p-2 rounded-full border border-darkblue transition hover:text-coral text-darkblue"
+            >
+              <FaFacebook className="w-4 h-4" />
+            </a>
+            <a
+              href="#"
+              aria-label="Instagram"
+              className="p-2 rounded-full border border-darkblue transition hover:text-coral text-darkblue"
+            >
+              <FaInstagram className="w-4 h-4" />
+            </a>
+            <a
+              href="#"
+              aria-label="Twitter / X"
+              className="p-2 rounded-full border border-darkblue transition hover:text-coral text-darkblue"
+            >
+              <FaTwitter className="w-4 h-4" />
+            </a>
+          </div>
+
+          <p className="text-[0.7rem] text-darkblue/60 text-center sm:text-right">
+            &copy; {new Date().getFullYear()} Collecto. Todos los derechos
+            reservados.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
 }

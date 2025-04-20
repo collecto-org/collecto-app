@@ -64,13 +64,15 @@ export default function HomePage() {
   }
   return (
     <MainLayout>
-      <Banner
-        backgroundImages={logosBanner}
-        text="Estás a una búsqueda de completar tu colección"
-        highlights={["búsqueda", "colección"]}
-        height="h-80 md:h-96"
-        logos={universeLogos}
-      />
+      <div className="pt-8">
+        <Banner
+          backgroundImages={logosBanner}
+          text="Estás a una búsqueda de completar tu colección"
+          highlights={["búsqueda", "colección"]}
+          height="h-70 md:h-96"
+          logos={universeLogos}
+        />
+      </div>
       <div className="max-w-7xl mx-auto px-4">
         <section className="my-4">
           {/*
@@ -89,19 +91,7 @@ export default function HomePage() {
                   />
           */}
 
-          <BrandCarousel
-            logos={brandLogos}
-            width={90}
-            height={90}
-            onClickLogo={(src) => {
-              const slug = src
-                .split("/")
-                .pop()
-                ?.replace(".svg", "")
-                .toLowerCase();
-              navigate(`/universe/${slug}`);
-            }}
-          />
+          <BrandCarousel logos={brandLogos} />
 
           {/* <ImageGrid
             logos={brandLogos}

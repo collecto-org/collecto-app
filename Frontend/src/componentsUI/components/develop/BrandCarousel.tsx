@@ -58,15 +58,15 @@ export default function BrandCarousel({
       {/* Contenedor de logos con scroll */}
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth px-4 sm:px-12 lg:scrollbar-hide"
+        className="flex gap-2 sm:gap-4 overflow-x-auto scroll-smooth px-4 sm:px-12 lg:scrollbar-hide"
       >
         {logos.map((logo, index) => (
           <Logo
             key={index}
             src={logo}
             alt={`Logo ${index}`}
-            width={width}
-            height={height}
+            width={90}
+            height={90}
             className="shrink-0 bg-white hover:scale-110 transition"
             onClick={() => onClickLogo?.(logo)}
           />
