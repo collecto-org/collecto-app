@@ -14,7 +14,8 @@ import {
   FaList,
   FaHelicopter,
   FaCalendar,
-  
+  FaDatabase,
+  FaSave,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 
@@ -33,6 +34,8 @@ const icons: Record<string, IconType> = {
   list:FaList, 
   helpCircle:FaHelicopter, 
   calendar: FaCalendar,
+  database: FaDatabase,
+  Save:FaSave,
 };
 
 interface IconProps {

@@ -23,6 +23,8 @@ import ChatPage from "./componentsUI/pages/develop/ChatPage"
 import RatingsPage from "./componentsUI/pages/develop/RatingPage";
 import Orderpage from "./componentsUI/pages/develop/RatingPage";
 import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage"
+import CatalogManagerPage from "./componentsUI/pages/develop/CatalogManagerPage"
+//import RequireAdmin from "@/componentsUI/layouts/RequireAdmin";
 
 import { MyOrders } from "./temporal-components/myOrdersJosemi";
 import AdvertDetailPage from "./componentsUI/pages/develop/AdvertDetailPage";
@@ -53,7 +55,17 @@ const { refetch }= useGetNotificationsQuery({})
 
       <Route path="/adverts/:slug" element={<AdvertDetailPage/>}/>
       <Route path="/userprofile" element={<UserProfilePage/>}/>
-
+      
+      <Route path="/catalogmanager" element={<CatalogManagerPage/>}/>
+      {/*<Route
+            path="/catalog-manager"
+            element={
+              <RequireAdmin>
+                <CatalogManagerPage />
+              </RequireAdmin>
+            }
+              
+/>*/}
 
       <Route path="/new-advert" element={<NewAdvert/>}/>
 
