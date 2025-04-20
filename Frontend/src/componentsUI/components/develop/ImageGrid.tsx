@@ -26,9 +26,9 @@ export default function ImageGrid({
             key={i}
             src={logoSrc}
             alt={`Logo ${i}`}
-            width={width}
-            height={height}
-            className="bg-white/50 rounded-sm border border-white hover:scale-105 hover:drop-shadow-[0_0_4px_#fff] transition duration-200"
+            width={width + 5}
+            height={height ? height + 5 : undefined}
+            className="bg-white/50 rounded-sm border border-white hover:scale-105 hover:drop-shadow-[0_0_3px_#fff] transition duration-200"
             onClick={() => onClickLogo?.(logoSrc)}
           />
         ))}

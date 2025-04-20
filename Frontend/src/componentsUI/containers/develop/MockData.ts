@@ -3,7 +3,7 @@ export const mockAdverts = [
     slug: "figura-goku-dragonball",
     title: "Figura Goku Dragon Ball",
     description: "Figura coleccionable de Goku en modo Super Saiyajin.",
-    price: 25.00,
+    price: 25.0,
     isForSale: true,
     isReserved: false,
     images: ["https://via.placeholder.com/300x300?text=Goku"],
@@ -13,14 +13,17 @@ export const mockAdverts = [
     collection: "Edición Especial 2024",
     manufacturer: "Bandai",
     tags: ["anime", "goku", "figura"],
-    author: { username: "coleccionista92", avatar: "https://via.placeholder.com/50x50?text=U1" },
-    createdAt: "2024-04-15T12:00:00Z"
+    author: {
+      username: "coleccionista92",
+      avatar: "https://via.placeholder.com/50x50?text=U1",
+    },
+    createdAt: "2024-04-15T12:00:00Z",
   },
   {
     slug: "carta-pokemon-pikachu",
     title: "Carta Pokémon Pikachu 1ra Edición",
     description: "Carta original Pikachu con holograma de la primera edición.",
-    price: 120.00,
+    price: 120.0,
     isForSale: true,
     isReserved: true,
     images: ["https://via.placeholder.com/300x300?text=Pikachu"],
@@ -30,14 +33,17 @@ export const mockAdverts = [
     collection: "Base Set",
     manufacturer: "Nintendo",
     tags: ["pokemon", "pikachu", "carta"],
-    author: { username: "pokemonfan", avatar: "https://via.placeholder.com/50x50?text=U2" },
-    createdAt: "2024-04-12T09:30:00Z"
+    author: {
+      username: "pokemonfan",
+      avatar: "https://via.placeholder.com/50x50?text=U2",
+    },
+    createdAt: "2024-04-12T09:30:00Z",
   },
   {
     slug: "comic-spiderman-1990",
     title: "Cómic Spiderman 1990",
     description: "Edición original de cómic de Spiderman del año 1990.",
-    price: 60.00,
+    price: 60.0,
     isForSale: false,
     isReserved: false,
     images: ["https://via.placeholder.com/300x300?text=Spiderman"],
@@ -47,14 +53,17 @@ export const mockAdverts = [
     collection: "Clásicos Marvel",
     manufacturer: "Marvel",
     tags: ["comic", "spiderman", "coleccion"],
-    author: { username: "marvelcollector", avatar: "https://via.placeholder.com/50x50?text=U3" },
-    createdAt: "2024-03-20T10:00:00Z"
+    author: {
+      username: "marvelcollector",
+      avatar: "https://via.placeholder.com/50x50?text=U3",
+    },
+    createdAt: "2024-03-20T10:00:00Z",
   },
   {
     slug: "vinilo-beatles-abbeyroad",
     title: "Vinilo Abbey Road - The Beatles",
     description: "Vinilo original del álbum Abbey Road, edición de 1969.",
-    price: 90.00,
+    price: 90.0,
     isForSale: true,
     isReserved: false,
     images: ["https://via.placeholder.com/300x300?text=Beatles"],
@@ -64,14 +73,17 @@ export const mockAdverts = [
     collection: "Vintage Vinyl",
     manufacturer: "EMI",
     tags: ["beatles", "musica", "vinilo"],
-    author: { username: "vinilero", avatar: "https://via.placeholder.com/50x50?text=U4" },
-    createdAt: "2024-03-10T08:00:00Z"
+    author: {
+      username: "vinilero",
+      avatar: "https://via.placeholder.com/50x50?text=U4",
+    },
+    createdAt: "2024-03-10T08:00:00Z",
   },
   {
     slug: "figura-yoda-starwars",
     title: "Figura Yoda Star Wars",
     description: "Figura detallada de Yoda, edición limitada.",
-    price: 45.00,
+    price: 45.0,
     isForSale: true,
     isReserved: false,
     images: ["https://via.placeholder.com/300x300?text=Yoda"],
@@ -81,14 +93,17 @@ export const mockAdverts = [
     collection: "Jedi Collection",
     manufacturer: "Hasbro",
     tags: ["starwars", "yoda", "figura"],
-    author: { username: "galaxia", avatar: "https://via.placeholder.com/50x50?text=U5" },
-    createdAt: "2024-04-01T16:00:00Z"
+    author: {
+      username: "galaxia",
+      avatar: "https://via.placeholder.com/50x50?text=U5",
+    },
+    createdAt: "2024-04-01T16:00:00Z",
   },
   {
     slug: "juego-snes-zelda",
     title: "The Legend of Zelda SNES",
     description: "Cartucho original de Zelda para Super Nintendo.",
-    price: 75.00,
+    price: 75.0,
     isForSale: true,
     isReserved: false,
     images: ["https://via.placeholder.com/300x300?text=Zelda"],
@@ -98,14 +113,17 @@ export const mockAdverts = [
     collection: "Retro Games",
     manufacturer: "Nintendo",
     tags: ["zelda", "snes", "retro"],
-    author: { username: "retrogamer", avatar: "https://via.placeholder.com/50x50?text=U6" },
-    createdAt: "2024-02-20T14:00:00Z"
+    author: {
+      username: "retrogamer",
+      avatar: "https://via.placeholder.com/50x50?text=U6",
+    },
+    createdAt: "2024-02-20T14:00:00Z",
   },
   {
     slug: "funko-ironman-marvel",
     title: "Funko Pop Iron Man #11",
     description: "Funko Pop de Iron Man en edición metálica.",
-    price: 35.00,
+    price: 35.0,
     isForSale: true,
     isReserved: false,
     images: ["https://via.placeholder.com/300x300?text=Iron+Man"],
@@ -115,14 +133,17 @@ export const mockAdverts = [
     collection: "Funko Pop Heroes",
     manufacturer: "Funko",
     tags: ["funko", "ironman", "marvel"],
-    author: { username: "funkoadicto", avatar: "https://via.placeholder.com/50x50?text=U7" },
-    createdAt: "2024-03-05T18:45:00Z"
+    author: {
+      username: "funkoadicto",
+      avatar: "https://via.placeholder.com/50x50?text=U7",
+    },
+    createdAt: "2024-03-05T18:45:00Z",
   },
   {
     slug: "cassette-queen-bohemian",
     title: "Cassette Queen - Bohemian Rhapsody",
     description: "Cassette original de Queen con Bohemian Rhapsody.",
-    price: 15.00,
+    price: 15.0,
     isForSale: true,
     isReserved: true,
     images: ["https://via.placeholder.com/300x300?text=Queen"],
@@ -132,14 +153,17 @@ export const mockAdverts = [
     collection: "Retro Music",
     manufacturer: "EMI",
     tags: ["queen", "cassette", "bohemian"],
-    author: { username: "audiophile", avatar: "https://via.placeholder.com/50x50?text=U8" },
-    createdAt: "2024-02-28T12:00:00Z"
+    author: {
+      username: "audiophile",
+      avatar: "https://via.placeholder.com/50x50?text=U8",
+    },
+    createdAt: "2024-02-28T12:00:00Z",
   },
   {
     slug: "figura-link-zelda",
     title: "Figura Link Breath of the Wild",
     description: "Figura detallada de Link edición Breath of the Wild.",
-    price: 40.00,
+    price: 40.0,
     isForSale: true,
     isReserved: false,
     images: ["https://via.placeholder.com/300x300?text=Link"],
@@ -149,14 +173,17 @@ export const mockAdverts = [
     collection: "BOTW Edition",
     manufacturer: "Nintendo",
     tags: ["zelda", "link", "figura"],
-    author: { username: "hyrulefan", avatar: "https://via.placeholder.com/50x50?text=U9" },
-    createdAt: "2024-04-02T10:00:00Z"
+    author: {
+      username: "hyrulefan",
+      avatar: "https://via.placeholder.com/50x50?text=U9",
+    },
+    createdAt: "2024-04-02T10:00:00Z",
   },
   {
     slug: "carta-yugi-dragonblanco",
     title: "Carta Yugioh Dragón Blanco",
     description: "Carta ultra rara del Dragón Blanco de Ojos Azules.",
-    price: 110.00,
+    price: 110.0,
     isForSale: false,
     isReserved: false,
     images: ["https://via.placeholder.com/300x300?text=Yugioh"],
@@ -166,9 +193,12 @@ export const mockAdverts = [
     collection: "Rare Cards",
     manufacturer: "Konami",
     tags: ["yugioh", "dragon", "carta"],
-    author: { username: "kaibafan", avatar: "https://via.placeholder.com/50x50?text=U10" },
-    createdAt: "2024-03-30T10:00:00Z"
-  }
+    author: {
+      username: "kaibafan",
+      avatar: "https://via.placeholder.com/50x50?text=U10",
+    },
+    createdAt: "2024-03-30T10:00:00Z",
+  },
 ];
 
 export const logosBanner = [
@@ -182,10 +212,9 @@ export const logosBanner = [
   "/gridImages/disney.jpg",
   "/gridImages/the-lord-of-the-ring.jpg",
   "/gridImages/transformers.jpg",
- ]
+];
 
- export const universeLogos = [
-
+export const universeLogos = [
   "/logos/universos/disney.png",
   "/logos/universos/marvel.png",
   "/logos/universos/harry-potter.png",
@@ -198,15 +227,14 @@ export const logosBanner = [
   "/logos/universos/the-transformers.png",
 ];
 
- export const sideBarMenu = [
-      "Todos",
-      "Estatuas y réplicas",
-      "Figuras de acción",
-      "Funko Pop!",
-      "Ropa y accesorios",
-      "Láminas y póster",
-      "Tarjetas, juegos y juguetes",
-      "Libros y cómics",
-      "Hogar y oficina"
- ]
-
+export const sideBarMenu = [
+  "Todos",
+  "Estatuas y réplicas",
+  "Figuras de acción",
+  "Funko Pop!",
+  "Ropa y accesorios",
+  "Láminas y póster",
+  "Tarjetas, juegos y juguetes",
+  "Libros y cómics",
+  "Hogar y oficina",
+];
