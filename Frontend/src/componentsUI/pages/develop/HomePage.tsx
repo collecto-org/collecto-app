@@ -13,6 +13,7 @@ import { ApiError } from "@/services/schemas";
 import { logosBanner, universeLogos, sideBarMenu } from "../../containers/develop/MockData"
 import { useGetBrandsQuery } from "@/services/brandsApi";
 import { useGetUniversesQuery } from "@/services/universesApi";
+import { selectBrands, selectUniverses } from "@/store/selectors/optionsSelectors";
 
 
 
@@ -39,8 +40,10 @@ export default function HomePage() {
   };
 
   const { isLoading, isError, error,refetch } = useGetAllAdvertsQuery(filterProducts);
-  const {data:brands} = useGetBrandsQuery()
-  const {data:universe} = useGetUniversesQuery()
+  
+const universe = useSelector((state:RootState) => selectUniverses(state))
+const brands = useSelector((state:RootState) => selectBrands(state))
+
 
   useEffect(()=>{
     if(adverts.length === 0){
@@ -64,7 +67,8 @@ export default function HomePage() {
       </div>
     );
   }
-  if(universe ){
+  if(universe && brands ){
+
   return (
     <MainLayout>
       <Banner
@@ -73,7 +77,7 @@ export default function HomePage() {
         highlights={["búsqueda", "colección"]}
 
         height="h-80 md:h-96"
-        logos={universeLogos}
+        logos={universe}
       />
       <div className="max-w-7xl mx-auto px-4">
         <section className="my-4">
@@ -96,7 +100,7 @@ export default function HomePage() {
 
           
           <ImageGrid
-            logos={universe }
+            logos={brands }
             columns={8}
             width={170}
             height={80}

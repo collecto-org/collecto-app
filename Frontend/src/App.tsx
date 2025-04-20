@@ -28,6 +28,13 @@ import CatalogManagerPage from "./componentsUI/pages/develop/CatalogManagerPage"
 
 import { MyOrders } from "./temporal-components/myOrdersJosemi";
 import AdvertDetailPage from "./componentsUI/pages/develop/AdvertDetailPage";
+import { useGetBrandsQuery } from "./services/brandsApi";
+import { useGetUniversesQuery } from "./services/universesApi";
+import { useGetProductTypesQuery } from "./services/productTypesApi";
+import { useGetshippingMethodsQuery } from "./services/shipmentMethodsApi";
+import { useGetTransactionsQuery } from "./services/transactionsApi";
+import { useGetConditionsQuery } from "./services/conditionsApi";
+import { useGetCollectionsQuery } from "./services/collectionsApi";
 
 
 
@@ -36,6 +43,14 @@ function App() {
   const { data: user } = useGetMeQuery({});
 
 const { refetch }= useGetNotificationsQuery({})
+
+   useGetBrandsQuery()
+    useGetUniversesQuery()
+    useGetProductTypesQuery()
+    useGetshippingMethodsQuery()
+    useGetTransactionsQuery()
+    useGetConditionsQuery()
+    useGetCollectionsQuery()
  
   useEffect(()=>{
     if(user){

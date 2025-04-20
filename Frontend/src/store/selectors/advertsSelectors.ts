@@ -10,6 +10,6 @@ export const selectSelectedAdvert = (state:RootState) => state.adverts.selectedA
 export const selectAdvertBySlug = (slug: string | undefined) => (state: RootState) => //obtener el anuncio por su slug
     state.adverts.adverts.adverts.find((advert) => advert.slug === slug);
 
-export const selectFilters = (state:RootState) => state.adverts.filter; //obtener el anuncio con el estado seleccionado
+export const selectFilters = (state:RootState) => state.adverts.filter; 
 
 

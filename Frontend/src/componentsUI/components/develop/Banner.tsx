@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 import ImageGrid from "../../components/develop/ImageGrid";
 import HighlightedText from "../../elements/HighlightedText";
+import { BrandSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
 
 interface BannerProps {
   backgroundImages: string[];
   text: string;
   highlights: string | string[];
-  logos: string[];
+  logos: UniverseSchema[] | BrandSchema[];
   height?: string;
 }
 

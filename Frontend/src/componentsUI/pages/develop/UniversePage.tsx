@@ -1,58 +1,72 @@
 import MainLayout from "../../layouts/MainLayout";
 import Banner from "../../components/develop/Banner";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import {selectFilterAdverts, selectFilters } from "@/store/selectors/advertsSelectors";
-import { useFilterAdvertsQuery } from "@/services/advertsApi";
+import {
+  selectFilterAdverts,
+  selectFilters,
+} from "@/store/selectors/advertsSelectors";
+
 import { useParams } from "react-router-dom";
-import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection"
-import { logosBanner, universeLogos, sideBarMenu} from "../../containers/develop/MockData"
-//import ProductGrid from "../../../../../collecto-maquetado/src/components/AdvertGrid"
-
-
+import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
+import {
+  logosBanner,
+} from "../../containers/develop/MockData";
+import {
+  selectBrands,
+  selectUniverseOrBrandBySlug,
+} from "@/store/selectors/optionsSelectors";
+import { setFilter } from "@/store/slices/advertsSlice";
+import { useFilterAdvertsQuery } from "@/services/advertsApi";
 
 export default function UniversePage() {
+  const dispatch = useDispatch();
+  const { adverts } = useSelector((state: RootState) => selectFilterAdverts(state));
+  const { slug } = useParams();
+
+  const brands = useSelector((state: RootState) => selectBrands(state));
+  const actualUniverse = useSelector((state: RootState) => selectUniverseOrBrandBySlug(state, slug));
+
+  const filter = useSelector((state: RootState) => selectFilters(state));
+
+  useEffect(() => {
+    if (!actualUniverse || !slug) return;
+
+    if (actualUniverse.universe) {
+      if (actualUniverse.type === "brand" && actualUniverse.universe._id !== filter.brand) {
+        dispatch(setFilter({ brand: actualUniverse.universe._id }));
+      }
+      if (actualUniverse.type === "universe" && actualUniverse.universe._id !== filter.universe) {
+        dispatch(setFilter({ universe: actualUniverse.universe._id }));
+
+      }
+    }
+  }, [slug, actualUniverse, dispatch, filter]); 
+
+  const { error, isLoading } = useFilterAdvertsQuery(filter);
 
 
-  const {adverts,total} = useSelector((state: RootState) => selectFilterAdverts(state));//  obtener los anuncios y el total
-  const { slug } = useParams()
+if(isLoading) return <p>Loading...</p>
 
-  //const {adverts,total} = useSelector((state: RootState) => selectAdverts(state));//  obtener los anuncios y el total
 
-  const filter = useSelector((state:RootState)=> selectFilters(state)) //  obtener los valores del filtro 
-  const { refetch  } = useFilterAdvertsQuery(filter); // Peticion para obtener adverts filtrados
-  
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const totalitems = Number(total)  
-
- 
-
-  return (
-    <MainLayout>
-      <Banner
+  if (brands && actualUniverse && actualUniverse.universe) {
+    return (
+      <MainLayout>
+        <Banner
           backgroundImages={logosBanner}
           text="Estás a una búsqueda de completar tu colección"
           highlights={["búsqueda", "colección"]}
           height="h-60"
-          logos={universeLogos}
+          logos={brands}
         />
-
 
         <FilteredAdvertSectionProps
-              headerLabel="Universo"
-              label= "STAR WARS" 
-              totalAdverts={totalitems}
-              onFilterChange={(page, size) => {
-                setCurrentPage(page),
-                setPageSize(size)
-              }}
-              barsidetitle="Tipo de producto"
-              barsideoptions={sideBarMenu}
-              adverts={adverts}
+          headerLabel="Universo"
+          label={actualUniverse.universe?.name}
+          adverts={adverts}
         />
-
-    </MainLayout>
-  );
+      </MainLayout>
+    );
+  }
 }
