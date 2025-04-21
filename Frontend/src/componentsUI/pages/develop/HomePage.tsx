@@ -8,33 +8,19 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useGetAllAdvertsQuery } from "@/services/advertsApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ApiError } from "@/services/schemas";
 
-import { logosBanner, universeLogos, sideBarMenu } from "../../containers/develop/MockData"
-import { useGetBrandsQuery } from "@/services/brandsApi";
-import { useGetUniversesQuery } from "@/services/universesApi";
+import { logosBanner,brandLogos} from "../../containers/develop/MockData"
+
 import { selectBrands, selectUniverses } from "@/store/selectors/optionsSelectors";
 
 import BrandCarousel from "../../components/develop/BrandCarousel";
-import {
-  logosBanner,
-  universeLogos,
-  brandLogos,
-  sideBarMenu,
-} from "../../containers/develop/MockData";
 
 
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { adverts, total } = useSelector(
-    (state: RootState) => state.adverts.adverts
-  );
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const totalitems = Number(total);
 
   const skip = 6;
   const filter = {};
@@ -46,25 +32,10 @@ export default function HomePage() {
     limit: skip,
   };
 
-  const { isLoading, isError, error,refetch } = useGetAllAdvertsQuery(filterProducts);
+  const { data: adverts , isLoading, isError, error } = useGetAllAdvertsQuery(filterProducts);
   
 const universe = useSelector((state:RootState) => selectUniverses(state))
 const brands = useSelector((state:RootState) => selectBrands(state))
-
-
-
-  const { isLoading, isError, error, refetch } =
-    useGetAllAdvertsQuery(filterProducts);
-
-
-  useEffect(() => {
-    if (adverts.length === 0) {
-      refetch();
-    }
-
-  },[adverts.length])
-
-  }, adverts);
 
 
   if (isError) {
@@ -93,7 +64,7 @@ const brands = useSelector((state:RootState) => selectBrands(state))
           text="Estás a una búsqueda de completar tu colección"
           highlights={["búsqueda", "colección"]}
           height="h-70 md:h-96"
-          logos={universeLogos}
+          logos={universe}
         />
       </div>
 
@@ -152,9 +123,9 @@ const brands = useSelector((state:RootState) => selectBrands(state))
       </div>
 
       <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
-        <AdvertSlider title="Nuevos lanzamientos" products={adverts} />
-        <AdvertSlider title="Recomendados para ti" products={adverts} />
-        <AdvertSlider title="Ver todos los artículos" products={adverts} />
+        <AdvertSlider title="Nuevos lanzamientos" products={adverts?.adverts ? adverts.adverts: []} />
+        <AdvertSlider title="Recomendados para ti" products={adverts?.adverts ? adverts.adverts: []} />
+        <AdvertSlider title="Ver todos los artículos" products={adverts?.adverts ? adverts.adverts: []} />
       </div>
     </MainLayout>
   );}

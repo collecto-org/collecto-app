@@ -1,16 +1,19 @@
 import { useRef, useState, useEffect } from "react";
 import Logo from "@/componentsUI/elements/Logo";
+import { BrandSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
 
 interface ResponsiveLogoGridProps {
-  logos: string[];
+  logos: UniverseSchema[] | BrandSchema[];
   width?: number;
   height?: number;
+  columnsLg:number
   onClickLogo?: (src: string) => void;
 }
 
 export default function ResponsiveLogoGrid({
   logos,
   width = 160,
+  
   height = 80,
   onClickLogo,
 }: ResponsiveLogoGridProps) {
@@ -51,12 +54,12 @@ export default function ResponsiveLogoGrid({
         {logos.map((logo, i) => (
           <Logo
             key={i}
-            src={logo}
+            src={logo.logoUrl}
             alt={`Logo ${i}`}
             width={width}
             height={height}
             className="bg-white/50 rounded-sm border border-white hover:scale-105 hover:drop-shadow-[0_0_3px_#fff] transition duration-200 scroll-snap-start"
-            onClick={() => onClickLogo?.(logo)}
+            onClick={() => onClickLogo?.(logo._id)}
           />
         ))}
       </div>
