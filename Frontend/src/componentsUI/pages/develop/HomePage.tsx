@@ -72,13 +72,15 @@ export default function HomePage() {
   if(universe ){
   return (
     <MainLayout>
-      <Banner
-        backgroundImages={logosBanner}
-        text="Estás a una búsqueda de completar tu colección"
-        highlights={["búsqueda", "colección"]}
-        height="h-80 md:h-96"
-        logos={universeLogos}
-      />
+      <div className="pt-8">
+        <Banner
+          backgroundImages={logosBanner}
+          text="Estás a una búsqueda de completar tu colección"
+          highlights={["búsqueda", "colección"]}
+          height="h-70 md:h-96"
+          logos={universeLogos}
+        />
+      </div>
       <div className="max-w-7xl mx-auto px-4">
         <section className="my-4">
           {/*
@@ -97,6 +99,7 @@ export default function HomePage() {
                   />
           */}
 
+
           <BrandCarousel
             logos={brandLogos}
             width={90}
@@ -111,6 +114,7 @@ export default function HomePage() {
               navigate(`/universe/${slug}`);
             }}
           />
+
 
           {/* <ImageGrid
             logos={brandLogos}

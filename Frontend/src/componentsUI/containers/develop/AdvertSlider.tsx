@@ -15,7 +15,10 @@ interface ProductCarouselProps {
   products: Advert[];
 }
 
-export default function AdvertSlider({ title, products }: ProductCarouselProps) {
+export default function AdvertSlider({
+  title,
+  products,
+}: ProductCarouselProps) {
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
@@ -29,8 +32,10 @@ export default function AdvertSlider({ title, products }: ProductCarouselProps) 
   };
 
   return (
-    <section className="px-4 md:px-8 py-6">
-      <h2 className="text-xl md:text-2xl font-semibold text-darkblue mb-4">{title}</h2>
+    <section className="px-4 md:px-8 py-2">
+      <h2 className="text-xl md:text-2xl font-semibold text-darkblue mb-4">
+        {title}
+      </h2>
       <div className="relative">
         <button
           onClick={() => scroll("left")}
@@ -40,10 +45,10 @@ export default function AdvertSlider({ title, products }: ProductCarouselProps) 
         </button>
         <div
           ref={sliderRef}
-          className="flex gap-4 overflow-x-auto pb-2 px-6 no-scrollbar"
+          className="flex gap-4 overflow-x-auto pb-2 px-6 scrollbar-hide"
         >
           {products.map((product, index) => (
-            <div key={index} className="flex-shrink-0 w-[180px]">
+            <div key={index} className="flex-shrink-0">
               <ProductCard {...product} />
             </div>
           ))}
