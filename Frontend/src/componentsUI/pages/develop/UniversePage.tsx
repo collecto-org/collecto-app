@@ -8,10 +8,13 @@ import {
   selectFilters,
 } from "@/store/selectors/advertsSelectors";
 
+
+
 import { useParams } from "react-router-dom";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 import {
   logosBanner,
+
 } from "../../containers/develop/MockData";
 import {
   selectBrands,
@@ -40,9 +43,11 @@ export default function UniversePage() {
       if (actualUniverse.type === "universe" && actualUniverse.universe._id !== filter.universe) {
         dispatch(setFilter({ universe: actualUniverse.universe._id }));
 
+
       }
     }
   }, [slug, actualUniverse, dispatch, filter]); 
+
 
   const { error, isLoading } = useFilterAdvertsQuery(filter);
 
@@ -69,4 +74,5 @@ if(isLoading) return <p>Loading...</p>
       </MainLayout>
     );
   }
+
 }
