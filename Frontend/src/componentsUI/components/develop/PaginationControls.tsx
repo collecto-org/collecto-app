@@ -1,33 +1,53 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectFilterAdverts, selectFilters } from "@/store/selectors/advertsSelectors";
+import { setFilter } from "@/store/slices/advertsSlice";
 
-interface PaginationControlProps{
-  currentPage: number;
-  totalPages: number;
-  pageSize:number;
-  pageSizeOptions?: number[];
-  onPageChange:(page:number) =>void;
-  onPageSizeChange:(size:number) =>void;
-}
+export default function PaginationControls() {
+  const dispatch = useDispatch();
 
-export default function PaginationControls({
-  currentPage=1,
-  totalPages=10,
-  pageSize,
-  pageSizeOptions =[10,20,50],
-  onPageChange,
-  onPageSizeChange,
+  const { total } = useSelector(selectFilterAdverts);
+  const filters = useSelector(selectFilters);
   
-}: PaginationControlProps) {
+
+  const limit = filters.limit ?? 5;
+  const page =  filters.page ?? 1;
+
+
+  const [currentPage, setCurrentPage] = useState(page);
+
+  const totalPages = Math.max(1, Math.ceil((Number(total) || 0) / limit));
+
+  useEffect(() => {
+    setCurrentPage(page);
+  }, [page]);
+
+  const handlePageChange = (direction: "prev" | "next") => {
+    const newPage = direction === "prev"
+      ? Math.max(currentPage - 1, 1)
+      : Math.min(currentPage + 1, totalPages);
+
+    setCurrentPage(newPage);
+    dispatch(setFilter({ page: newPage }));
+  };
+
+  const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLimit = Number(e.target.value);
+    dispatch(setFilter({ limit: newLimit, page: 1 }));
+    setCurrentPage(1);
+  };
+
+  const pageSizeOptions = [1, 5, 10];
+
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[0.7rem]  text-darkblue font-quicksand">
-     
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[0.7rem] text-darkblue font-quicksand">
       {/* cantidad por página */}
       <div className="flex items-center gap-2 relative">
         <span className="font-medium">Mostrar:</span>
         <select
           className="bg-cream border border-turquoise rounded-full px-3 py-1 text-turquoise font-quicksand appearance-none pr-8"
-          value={pageSize}
-          onChange={(e) => onPageSizeChange(Number(e.target.value))}
+          value={limit}
+          onChange={handlePageSizeChange}
         >
           {pageSizeOptions.map((size) => (
             <option key={size} value={size}>
@@ -48,14 +68,12 @@ export default function PaginationControls({
         </svg>
       </div>
 
-
-       {/* Controles de navegación */}
+      {/* navegación */}
       <div className="flex items-center gap-3">
-         {/* boton Anterior */}
         <button
           disabled={currentPage === 1}
-          onClick={() => onPageChange(currentPage - 1)}
-         className="px-3 py-1 border border-turquoise rounded-full text-darkblue hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed transition font-quicksand"
+          onClick={() => handlePageChange("prev")}
+          className="px-3 py-1 border border-turquoise rounded-full text-darkblue hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed transition font-quicksand"
         >
           <span className="flex items-center gap-1">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -64,19 +82,14 @@ export default function PaginationControls({
             Anterior
           </span>
         </button>
-       
-       
-         {/* paginado 1 de X */}
-         <span className=" text-darkblue font-quicksand">
-            Página <strong>{currentPage}</strong> de <strong>{totalPages}</strong>
+
+        <span className="text-darkblue font-quicksand">
+          Página <strong>{currentPage}</strong> de <strong>{totalPages}</strong>
         </span>
-      </div>
-       
-       
-       {/* boton Siguiente */}
-      <button
-          disabled={currentPage === totalPages}
-          onClick={() => onPageChange(currentPage + 1)}
+
+        <button
+          disabled={currentPage >= totalPages}
+          onClick={() => handlePageChange("next")}
           className="px-3 py-1 border border-turquoise rounded-full text-darkblue hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed transition font-quicksand"
         >
           <span className="flex items-center gap-1">
@@ -86,6 +99,7 @@ export default function PaginationControls({
             </svg>
           </span>
         </button>
+      </div>
     </div>
   );
 }

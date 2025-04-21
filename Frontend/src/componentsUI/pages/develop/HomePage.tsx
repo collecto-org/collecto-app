@@ -10,6 +10,12 @@ import { useGetAllAdvertsQuery } from "@/services/advertsApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { useEffect, useState } from "react";
 import { ApiError } from "@/services/schemas";
+
+import { logosBanner, universeLogos, sideBarMenu } from "../../containers/develop/MockData"
+import { useGetBrandsQuery } from "@/services/brandsApi";
+import { useGetUniversesQuery } from "@/services/universesApi";
+import { selectBrands, selectUniverses } from "@/store/selectors/optionsSelectors";
+
 import BrandCarousel from "../../components/develop/BrandCarousel";
 import {
   logosBanner,
@@ -17,6 +23,8 @@ import {
   brandLogos,
   sideBarMenu,
 } from "../../containers/develop/MockData";
+
+
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -38,14 +46,26 @@ export default function HomePage() {
     limit: skip,
   };
 
+  const { isLoading, isError, error,refetch } = useGetAllAdvertsQuery(filterProducts);
+  
+const universe = useSelector((state:RootState) => selectUniverses(state))
+const brands = useSelector((state:RootState) => selectBrands(state))
+
+
+
   const { isLoading, isError, error, refetch } =
     useGetAllAdvertsQuery(filterProducts);
+
 
   useEffect(() => {
     if (adverts.length === 0) {
       refetch();
     }
+
+  },[adverts.length])
+
   }, adverts);
+
 
   if (isError) {
   }
@@ -62,8 +82,11 @@ export default function HomePage() {
       </div>
     );
   }
+  if(universe && brands ){
+
   return (
     <MainLayout>
+
       <div className="pt-8">
         <Banner
           backgroundImages={logosBanner}
@@ -73,6 +96,7 @@ export default function HomePage() {
           logos={universeLogos}
         />
       </div>
+
       <div className="max-w-7xl mx-auto px-4">
         <section className="my-4">
           {/*
@@ -91,7 +115,24 @@ export default function HomePage() {
                   />
           */}
 
-          <BrandCarousel logos={brandLogos} />
+
+
+          <BrandCarousel
+            logos={brandLogos}
+            width={90}
+            height={90}
+
+
+            onClickLogo={(src) => {
+              const slug = src
+                .split("/")
+                .pop()
+                ?.replace(".svg", "")
+                .toLowerCase();
+              navigate(`/universe/${slug}`);
+            }}
+          />
+
 
           {/* <ImageGrid
             logos={brandLogos}
@@ -116,5 +157,5 @@ export default function HomePage() {
         <AdvertSlider title="Ver todos los artículos" products={adverts} />
       </div>
     </MainLayout>
-  );
+  );}
 }

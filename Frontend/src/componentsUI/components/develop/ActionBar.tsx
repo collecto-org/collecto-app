@@ -1,7 +1,7 @@
 import Icon from "@/componentsUI/elements/Icon";
 
 interface ActionBarProps {
-  onEdit?: () => void;
+  onEdit?: () => void ;
   onDelete?: () => void;
   onToggleFav?: () => void;
   isFavorite?: boolean;

@@ -17,7 +17,7 @@ interface AdvertsState {
 
 const initialState: AdvertsState = {
   selectedAdvert: null,
-  filter: {},
+  filter: {page:1,limit:10},
   isEditMode: false,
   showDeleteModal: false,
   adverts: { adverts: [], total: "0" },
@@ -151,7 +151,22 @@ const advertsSlice = createSlice({
           state.loading = false;
         }
       )
-      
+      .addMatcher(       
+        userApi.endpoints.setAdvertFav.matchFulfilled,
+      (state) => {
+        if (state.selectedAdvert) {
+          state.selectedAdvert.isFavorite = true;
+        }
+      }
+      )
+      .addMatcher(       
+        userApi.endpoints.removeAdvertFav.matchFulfilled,
+      (state) => {
+        if (state.selectedAdvert) {
+          state.selectedAdvert.isFavorite = false;
+        }
+      }
+      )
   },
 });
 

@@ -4,40 +4,27 @@ import Title from "@/componentsUI/components/develop/Title";
 import PaginationBlock  from "../../containers/develop/PaginationBlock";
 import SideBarMenu from "../../containers/develop/SidebarMenu";
 import ProductGrid from "../../containers/develop/AdvertGrid"
+import { useSelector } from "react-redux";
+import { selectProductTypes } from "@/store/selectors/optionsSelectors";
+import { RootState } from "@/store/store";
 
 
 
 interface FilteredAdvertSectionProps {
     headerLabel: string;
     label: string;
-    totalAdverts: number;
-    onFilterChange?: (pagenumber:number, pagesize: number) => void,
-    barsidetitle: string, 
-    barsideoptions: string [],
     adverts: any[]
 }
 
 export default function FiteredAdvertSection({
     headerLabel,
-    label,
-    totalAdverts,
-    onFilterChange,
-    barsidetitle,
-    barsideoptions,
+    label,  
     adverts,
 }:FilteredAdvertSectionProps){
 
-    const [currentPage, setCurrentPage] = useState(1)
-    const [pageSize, setPageSize] = useState(10)
-    const totalitems = Number(totalAdverts)
-    const totalPages = Math.ceil(totalitems/pageSize) 
-
-    useEffect(() => {
-        if(onFilterChange){
-            onFilterChange(currentPage, pageSize)
-        }
-    },[currentPage, pageSize, onFilterChange])
-
+  const productTypes = useSelector((state:RootState) => selectProductTypes(state))
+  
+  if(productTypes){
     return (
             <div className="grid grid-cols-12 gap-1 px-1 py-1">
                 <div className="col-span-12 md:col-span-3 flex  items-center  justify-center">
@@ -49,23 +36,13 @@ export default function FiteredAdvertSection({
                 </div>
                 
                 <div className="col-span-12 md:col-span-9  flex items-end  justify-center ">
-                  <PaginationBlock
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    pageSize={pageSize}
-                    onPageChange={setCurrentPage}
-                    onPageSizeChange={(size) =>{
-                      setPageSize(size);
-                      setCurrentPage(1);
-                    }}
-          
-                  />
+                  <PaginationBlock/>
                 </div>
                 
                 <div className="col-span-12 md:col-span-3 border border-black">
                   <SideBarMenu 
-                  title={barsidetitle}
-                  options={barsideoptions}
+                  title={"Tipo de producto"}
+                  options={productTypes}
                   />
                 </div>
         
@@ -73,5 +50,5 @@ export default function FiteredAdvertSection({
                   <ProductGrid adverts={adverts} />
                 </div>
               </div>
-    )
+    )}
 }
