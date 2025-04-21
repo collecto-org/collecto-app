@@ -3,6 +3,7 @@ import advertsReducer from "./slices/advertsSlice";
 import userReducer from "./slices/userSlice";
 import ordersReducer from "./slices/ordersSlice";
 import notificationReducer from "./slices/notificationSlice";
+import optionsReducer from "./slices/optionsSlice";
 import { authApi } from "../services/authApi";
 import { advertsApi } from "../services/advertsApi";
 import { userApi } from "../services/usersApi";
@@ -16,15 +17,16 @@ import { collectionsApi } from "@/services/collectionsApi";
 import { productTypesApi } from "@/services/productTypesApi";
 import { conditionsApi } from "@/services/conditionsApi";
 import { shippingMethodsApi } from "@/services/shipmentMethodsApi";
+import { transactionsApi } from "@/services/transactionsApi";
 
 
 export const store = configureStore({
     reducer: {
-
         adverts: advertsReducer,
         user:userReducer,
         notifications:notificationReducer,
         orders:ordersReducer,
+        options:optionsReducer,
         [authApi.reducerPath]: authApi.reducer,
         [advertsApi.reducerPath]: advertsApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
@@ -38,6 +40,7 @@ export const store = configureStore({
         [productTypesApi.reducerPath]:productTypesApi.reducer,
         [conditionsApi.reducerPath]:conditionsApi.reducer,
         [shippingMethodsApi.reducerPath]:shippingMethodsApi.reducer,
+        [transactionsApi.reducerPath]:transactionsApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -53,6 +56,8 @@ export const store = configureStore({
     .concat(collectionsApi.middleware)
     .concat(productTypesApi.middleware)
     .concat(shippingMethodsApi.middleware)
+    .concat(conditionsApi.middleware)
+    .concat(transactionsApi.middleware)
 
 });
 

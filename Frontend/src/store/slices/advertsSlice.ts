@@ -17,7 +17,7 @@ interface AdvertsState {
 
 const initialState: AdvertsState = {
   selectedAdvert: null,
-  filter: {},
+  filter: {page:1,limit:10},
   isEditMode: false,
   showDeleteModal: false,
   adverts: { adverts: [], total: "0" },

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ConditionSchema } from './schemas/UniverseSchemas';
+import { CollectionSchema, } from './schemas/UniverseSchemas';
 
 export const collectionsApi = createApi({
   reducerPath: 'collectionsApi',
@@ -7,7 +7,7 @@ export const collectionsApi = createApi({
     { baseUrl: import.meta.env.VITE_API_URL }),
   tagTypes: ['collections'], // 
   endpoints: (builder) => ({
-    getCollections: builder.query<ConditionSchema[], void>({
+    getCollections: builder.query<CollectionSchema[], void>({
       query: () => '/api/collections',
       providesTags: ['collections'], // 
     }),

@@ -25,9 +25,7 @@ export default function SearchControls( ) {
     dispatch(setFilter({ sortBy: filterParams }));
   };
 
-    
-  console.log(brand)
-  const brands = [            
+    const brands = [            
       "Funko",
       "Hot Toys",
       "Hasbro",

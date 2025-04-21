@@ -1,16 +1,22 @@
+import { ProductTypeSchema } from "@/services/schemas/UniverseSchemas";
+import { selectProductTypes } from "@/store/selectors/optionsSelectors";
 import { setFilter } from "@/store/slices/advertsSlice";
+import { RootState } from "@/store/store";
 import  { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 interface FiltersSidebarProps {
   title: string;
-  options: string[];
+  options: ProductTypeSchema[];
   onSelect?: (option: string | null) => void;
 }
 
 export default function FiltersSidebar({ title, options, onSelect }: FiltersSidebarProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const dispatch = useDispatch()
+
+
+
  
 
   const handleClick = (option: string) => {
@@ -29,13 +35,13 @@ export default function FiltersSidebar({ title, options, onSelect }: FiltersSide
       <ul className="space-y-4 ml-7 font-bold text-xs">
         {options.map((option) => (
           <li
-            key={option}
-            onClick={() => handleClick(option)}
+            key={option._id}
+            onClick={() => handleClick(option._id)}
             className={`cursor-pointer transition-colors ${
-              selected === option ? "text-coral font-semibold" : "text-gray-600 hover:text-coral"
+              selected === option._id ? "text-coral font-semibold" : "text-gray-600 hover:text-coral"
             }`}
           >
-            {option}
+            {option.name}
           </li>
         ))}
       </ul>
