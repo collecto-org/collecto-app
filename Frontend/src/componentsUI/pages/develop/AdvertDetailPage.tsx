@@ -1,14 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 import MainLayout from "@/componentsUI/layouts/MainLayout";
 import AdvertDetail from "@/componentsUI/containers/develop/AdvertDetail"
 import AdvertSlider from "@/componentsUI/containers/develop/AdvertSlider";
 import { RootState } from "@/store/store";
-import { selectAdvertBySlug, selectAdverts, selectSelectedAdvert } from "@/store/selectors/advertsSelectors";
-import { clearSelectedAdvert, setSelectedAdvert, setSelectedAdvertAndLoad } from "@/store/slices/advertsSlice";
-import { useDeleteAdvertMutation, useGetAdvertDetailQuery } from "@/services/advertsApi";
+import { clearSelectedAdvert} from "@/store/slices/advertsSlice";
+import { useDeleteAdvertMutation, useGetAdvertDetailQuery, useGetAllAdvertsQuery } from "@/services/advertsApi";
 import { useRemoveAdvertFavMutation, useSetAdvertFavMutation } from "@/services/usersApi";
 import  { mockProducts }  from "@/componentsUI/elements/MockProductos"
 import { selectUser } from "@/store/selectors/userSelectors";
@@ -18,27 +17,13 @@ function AdvertDetailPage() {
   const params = useParams();
   const slug = params.slug;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   
-  const relatedAdverts = useSelector(selectAdverts) // Cuando tengamos anuncios relacionados hay que cambiar el selector
-
-  
-  const mocked = true
-  const advert = mockProducts[0]; 
-  // const advert = useSelector(selectSelectedAdvert);
+  const {data:relatedAdverts} = useGetAllAdvertsQuery({}) // Cuando tengamos anuncios relacionados hay que cambiar el selector
+  const {data: advert, isLoading,isError,isSuccess} = useGetAdvertDetailQuery({ slug: slug || "" });
 
   const user = useSelector((state: RootState) => selectUser(state));
-
-  const navigate = useNavigate();
-  const {
-    data: newAdvert,
-    isLoading,
-    isError,
-    isSuccess,
-  } = useGetAdvertDetailQuery(
-    { slug: slug || "" },
-    { skip: advert?.slug === slug || mocked  }
-  );
-
+  
   const [deleteAdvert,{isError:isDeleteError, isLoading:isDeleteLoading,isSuccess:isDeleteSucess}] = useDeleteAdvertMutation()
   const [setFavAdvert,{isError:isFavError, isLoading:isFavLoading}] = useSetAdvertFavMutation()
   const [deleteFavAdvert,{isError:isFavDeleteError, isLoading:isFavDeleteLoading}] = useRemoveAdvertFavMutation()
@@ -64,7 +49,6 @@ function AdvertDetailPage() {
 
   useEffect(() => {
     if (isDeleteSucess) {
-      dispatch(clearSelectedAdvert())
       navigate('/');
     }
   }, [isDeleteSucess]);
@@ -83,18 +67,6 @@ function AdvertDetailPage() {
     }
   };
  
-  useEffect(() => {
-    if (slug && (advert?.slug !== slug)) {
-      if (newAdvert && isSuccess) {
-        dispatch(setSelectedAdvertAndLoad(newAdvert));
-      }
-    }
-  
-    if (isError) {
-      // Puedes redirigir o mostrar error
-    }
-  }, [slug, advert, newAdvert, isSuccess, isError, dispatch]);
-
   if (isLoading || isDeleteLoading || isFavLoading|| isFavDeleteLoading) return <p>Loading...</p>;
   if (isError || isDeleteError || isFavError || isFavDeleteError || !advert ) return <p>Error al cargar el anuncio</p>;
  
@@ -125,7 +97,7 @@ function AdvertDetailPage() {
           </h3>
           <AdvertSlider
             title="Más del universo"
-            products={relatedAdverts.adverts.length > 1 ? relatedAdverts.adverts : mockProducts} //cambiar cuando tengamos anuncios relacionados
+            products={relatedAdverts ? relatedAdverts.adverts : mockProducts} //cambiar cuando tengamos anuncios relacionados
           />
         </section>
 

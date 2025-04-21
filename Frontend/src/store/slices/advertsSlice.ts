@@ -35,13 +35,6 @@ const advertsSlice = createSlice({
   name: "adverts",
   initialState,
   reducers: {
-    setAdverts: (
-      state,
-      action: PayloadAction<{ adverts: Advert[]; total: string }>
-    ) => {
-      state.adverts.adverts = action.payload.adverts;
-      state.adverts.total = action.payload.total;
-    },
     setSelectedAdvert: (state, action: PayloadAction<Advert>) => {
       state.selectedAdvert = action.payload;
     },
@@ -79,15 +72,7 @@ const advertsSlice = createSlice({
     .addMatcher(isRejectedAction, (state) => {
       state.loading = false;
     })
-      .addMatcher(
-        // carga de adverts
-        advertsApi.endpoints.getAllAdverts.matchFulfilled,
-        (state, action) => {
-          state.adverts.adverts = action.payload.adverts;
-          state.adverts.total = action.payload.total;
-          state.loading = false;
-        }
-      )
+
       .addMatcher(
         advertsApi.endpoints.editAdvert.matchFulfilled,
         (state, action) => {
@@ -133,24 +118,6 @@ const advertsSlice = createSlice({
           state.selectedAdvert = null 
         }
       ) 
-      .addMatcher(
-        
-        advertsApi.endpoints.filterAdverts.matchFulfilled,
-        (state, action) => {
-          state.filterAdverts.adverts = action.payload.adverts;
-          state.filterAdverts.total = action.payload.total;
-          state.loading = false;
-        }
-      )
-      .addMatcher(
-        
-        advertsApi.endpoints.filterAdverts.matchRejected,
-        (state) => {
-          state.filterAdverts.adverts = []
-          state.filterAdverts.total = "0"
-          state.loading = false;
-        }
-      )
       .addMatcher(       
         userApi.endpoints.setAdvertFav.matchFulfilled,
       (state) => {
@@ -171,7 +138,6 @@ const advertsSlice = createSlice({
 });
 
 export const {
-  setAdverts,
   setSelectedAdvert,
   clearSelectedAdvert,
   setFilter,

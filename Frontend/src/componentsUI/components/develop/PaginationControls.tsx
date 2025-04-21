@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectFilterAdverts, selectFilters } from "@/store/selectors/advertsSelectors";
+import { selectFilters } from "@/store/selectors/advertsSelectors";
 import { setFilter } from "@/store/slices/advertsSlice";
+import { advertsApi} from "@/services/advertsApi";
+import { RootState } from "@/store/store";
 
 export default function PaginationControls() {
   const dispatch = useDispatch();
 
-  const { total } = useSelector(selectFilterAdverts);
   const filters = useSelector(selectFilters);
+  const totalFilter = useSelector((state:RootState) =>
+    advertsApi.endpoints.filterAdverts.select(filters)(state)?.data
+  )
+  const total = totalFilter? totalFilter : 0
   
 
   const limit = filters.limit ?? 5;

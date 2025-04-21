@@ -3,23 +3,11 @@ import Banner from "../../components/develop/Banner";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import {
-  selectFilterAdverts,
-  selectFilters,
-} from "@/store/selectors/advertsSelectors";
-
-
-
+import {selectFilters} from "@/store/selectors/advertsSelectors";
 import { useParams } from "react-router-dom";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
-import {
-  logosBanner,
-
-} from "../../containers/develop/MockData";
-import {
-  selectBrands,
-  selectUniverseOrBrandBySlug,
-} from "@/store/selectors/optionsSelectors";
+import {logosBanner} from "../../containers/develop/MockData";
+import {selectBrands,selectUniverseOrBrandBySlug} from "@/store/selectors/optionsSelectors";
 import { setFilter } from "@/store/slices/advertsSlice";
 import { useFilterAdvertsQuery } from "@/services/advertsApi";
 
@@ -29,8 +17,8 @@ export default function UniversePage() {
 
   const brands = useSelector((state: RootState) => selectBrands(state));
   const actualUniverse = useSelector((state: RootState) => selectUniverseOrBrandBySlug(state, slug));
-
   const filter = useSelector((state: RootState) => selectFilters(state));
+
   useEffect(() => {
     if (!actualUniverse || !slug) return;
 
@@ -44,12 +32,11 @@ export default function UniversePage() {
     }
   }, [slug, actualUniverse, dispatch, filter]); 
 
+  const isFilterReady = !!(filter.universe || filter.brand);
 
-  const {data:adverts, error, isLoading } = useFilterAdvertsQuery(filter);
-
+  const {data:adverts, error, isLoading } = useFilterAdvertsQuery(filter,{skip: !isFilterReady});
 
 if(isLoading) return <p>Loading...</p>
-
 
   if (brands ) {
     return (
@@ -64,7 +51,7 @@ if(isLoading) return <p>Loading...</p>
 
         <FilteredAdvertSectionProps
           headerLabel="Universo"
-          label={actualUniverse ? actualUniverse.universe.name : "No hay uniuverso"}
+          label={actualUniverse ? actualUniverse.universe.name : "No hay universo"}
           adverts={adverts ? adverts.adverts:[]}
         />
       </MainLayout>
