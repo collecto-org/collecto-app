@@ -25,14 +25,12 @@ import { useFilterAdvertsQuery } from "@/services/advertsApi";
 
 export default function UniversePage() {
   const dispatch = useDispatch();
-  const { adverts } = useSelector((state: RootState) => selectFilterAdverts(state));
   const { slug } = useParams();
 
   const brands = useSelector((state: RootState) => selectBrands(state));
   const actualUniverse = useSelector((state: RootState) => selectUniverseOrBrandBySlug(state, slug));
 
   const filter = useSelector((state: RootState) => selectFilters(state));
-
   useEffect(() => {
     if (!actualUniverse || !slug) return;
 
@@ -42,20 +40,18 @@ export default function UniversePage() {
       }
       if (actualUniverse.type === "universe" && actualUniverse.universe._id !== filter.universe) {
         dispatch(setFilter({ universe: actualUniverse.universe._id }));
-
-
       }
     }
   }, [slug, actualUniverse, dispatch, filter]); 
 
 
-  const { error, isLoading } = useFilterAdvertsQuery(filter);
+  const {data:adverts, error, isLoading } = useFilterAdvertsQuery(filter);
 
 
 if(isLoading) return <p>Loading...</p>
 
 
-  if (brands && actualUniverse && actualUniverse.universe) {
+  if (brands ) {
     return (
       <MainLayout>
         <Banner
@@ -68,8 +64,8 @@ if(isLoading) return <p>Loading...</p>
 
         <FilteredAdvertSectionProps
           headerLabel="Universo"
-          label={actualUniverse.universe?.name}
-          adverts={adverts}
+          label={actualUniverse ? actualUniverse.universe.name : "No hay uniuverso"}
+          adverts={adverts ? adverts.adverts:[]}
         />
       </MainLayout>
     );

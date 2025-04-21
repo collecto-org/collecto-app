@@ -7,13 +7,14 @@ import ProductGrid from "../../containers/develop/AdvertGrid"
 import { useSelector } from "react-redux";
 import { selectProductTypes } from "@/store/selectors/optionsSelectors";
 import { RootState } from "@/store/store";
+import { Advert } from "@/services/schemas/AdvertsSchemas";
 
 
 
 interface FilteredAdvertSectionProps {
     headerLabel: string;
     label: string;
-    adverts: any[]
+    adverts: Advert[]
 }
 
 export default function FiteredAdvertSection({
