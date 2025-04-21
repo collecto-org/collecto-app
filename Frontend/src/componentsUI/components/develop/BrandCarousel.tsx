@@ -1,8 +1,9 @@
 import { useRef } from "react";
 import Logo from "@/componentsUI/elements/Logo";
+import { BrandSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
 
 interface BrandCarouselProps {
-  logos: string[];
+  logos: BrandSchema[] | UniverseSchema[];
   width?: number;
   height?: number;
   onClickLogo?: (src: string) => void;
@@ -63,14 +64,16 @@ export default function BrandCarousel({
         {logos.map((logo, index) => (
           <Logo
             key={index}
-            src={logo}
+            src={logo.logoUrl}
             alt={`Logo ${index}`}
             width={90}
             height={90}
             className="shrink-0 bg-white hover:scale-110 transition"
-            onClick={() => onClickLogo?.(logo)}
+            onClick={() => onClickLogo?.(logo.slug)}
           />
         ))}
+
+        
       </div>
     </div>
   );

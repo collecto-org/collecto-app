@@ -1,8 +1,6 @@
 import MainLayout from "../../layouts/MainLayout";
 import Banner from "../../components/develop/Banner";
-import ImageGrid from "../../components/develop/ImageGrid";
 import AdvertSlider from "../../containers/develop/AdvertSlider";
-import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -89,7 +87,7 @@ const brands = useSelector((state:RootState) => selectBrands(state))
 
 
           <BrandCarousel
-            logos={brandLogos}
+            logos={brands}
             width={90}
             height={90}
 

@@ -5,6 +5,7 @@ import HighlightedText from "../../elements/HighlightedText";
 import { BrandSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
 import ResponsiveImage from "../develop/ResponsiveImage";
 import ResponsiveLogoGrid from "../../components/develop/ResponsiveLogoGrid";
+import { useNavigate } from "react-router-dom";
 
 
 interface BannerProps {
@@ -22,6 +23,7 @@ export default function Banner({
   logos,
   height = "h-96",
 }: BannerProps) {
+  const navigate = useNavigate()
   const mainImage = "/gridImages/collecto-banner-principal.jpg";
   const [currentImage, setCurrentImage] = useState(mainImage);
   const [fade, setFade] = useState(true);
@@ -75,13 +77,8 @@ export default function Banner({
             columnsLg={5}
             width={170}
             height={90}
-            onClickLogo={(src) => {
-              const slug = src
-                .split("/")
-                .pop()
-                ?.replace(".png", "")
-                .toLowerCase();
-              window.location.href = `/universe/${slug}`;
+            onClickLogo={(logoUrl) => {
+              navigate(`/universe/${logoUrl}`);
             }}
           />
 
