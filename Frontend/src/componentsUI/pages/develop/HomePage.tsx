@@ -7,10 +7,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useGetAllAdvertsQuery } from "@/services/advertsApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
-import { ApiError } from "@/services/schemas";
 import { logosBanner } from "../../containers/develop/MockData";
 import { selectBrands, selectUniverses } from "@/store/selectors/optionsSelectors";
 import BrandCarousel from "../../components/develop/BrandCarousel";
+import NoResults from "@/componentsUI/elements/noResults";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -23,31 +23,18 @@ export default function HomePage() {
     limit: skip,
   };
 
-  const { data: adverts, isLoading, isError, error, refetch } =
+  const { data: adverts, isLoading, isError, error} =
     useGetAllAdvertsQuery(filterProducts);
 
   const brands = useSelector((state: RootState) => selectBrands(state));
   const universe = useSelector((state: RootState) => selectUniverses(state));
 
-  useEffect(() => {
-    if (adverts?.adverts.length === 0) {
-      refetch();
-    }
-  }, [adverts, refetch]);
-
   if (isLoading) {
     return <p>Cargando...</p>;
   }
 
-  if (isError) {
-    const err = error as ApiError;
-    return (
-      <div>
-        <p>Hubo un error</p>
-        <p>{err.data.message}</p>
-      </div>
-    );
-  }
+  console.log(isError)
+
 
   if (universe) {
     return (
@@ -81,9 +68,17 @@ export default function HomePage() {
         </div>
 
         <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
+          
+         { adverts && adverts.adverts.length > 0 ? (
+          <>          
           <AdvertSlider title="Nuevos lanzamientos" products={adverts?.adverts || []} />
           <AdvertSlider title="Recomendados para ti" products={adverts?.adverts || []} />
           <AdvertSlider title="Ver todos los artículos" products={adverts?.adverts || []} />
+          </>
+        ) : (
+          <NoResults />
+        )
+        }
         </div>
       </MainLayout>
     );

@@ -80,15 +80,6 @@ const advertsSlice = createSlice({
       state.loading = false;
     })
       .addMatcher(
-        // carga de adverts
-        advertsApi.endpoints.getAllAdverts.matchFulfilled,
-        (state, action) => {
-          state.adverts.adverts = action.payload.adverts;
-          state.adverts.total = action.payload.total;
-          state.loading = false;
-        }
-      )
-      .addMatcher(
         advertsApi.endpoints.editAdvert.matchFulfilled,
         (state, action) => {
           const updated = action.payload.advert;
@@ -133,15 +124,7 @@ const advertsSlice = createSlice({
           state.selectedAdvert = null 
         }
       ) 
-      .addMatcher(
-        
-        advertsApi.endpoints.filterAdverts.matchFulfilled,
-        (state, action) => {
-          state.filterAdverts.adverts = action.payload.adverts;
-          state.filterAdverts.total = action.payload.total;
-          state.loading = false;
-        }
-      )
+
       .addMatcher(
         
         advertsApi.endpoints.filterAdverts.matchRejected,

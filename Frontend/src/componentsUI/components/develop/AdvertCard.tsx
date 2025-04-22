@@ -51,7 +51,7 @@ export default function ProductCard({
 
         <div className="relative w-full h-[160px] sm:h-[180px] md:h-[200px] lg:h-[240px] overflow-hidden bg-white">
           <img
-            src={`/images/${images[0]}`}
+            src={images[0]}
             alt={title}
             className="w-full h-full object-cover"
             loading="lazy"
@@ -60,7 +60,7 @@ export default function ProductCard({
 
         <div className="p-2 sm:p-2.5 md:p-3 text-[11px] sm:text-xs md:text-sm lg:text-sm">
           <p className="text-[10px] sm:text-xs text-coral font-semibold">
-            {brand}
+            {brand.name}
           </p>
           <p className="text-darkblue leading-tight line-clamp-2">{title}</p>
           <p className="text-sm font-semibold text-darkblue mt-1">{price}</p>
