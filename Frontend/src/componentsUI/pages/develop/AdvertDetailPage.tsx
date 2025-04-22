@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { data, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState, useMemo } from "react";
+import {  useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import MainLayout from "@/componentsUI/layouts/MainLayout";
 import AdvertDetail from "@/componentsUI/containers/develop/AdvertDetail";
@@ -16,7 +16,6 @@ import {
   useRemoveAdvertFavMutation,
   useSetAdvertFavMutation,
 } from "@/services/usersApi";
-import { mockProducts } from "@/componentsUI/elements/MockProductos";
 import { selectUser } from "@/store/selectors/userSelectors";
 import Editadvert from "@/temporal-components/EditAdvert";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
@@ -31,14 +30,14 @@ function AdvertDetailPage() {
   const navigate = useNavigate();
   const {
     data: advert} = useGetAdvertDetailQuery({ slug: slug || "" });
-  const universeProduct = advert?.universe;
+  const universeProduct = advert?.universe._id;
 
   const filter = useSelector((state:RootState)=>selectFilters(state))
-  
+  console.log(universeProduct)
 
 const { data: relatedAdverts } = useFilterAdvertsQuery(
   {
-    universe: universeProduct?._id,
+    universe: universeProduct,
     ...filter,
   },
   {
@@ -83,14 +82,13 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
       setFavorite(advert.isFavorite);
     }
   }, [advert]);
-
   const handleFav = async () => {
     if (!advert || !user) return;
     try {
-      if (!advert.isFavorite || !isFavorite) {
+      if (!isFavorite) {
         await setFavAdvert(advert._id).unwrap();
         setFavorite(true);
-      } else {
+      } else if(advert.isFavorite || isFavorite) {
         await deleteFavAdvert(advert._id).unwrap();
         setFavorite(false);
       }
@@ -99,22 +97,6 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
     }
   };
 
-  // useEffect(() => {
-  //   if (slug && (advert?.slug !== slug)) {
-  //     if (newAdvert && isSuccess) {
-  //       dispatch(setSelectedAdvertAndLoad(newAdvert));
-  //     }
-  //   }
-
-  //   if (isError) {
-  //     // Puedes redirigir o mostrar error
-  //     console.log("error al buscsar el anuncio")
-  //   }
-  // }, [slug, advert, newAdvert, isSuccess, isError, dispatch]);
-
-  //if (isLoading || isDeleteLoading || isFavLoading|| isFavDeleteLoading) return <p>Loading...</p>;
-  // if (isError || isDeleteError || isFavError || isFavDeleteError || !advert ) return <p>Error al cargar el anuncio</p>;
-  //if (isError || isDeleteError || isFavError || isFavDeleteError) return <p>Error al cargar el anuncio</p>;
   if (!advert) return <p>Cargando anuncio...</p>;
   if (isEdit) {
     return (
@@ -126,14 +108,6 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
 
   return advert ? (
     <MainLayout>
-      {/*}  isEdit ? (
-      <Editadvert />
-    ) : */}
-
-      {/*revisar esta linea cuando el back end regrese las iamgenes
-    //images={advert.images}
-    */}
-
       <AdvertDetail
         advert={advert}
         onEdit={isOwner ? handleEdit : undefined}
