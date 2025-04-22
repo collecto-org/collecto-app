@@ -20,7 +20,7 @@ import {
   selectBrands,
   selectUniverseOrBrandBySlug,
 } from "@/store/selectors/optionsSelectors";
-import { setFilter } from "@/store/slices/advertsSlice";
+import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
 import { useFilterAdvertsQuery } from "@/services/advertsApi";
 
 export default function UniversePage() {
@@ -32,7 +32,9 @@ export default function UniversePage() {
 
   const filter = useSelector((state: RootState) => selectFilters(state));
   useEffect(() => {
-    if (!actualUniverse || !slug) return;
+    if (!actualUniverse || !slug){
+      dispatch(clearFilter()) 
+      return}
 
     if (actualUniverse.universe) {
       if (actualUniverse.type === "brand" && actualUniverse.universe._id !== filter.brand) {
@@ -42,9 +44,16 @@ export default function UniversePage() {
         dispatch(setFilter({ universe: actualUniverse.universe._id }));
       }
     }
-  }, [slug, actualUniverse, dispatch, filter]); 
+  }, [slug, actualUniverse, dispatch]); 
 
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearFilter());
+    };
+  }, []);
+
+  console.log(filter)
   const {data:adverts, error, isLoading } = useFilterAdvertsQuery(filter);
 
 
@@ -61,10 +70,10 @@ if(isLoading) return <p>Loading...</p>
           height="h-60"
           logos={brands}
         />
-
+        
         <FilteredAdvertSectionProps
           headerLabel="Universo"
-          label={actualUniverse ? actualUniverse.universe.name : "No hay uniuverso"}
+          label={actualUniverse ? actualUniverse.universe.name : "No hay universo"}
           adverts={adverts ? adverts.adverts:[]}
         />
       </MainLayout>

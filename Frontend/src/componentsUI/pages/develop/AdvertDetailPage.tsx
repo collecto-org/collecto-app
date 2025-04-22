@@ -1,14 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { data, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
 
 import MainLayout from "@/componentsUI/layouts/MainLayout";
 import AdvertDetail from "@/componentsUI/containers/develop/AdvertDetail"
 import AdvertSlider from "@/componentsUI/containers/develop/AdvertSlider";
 import { RootState } from "@/store/store";
-import { selectAdvertBySlug, selectAdverts, selectSelectedAdvert } from "@/store/selectors/advertsSelectors";
-import { clearSelectedAdvert, setSelectedAdvert, setSelectedAdvertAndLoad } from "@/store/slices/advertsSlice";
-import { useDeleteAdvertMutation, useGetAdvertDetailQuery } from "@/services/advertsApi";
+import { clearSelectedAdvert } from "@/store/slices/advertsSlice";
+import { useDeleteAdvertMutation, useFilterAdvertsQuery, useGetAdvertDetailQuery } from "@/services/advertsApi";
 import { useRemoveAdvertFavMutation, useSetAdvertFavMutation } from "@/services/usersApi";
 import  { mockProducts }  from "@/componentsUI/elements/MockProductos"
 import { selectUser } from "@/store/selectors/userSelectors";
@@ -19,13 +18,6 @@ function AdvertDetailPage() {
   const slug = params.slug;
   const dispatch = useDispatch();
   console.log("slug a buscar: ", slug)
-  
-  const relatedAdverts = useSelector(selectAdverts) // Cuando tengamos anuncios relacionados hay que cambiar el selector
-
-  
-  const mocked = false
-  //const advert = mockProducts[0]; 
-   const advert = useSelector(selectSelectedAdvert);
 
   const user = useSelector((state: RootState) => selectUser(state));
 
@@ -41,12 +33,13 @@ function AdvertDetailPage() {
   // );
 
   const {
-    data: newAdvert,
+    data: advert,
     isLoading,
     isError,
     isSuccess,
   } = useGetAdvertDetailQuery({ slug: slug || "" });
-  
+  const universeProduct = advert?.universe._id || ""
+  const {data:relatedAdverts} = useFilterAdvertsQuery({universe:universeProduct})
 
   const [deleteAdvert,{isError:isDeleteError, isLoading:isDeleteLoading,isSuccess:isDeleteSucess}] = useDeleteAdvertMutation()
   const [setFavAdvert,{isError:isFavError, isLoading:isFavLoading}] = useSetAdvertFavMutation()
@@ -105,19 +98,9 @@ function AdvertDetailPage() {
   //   }
   // }, [slug, advert, newAdvert, isSuccess, isError, dispatch]);
 
-  useEffect(() => {
-    if (newAdvert && isSuccess) {
-      dispatch(setSelectedAdvertAndLoad(newAdvert));
-    }
-  
-    if (isError) {
-      console.log("error al buscar el anuncio");
-    }
-  }, [newAdvert, isSuccess, isError, dispatch]);
-  
   
   console.log("advert desde Redux:", advert);
-  console.log("newAdvert desde RTK Query:", newAdvert);
+  console.log("newAdvert desde RTK Query:", advert);
   console.log("isError: ", isError)
   console.log("isDeleteError: ", isDeleteError)
   console.log("isFavError: ", isFavError)
@@ -153,7 +136,7 @@ function AdvertDetailPage() {
           </h3>
           <AdvertSlider
             title="Más del universo"
-            products={relatedAdverts.adverts.length > 1 ? relatedAdverts.adverts : mockProducts} //cambiar cuando tengamos anuncios relacionados
+            products={relatedAdverts ? relatedAdverts.adverts : mockProducts} 
           />
         </section>
 
