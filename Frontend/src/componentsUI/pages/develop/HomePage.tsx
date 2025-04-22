@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import MainLayout from "../../layouts/MainLayout";
 import Banner from "../../components/develop/Banner";
 import AdvertSlider from "../../containers/develop/AdvertSlider";
@@ -6,34 +5,21 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useGetAllAdvertsQuery } from "@/services/advertsApi";
-import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
-import { ApiError } from "@/services/schemas";
 import { logosBanner } from "../../containers/develop/MockData";
 import { selectBrands, selectUniverses } from "@/store/selectors/optionsSelectors";
 import BrandCarousel from "../../components/develop/BrandCarousel";
+import NoResults from "@/componentsUI/elements/noResults";
+import { selectFilters } from "@/store/selectors/advertsSelectors";
 
 export default function HomePage() {
   const navigate = useNavigate();
+const filter = useSelector(selectFilters)
 
-  const skip = 6;
-  const [position, setPosition] = useState<number>(1);
-
-  const filterProducts: FilterAdverts = {
-    page: position,
-    limit: skip,
-  };
-
-  const { data: adverts, isLoading, isError, error, refetch } =
-    useGetAllAdvertsQuery(filterProducts);
+  const { data: adverts, isLoading, isError, error} =
+    useGetAllAdvertsQuery(filter);
 
   const brands = useSelector((state: RootState) => selectBrands(state));
   const universe = useSelector((state: RootState) => selectUniverses(state));
-
-  useEffect(() => {
-    if (adverts?.adverts.length === 0) {
-      refetch();
-    }
-  }, [adverts, refetch]);
 
   if (isLoading) {
     return <p>Cargando...</p>;
@@ -73,9 +59,17 @@ export default function HomePage() {
         </div>
 
         <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
-          <AdvertSlider title="Nuevos lanzamientos" products={adverts?.adverts || []} />
-          <AdvertSlider title="Recomendados para ti" products={adverts?.adverts || []} />
-          <AdvertSlider title="Ver todos los artículos" products={adverts?.adverts || []} />
+          
+         { adverts && adverts.adverts.length > 0 ? (
+          <>          
+          <AdvertSlider title="Nuevos lanzamientos" adverts={adverts} />
+          <AdvertSlider title="Recomendados para ti" adverts={adverts} />
+          <AdvertSlider title="Ver todos los artículos" adverts={adverts} />
+          </>
+        ) : (
+          <NoResults />
+        )
+        }
         </div>
       </MainLayout>
     );

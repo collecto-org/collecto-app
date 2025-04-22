@@ -6,13 +6,23 @@ import LanguajeSelector from "../../components/develop/LanguajeSelector";
 import UserMenu from "../../components/develop/UserMenu";
 import NavActions from "../../components/develop/NavActions";
 import NavIcons from "../../components/develop/NavIcons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { selectUser } from "@/store/selectors/userSelectors";
+import { clearFilter } from "@/store/slices/advertsSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const user = useSelector((state: RootState) => selectUser(state));
   const [menuOpen, setMenuOpen] = useState(false);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleOnClick = async () =>{
+    dispatch(clearFilter())
+    navigate("/")
+
+  }
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white text-darkblue shadow-md flex justify-between items-center py-2 px-4">
@@ -23,7 +33,7 @@ export default function Navbar() {
           alt="Collecto logo"
           width={150}
           height={25}
-          redirectTo="/"
+          onClick={handleOnClick}
           className="hidden md:block"
         />
         <Logo
@@ -31,7 +41,7 @@ export default function Navbar() {
           alt="Collecto imagotipo"
           width={40}
           height={32}
-          redirectTo="/"
+          onClick={handleOnClick}
           className="block md:hidden"
         />
       </div>

@@ -1,5 +1,4 @@
 
-import { useState, useEffect } from "react";
 import Title from "@/componentsUI/components/develop/Title";
 import PaginationBlock  from "../../containers/develop/PaginationBlock";
 import SideBarMenu from "../../containers/develop/SidebarMenu";

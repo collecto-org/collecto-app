@@ -12,6 +12,7 @@ import { Advert } from "@/services/schemas/AdvertsSchemas";
 
 interface AdvertDetailProps {
   advert:Advert;
+  isFavorite:boolean;
   onEdit?: () => void ;
   onDelete?: () => void;
   onToggleFav?: () => void;
@@ -23,6 +24,7 @@ export default function AdvertDetail({
   onEdit,
   onDelete,
   onToggleFav,
+  isFavorite,
 }: AdvertDetailProps) {
 
   const {
@@ -32,7 +34,7 @@ export default function AdvertDetail({
     title,
     transaction,
     brand,
-    isFavorite,
+
     price,
     collection,
     status,
