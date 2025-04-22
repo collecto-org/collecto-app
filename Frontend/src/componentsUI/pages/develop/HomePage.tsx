@@ -39,15 +39,7 @@ export default function HomePage() {
     return <p>Cargando...</p>;
   }
 
-  if (isError) {
-    const err = error as ApiError;
-    return (
-      <div>
-        <p>Hubo un error</p>
-        <p>{err.data.message}</p>
-      </div>
-    );
-  }
+
 
   if (universe) {
     return (
