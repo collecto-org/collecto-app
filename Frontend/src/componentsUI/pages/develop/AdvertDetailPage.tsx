@@ -18,26 +18,35 @@ function AdvertDetailPage() {
   const params = useParams();
   const slug = params.slug;
   const dispatch = useDispatch();
+  console.log("slug a buscar: ", slug)
   
   const relatedAdverts = useSelector(selectAdverts) // Cuando tengamos anuncios relacionados hay que cambiar el selector
 
   
-  const mocked = true
-  const advert = mockProducts[0]; 
-  // const advert = useSelector(selectSelectedAdvert);
+  const mocked = false
+  //const advert = mockProducts[0]; 
+   const advert = useSelector(selectSelectedAdvert);
 
   const user = useSelector((state: RootState) => selectUser(state));
 
   const navigate = useNavigate();
+  // const {
+  //   data: newAdvert,
+  //   isLoading,
+  //   isError,
+  //   isSuccess,
+  // } = useGetAdvertDetailQuery(
+  //   { slug: slug || "" },
+  //   { skip: advert?.slug === slug || mocked  }
+  // );
+
   const {
     data: newAdvert,
     isLoading,
     isError,
     isSuccess,
-  } = useGetAdvertDetailQuery(
-    { slug: slug || "" },
-    { skip: advert?.slug === slug || mocked  }
-  );
+  } = useGetAdvertDetailQuery({ slug: slug || "" });
+  
 
   const [deleteAdvert,{isError:isDeleteError, isLoading:isDeleteLoading,isSuccess:isDeleteSucess}] = useDeleteAdvertMutation()
   const [setFavAdvert,{isError:isFavError, isLoading:isFavLoading}] = useSetAdvertFavMutation()
@@ -83,21 +92,41 @@ function AdvertDetailPage() {
     }
   };
  
+  // useEffect(() => {
+  //   if (slug && (advert?.slug !== slug)) {
+  //     if (newAdvert && isSuccess) {
+  //       dispatch(setSelectedAdvertAndLoad(newAdvert));
+  //     }
+  //   }
+  
+  //   if (isError) {
+  //     // Puedes redirigir o mostrar error
+  //     console.log("error al buscsar el anuncio")
+  //   }
+  // }, [slug, advert, newAdvert, isSuccess, isError, dispatch]);
+
   useEffect(() => {
-    if (slug && (advert?.slug !== slug)) {
-      if (newAdvert && isSuccess) {
-        dispatch(setSelectedAdvertAndLoad(newAdvert));
-      }
+    if (newAdvert && isSuccess) {
+      dispatch(setSelectedAdvertAndLoad(newAdvert));
     }
   
     if (isError) {
-      // Puedes redirigir o mostrar error
+      console.log("error al buscar el anuncio");
     }
-  }, [slug, advert, newAdvert, isSuccess, isError, dispatch]);
-
-  if (isLoading || isDeleteLoading || isFavLoading|| isFavDeleteLoading) return <p>Loading...</p>;
-  if (isError || isDeleteError || isFavError || isFavDeleteError || !advert ) return <p>Error al cargar el anuncio</p>;
- 
+  }, [newAdvert, isSuccess, isError, dispatch]);
+  
+  
+  console.log("advert desde Redux:", advert);
+  console.log("newAdvert desde RTK Query:", newAdvert);
+  console.log("isError: ", isError)
+  console.log("isDeleteError: ", isDeleteError)
+  console.log("isFavError: ", isFavError)
+  console.log("isFavDeleteError: ", isFavDeleteError)
+  console.log("advert: ", advert)
+  //if (isLoading || isDeleteLoading || isFavLoading|| isFavDeleteLoading) return <p>Loading...</p>;
+ // if (isError || isDeleteError || isFavError || isFavDeleteError || !advert ) return <p>Error al cargar el anuncio</p>;
+ //if (isError || isDeleteError || isFavError || isFavDeleteError) return <p>Error al cargar el anuncio</p>;
+  if (!advert) return <p>Cargando anuncio...</p>;
   if (isEdit) {
     return (
       <MainLayout>
@@ -105,7 +134,6 @@ function AdvertDetailPage() {
       </MainLayout>
     );
   }
-  
 
   return advert ? (
     <MainLayout>
@@ -121,7 +149,7 @@ function AdvertDetailPage() {
       <AdvertDetail advert={advert} onEdit={isOwner ? handleEdit : undefined} onDelete={isOwner ? handleDelete : undefined}  onToggleFav={handleFav} />
         <section className="mt-10 px-4 space-y-4">
           <h3 className="text-lg font-semibold text-darkblue">
-            Artículos del Universo {advert.universe}
+            Artículos del Universo {advert.universe.name}
           </h3>
           <AdvertSlider
             title="Más del universo"

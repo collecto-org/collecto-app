@@ -5,15 +5,15 @@ export type Advert = {
   description: string;
   mainImage: string;
   price: number;
-  transaction: string;
-  status: string;
+  transaction: { _id: string; code: string; label: string };
+  status: { _id: string; code: string; label: string };
   isVisible: string; 
   isFavorite?:boolean                    
-  product_type: string;
-  universe: string;
-  condition: string;
+  product_type: { _id: string; name: string };
+  universe: { _id: string; name: string };
+  condition:  { _id: string; value: string };
   collection: string;                                  
-  brand: string;
+  brand: { _id: string; name: string };
   tags: string[],
   user:  {
     _id?: string;

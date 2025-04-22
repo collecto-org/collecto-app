@@ -17,7 +17,6 @@ import MyAdvertsFavGrid from "./temporal-components/MyAdvertsFavGrid";
 import { useGetNotificationsQuery } from "./services/notificationsApi";
 import { NotificationView } from "./temporal-components/NotificationView";
 import HomePage from "./componentsUI/pages/develop/HomePage";
-
 import UniversePage from "./componentsUI/pages/develop/UniversePage"
 import ChatPage from "./componentsUI/pages/develop/ChatPage"
 import RatingsPage from "./componentsUI/pages/develop/RatingPage";
@@ -35,6 +34,8 @@ import { useGetshippingMethodsQuery } from "./services/shipmentMethodsApi";
 import { useGetTransactionsQuery } from "./services/transactionsApi";
 import { useGetConditionsQuery } from "./services/conditionsApi";
 import { useGetCollectionsQuery } from "./services/collectionsApi";
+import NewAdvertPage from "./componentsUI/pages/develop/NewAdvertPage";
+
 
 
 
@@ -82,12 +83,7 @@ const { refetch }= useGetNotificationsQuery({})
               
 />*/}
 
-      <Route path="/new-advert" element={<NewAdvert/>}/>
-
-
-
-
-
+      <Route path="/new-advert" element={<NewAdvertPage/>}/>
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/recover" element={<RecoverPassForm />} />

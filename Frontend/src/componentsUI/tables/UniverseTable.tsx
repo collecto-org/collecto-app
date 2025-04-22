@@ -5,20 +5,20 @@ import {
   useUpdateUniverseMutation,
   useDeleteUniverseMutation,
 } from "@/services/universesApi";
-import { Universe } from "@/services/schemas/UniverseSchemas";
+import { UniverseSchema } from "@/services/schemas/UniverseSchemas";
 import Icon from "@/componentsUI/elements/Icon";
 import Button from "@/componentsUI/elements/Button";
 
 export default function UniverseTable() {
     const { data, isLoading } = useGetUniversesQuery();
-    const [universes, setUniverses] = useState<Universe[]>([]);
+    const [universes, setUniverses] = useState<UniverseSchema[]>([]);
   const [createUniverse] = useCreateUniverseMutation();
   const [updateUniverse] = useUpdateUniverseMutation();
   const [deleteUniverse] = useDeleteUniverseMutation();
 
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editValues, setEditValues] = useState<Partial<Universe>>({});
-  const [newEntry, setNewEntry] = useState<Partial<Universe>>({
+  const [editValues, setEditValues] = useState<Partial<UniverseSchema>>({});
+  const [newEntry, setNewEntry] = useState<Partial<UniverseSchema>>({
     name: "",
     logoUrl: "",
     slug: "",
@@ -37,7 +37,7 @@ export default function UniverseTable() {
       alert("Ya existe un universo con ese slug.");
       return;
     }
-    await createUniverse(newEntry as Universe);
+    await createUniverse(newEntry as UniverseSchema);
     setNewEntry({ name: "", logoUrl: "", slug: "" });
   };
 
@@ -57,7 +57,7 @@ export default function UniverseTable() {
       alert("Ese slug ya está en uso.");
       return;
     }
-    await updateUniverse({ id, data: editValues as Universe });
+    await updateUniverse({ id, data: editValues as UniverseSchema });
     setEditingId(null);
     setEditValues({});
   };

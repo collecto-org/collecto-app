@@ -50,12 +50,12 @@ export default function AdvertDetail({
   return (
     <div className="max-w-3xl mx-auto px-6 pt-4 pb-10, mt-5 text-darkblue">
       <div className="mb-4">
-        <Title headerLabel="Universo" label={universe || "universoAPI"} />
+        <Title headerLabel="Universo" label={universe.name || "universoAPI"} />
         <div className="text-sm text-gray-500 flex flex-wrap gap-1">
           <span className="hover:underline cursor-pointer">Inicio</span> /
-          <span className="hover:underline cursor-pointer">{universe}</span> /
-          <span className="hover:underline cursor-pointer">{brand}</span> /
-          <span className="hover:underline cursor-pointer">{product_type}</span> /
+          <span className="hover:underline cursor-pointer">{universe.name}</span> /
+          <span className="hover:underline cursor-pointer">{brand.name}</span> /
+          <span className="hover:underline cursor-pointer">{product_type.name}</span> /
           <span className="font-medium text-darkblue">{title}</span>
         </div>
       </div>
@@ -70,8 +70,8 @@ export default function AdvertDetail({
         <div className="w-full lg:w-1/2 space-y-3">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-coral text-sm font-medium">{brand}</p>
-              <p className="text-xs text-sage">Transacción: {transaction} / Estado: {status}</p>
+              <p className="text-coral text-sm font-medium">{brand.name}</p>
+              <p className="text-xs text-sage">Transacción: {transaction.label} / Estado: {status.label}</p>
             </div>
             <div>
             <ActionBar 
@@ -93,8 +93,8 @@ export default function AdvertDetail({
             })}
           </p>
 
-          <p className="text-sm font-semibold text-darkblue">{condition} // Nuevo con empaque perfecto</p>
-          <p className="text-sm font-semibold text-darkblue">{universe} // The Black Series</p>
+          <p className="text-sm font-semibold text-darkblue">{condition.value} // Nuevo con empaque perfecto</p>
+          <p className="text-sm font-semibold text-darkblue">{universe.name} // The Black Series</p>
           <p className="text-xs text-sage">{collection} // Star Wars: Return of the Jedi</p>
 
           <ExpandableText text={descriptionExample} />
