@@ -136,7 +136,7 @@ function AdvertDetailPage() {
           </h3>
           <AdvertSlider
             title="Más del universo"
-            products={relatedAdverts ? relatedAdverts.adverts : mockProducts} 
+            adverts={relatedAdverts ? relatedAdverts : {total:"10",adverts:mockProducts}} 
           />
         </section>
 
