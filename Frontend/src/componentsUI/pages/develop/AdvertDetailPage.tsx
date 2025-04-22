@@ -38,7 +38,7 @@ function AdvertDetailPage() {
 
 const { data: relatedAdverts } = useFilterAdvertsQuery(
   {
-    universe: universeProduct,
+    universe: universeProduct?._id,
     ...filter,
   },
   {
