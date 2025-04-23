@@ -61,8 +61,6 @@ export default function AdvertSlider({
     if (direction === "next" && totalLoaded >= total) return; 
     setPosition(position+1)
 
-    console.log(totalLoaded)
-    console.log(position)
     if(position === totalLoaded){
   
     setCurrentPage(newPage);

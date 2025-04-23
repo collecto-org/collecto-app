@@ -23,6 +23,7 @@ import Orderpage from "./componentsUI/pages/develop/RatingPage";
 import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage";
 import CatalogManagerPage from "./componentsUI/pages/develop/CatalogManagerPage";
 import { MyOrders } from "./temporal-components/myOrdersJosemi";
+import MyChats from "./temporal-components/MyChats";
 import AdvertDetailPage from "./componentsUI/pages/develop/AdvertDetailPage";
 import { useGetBrandsQuery } from "./services/brandsApi";
 import { useGetUniversesQuery } from "./services/universesApi";
@@ -35,7 +36,6 @@ import { useGetStatusQuery } from "./services/statusApi";
 import RequireAuth from "./services/requireAuth";
 import RequireAdmin from "./services/requireAdmin";
 import MainLayout from "./componentsUI/layouts/MainLayout";
-import AuthLayout from "./componentsUI/layouts/AuthLayout";
 
 function App() {
   const dispatch = useDispatch();
@@ -73,8 +73,8 @@ function App() {
       <Route path="/my-orders" element={<MyOrders />} />
       <Route path="/adverts/me" element={<MyAdvertsGrid />} />
       <Route path="/notifications" element={<NotificationView />} />
-      <Route path="/chat/:userId" element={<ChatPage />} />
       <Route path="/ratings/:userId" element={<RatingsPage />} />
+      <Route path="/my-chats" element={<MyChats />} />
  
       </Route>
 
@@ -86,6 +86,7 @@ function App() {
 
       </Route>
 
+      <Route path="/chat/:slug" element={<ChatPage />} />
       <Route element = {<MainLayout auth={true}><Outlet /></MainLayout>}>
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />

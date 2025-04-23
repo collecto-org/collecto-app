@@ -1,4 +1,5 @@
-import { StrictMode } from 'react'
+
+import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/index.css'
 import App from './App.tsx'
@@ -8,6 +9,7 @@ import { store } from './store/store.ts';
 import "@material/web/all.js"; // registra todos los componentes
 import "./styles/index.css";
 import "./styles/styles.css";
+
 import "@material/web/iconbutton/icon-button.js";
 
 

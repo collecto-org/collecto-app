@@ -8,6 +8,7 @@ import { useEditAdvertMutation, useNewAdvertMutation } from "@/services/advertsA
 import { useNavigate } from "react-router-dom";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
 import { z } from "zod";
+import { usePriceChangeMutation } from "@/services/notificationsApi";
 
 interface CatalogOption {
   _id: string;
@@ -88,6 +89,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
   const [message, setMessage] = useState<string>("");
 
   const [editAdvert,{isLoading}]= useEditAdvertMutation()
+  const [priceNotification,{isLoading:isPriceNotificationLoading}] = usePriceChangeMutation()
 
   useEffect(() => {
     setTransactionTypes(transactionsOptions || []);
@@ -133,17 +135,21 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
         advertForm.append(key, value as string);
       }
     });
+
   
     advertForm.append("type", "advert");
   
     images.forEach((img) => advertForm.append("images", img));
     existingImages.forEach((url) => advertForm.append("existingImages", url));
-  
+    
     try {
-      await editAdvert({ formData: advertForm, id: advert.advert._id });
+      const response = await editAdvert({ formData: advertForm, id: advert.advert._id });
       setMessage("Anuncio editado exitosamente");
       setImages([]);
       setExistingImages([]);
+      if(response.data?.advert._id && response.data?.advert.price != advert.advert.price){
+        await priceNotification({advertId:response.data?.advert._id})
+      }
       navigate("/");
     } catch (err: any) {
       setMessage(err.message || "Error al editar el anuncio");

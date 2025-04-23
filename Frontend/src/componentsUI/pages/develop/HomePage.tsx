@@ -1,7 +1,7 @@
 import Banner from "../../components/develop/Banner";
 import AdvertSlider from "../../containers/develop/AdvertSlider";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {
   useFilterAdvertsQuery,
@@ -24,14 +24,18 @@ export default function HomePage() {
   const navigate = useNavigate();
   const filter = useSelector(selectFilters);
   const dispatch = useDispatch()
+  
+  const universe = useSelector((state: RootState) => selectUniverses(state));
+  const brands = useSelector((state: RootState) => selectBrands(state));
 
   const {
     data: adverts,
     isLoading,
     isError,
-    error,
-  } = useGetAllAdvertsQuery(filter);
 
+  } = useGetAllAdvertsQuery(filter,{skip:!universe} );
+
+  console.count("useGetAllAdvertsQuery call");
   const { data: filterAdverts } = useFilterAdvertsQuery(filter, {
     skip: !filter.title,
   });
@@ -40,8 +44,6 @@ export default function HomePage() {
         dispatch(clearFilter())    
   },[])
 
-  const universe = useSelector((state: RootState) => selectUniverses(state));
-  const brands = useSelector((state: RootState) => selectBrands(state));
 
   if (isError) {
   }
@@ -120,7 +122,7 @@ export default function HomePage() {
           />
         ) : (
           <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
-            {adverts ? (
+            {adverts && !isError ? (
               <>
                 <AdvertSlider
                   title="Nuevos lanzamientos"
@@ -146,3 +148,5 @@ export default function HomePage() {
 
   return null;
 }
+
+HomePage.whyDidYouRender = true;

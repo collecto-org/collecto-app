@@ -45,6 +45,7 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
   const [deleteAdvert, {isSuccess: isDeleteSucess,}] = useDeleteAdvertMutation();
   const [setFavAdvert] = useSetAdvertFavMutation();
   const [deleteFavAdvert] = useRemoveAdvertFavMutation();
+  const [notificationDelete] = useRemoveAdvertFavMutation()
 
   const isOwner = user.username === advert?.user.username;
 
@@ -60,7 +61,9 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
   const handleDelete = async () => {
     if (user) {
       if (advert && user.username === advert.user.username) {
-        deleteAdvert({ id: advert._id });
+        await deleteAdvert({ id: advert._id });
+        await notificationDelete(advert._id)
+        
       }
     }
   };

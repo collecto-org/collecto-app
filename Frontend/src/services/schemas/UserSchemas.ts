@@ -10,3 +10,19 @@ export type User = {
       isLogged: boolean;
 }
 
+export type Message = {
+  username: string;
+  message: string;
+  timestamp: string; 
+}
+
+export type Chat = {
+  roomId: string;
+  slug: string;
+  withUser: string;
+  messages: Message[];
+}
+
+export type GetChatsResponse = {
+  chats: Chat[];
+}
