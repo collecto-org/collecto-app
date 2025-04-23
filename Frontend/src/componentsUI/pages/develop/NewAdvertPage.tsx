@@ -103,7 +103,7 @@ const statusOptions = useSelector((state:RootState)=> selectStatus(state))
       setMessage(err.message || "Error al crear el anuncio");
     }
   };
-console.log(statuses)
+  console.log("statuses", statuses);
   return (
     <MainLayout>
       <div className="mt-10 max-w-4xl mx-auto px-4 py-8">
