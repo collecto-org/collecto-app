@@ -16,30 +16,19 @@ import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { useState } from "react";
 import { ApiError } from "@/services/schemas";
 
-import { logosBanner, brandLogos } from "../../containers/develop/MockData";
 
-import {
-  selectBrands,
-  selectUniverses,
-} from "@/store/selectors/optionsSelectors";
 
-import BrandCarousel from "../../components/develop/BrandCarousel";
 
 
 export default function HomePage() {
   const navigate = useNavigate();
-const filter = useSelector(selectFilters)
+  const filter = useSelector(selectFilters)
 
   const { data: adverts, isLoading, isError, error} =
     useGetAllAdvertsQuery(filter);
 
 
-  const {
-    data: adverts,
-    isLoading,
-    isError,
-    error,
-  } = useGetAllAdvertsQuery(filterProducts);
+
 
   const universe = useSelector((state: RootState) => selectUniverses(state));
   const brands = useSelector((state: RootState) => selectBrands(state));
@@ -121,15 +110,15 @@ const filter = useSelector(selectFilters)
 
           <AdvertSlider
             title="Nuevos lanzamientos"
-            products={adverts?.adverts ? adverts.adverts : []}
+            adverts={adverts ?? { adverts: [], total: "0" }}
           />
           <AdvertSlider
             title="Recomendados para ti"
-            products={adverts?.adverts ? adverts.adverts : []}
+            adverts={adverts ?? { adverts: [], total: "0" }}
           />
           <AdvertSlider
             title="Ver todos los artículos"
-            products={adverts?.adverts ? adverts.adverts : []}
+            adverts={adverts ?? { adverts: [], total: "0" }}
           />
 
         </div>
