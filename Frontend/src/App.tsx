@@ -35,6 +35,7 @@ import { useGetStatusQuery } from "./services/statusApi";
 import RequireAuth from "./services/requireAuth";
 import RequireAdmin from "./services/requireAdmin";
 import MainLayout from "./componentsUI/layouts/MainLayout";
+import AuthLayout from "./componentsUI/layouts/AuthLayout";
 
 function App() {
   const dispatch = useDispatch();
@@ -82,6 +83,10 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/universe/:slug" element={<UniversePage />} />      
       <Route path="/adverts/:slug" element={<AdvertDetailPage />} />
+
+      </Route>
+
+      <Route element = {<AuthLayout><Outlet /></AuthLayout>}>
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/recover" element={<RecoverPassForm />} />
@@ -94,7 +99,7 @@ function App() {
       <Route element = {<MainLayout><RequireAdmin/></MainLayout>}> 
 
       <Route path="/catalogmanager" element={<CatalogManagerPage />} />
-      
+
       </Route>
 
     </Routes>
