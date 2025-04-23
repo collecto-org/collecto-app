@@ -37,12 +37,14 @@ import { useGetTransactionsQuery } from "./services/transactionsApi";
 import { useGetConditionsQuery } from "./services/conditionsApi";
 import { useGetCollectionsQuery } from "./services/collectionsApi";
 import NewAdvertPage from "./componentsUI/pages/develop/NewAdvertPage";
+import { useGetStatusQuery } from "./services/statusApi";
 
 function App() {
   const dispatch = useDispatch();
   const { data: user } = useGetMeQuery({});
 
   const { refetch } = useGetNotificationsQuery({});
+
 
   useGetBrandsQuery();
   useGetUniversesQuery();
@@ -51,6 +53,7 @@ function App() {
   useGetTransactionsQuery();
   useGetConditionsQuery();
   useGetCollectionsQuery();
+
 
   useEffect(() => {
     if (user) {

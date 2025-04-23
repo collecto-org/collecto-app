@@ -14,6 +14,8 @@ export const selectConditions = (state:RootState) => state.options.conditions
 
 export const selectTransactions = (state:RootState) => state.options.transactions
 
+export const selectStatus = (state:RootState) => state.options.status
+
 export const selectShipmentMethods = (state:RootState) => state.options.shippingMethods
 
 export const selectUniverseBySlug = (slug: string | undefined) => (state: RootState) => 

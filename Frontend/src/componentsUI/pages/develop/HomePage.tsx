@@ -5,11 +5,26 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useGetAllAdvertsQuery } from "@/services/advertsApi";
+
 import { logosBanner } from "../../containers/develop/MockData";
 import { selectBrands, selectUniverses } from "@/store/selectors/optionsSelectors";
 import BrandCarousel from "../../components/develop/BrandCarousel";
 import NoResults from "@/componentsUI/elements/noResults";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
+
+import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
+import { useState } from "react";
+import { ApiError } from "@/services/schemas";
+
+import { logosBanner, brandLogos } from "../../containers/develop/MockData";
+
+import {
+  selectBrands,
+  selectUniverses,
+} from "@/store/selectors/optionsSelectors";
+
+import BrandCarousel from "../../components/develop/BrandCarousel";
+
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -18,16 +33,27 @@ const filter = useSelector(selectFilters)
   const { data: adverts, isLoading, isError, error} =
     useGetAllAdvertsQuery(filter);
 
-  const brands = useSelector((state: RootState) => selectBrands(state));
+
+  const {
+    data: adverts,
+    isLoading,
+    isError,
+    error,
+  } = useGetAllAdvertsQuery(filterProducts);
+
   const universe = useSelector((state: RootState) => selectUniverses(state));
+  const brands = useSelector((state: RootState) => selectBrands(state));
+
+  if (isError) {
+  }
+
 
   if (isLoading) {
     return <p>Cargando...</p>;
   }
 
 
-
-  if (universe) {
+  if (universe && brands) {
     return (
       <MainLayout>
         <div className="pt-8">
@@ -42,8 +68,24 @@ const filter = useSelector(selectFilters)
 
         <div className="max-w-7xl mx-auto px-4">
           <section className="my-4">
+            {/*
+          
+                  <FilteredAdvertSectionProps
+                        headerLabel="Universo"
+                        label= "STAR WARS" 
+                        totalAdverts={totalitems}
+                        onFilterChange={(page, size) => {
+                          setCurrentPage(page),
+                          setPageSize(size)
+                        }}
+                        barsidetitle="Tipo de producto"
+                        barsideoptions={sideBarMenu}
+                        adverts={adverts}
+                  />
+          */}
+
             <BrandCarousel
-              logos={brands || []}
+              logos={brands}
               width={90}
               height={90}
               onClickLogo={(src) => {
@@ -55,25 +97,47 @@ const filter = useSelector(selectFilters)
                 navigate(`/universe/${slug}`);
               }}
             />
+
+
+            {/* <ImageGrid
+            logos={brandLogos}
+            columns={10}
+            width={90}
+            height={90}
+            // onClickLogo={(src) => {
+            //   const slug = src
+            //     .split("/")
+            //     .pop()
+            //     ?.replace(".svg", "")
+            //     .toLowerCase();
+            //   navigate(`/universe/${slug}`);
+            // }}
+          /> */}
+
           </section>
         </div>
 
         <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
-          
-         { adverts && adverts.adverts.length > 0 ? (
-          <>          
-          <AdvertSlider title="Nuevos lanzamientos" adverts={adverts} />
-          <AdvertSlider title="Recomendados para ti" adverts={adverts} />
-          <AdvertSlider title="Ver todos los artículos" adverts={adverts} />
-          </>
-        ) : (
-          <NoResults />
-        )
-        }
+
+          <AdvertSlider
+            title="Nuevos lanzamientos"
+            products={adverts?.adverts ? adverts.adverts : []}
+          />
+          <AdvertSlider
+            title="Recomendados para ti"
+            products={adverts?.adverts ? adverts.adverts : []}
+          />
+          <AdvertSlider
+            title="Ver todos los artículos"
+            products={adverts?.adverts ? adverts.adverts : []}
+          />
+
         </div>
       </MainLayout>
     );
   }
 
+
   return null;
+
 }

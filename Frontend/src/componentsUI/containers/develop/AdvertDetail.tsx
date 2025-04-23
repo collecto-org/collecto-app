@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-//import { MessageCircle, Pencil, Edit, Heart, Trash2 } from "lucide-react";
 import Title from "@/componentsUI/components/develop/Title";
 import ImageGallery from "./ImageGallery"
 import ExpandableText from "../../components/develop/ExpandableText"
@@ -43,7 +41,6 @@ export default function AdvertDetail({
     description,
     user
 } = advert
-  const descriptionExample = description + "// Conmemora el 40º aniversario de Star Wars: El Retorno del Jedi. Esta línea cuenta con diseño y embalaje clásicos. Esta figura coleccionable viene a escala de 15 cm de la línea The Black Series con diseño premium y múltiples puntos de articulación."
   const navigate = useNavigate();
 
 
@@ -95,11 +92,11 @@ export default function AdvertDetail({
             })}
           </p>
 
-          <p className="text-sm font-semibold text-darkblue">{condition.value} // Nuevo con empaque perfecto</p>
-          <p className="text-sm font-semibold text-darkblue">{universe.name} // The Black Series</p>
-          <p className="text-xs text-sage">{collection} // Star Wars: Return of the Jedi</p>
+          <p className="text-sm font-semibold text-darkblue">{condition.value} </p>
+          <p className="text-sm font-semibold text-darkblue">{universe.name} </p>
+          <p className="text-xs text-sage">{collection}</p>
 
-          <ExpandableText text={descriptionExample} />
+          <ExpandableText text={description} />
 
           <div className="flex gap-2 flex-wrap">
               <Tags tags={tags}/>

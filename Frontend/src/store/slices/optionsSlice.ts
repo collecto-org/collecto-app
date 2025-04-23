@@ -2,8 +2,9 @@ import { brandsApi } from "@/services/brandsApi";
 import { collectionsApi } from "@/services/collectionsApi";
 import { conditionsApi } from "@/services/conditionsApi";
 import { productTypesApi } from "@/services/productTypesApi";
-import { BrandSchema, CollectionSchema, ConditionSchema, ProductTypeSchema, ShippingMethodSchema, TransactionSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
+import { BrandSchema, CollectionSchema, ConditionSchema, ProductTypeSchema, ShippingMethodSchema, statusSchema, TransactionSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
 import { shippingMethodsApi } from "@/services/shipmentMethodsApi";
+import { statusApi } from "@/services/statusApi";
 import { transactionsApi } from "@/services/transactionsApi";
 import { universesApi } from "@/services/universesApi";
 import { createSlice } from "@reduxjs/toolkit";
@@ -16,6 +17,7 @@ interface OptionsState {
   conditions:ConditionSchema[] | null
   transactions:TransactionSchema[] | null
   shippingMethods:ShippingMethodSchema[] | null
+  status:statusSchema[] | null
   loading:boolean
 }
 
@@ -27,6 +29,7 @@ const initialState: OptionsState = {
   productsTypes:null,
   shippingMethods:null,
   transactions:null,
+  status:null,
   loading:false,
 };
 
@@ -91,6 +94,12 @@ const optionsSlice = createSlice({
         conditionsApi.endpoints.getConditions.matchFulfilled,
         (state, action) => {
           state.conditions= action.payload
+        }
+      )
+      .addMatcher(
+        statusApi.endpoints.getStatus.matchFulfilled,
+        (state, action) => {
+          state.status= action.payload
         }
       )
   },

@@ -1,165 +1,339 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useEditAdvertMutation } from "@/services/advertsApi";
-import { selectSelectedAdvert } from "@/store/selectors/advertsSelectors";
+import React, { useState, useEffect } from "react";
+import MainLayout from "@/componentsUI/layouts/MainLayout";
+import Button from "@/componentsUI/elements/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { usePriceChangeMutation, useStatusChangeMutation } from "@/services/notificationsApi";
+import { selectBrands, selectConditions, selectProductTypes, selectStatus, selectTransactions, selectUniverses } from "@/store/selectors/optionsSelectors";
+import { useEditAdvertMutation, useNewAdvertMutation } from "@/services/advertsApi";
+import { useNavigate } from "react-router-dom";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
 
-const schema = z.object({
-  title: z.string(),
-  description: z.string().max(250, "Has superado el limite de caracteres"),
-  price: z.coerce.number().min(0, "El precio no puede ser menor de 0"),
-  transaction: z.string(),
-  status: z.string(),
-  product_type: z.string(),
-  universe: z.string(),
-  condition: z.string(),
-  collection: z.string(),
-  brand: z.string(),
-  tags: z.string(),
-  images: z.any(),
-});
+interface CatalogOption {
+  _id: string;
+  name?: string;
+  value?:string;
+  label?:string
+}
 
-type FormData = z.infer<typeof schema>;
-
-type Props = {
+interface EditAdvert{
   advert:Advert
 }
-function Editadvert({...props}:Props) {
-  const advertToedit = props.advert
-  
-  const originalAdvert = advertToedit
+export default function EditAdvertPage(advert:EditAdvert) {
 
-  const [Editadvert] = useEditAdvertMutation();
-  const [notificationStatus] = useStatusChangeMutation()
-  const [notificationPrice] = usePriceChangeMutation()
-  const defaultValues = advertToedit
-    ? {
-        title: advertToedit.title,
-        description: advertToedit.description,
-        price: advertToedit.price,
-        transaction: advertToedit.transaction,
-        status: advertToedit.status,
-        product_type: advertToedit.product_type,
-        universe: advertToedit.universe,
-        condition: advertToedit.condition,
-        collection: advertToedit.collection,
-        brand: advertToedit.brand,
-        tags: Array.isArray(advertToedit.tags)
-          ? advertToedit.tags.join(", ")
-          : "",
-        images: undefined,
-      }
-    : {};
+  const navigate = useNavigate()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    mode: "onSubmit",
-    defaultValues: defaultValues,
+const universes = useSelector((state:RootState)=> selectUniverses(state))
+const brandsOptions = useSelector((state:RootState)=> selectBrands(state))
+const transactionsOptions = useSelector((state:RootState)=> selectTransactions(state))
+const conditionsOptions = useSelector((state:RootState)=> selectConditions(state))
+const productTypesOptions = useSelector((state:RootState)=> selectProductTypes(state))
+const statusOptions = useSelector((state:RootState)=> selectStatus(state))
+
+const [existingImages, setExistingImages] = useState<string[]>(advert.advert.images || []);
+
+  const [transactionTypes, setTransactionTypes] = useState<CatalogOption[]>([]);
+  const [brands, setBrands] = useState<CatalogOption[]>([]);
+  const [statuses, setStatuses] = useState<CatalogOption[]>([]);
+  const [conditions, setconditions] = useState<CatalogOption[]>([]);
+  const [productType, setproductType] = useState<CatalogOption[]>([]);
+  const [images, setImages] = useState<File[]>([]);
+
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    price: "",
+    transaction: "",
+    status: "",
+    product_type: "",
+    universe: "",
+    condition: "",
+    collection: "",
+    brand: "",
+    tags: ["general"],
   });
-  const onSubmit = async (data: FormData) => {
-    try {
-      if (advertToedit) {
-        const formData = new FormData();
 
-        Object.entries(data).forEach(([key, value]) => {
-          if (key === "images") {
-            const files = value as FileList;
-            Array.from(files).forEach((file) => {
-              formData.append("images", file);
-            });
-          } else {
-            formData.append(key, value.toString());
-          }
-        });
-        const id = advertToedit._id;
-        console.log(id);
-        await Editadvert({ formData, id });
-        console.log(data.status, originalAdvert?.status)
-        if(advertToedit.status != data.status){
-          await notificationStatus({advertId: advertToedit._id, status:"sold"})
-        }
-        if(advertToedit.price != data.price){
-          await notificationPrice({advertId: advertToedit._id})
-        }
-
-      }
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (advert?.advert) {
+      setFormData({
+        title: advert.advert.title || "",
+        description: advert.advert.description || "",
+        price: String(advert.advert.price) || "",
+        transaction: advert.advert.transaction?._id || "",
+        status: advert.advert.status?._id || "",
+        product_type: advert.advert.product_type?._id || "",
+        universe: advert.advert.universe?._id || "",
+        condition: advert.advert.condition?._id || "",
+        collection: advert.advert.collection || "",
+        brand: advert.advert.brand?._id || "",
+        tags: advert.advert.tags?.length ? advert.advert.tags : ["general"],
+      });
     }
+  }, [advert]);
+  const [message, setMessage] = useState<string>("");
+
+  const [editAdvert,{isLoading}]= useEditAdvertMutation()
+
+  useEffect(() => {
+    setTransactionTypes(transactionsOptions || []);
+    setBrands(brandsOptions|| []);
+    setStatuses(statusOptions || []);
+    setconditions(conditionsOptions || []);
+    setproductType(productTypesOptions || []);
+  }, [brandsOptions,transactionsOptions,conditionsOptions,productTypesOptions,statusOptions]);
+  
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const selectedFiles = Array.from(e.target.files);
+    if (images.length + selectedFiles.length > 6) {
+      alert("Solo puedes subir hasta 6 imágenes");
+      return;
+    }
+    setImages([...images, ...selectedFiles]);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    // Usar el estado más reciente asegurado justo antes del submit
+   
+  
+    const advertForm = new FormData();
+  
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key === "tags" && Array.isArray(value)) {
+        value.forEach((tag) => advertForm.append("tags", tag));
+      } else {
+        advertForm.append(key, value as string);
+      }
+    });
+  
+    advertForm.append("type", "advert");
+  
+    images.forEach((img) => advertForm.append("images", img));
+    existingImages.forEach((url) => advertForm.append("existingImages", url));
+
+    try {
+      await editAdvert({ formData: advertForm, id: advert.advert._id });
+      setMessage("Anuncio editado exitosamente");
+      setImages([]);
+      setExistingImages([]);
+      navigate("/");
+    } catch (err: any) {
+      setMessage(err.message || "Error al editar el anuncio");
+    }
+  };
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-4 max-w-md mx-auto p-4 bg-white shadow rounded-xl"
-    >
-      {[
-        "title",
-        "description",
-        "price",
-        "transaction",
-        "status",
-        "product_type",
-        "universe",
-        "condition",
-        "collection",
-        "brand",
-        "tags",
-      ].map((field) => (
-        <div key={field} className="flex flex-col">
-          <label htmlFor={field} className="capitalize text-sm text-gray-700">
-            {field.replace("_", " ")}
-          </label>
+    <MainLayout>
+      <div className="mt-10 max-w-4xl mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold text-darkblue mb-6">
+          Crear nuevo anuncio
+        </h1>
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <label className="block">Título</label>
           <input
-            id={field}
-            type={field === "price" ? "number" : "text"}
-            {...register(field as keyof FormData)}
-            className="border rounded px-3 py-2"
-            defaultValue={field}
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
           />
-          {errors[field as keyof typeof errors] && (
-            <span className="text-red-500 text-xs mt-1">
-              {errors[field as keyof typeof errors]?.message?.toString()}
-            </span>
-          )}
-        </div>
-      ))}
 
-      <div className="flex flex-col">
-        <label htmlFor="images" className="capitalize text-sm text-gray-700">
-          Imágenes
-        </label>
-        <input
-          id="images"
-          type="file"
-          accept="image/*"
-          multiple
-          {...register("images")}
-          className="border rounded px-3 py-2"
-        />
-        {errors.images && (
-          <span className="text-red-500 text-xs mt-1">
-            {errors.images?.message?.toString()}
-          </span>
-        )}
+          <label className="block">Descripción</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
+          />
+
+          <label className="block">Precio</label>
+          <input
+            name="price"
+            type="number"
+            value={formData.price}
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
+          />
+
+          <label className="block">Tipo de transacción</label>
+          <select
+            name="transaction"
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
+          >
+            <option value={advert.advert.transaction.label}>
+              Selecciona una opción
+            </option>
+            {transactionTypes.map((t) => (
+              <option
+                selected={t._id === advert.advert.transaction._id}
+                key={t._id}
+                value={t._id}
+              >
+                {t.value}
+              </option>
+            ))}
+          </select>
+
+          <label className="block">Está Disponible</label>
+          <select
+            name="status"
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
+          >
+            <option value="">Selecciona un estado</option>
+            {statuses.map((s) => (
+              <option
+                selected={s._id === advert.advert.status._id}
+                key={s._id}
+                value={s._id}
+              >
+                {s.label}
+              </option>
+            ))}
+          </select>
+
+          <label className="block">Tipo de producto</label>
+          <select
+            name="product_type"
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
+          >
+            <option value="">Selecciona un tipo</option>
+            {productType.map((p) => (
+              <option
+                selected={p._id === advert.advert.product_type._id}
+                key={p._id}
+                value={p._id}
+              >
+                {p.name}
+              </option>
+            ))}
+          </select>
+
+          <label className="block">Universo</label>
+          <select
+            name="universe"
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
+          >
+            <option value="">Selecciona un universo</option>
+            {universes?.map((u) => (
+              <option
+                selected={u._id === advert.advert.universe._id}
+                key={u._id}
+                value={u._id}
+              >
+                {u.name}
+              </option>
+            ))}
+          </select>
+
+          <label className="block">Condición</label>
+          <select
+            name="condition"
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
+          >
+            <option value="">Selecciona una condición</option>
+            {conditions.map((c) => (
+              <option
+                selected={c._id === advert.advert.condition._id}
+                key={c._id}
+                value={c._id}
+              >
+                {c.value}
+              </option>
+            ))}
+          </select>
+
+          <label className="block">Marca</label>
+          <select
+            name="brand"
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
+          >
+            <option value="">Selecciona una marca</option>
+            {brands.map((b) => (
+              <option
+                selected={b._id === advert.advert.brand._id}
+                key={b._id}
+                value={b._id}
+              >
+                {b.name}
+              </option>
+            ))}
+          </select>
+
+          <label className="block">Collección</label>
+          <textarea
+            name="collection"
+            value={formData.collection}
+            onChange={handleChange}
+            className="w-full border rounded px-3 py-2"
+          />
+
+          <label className="block">Imágenes</label>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImageChange}
+            className="block w-full border rounded px-3 py-2"
+          />
+
+          <div className="grid grid-cols-3 gap-4">
+            {existingImages.map((url, idx) => (
+              <div key={`existing-${idx}`} className="relative border rounded">
+                <img
+                  src={url}
+                  alt={`existing-${idx}`}
+                  className="w-full h-32 object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    setExistingImages(
+                      existingImages.filter((_, i) => i !== idx)
+                    )
+                  }
+                  className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 text-xs rounded"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            {images.map((file, idx) => (
+              <div key={idx} className="relative border rounded">
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt={`preview-${idx}`}
+                  className="w-full h-32 object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() => setImages(images.filter((_, i) => i !== idx))}
+                  className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 text-xs rounded"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <Button type="submit" variant="turquoise" disabled={isLoading}>
+            {isLoading ? "Cargando..." : "Enviar"}
+          </Button>
+          {message && <p className="text-sm text-darkblue mt-2">{message}</p>}
+        </form>
       </div>
-
-      <button
-        type="submit"
-        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-      >
-        Enviar
-      </button>
-    </form>
+    </MainLayout>
   );
 }
-
-export default Editadvert;

@@ -1,15 +1,30 @@
 import React, { useState, useEffect } from "react";
 import MainLayout from "@/componentsUI/layouts/MainLayout";
 import Button from "@/componentsUI/elements/Button";
-import { useGetUniversesQuery } from "@/services/universesApi";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { selectBrands, selectConditions, selectProductTypes, selectStatus, selectTransactions, selectUniverses } from "@/store/selectors/optionsSelectors";
+import { useNewAdvertMutation } from "@/services/advertsApi";
+import { useNavigate } from "react-router-dom";
 
 interface CatalogOption {
   _id: string;
-  name: string;
+  name?: string;
+  value?:string;
+  label?:string
 }
 
 export default function NewAdvertPage() {
-  const { data: universes = [], isLoading: isLoadingUniverses } = useGetUniversesQuery();
+
+  const navigate = useNavigate()
+
+const universes = useSelector((state:RootState)=> selectUniverses(state))
+const brandsOptions = useSelector((state:RootState)=> selectBrands(state))
+const transactionsOptions = useSelector((state:RootState)=> selectTransactions(state))
+const conditionsOptions = useSelector((state:RootState)=> selectConditions(state))
+const productTypesOptions = useSelector((state:RootState)=> selectProductTypes(state))
+const statusOptions = useSelector((state:RootState)=> selectStatus(state))
+
 
   const [transactionTypes, setTransactionTypes] = useState<CatalogOption[]>([]);
   const [brands, setBrands] = useState<CatalogOption[]>([]);
@@ -32,33 +47,16 @@ export default function NewAdvertPage() {
   });
   const [message, setMessage] = useState<string>("");
 
-  useEffect(() => {
-    setTransactionTypes([
-      { _id: "6805120d475633a8d1937383", name: "Venta" },
-      { _id: "6805120d475633a8d1937386", name: "Compra" },
-    ]);
-    setBrands([
-      { _id: "68050e09d0b1665043adc674", name: "Hasbro" },
-      { _id: "68050e08d0b1665043adc665", name: "Bandai" },
-      { _id: "68050e09d0b1665043adc677", name: "Hot Toys" },
-    ]);
-    setStatuses([
-      { _id: "68051032bdeebe0615b2ea70", name: "available" },
-      { _id: "68051032bdeebe0615b2ea73", name: "Reservado" },
-      { _id: "68051032bdeebe0615b2ea76", name: "Vendido" },
-    ]);
-    setconditions([
-      { _id: "680510bcdc96ef29affe20a1", name: "Nuevo" },
-      { _id: "680510bcdc96ef29affe20a4", name: "Usado" },
-      { _id: "680510bddc96ef29affe20a7", name: "Empaque Dañado" },
-    ]);
-    setproductType([
-      { _id: "68051d1221020cef9e10b6c6", name: "Figura" },
-      { _id: "68051d1221020cef9e10b6c7", name: "Estampa" },
-      { _id: "68051d1221020cef9e10b6c8", name: "Muneco" },
-    ]);
-  }, []);
+  const [newAdvert,{isLoading}]= useNewAdvertMutation()
 
+  useEffect(() => {
+    setTransactionTypes(transactionsOptions || []);
+    setBrands(brandsOptions|| []);
+    setStatuses(statusOptions || []);
+    setconditions(conditionsOptions || []);
+    setproductType(productTypesOptions || []);
+  }, [brandsOptions,transactionsOptions,conditionsOptions,productTypesOptions,statusOptions]);
+  
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const selectedFiles = Array.from(e.target.files);
@@ -95,26 +93,17 @@ export default function NewAdvertPage() {
     }
 
     try {
-      console.log("datos del formulario: ",advertForm )
-      const res = await fetch("http://localhost:3000/api/adverts", {
-        method: "POST",
-        body: advertForm,
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        console.error("Error del servidor:", errorData);
-        throw new Error(errorData.message);
-      }
-
+      
+      await newAdvert({formData:advertForm})
       setMessage("Anuncio creado exitosamente");
       setImages([]);
+      navigate("/")
+
     } catch (err: any) {
       setMessage(err.message || "Error al crear el anuncio");
     }
   };
-
+console.log(statuses)
   return (
     <MainLayout>
       <div className="mt-10 max-w-4xl mx-auto px-4 py-8">
@@ -132,13 +121,13 @@ export default function NewAdvertPage() {
           <label className="block">Tipo de transacción</label>
           <select name="transaction" onChange={handleChange} className="w-full border rounded px-3 py-2">
             <option value="">Selecciona una opción</option>
-            {transactionTypes.map(t => <option key={t._id} value={t._id}>{t.name}</option>)}
+            {transactionTypes.map(t => <option key={t._id} value={t._id}>{t.value}</option>)}
           </select>
 
-          <label className="block">Estado</label>
+          <label className="block">Está Disponible</label>
           <select name="status" onChange={handleChange} className="w-full border rounded px-3 py-2">
             <option value="">Selecciona un estado</option>
-            {statuses.map(s => <option key={s._id} value={s._id}>{s.name}</option>)}
+            {statuses.map(s => <option key={s._id} value={s._id}>{s.label}</option>)}
           </select>
 
           <label className="block">Tipo de producto</label>
@@ -150,13 +139,13 @@ export default function NewAdvertPage() {
           <label className="block">Universo</label>
           <select name="universe" onChange={handleChange} className="w-full border rounded px-3 py-2">
             <option value="">Selecciona un universo</option>
-            {universes.map(u => <option key={u._id} value={u._id}>{u.name}</option>)}
+            {universes?.map(u => <option key={u._id} value={u._id}>{u.name}</option>)}
           </select>
 
           <label className="block">Condición</label>
           <select name="condition" onChange={handleChange} className="w-full border rounded px-3 py-2">
             <option value="">Selecciona una condición</option>
-            {conditions.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
+            {conditions.map(c => <option key={c._id} value={c._id}>{c.value}</option>)}
           </select>
 
           <label className="block">Marca</label>
@@ -195,7 +184,9 @@ export default function NewAdvertPage() {
             ))}
           </div>
 
-          <Button type="submit" variant="turquoise">Subir</Button>
+          <Button type="submit" variant="turquoise" disabled={isLoading}>
+         {isLoading ? "Cargando..." : "Enviar"}
+          </Button>
           {message && <p className="text-sm text-darkblue mt-2">{message}</p>}
         </form>
       </div>
