@@ -4,13 +4,14 @@ import AdvertSlider from "../../containers/develop/AdvertSlider";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { useGetAllAdvertsQuery } from "@/services/advertsApi";
+import { useFilterAdvertsQuery, useGetAllAdvertsQuery } from "@/services/advertsApi";
 
 import { logosBanner } from "../../containers/develop/MockData";
 import { selectBrands, selectUniverses } from "@/store/selectors/optionsSelectors";
 import BrandCarousel from "../../components/develop/BrandCarousel";
 import NoResults from "@/componentsUI/elements/noResults";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
+import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { useState } from "react";
@@ -26,6 +27,9 @@ export default function HomePage() {
 
   const { data: adverts, isLoading, isError, error} =
     useGetAllAdvertsQuery(filter);
+
+    const { data: filterAdverts, } =
+    useFilterAdvertsQuery(filter,{skip:!filter.title});
 
 
 
@@ -103,26 +107,39 @@ export default function HomePage() {
             // }}
           /> */}
 
-          </section>
-        </div>
+</section>
+</div>
 
-        <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
+{filter.title ? (
+  <FilteredAdvertSectionProps
+    headerLabel="¿ Qúe estás buscando?"
+    label={filter.title}
+    adverts={filterAdverts ? filterAdverts.adverts : []}
+  />
+) : (
+  <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
+    {adverts ? (
+      <>
+        <AdvertSlider
+          title="Nuevos lanzamientos"
+          adverts={adverts ?? { adverts: [], total: "0" }}
+        />
+        <AdvertSlider
+          title="Recomendados para ti"
+          adverts={adverts ?? { adverts: [], total: "0" }}
+        />
+        <AdvertSlider
+          title="Ver todos los artículos"
+          adverts={adverts ?? { adverts: [], total: "0" }}
+        />
+      </>
+    ) : (
+      <NoResults />
+    )}
+  </div>
+)}
 
-          <AdvertSlider
-            title="Nuevos lanzamientos"
-            adverts={adverts ?? { adverts: [], total: "0" }}
-          />
-          <AdvertSlider
-            title="Recomendados para ti"
-            adverts={adverts ?? { adverts: [], total: "0" }}
-          />
-          <AdvertSlider
-            title="Ver todos los artículos"
-            adverts={adverts ?? { adverts: [], total: "0" }}
-          />
-
-        </div>
-      </MainLayout>
+</MainLayout>
     );
   }
 

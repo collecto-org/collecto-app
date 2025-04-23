@@ -53,6 +53,7 @@ function App() {
   useGetTransactionsQuery();
   useGetConditionsQuery();
   useGetCollectionsQuery();
+  useGetStatusQuery()
 
 
   useEffect(() => {

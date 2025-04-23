@@ -14,6 +14,24 @@ interface CatalogOption {
   label?:string
 }
 
+
+import { z } from "zod";
+
+const newAdvertSchema = z.object({
+  title: z.string().min(3, "El título es obligatorio"),
+  description: z.string().min(10, "La descripción tiene que tener al menos 10 caracteres"),
+  price: z.string().min(1, "El precio es obligatorio"),
+  transaction: z.string().min(1, "Selecciona un tipo de transacción"),
+  status: z.string().min(1, "Selecciona un estado"),
+  product_type: z.string().min(1, "Selecciona un tipo de producto"),
+  universe: z.string().min(1, "Selecciona un universo"),
+  condition: z.string().min(1, "Selecciona una condición"),
+  brand: z.string().min(1, "Selecciona una marca"),
+  collection: z.string().optional(),
+  tags: z.array(z.string()),
+});
+
+
 export default function NewAdvertPage() {
 
   const navigate = useNavigate()
@@ -74,8 +92,17 @@ const statusOptions = useSelector((state:RootState)=> selectStatus(state))
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setMessage(""); 
+  
+    const result = newAdvertSchema.safeParse(formData);
+  
+    if (!result.success) {
+      const firstError = result.error.errors[0]?.message;
+      setMessage(firstError || "Hay errores en el formulario");
+      return;
+    }
+  
     const advertForm = new FormData();
-
     Object.entries(formData).forEach(([key, value]) => {
       if (key === "tags" && Array.isArray(value)) {
         value.forEach((tag) => advertForm.append("tags", tag));
@@ -83,26 +110,20 @@ const statusOptions = useSelector((state:RootState)=> selectStatus(state))
         advertForm.append(key, value as string);
       }
     });
-
+  
     advertForm.append("type", "advert");
     images.forEach((img) => advertForm.append("images", img));
-    
-    console.log("FormData enviado:");
-    for (const pair of advertForm.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-
+  
     try {
-      
-      await newAdvert({formData:advertForm})
+      await newAdvert({ formData: advertForm });
       setMessage("Anuncio creado exitosamente");
       setImages([]);
-      navigate("/")
-
+      navigate("/");
     } catch (err: any) {
       setMessage(err.message || "Error al crear el anuncio");
     }
   };
+  
   console.log("statuses", statuses);
   return (
     <MainLayout>
@@ -188,6 +209,7 @@ const statusOptions = useSelector((state:RootState)=> selectStatus(state))
          {isLoading ? "Cargando..." : "Enviar"}
           </Button>
           {message && <p className="text-sm text-darkblue mt-2">{message}</p>}
+          
         </form>
       </div>
     </MainLayout>

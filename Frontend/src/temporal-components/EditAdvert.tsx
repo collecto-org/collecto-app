@@ -7,6 +7,7 @@ import { selectBrands, selectConditions, selectProductTypes, selectStatus, selec
 import { useEditAdvertMutation, useNewAdvertMutation } from "@/services/advertsApi";
 import { useNavigate } from "react-router-dom";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
+import { z } from "zod";
 
 interface CatalogOption {
   _id: string;
@@ -18,6 +19,21 @@ interface CatalogOption {
 interface EditAdvert{
   advert:Advert
 }
+
+const editAdvertSchema = z.object({
+  title: z.string().min(3, "El título es obligatorio"),
+  description: z.string().min(10, "La descripción tiene que tener al menos 10 caracteres"),
+  price: z.string().min(1, "El precio es obligatorio"),
+  transaction: z.string().min(1, "Selecciona un tipo de transacción"),
+  status: z.string().min(1, "Selecciona un estado"),
+  product_type: z.string().min(1, "Selecciona un tipo de producto"),
+  universe: z.string().min(1, "Selecciona un universo"),
+  condition: z.string().min(1, "Selecciona una condición"),
+  brand: z.string().min(1, "Selecciona una marca"),
+  collection: z.string().optional(),
+  tags: z.array(z.string()),
+});
+
 export default function EditAdvertPage(advert:EditAdvert) {
 
   const navigate = useNavigate()
@@ -98,9 +114,15 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setMessage("");
   
-    // Usar el estado más reciente asegurado justo antes del submit
-   
+    const result = editAdvertSchema.safeParse(formData);
+  
+    if (!result.success) {
+      const firstError = result.error.errors[0]?.message;
+      setMessage(firstError || "Hay errores en el formulario");
+      return;
+    }
   
     const advertForm = new FormData();
   
@@ -116,7 +138,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
   
     images.forEach((img) => advertForm.append("images", img));
     existingImages.forEach((url) => advertForm.append("existingImages", url));
-
+  
     try {
       await editAdvert({ formData: advertForm, id: advert.advert._id });
       setMessage("Anuncio editado exitosamente");
@@ -127,6 +149,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
       setMessage(err.message || "Error al editar el anuncio");
     }
   };
+  
   return (
     <MainLayout>
       <div className="mt-10 max-w-4xl mx-auto px-4 py-8">

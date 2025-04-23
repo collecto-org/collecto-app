@@ -5,18 +5,16 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {
-  selectFilterAdverts,
   selectFilters,
 } from "@/store/selectors/advertsSelectors";
 
 import { useParams } from "react-router-dom";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
-import { logosBanner } from "../../containers/develop/MockData";
 import {
   selectBrands,
   selectUniverseOrBrandBySlug,
 } from "@/store/selectors/optionsSelectors";
-import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
+import { setFilter } from "@/store/slices/advertsSlice";
 import { useFilterAdvertsQuery } from "@/services/advertsApi";
 
 export default function UniversePage() {
@@ -30,9 +28,7 @@ export default function UniversePage() {
 
   const filter = useSelector((state: RootState) => selectFilters(state));
   useEffect(() => {
-    if (!actualUniverse || !slug){
-      dispatch(clearFilter()) 
-      return}
+    if (!actualUniverse || !slug) return;
 
     if (actualUniverse.universe) {
       if (
@@ -48,11 +44,9 @@ export default function UniversePage() {
         dispatch(setFilter({ universe: actualUniverse.universe._id }));
       }
     }
-
   }, [slug, actualUniverse, dispatch, filter]);
 
   const { data: adverts, error, isLoading } = useFilterAdvertsQuery(filter);
-
 
   if (isLoading) return <p>Loading...</p>;
 
