@@ -1,5 +1,6 @@
 import MainLayout from "../../layouts/MainLayout";
-import Banner from "../../components/develop/Banner";
+//import Banner from "../../components/develop/Banner";
+import BannerPages from "../../components/develop/BannerPages";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -8,14 +9,9 @@ import {
   selectFilters,
 } from "@/store/selectors/advertsSelectors";
 
-
-
 import { useParams } from "react-router-dom";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
-import {
-  logosBanner,
-
-} from "../../containers/develop/MockData";
+import { logosBanner } from "../../containers/develop/MockData";
 import {
   selectBrands,
   selectUniverseOrBrandBySlug,
@@ -28,7 +24,9 @@ export default function UniversePage() {
   const { slug } = useParams();
 
   const brands = useSelector((state: RootState) => selectBrands(state));
-  const actualUniverse = useSelector((state: RootState) => selectUniverseOrBrandBySlug(state, slug));
+  const actualUniverse = useSelector((state: RootState) =>
+    selectUniverseOrBrandBySlug(state, slug)
+  );
 
   const filter = useSelector((state: RootState) => selectFilters(state));
   useEffect(() => {
@@ -37,47 +35,57 @@ export default function UniversePage() {
       return}
 
     if (actualUniverse.universe) {
-      if (actualUniverse.type === "brand" && actualUniverse.universe._id !== filter.brand) {
+      if (
+        actualUniverse.type === "brand" &&
+        actualUniverse.universe._id !== filter.brand
+      ) {
         dispatch(setFilter({ brand: actualUniverse.universe._id }));
       }
-      if (actualUniverse.type === "universe" && actualUniverse.universe._id !== filter.universe) {
+      if (
+        actualUniverse.type === "universe" &&
+        actualUniverse.universe._id !== filter.universe
+      ) {
         dispatch(setFilter({ universe: actualUniverse.universe._id }));
       }
     }
-  }, [slug, actualUniverse, dispatch]); 
+
+  }, [slug, actualUniverse, dispatch, filter]);
+
+  const { data: adverts, error, isLoading } = useFilterAdvertsQuery(filter);
 
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearFilter());
-    };
-  }, []);
+  if (isLoading) return <p>Loading...</p>;
 
-  console.log(filter)
-  const {data:adverts, error, isLoading } = useFilterAdvertsQuery(filter);
-
-
-if(isLoading) return <p>Loading...</p>
-
-
-  if (brands ) {
+  if (brands) {
     return (
       <MainLayout>
-        <Banner
+        <div className="pt-10 md:pt-14">
+          <BannerPages
+            backgroundImages={[
+              actualUniverse?.universe?.slug
+                ? `/gridImages/${actualUniverse.universe.slug}.jpg`
+                : "/gridImages/collecto-banner-principal.jpg",
+            ]}
+          />
+        </div>
+
+        {/* <Banner
           backgroundImages={logosBanner}
           text="Estás a una búsqueda de completar tu colección"
           highlights={["búsqueda", "colección"]}
-          height="h-60"
+          height="h-64"
           logos={brands}
-        />
-        
+        /> */}
+
         <FilteredAdvertSectionProps
           headerLabel="Universo"
-          label={actualUniverse ? actualUniverse.universe.name : "No hay universo"}
-          adverts={adverts ? adverts.adverts:[]}
+          label={
+            actualUniverse ? actualUniverse.universe.name : "No hay uniuverso"
+          }
+          adverts={adverts ? adverts.adverts : []}
+
         />
       </MainLayout>
     );
   }
-
 }
