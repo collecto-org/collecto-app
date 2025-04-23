@@ -14,15 +14,17 @@ import "./styles/index.css";
 import Edituser from "./temporal-components/EditUser";
 import MyAdvertsGrid from "./temporal-components/MyAdvertsGrid";
 import MyAdvertsFavGrid from "./temporal-components/MyAdvertsFavGrid";
+import UserAdvertsFavorites from "./componentsUI/pages/develop/UserAdvertsFavorites";
+import UserAdvertsPublished from "./componentsUI/pages/develop/UserAdvertsPublished";
 import { useGetNotificationsQuery } from "./services/notificationsApi";
 import { NotificationView } from "./temporal-components/NotificationView";
 import HomePage from "./componentsUI/pages/develop/HomePage";
-import UniversePage from "./componentsUI/pages/develop/UniversePage"
-import ChatPage from "./componentsUI/pages/develop/ChatPage"
+import UniversePage from "./componentsUI/pages/develop/UniversePage";
+import ChatPage from "./componentsUI/pages/develop/ChatPage";
 import RatingsPage from "./componentsUI/pages/develop/RatingPage";
 import Orderpage from "./componentsUI/pages/develop/RatingPage";
-import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage"
-import CatalogManagerPage from "./componentsUI/pages/develop/CatalogManagerPage"
+import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage";
+import CatalogManagerPage from "./componentsUI/pages/develop/CatalogManagerPage";
 //import RequireAdmin from "@/componentsUI/layouts/RequireAdmin";
 
 import { MyOrders } from "./temporal-components/myOrdersJosemi";
@@ -35,32 +37,30 @@ import { useGetTransactionsQuery } from "./services/transactionsApi";
 import { useGetConditionsQuery } from "./services/conditionsApi";
 import { useGetCollectionsQuery } from "./services/collectionsApi";
 import NewAdvertPage from "./componentsUI/pages/develop/NewAdvertPage";
-
-
-
+import { useGetStatusQuery } from "./services/statusApi";
 
 function App() {
   const dispatch = useDispatch();
   const { data: user } = useGetMeQuery({});
 
-const { refetch }= useGetNotificationsQuery({})
+  const { refetch } = useGetNotificationsQuery({});
 
-   useGetBrandsQuery()
-    useGetUniversesQuery()
-    useGetProductTypesQuery()
-    useGetshippingMethodsQuery()
-    useGetTransactionsQuery()
-    useGetConditionsQuery()
-    useGetCollectionsQuery()
- 
-  useEffect(()=>{
-    if(user){
-      dispatch(setUser(user))
-      refetch()
+
+  useGetBrandsQuery();
+  useGetUniversesQuery();
+  useGetProductTypesQuery();
+  useGetshippingMethodsQuery();
+  useGetTransactionsQuery();
+  useGetConditionsQuery();
+  useGetCollectionsQuery();
+
+
+  useEffect(() => {
+    if (user) {
+      dispatch(setUser(user));
+      refetch();
     }
-  },[user,dispatch])
-
-  
+  }, [user, dispatch]);
 
   return (
     <Routes>
@@ -68,11 +68,10 @@ const { refetch }= useGetNotificationsQuery({})
 
       <Route path="/universe/:slug" element={<UniversePage />} />
 
+      <Route path="/adverts/:slug" element={<AdvertDetailPage />} />
+      <Route path="/userprofile" element={<UserProfilePage />} />
 
-      <Route path="/adverts/:slug" element={<AdvertDetailPage/>}/>
-      <Route path="/userprofile" element={<UserProfilePage/>}/>
-      
-      <Route path="/catalogmanager" element={<CatalogManagerPage/>}/>
+      <Route path="/catalogmanager" element={<CatalogManagerPage />} />
       {/*<Route
             path="/catalog-manager"
             element={
@@ -83,7 +82,7 @@ const { refetch }= useGetNotificationsQuery({})
               
 />*/}
 
-      <Route path="/new-advert" element={<NewAdvertPage/>}/>
+      <Route path="/new-advert" element={<NewAdvertPage />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/recover" element={<RecoverPassForm />} />
@@ -94,15 +93,16 @@ const { refetch }= useGetNotificationsQuery({})
       <Route path="/edit-me" element={<Edituser />} />
       <Route path="/adverts/me" element={<MyAdvertsGrid />} />
 
-      <Route path="/adverts/favorites" element={<MyAdvertsFavGrid/>} />
-      <Route path="/notifications" element={<NotificationView/>} />
+      <Route path="/adverts/favorites" element={<UserAdvertsFavorites />} />
+      <Route path="/adverts/published" element={<UserAdvertsPublished />} />
+
+      <Route path="/notifications" element={<NotificationView />} />
       <Route path="/chat/:userId" element={<ChatPage />} />
       <Route path="/ratings/:userId" element={<RatingsPage />} />
       <Route path="/Orderpage" element={<Orderpage />} />
-      <Route path="/my-orders" element={<MyOrders/>} />
-      </Routes>
-  )
-
+      <Route path="/my-orders" element={<MyOrders />} />
+    </Routes>
+  );
 }
 
 export default App;

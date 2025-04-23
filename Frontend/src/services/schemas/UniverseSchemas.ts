@@ -32,6 +32,12 @@ export type UniverseSchema = {
    
   };
 
+  export type statusSchema = {
+    _id: string;
+    label: string;
+   
+  }
+
   export type TransactionSchema = {
     _id: string;
     value: string;

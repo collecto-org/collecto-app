@@ -6,6 +6,7 @@ export const advertsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL,
   }),
+  tagTypes: ["Adverts"],
   endpoints: (builder) => ({
     newAdvert: builder.mutation<NewAdvertResponse, { formData: FormData }>({
       query: ({ formData }) => ({
@@ -14,6 +15,7 @@ export const advertsApi = createApi({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Adverts"], 
     }),
     editAdvert: builder.mutation<NewAdvertResponse, { formData: FormData; id:string }>({
       query: ({ formData, id }) => ({
@@ -22,6 +24,7 @@ export const advertsApi = createApi({
         method: "PUT",
         body: formData,
       }),
+      invalidatesTags: ["Adverts"], 
     }),
     deleteAdvert: builder.mutation<{ message: string }, { id: string }>({
       query: ({ id }) => ({
@@ -32,6 +35,7 @@ export const advertsApi = createApi({
           },
         method: "DELETE",
       }),
+      invalidatesTags: ["Adverts"], 
     }),
     getAllAdverts: builder.query<{adverts:Advert[]; total:string},  FilterAdverts >({
       query: (filters) => ({
@@ -44,6 +48,7 @@ export const advertsApi = createApi({
         params:filters
 
       }),
+      providesTags: ["Adverts"]
     }),
     getAdvertDetail: builder.query<Advert, { slug: string }>({
       query: ({ slug }) => ({
@@ -54,6 +59,7 @@ export const advertsApi = createApi({
         },
         method: "GET",
       }),
+      
     }),
     filterAdverts: builder.query<{adverts:Advert[]; total:string},  FilterAdverts >({
       query: (filters) => ({

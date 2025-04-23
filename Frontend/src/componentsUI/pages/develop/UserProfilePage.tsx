@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MainLayout from "@/componentsUI/layouts/MainLayout";
 import Icon from "@/componentsUI/elements/Icon";
 import Button from "@/componentsUI/elements/Button";
+import { Link } from "react-router-dom";
 
 export default function UserProfilePage() {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -71,24 +72,42 @@ export default function UserProfilePage() {
             {[
               { icon: "user", label: "Mi Perfil" },
               { icon: "mapPin", label: "Direcciones de envío" },
-              { icon: "heart", label: "Favoritos" },
+              {
+                icon: "list",
+                label: "Mis anuncios",
+                link: "/adverts/published",
+              },
+              { icon: "heart", label: "Favoritos", link: "/adverts/favorites" },
               { icon: "creditCard", label: "Formas de pago" },
               { icon: "fileText", label: "Datos de facturación" },
               { icon: "list", label: "Historial de pedidos" },
               { icon: "helpCircle", label: "Preguntas frecuentes" },
               { icon: "database", label: "Mis datos" },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                onClick={() => setActiveSection(item.label)}
-                className={`flex items-center gap-2 hover:underline cursor-pointer ${
-                  activeSection === item.label ? "font-bold underline" : ""
-                }`}
-              >
-                <Icon name={item.icon as any} size={20} />
-                <span>{item.label}</span>
-              </div>
-            ))}
+            ].map((item, idx) =>
+              item.link ? (
+                <Link
+                  key={idx}
+                  to={item.link}
+                  className={`flex items-center gap-2 hover:underline cursor-pointer ${
+                    activeSection === item.label ? "font-bold underline" : ""
+                  }`}
+                >
+                  <Icon name={item.icon as any} size={20} />
+                  <span>{item.label}</span>
+                </Link>
+              ) : (
+                <div
+                  key={idx}
+                  onClick={() => setActiveSection(item.label)}
+                  className={`flex items-center gap-2 hover:underline cursor-pointer ${
+                    activeSection === item.label ? "font-bold underline" : ""
+                  }`}
+                >
+                  <Icon name={item.icon as any} size={20} />
+                  <span>{item.label}</span>
+                </div>
+              )
+            )}
           </aside>
 
           {/* Sección derecha dinámica */}
@@ -104,7 +123,9 @@ export default function UserProfilePage() {
                     />
                     <div>
                       <p className="text-gray-600 text-sm">Hola</p>
-                      <h2 className="text-xl font-bold text-darkblue uppercase">{user.firstName}</h2>
+                      <h2 className="text-xl font-bold text-darkblue uppercase">
+                        {user.firstName}
+                      </h2>
                     </div>
                   </div>
                   <Button variant="turquoise">Editar</Button>
@@ -147,9 +168,12 @@ export default function UserProfilePage() {
 
             {activeSection === "Mis datos" && (
               <div>
-                <h2 className="text-xl font-bold text-darkblue mb-4">Mis datos</h2>
+                <h2 className="text-xl font-bold text-darkblue mb-4">
+                  Mis datos
+                </h2>
                 <p className="text-sm text-gray-600">
-                  Aquí irá el formulario o la tabla para capturar y gestionar tus datos.
+                  Aquí irá el formulario o la tabla para capturar y gestionar
+                  tus datos.
                 </p>
               </div>
             )}
