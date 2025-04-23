@@ -86,7 +86,7 @@ function App() {
 
       </Route>
 
-      <Route element = {<AuthLayout><Outlet /></AuthLayout>}>
+      <Route element = {<MainLayout auth={true}><Outlet /></MainLayout>}>
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/recover" element={<RecoverPassForm />} />
