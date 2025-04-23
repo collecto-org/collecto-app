@@ -1,5 +1,3 @@
-import MainLayout from "../../layouts/MainLayout";
-//import Banner from "../../components/develop/Banner";
 import BannerPages from "../../components/develop/BannerPages";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,13 +44,17 @@ export default function UniversePage() {
     }
   }, [slug, actualUniverse, dispatch, filter]);
 
+useEffect(()=>{
+  dispatch(setFilter({limit:12}))
+},[])
+
   const { data: adverts, error, isLoading } = useFilterAdvertsQuery(filter);
 
   if (isLoading) return <p>Loading...</p>;
 
   if (brands) {
     return (
-      <MainLayout>
+      <>
         <div className="pt-10 md:pt-14">
           <BannerPages
             backgroundImages={[
@@ -79,7 +81,7 @@ export default function UniversePage() {
           adverts={adverts ? adverts.adverts : []}
 
         />
-      </MainLayout>
+      </>
     );
   }
 }

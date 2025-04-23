@@ -1,5 +1,4 @@
 import { useSelector} from "react-redux";
-import MainLayout from "@/componentsUI/layouts/MainLayout";
 import { useGetMyadvertsQuery } from "@/services/usersApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import {
@@ -22,7 +21,7 @@ export default function UserAdvertsPublished() {
   if(isLoading) return <p>Loading...</p>
   if(isError) return <p>Ocurrio un error</p>
   return (
-    <MainLayout>
+    <>
       <div className="pt-24 md:pt-32">
         <div className="max-w-7xl mx-auto px-4 space-y-6">
           {/* Encabezado */}
@@ -42,6 +41,6 @@ export default function UserAdvertsPublished() {
           /> : <NoResults/>}
         </div>
       </div>
-    </MainLayout>
+    </>
   );
 }

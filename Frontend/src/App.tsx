@@ -1,11 +1,9 @@
 import LoginForm from "./componentsUI/containers/LoginForm";
 import RegisterForm from "./componentsUI/containers/RegisterForm";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import ConfirmEmail from "./componentsUI/containers/ConfirmEmail";
 import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
 import ChangePassPage from "./componentsUI/containers/ChangePassPage";
-//import AdvertDetail from "./temporal-components/AdvertDetail";
-import NewAdvert from "./componentsUI/pages/NewAdvert";
 import { useDispatch } from "react-redux";
 import { useGetMeQuery } from "./services/usersApi";
 import { useEffect } from "react";
@@ -13,7 +11,6 @@ import { setUser } from "./store/slices/userSlice";
 import "./styles/index.css";
 import Edituser from "./temporal-components/EditUser";
 import MyAdvertsGrid from "./temporal-components/MyAdvertsGrid";
-import MyAdvertsFavGrid from "./temporal-components/MyAdvertsFavGrid";
 import UserAdvertsFavorites from "./componentsUI/pages/develop/UserAdvertsFavorites";
 import UserAdvertsPublished from "./componentsUI/pages/develop/UserAdvertsPublished";
 import { useGetNotificationsQuery } from "./services/notificationsApi";
@@ -25,8 +22,6 @@ import RatingsPage from "./componentsUI/pages/develop/RatingPage";
 import Orderpage from "./componentsUI/pages/develop/RatingPage";
 import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage";
 import CatalogManagerPage from "./componentsUI/pages/develop/CatalogManagerPage";
-//import RequireAdmin from "@/componentsUI/layouts/RequireAdmin";
-
 import { MyOrders } from "./temporal-components/myOrdersJosemi";
 import AdvertDetailPage from "./componentsUI/pages/develop/AdvertDetailPage";
 import { useGetBrandsQuery } from "./services/brandsApi";
@@ -35,9 +30,11 @@ import { useGetProductTypesQuery } from "./services/productTypesApi";
 import { useGetshippingMethodsQuery } from "./services/shipmentMethodsApi";
 import { useGetTransactionsQuery } from "./services/transactionsApi";
 import { useGetConditionsQuery } from "./services/conditionsApi";
-import { useGetCollectionsQuery } from "./services/collectionsApi";
 import NewAdvertPage from "./componentsUI/pages/develop/NewAdvertPage";
 import { useGetStatusQuery } from "./services/statusApi";
+import RequireAuth from "./services/requireAuth";
+import RequireAdmin from "./services/requireAdmin";
+import MainLayout from "./componentsUI/layouts/MainLayout";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,7 +49,6 @@ function App() {
   useGetshippingMethodsQuery();
   useGetTransactionsQuery();
   useGetConditionsQuery();
-  useGetCollectionsQuery();
   useGetStatusQuery()
 
 
@@ -64,26 +60,28 @@ function App() {
   }, [user, dispatch]);
 
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-
-      <Route path="/universe/:slug" element={<UniversePage />} />
-
-      <Route path="/adverts/:slug" element={<AdvertDetailPage />} />
+    <Routes> 
+      <Route element = {<MainLayout><RequireAuth/></MainLayout>}> 
+      
       <Route path="/userprofile" element={<UserProfilePage />} />
-
-      <Route path="/catalogmanager" element={<CatalogManagerPage />} />
-      {/*<Route
-            path="/catalog-manager"
-            element={
-              <RequireAdmin>
-                <CatalogManagerPage />
-              </RequireAdmin>
-            }
-              
-/>*/}
-
       <Route path="/new-advert" element={<NewAdvertPage />} />
+      <Route path="/edit-me" element={<Edituser />} />
+      <Route path="/adverts/favorites" element={<UserAdvertsFavorites />} />
+      <Route path="/adverts/published" element={<UserAdvertsPublished />} />
+      <Route path="/Orderpage" element={<Orderpage />} />
+      <Route path="/my-orders" element={<MyOrders />} />
+      <Route path="/adverts/me" element={<MyAdvertsGrid />} />
+      <Route path="/notifications" element={<NotificationView />} />
+      <Route path="/chat/:userId" element={<ChatPage />} />
+      <Route path="/ratings/:userId" element={<RatingsPage />} />
+ 
+      </Route>
+
+      <Route element = {<MainLayout><Outlet /></MainLayout>}>
+
+      <Route path="/" element={<HomePage />} />
+      <Route path="/universe/:slug" element={<UniversePage />} />      
+      <Route path="/adverts/:slug" element={<AdvertDetailPage />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/recover" element={<RecoverPassForm />} />
@@ -91,17 +89,14 @@ function App() {
       <Route path="/recover/:token" element={<ChangePassPage />} />
       <Route path="/verify-email/:token" element={<ConfirmEmail />} />
 
-      <Route path="/edit-me" element={<Edituser />} />
-      <Route path="/adverts/me" element={<MyAdvertsGrid />} />
+      </Route>
 
-      <Route path="/adverts/favorites" element={<UserAdvertsFavorites />} />
-      <Route path="/adverts/published" element={<UserAdvertsPublished />} />
+      <Route element = {<MainLayout><RequireAdmin/></MainLayout>}> 
 
-      <Route path="/notifications" element={<NotificationView />} />
-      <Route path="/chat/:userId" element={<ChatPage />} />
-      <Route path="/ratings/:userId" element={<RatingsPage />} />
-      <Route path="/Orderpage" element={<Orderpage />} />
-      <Route path="/my-orders" element={<MyOrders />} />
+      <Route path="/catalogmanager" element={<CatalogManagerPage />} />
+      
+      </Route>
+
     </Routes>
   );
 }

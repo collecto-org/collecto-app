@@ -6,17 +6,19 @@ import { setFilter } from "@/store/slices/advertsSlice";
 export default function PaginationControls() {
   const dispatch = useDispatch();
 
-  const { total } = useSelector(selectFilterAdverts);
+  const  total  = useSelector(selectFilterAdverts);
   const filters = useSelector(selectFilters);
   
 
-  const limit = filters.limit ?? 5;
+  const limit = filters.limit ?? 12;
   const page =  filters.page ?? 1;
 
 
   const [currentPage, setCurrentPage] = useState(page);
 
-  const totalPages = Math.max(1, Math.ceil((Number(total) || 50) / limit));
+  const totalPages = Math.max(1, Math.ceil((Number(total)) / limit));
+  console.log(total)
+  console.log(totalPages)
 
   useEffect(() => {
     setCurrentPage(page);
@@ -33,11 +35,11 @@ export default function PaginationControls() {
 
   const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLimit = Number(e.target.value);
-    dispatch(setFilter({ limit: newLimit, page: 1 }));
+    dispatch(setFilter({ limit: newLimit , page: 1 }));
     setCurrentPage(1);
   };
 
-  const pageSizeOptions = [1, 5, 10];
+  const pageSizeOptions = [1, 6, 12];
 
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[0.7rem] text-darkblue font-quicksand">

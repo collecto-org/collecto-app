@@ -17,7 +17,9 @@ function main(){
     {
       path:"*",
       element:(
+       
           <App/>
+         
       )
     }
   ])

@@ -22,7 +22,7 @@ export default function UserAdvertsFavorites() {
   if(isLoading) return <p>Loading...</p>
   if(isError) return <p>Ocurrio un error</p>
   return (
-    <MainLayout>
+    <>
       <div className="pt-24 md:pt-32">
         <div className="max-w-7xl mx-auto px-4 space-y-6">
           {/* Encabezado */}
@@ -42,6 +42,6 @@ export default function UserAdvertsFavorites() {
           /> : <NoResults/>}
         </div>
       </div>
-    </MainLayout>
+    </>
   );
 }

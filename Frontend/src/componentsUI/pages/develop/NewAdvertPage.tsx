@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import MainLayout from "@/componentsUI/layouts/MainLayout";
 import Button from "@/componentsUI/elements/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -16,6 +15,7 @@ interface CatalogOption {
 
 
 import { z } from "zod";
+import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 
 const newAdvertSchema = z.object({
   title: z.string().min(3, "El título es obligatorio"),
@@ -126,7 +126,7 @@ const statusOptions = useSelector((state:RootState)=> selectStatus(state))
   
   console.log("statuses", statuses);
   return (
-    <MainLayout>
+    <>
       <div className="mt-10 max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold text-darkblue mb-6">Crear nuevo anuncio</h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -209,9 +209,10 @@ const statusOptions = useSelector((state:RootState)=> selectStatus(state))
          {isLoading ? "Cargando..." : "Enviar"}
           </Button>
           {message && <p className="text-sm text-darkblue mt-2">{message}</p>}
+          {isLoading? <LoadingSpinner/> : null}
           
         </form>
       </div>
-    </MainLayout>
+    </>
   );
 }
