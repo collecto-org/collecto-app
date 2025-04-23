@@ -27,6 +27,20 @@ export type Advert = {
   _id:string
 
 }
+export type AdvertFormData = {
+  title: string;
+  description: string;
+  price: number;
+  transaction: string;
+  status: string;
+  product_type: string;
+  universe: string;
+  condition: string;
+  collection?: string;
+  brand: string;
+  tags: string[];
+}
+
 
 export type InputAdvert = {
 

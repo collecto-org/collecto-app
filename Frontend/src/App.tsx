@@ -35,6 +35,7 @@ import { useGetTransactionsQuery } from "./services/transactionsApi";
 import { useGetConditionsQuery } from "./services/conditionsApi";
 import { useGetCollectionsQuery } from "./services/collectionsApi";
 import NewAdvertPage from "./componentsUI/pages/develop/NewAdvertPage";
+import { useGetStatusQuery } from "./services/statusApi";
 
 
 
@@ -52,6 +53,7 @@ const { refetch }= useGetNotificationsQuery({})
     useGetTransactionsQuery()
     useGetConditionsQuery()
     useGetCollectionsQuery()
+    useGetStatusQuery()
  
   useEffect(()=>{
     if(user){
