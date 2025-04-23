@@ -1,50 +1,26 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
+import { useSelector} from "react-redux";
 import MainLayout from "@/componentsUI/layouts/MainLayout";
 import { useGetMyFavAdvertsQuery } from "@/services/usersApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
-import { RootState } from "@/store/store";
-import { selectUser } from "@/store/selectors/userSelectors";
 import {
-  selectFilterAdverts,
   selectFilters,
 } from "@/store/selectors/advertsSelectors";
 
-import { setFilter } from "@/store/slices/advertsSlice";
-
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
+import NoResults from "@/componentsUI/elements/noResults";
 
 export default function UserAdvertsFavorites() {
-  const user = useSelector(selectUser);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const filters = useSelector(selectFilters);
-  const { adverts, total } = useSelector(
-    (state: RootState) => state.adverts.adverts
-  );
-
-  const skip = filters.limit || 6;
-  const page = filters.page || 1;
 
   const filterProducts: FilterAdverts = {
-    ...filters,
-    page,
-    limit: skip,
+    ...filters
   };
 
-  useEffect(() => {
-    if (!user || !user.isLogged) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
+  const {data:adverts, isLoading, isError } = useGetMyFavAdvertsQuery(filterProducts);
 
-  const { isLoading, isError } = useGetMyFavAdvertsQuery(filterProducts);
-
-  const totalPages = Math.ceil(Number(total || 0) / skip);
-
+  if(isLoading) return <p>Loading...</p>
+  if(isError) return <p>Ocurrio un error</p>
   return (
     <MainLayout>
       <div className="pt-24 md:pt-32">
@@ -58,13 +34,12 @@ export default function UserAdvertsFavorites() {
           </div>
 
           {/* Contenido */}
+          {adverts ?
           <FilteredAdvertSectionProps
             headerLabel="Favoritos"
             label="Tus anuncios favoritos"
-            adverts={adverts}
-            isLoading={isLoading}
-            isError={isError}
-          />
+            adverts={adverts.adverts}
+          /> : <NoResults/>}
         </div>
       </div>
     </MainLayout>
