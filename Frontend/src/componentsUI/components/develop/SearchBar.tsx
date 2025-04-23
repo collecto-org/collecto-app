@@ -1,4 +1,5 @@
 import { setFilter } from "@/store/slices/advertsSlice";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FiX, FiSearch } from "react-icons/fi";
 import { useDispatch } from "react-redux";
@@ -17,6 +18,10 @@ export default function SearchBar({
   width = "w-full",
 }: SearchBarProps) {
   const dispatch = useDispatch()
+
+  useEffect(() =>{
+    dispatch(setFilter({limit:12}))
+  },[])
 
   const { register, watch, setValue } = useForm<FormValues>({  //  useForm para manejar los input
     defaultValues: { search: "" }, //  Valores por defecto del useForm

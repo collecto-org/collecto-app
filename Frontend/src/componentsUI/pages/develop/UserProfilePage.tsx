@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import MainLayout from "@/componentsUI/layouts/MainLayout";
+import { useState } from "react";
 import Icon from "@/componentsUI/elements/Icon";
 import Button from "@/componentsUI/elements/Button";
 import { Link } from "react-router-dom";
@@ -18,7 +17,7 @@ export default function UserProfilePage() {
   };
 
   return (
-    <MainLayout>
+    <>
       {/* Notificaciones y Chat - flotantes */}
       <div className="mt-10 absolute top-4 right-4 flex gap-4 z-50">
         <div className="relative">
@@ -180,6 +179,6 @@ export default function UserProfilePage() {
           </section>
         </div>
       </div>
-    </MainLayout>
+    </>
   );
 }

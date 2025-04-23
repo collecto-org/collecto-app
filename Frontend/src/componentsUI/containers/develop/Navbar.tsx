@@ -12,17 +12,20 @@ import { selectUser } from "@/store/selectors/userSelectors";
 import { clearFilter } from "@/store/slices/advertsSlice";
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar() {
+interface Props {
+  auth?: boolean;
+}
+
+export default function Navbar({ auth }: Props) {
   const user = useSelector((state: RootState) => selectUser(state));
   const [menuOpen, setMenuOpen] = useState(false);
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleOnClick = async () =>{
-    dispatch(clearFilter())
-    navigate("/")
-
-  }
+  const handleOnClick = async () => {
+    dispatch(clearFilter());
+    navigate("/");
+  };
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white text-darkblue shadow-md flex justify-between items-center py-2 px-4">
@@ -47,22 +50,27 @@ export default function Navbar() {
       </div>
 
       {/* DERECHA - SEARCH + ICONOS */}
+
       <div className="flex items-center gap-4 flex-grow justify-end max-w-xl">
         {/* SEARCHBAR solo en md+ */}
-        <div className="hidden md:flex flex-grow max-w-xl">
-          <SearchBar
-            placeholder="Busca en todos los universos"
-            width="w-full"
-          />
-        </div>
+        {!auth && (
+          <>
+            <div className="hidden md:flex flex-grow max-w-xl">
+              <SearchBar
+                placeholder="Busca en todos los universos"
+                width="w-full"
+              />
+            </div>
 
-        {/* ACCIONES */}
-        <div className="hidden md:flex items-center gap-2">
-          <NavIcons user={user} />
-          <NavActions user={user} />
-          <UserMenu user={user} />
-          <LanguajeSelector />
-        </div>
+            {/* ACCIONES */}
+            <div className="hidden md:flex items-center gap-2">
+              <NavIcons user={user} />
+              <NavActions user={user} />
+              <UserMenu user={user} />
+              <LanguajeSelector />
+            </div>
+          </>
+        )}
 
         {/* MENÚ MÓVIL */}
         <div className="md:hidden">

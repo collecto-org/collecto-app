@@ -1,12 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import {  useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-import MainLayout from "@/componentsUI/layouts/MainLayout";
 import AdvertDetail from "@/componentsUI/containers/develop/AdvertDetail";
 import AdvertSlider from "@/componentsUI/containers/develop/AdvertSlider";
 import { RootState } from "@/store/store";
-import { clearSelectedAdvert } from "@/store/slices/advertsSlice";
 import {
   useDeleteAdvertMutation,
   useFilterAdvertsQuery,
@@ -70,7 +67,6 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
 
   useEffect(() => {
     if (isDeleteSucess) {
-      dispatch(clearSelectedAdvert());
       navigate("/");
     }
   }, [isDeleteSucess]);
@@ -100,14 +96,14 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
   if (!advert) return <p>Cargando anuncio...</p>;
   if (isEdit) {
     return (
-      <MainLayout>
+   
         <Editadvert advert={advert} />
-      </MainLayout>
+ 
     );
   }
 
   return advert ? (
-    <MainLayout>
+    <>
       <AdvertDetail
         advert={advert}
         onEdit={isOwner ? handleEdit : undefined}
@@ -125,7 +121,7 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
           adverts={relatedAdverts}
         />): <p>Loading...</p>}
       </section>
-    </MainLayout>
+    </>
   ) : (
     <p>No existe el anuncio</p>
   );

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import MainLayout from "@/componentsUI/layouts/MainLayout";
 import UniverseTable from "@/componentsUI/tables/UniverseTable"
 
 export default function CatalogManagerPage() {
@@ -16,7 +15,7 @@ export default function CatalogManagerPage() {
   ];
 
   return (
-    <MainLayout>
+    <>
       <div className="max-w-7xl mx-auto px-6 py-10">
         <h1 className="text-2xl font-bold text-darkblue mb-6">Gestión de catálogos</h1>
 
@@ -51,6 +50,6 @@ export default function CatalogManagerPage() {
           </section>
         </div>
       </div>
-    </MainLayout>
+    </>
   );
 }

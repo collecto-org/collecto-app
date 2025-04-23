@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import MainLayout from "@/componentsUI/layouts/MainLayout";
 import Button from "@/componentsUI/elements/Button";
 import { useGetUniversesQuery } from "@/services/universesApi";
 
@@ -84,7 +83,7 @@ export default function NewAdvertPage() {
 
 
   return (
-    <MainLayout>
+    <>
       <div className="mt-10 max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold text-darkblue mb-6">Crear nuevo anuncio</h1>
 
@@ -234,6 +233,6 @@ export default function NewAdvertPage() {
           <Button type="submit" variant="turquoise">Continuar</Button>
         </form>
       </div>
-    </MainLayout>
+    </>
   );
 }
