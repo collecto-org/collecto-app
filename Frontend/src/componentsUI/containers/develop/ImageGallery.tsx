@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface ImageGalleryProps {
   images: string[];
@@ -6,13 +6,18 @@ interface ImageGalleryProps {
 }
 
 export default function ImageGallery({ images, title }: ImageGalleryProps) {
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+  const [selectedImage, setSelectedImage] = useState("");
 
+  useEffect(() => {
+    setSelectedImage(images[0]); 
+  }, [images]);
+
+if(selectedImage){
   return (
     <>
       <div className="rounded-xl overflow-hidden border">
         <img
-          src={selectedImage}
+          src={selectedImage } 
           alt={title}
           className="w-full h-auto object-cover"
         />
@@ -31,5 +36,5 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
         ))}
       </div>
     </>
-  );
+  );}
 }

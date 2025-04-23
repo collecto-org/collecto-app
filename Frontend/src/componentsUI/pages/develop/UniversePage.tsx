@@ -16,7 +16,7 @@ import {
   selectBrands,
   selectUniverseOrBrandBySlug,
 } from "@/store/selectors/optionsSelectors";
-import { setFilter } from "@/store/slices/advertsSlice";
+import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
 import { useFilterAdvertsQuery } from "@/services/advertsApi";
 
 export default function UniversePage() {
@@ -30,7 +30,9 @@ export default function UniversePage() {
 
   const filter = useSelector((state: RootState) => selectFilters(state));
   useEffect(() => {
-    if (!actualUniverse || !slug) return;
+    if (!actualUniverse || !slug){
+      dispatch(clearFilter()) 
+      return}
 
     if (actualUniverse.universe) {
       if (
@@ -46,9 +48,11 @@ export default function UniversePage() {
         dispatch(setFilter({ universe: actualUniverse.universe._id }));
       }
     }
+
   }, [slug, actualUniverse, dispatch, filter]);
 
   const { data: adverts, error, isLoading } = useFilterAdvertsQuery(filter);
+
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -79,6 +83,7 @@ export default function UniversePage() {
             actualUniverse ? actualUniverse.universe.name : "No hay uniuverso"
           }
           adverts={adverts ? adverts.adverts : []}
+
         />
       </MainLayout>
     );

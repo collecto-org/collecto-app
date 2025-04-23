@@ -16,7 +16,7 @@ export default function PaginationControls() {
 
   const [currentPage, setCurrentPage] = useState(page);
 
-  const totalPages = Math.max(1, Math.ceil((Number(total) || 0) / limit));
+  const totalPages = Math.max(1, Math.ceil((Number(total) || 50) / limit));
 
   useEffect(() => {
     setCurrentPage(page);
