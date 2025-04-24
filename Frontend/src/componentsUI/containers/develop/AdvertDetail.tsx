@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Title from "@/componentsUI/components/develop/Title";
 import ImageGallery from "./ImageGallery"
 import ExpandableText from "../../components/develop/ExpandableText"
@@ -32,6 +32,7 @@ export default function AdvertDetail({
     title,
     transaction,
     brand,
+    createdAt,
 
     price,
     collection,
@@ -71,6 +72,7 @@ export default function AdvertDetail({
             <div>
               <p className="text-coral text-sm font-medium">{advert.brand.name}</p>
               <p className="text-xs text-sage">Transacción: {advert.transaction.label} / Estado: {advert.status.label}</p>
+              <p className="text-xs text-sage">Publicado el: {new Date(createdAt).toLocaleDateString()}</p>
             </div>
             <div>     
             <ActionBar 
@@ -112,18 +114,20 @@ export default function AdvertDetail({
 
             <Button
               variant="outline"
-              onClick={() => navigate(`/chat/${advert.slug}`)}
+              onClick={() => navigate(`/chat/${advert._id}`)}
             >
               Iniciar Chat
             </Button>
           </div>
 
           {/* Vendedor */}
+          <Link className="text-black" to={`/users/${user.username}`}>
           <SellerCard 
               username={user.username || "autor API"}
               avatarUrl={user.avatar|| "IMAGEAPI"}
               rating={user.rating|| 4}
             />
+            </Link>
 
         </div>
       </div>

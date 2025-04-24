@@ -19,6 +19,8 @@ interface CatalogOption {
 
 interface EditAdvert{
   advert:Advert
+  handleEdit : () => void
+  refetch: () => void
 }
 
 const editAdvertSchema = z.object({
@@ -35,7 +37,7 @@ const editAdvertSchema = z.object({
   tags: z.array(z.string()),
 });
 
-export default function EditAdvertPage(advert:EditAdvert) {
+export default function EditAdvertPage({advert,handleEdit,refetch}:EditAdvert) {
 
   const navigate = useNavigate()
 
@@ -46,7 +48,7 @@ const conditionsOptions = useSelector((state:RootState)=> selectConditions(state
 const productTypesOptions = useSelector((state:RootState)=> selectProductTypes(state))
 const statusOptions = useSelector((state:RootState)=> selectStatus(state))
 
-const [existingImages, setExistingImages] = useState<string[]>(advert.advert.images || []);
+const [existingImages, setExistingImages] = useState<string[]>(advert.images || []);
 
   const [transactionTypes, setTransactionTypes] = useState<CatalogOption[]>([]);
   const [brands, setBrands] = useState<CatalogOption[]>([]);
@@ -70,19 +72,19 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
   });
 
   useEffect(() => {
-    if (advert?.advert) {
+    if (advert) {
       setFormData({
-        title: advert.advert.title || "",
-        description: advert.advert.description || "",
-        price: String(advert.advert.price) || "",
-        transaction: advert.advert.transaction?._id || "",
-        status: advert.advert.status?._id || "",
-        product_type: advert.advert.product_type?._id || "",
-        universe: advert.advert.universe?._id || "",
-        condition: advert.advert.condition?._id || "",
-        collection: advert.advert.collection || "",
-        brand: advert.advert.brand?._id || "",
-        tags: advert.advert.tags?.length ? advert.advert.tags : ["general"],
+        title: advert.title || "",
+        description: advert.description || "",
+        price: String(advert.price) || "",
+        transaction: advert.transaction?._id || "",
+        status: advert.status?._id || "",
+        product_type: advert.product_type?._id || "",
+        universe: advert.universe?._id || "",
+        condition: advert.condition?._id || "",
+        collection: advert.collection || "",
+        brand: advert.brand?._id || "",
+        tags: advert.tags?.length ? advert.tags : ["general"],
       });
     }
   }, [advert]);
@@ -143,14 +145,12 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
     existingImages.forEach((url) => advertForm.append("existingImages", url));
     
     try {
-      const response = await editAdvert({ formData: advertForm, id: advert.advert._id });
+      const response = await editAdvert({ formData: advertForm, id: advert._id });      
       setMessage("Anuncio editado exitosamente");
       setImages([]);
       setExistingImages([]);
-      if(response.data?.advert._id && response.data?.advert.price != advert.advert.price){
-        await priceNotification({advertId:response.data?.advert._id})
-      }
-      navigate("/");
+      handleEdit()
+      navigate(`/adverts/${response.data?.advert.slug}`)
     } catch (err: any) {
       setMessage(err.message || "Error al editar el anuncio");
     }
@@ -194,12 +194,12 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
           >
-            <option value={advert.advert.transaction.label}>
+            <option value={advert.transaction.label}>
               Selecciona una opción
             </option>
             {transactionTypes.map((t) => (
               <option
-                selected={t._id === advert.advert.transaction._id}
+                selected={t._id === advert.transaction._id}
                 key={t._id}
                 value={t._id}
               >
@@ -217,7 +217,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
             <option value="">Selecciona un estado</option>
             {statuses.map((s) => (
               <option
-                selected={s._id === advert.advert.status._id}
+                selected={s._id === advert.status._id}
                 key={s._id}
                 value={s._id}
               >
@@ -235,7 +235,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
             <option value="">Selecciona un tipo</option>
             {productType.map((p) => (
               <option
-                selected={p._id === advert.advert.product_type._id}
+                selected={p._id === advert.product_type._id}
                 key={p._id}
                 value={p._id}
               >
@@ -253,7 +253,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
             <option value="">Selecciona un universo</option>
             {universes?.map((u) => (
               <option
-                selected={u._id === advert.advert.universe._id}
+                selected={u._id === advert.universe._id}
                 key={u._id}
                 value={u._id}
               >
@@ -271,7 +271,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
             <option value="">Selecciona una condición</option>
             {conditions.map((c) => (
               <option
-                selected={c._id === advert.advert.condition._id}
+                selected={c._id === advert.condition._id}
                 key={c._id}
                 value={c._id}
               >
@@ -289,7 +289,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.advert.ima
             <option value="">Selecciona una marca</option>
             {brands.map((b) => (
               <option
-                selected={b._id === advert.advert.brand._id}
+                selected={b._id === advert.brand._id}
                 key={b._id}
                 value={b._id}
               >

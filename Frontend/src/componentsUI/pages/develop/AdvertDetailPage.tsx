@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-import {  useNavigate, useParams } from "react-router-dom";
+import {  useSelector } from "react-redux";
+import {  useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AdvertDetail from "@/componentsUI/containers/develop/AdvertDetail";
 import AdvertSlider from "@/componentsUI/containers/develop/AdvertSlider";
@@ -20,17 +20,17 @@ import { selectFilters } from "@/store/selectors/advertsSelectors";
 function AdvertDetailPage() {
   const params = useParams();
   const slug = params.slug;
-  const dispatch = useDispatch();
+
+  const location = useLocation();
 
   const user = useSelector((state: RootState) => selectUser(state));
 
   const navigate = useNavigate();
   const {
-    data: advert} = useGetAdvertDetailQuery({ slug: slug || "" });
+    data: advert ,refetch} = useGetAdvertDetailQuery({ slug: slug || "" });
   const universeProduct = advert?.universe._id;
 
   const filter = useSelector((state:RootState)=>selectFilters(state))
-  console.log(universeProduct)
 
 const { data: relatedAdverts } = useFilterAdvertsQuery(
   {
@@ -77,13 +77,18 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
   const [isFavorite, setFavorite] = useState(false);
 
   useEffect(() => {
+
     if (advert?.isFavorite !== undefined) {
       setFavorite(advert.isFavorite);
     }
   }, [advert]);
   const handleFav = async () => {
-    if (!advert || !user) return;
+   
+    if (!advert) return;
     try {
+      if(!user.username){
+        navigate('/login', { replace: true, state: { from: location } });
+      }
       if (!isFavorite) {
         await setFavAdvert(advert._id).unwrap();
         setFavorite(true);
@@ -100,7 +105,7 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
   if (isEdit) {
     return (
    
-        <Editadvert advert={advert} />
+        <Editadvert refetch={refetch} handleEdit={handleEdit} advert={advert} />
  
     );
   }

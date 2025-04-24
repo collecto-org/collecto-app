@@ -23,6 +23,7 @@ import Orderpage from "./componentsUI/pages/develop/RatingPage";
 import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage";
 import CatalogManagerPage from "./componentsUI/pages/develop/CatalogManagerPage";
 import { MyOrders } from "./temporal-components/myOrdersJosemi";
+import UserAdvertsPage from "./temporal-components/UserAdverts";
 import MyChats from "./temporal-components/MyChats";
 import AdvertDetailPage from "./componentsUI/pages/develop/AdvertDetailPage";
 import { useGetBrandsQuery } from "./services/brandsApi";
@@ -75,6 +76,7 @@ function App() {
       <Route path="/notifications" element={<NotificationView />} />
       <Route path="/ratings/:userId" element={<RatingsPage />} />
       <Route path="/my-chats" element={<MyChats />} />
+      <Route path="/chat/:slug" element={<ChatPage />} />
  
       </Route>
 
@@ -83,10 +85,10 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/universe/:slug" element={<UniversePage />} />      
       <Route path="/adverts/:slug" element={<AdvertDetailPage />} />
+      <Route path="/users/:username" element={<UserAdvertsPage />} />
 
       </Route>
 
-      <Route path="/chat/:slug" element={<ChatPage />} />
       <Route element = {<MainLayout auth={true}><Outlet /></MainLayout>}>
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />

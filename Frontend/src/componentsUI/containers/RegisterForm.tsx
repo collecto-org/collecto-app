@@ -8,6 +8,7 @@ import { useRegisterMutation } from "../../services/authApi"
 import { ApiError } from "../../services/schemas/AdvertsSchemas"
 import AuthLayout from "@/componentsUI/layouts/AuthLayout";
 import "../../styles/index copy.css"
+import { isFetchBaseQueryError } from '@reduxjs/toolkit/query'
 
 const schema = z.object({
   email: z.string().email("Email no válido"),
@@ -41,7 +42,8 @@ function RegisterForm() {
     }
   })
 
-  const [registerApi,{isLoading}] = useRegisterMutation()
+  const [registerApi,{isLoading, error,isSuccess}] = useRegisterMutation()
+
 
   const onSubmit = async (data: {username:string; email: string; password: string; firstName:string; lastName:string;  }) => {
 try {
@@ -109,6 +111,19 @@ try {
           register={register}
           type="checkbox"
         />
+
+        {error && (
+        <p className="text-red-500 bg-red-100 p-2 rounded">
+          {(error as any).data?.message || 'Error al crear el usuario'}
+        </p>
+      )}
+
+    {isSuccess && (
+        <p className="text-black bg-red-100 p-2 rounded">
+           Usuario registrado. Verifica tu correo para activarlo
+        </p>
+      )}
+
 
         <Button variant="login-button" tipe="primary-button" >
               {isLoading ? 'Cargando...' : 'Enviar'}
