@@ -19,23 +19,26 @@ import {
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 
+import { HiOutlineCube } from "react-icons/hi";
+
 const icons: Record<string, IconType> = {
   heart: FaRegHeart,
   heartFilled: FaHeart,
   bell: FaRegBell,
   chat: FaRegCommentDots,
   mail: FaRegEnvelope,
-  Edit: FaEdit, 
+  Edit: FaEdit,
   Trash: FaTrash,
   user: FaUser,
-  mapPin: FaMapPin, 
+  mapPin: FaMapPin,
   creditCard: FaCreditCard,
-  fileText: FaFileArchive, 
-  list:FaList, 
-  helpCircle:FaHelicopter, 
+  fileText: FaFileArchive,
+  list: FaList,
+  helpCircle: FaHelicopter,
   calendar: FaCalendar,
   database: FaDatabase,
-  Save:FaSave,
+  Save: FaSave,
+  box: HiOutlineCube,
 };
 
 interface IconProps {
@@ -46,14 +49,21 @@ interface IconProps {
   active?: boolean;
 }
 
-export default function Icon({ name, size = 20, className, onClick, active }: IconProps) {
-
-  const Component = active && name === "heart" ? icons["heartFilled"] : icons[name];
+export default function Icon({
+  name,
+  size = 20,
+  className,
+  onClick,
+  active,
+}: IconProps) {
+  const Component =
+    active && name === "heart" ? icons["heartFilled"] : icons[name];
   return (
-  <Component 
-    size={size} 
-    className={className} 
-    onClick={onClick} 
-    style={{ cursor: onClick ? "pointer" : "default"}}
-    />);
+    <Component
+      size={size}
+      className={className}
+      onClick={onClick}
+      style={{ cursor: onClick ? "pointer" : "default" }}
+    />
+  );
 }

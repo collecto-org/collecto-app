@@ -2,6 +2,8 @@ import { useState } from "react";
 import Icon from "@/componentsUI/elements/Icon";
 import Button from "@/componentsUI/elements/Button";
 import { Link } from "react-router-dom";
+import AdvertsFavorites from "@/componentsUI/containers/develop/AdvertsFavorites";
+import AdvertsPublished from "@/componentsUI/containers/develop/AdvertsPublished";
 
 export default function UserProfilePage() {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -64,19 +66,18 @@ export default function UserProfilePage() {
       </div>
 
       {/* Página principal */}
-      <div className="max-w-6xl mx-auto px-6 py-8 mt-10">
+      <div className="py-16 mt-10 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Sidebar */}
-          <aside className="w-full md:w-1/4 bg-coral rounded-lg p-4 space-y-8 text-white">
+          <aside className="w-full md:w-1/4 bg-coral rounded p-4 space-y-8 text-white">
             {[
               { icon: "user", label: "Mi Perfil" },
               { icon: "mapPin", label: "Direcciones de envío" },
               {
-                icon: "list",
+                icon: "box",
                 label: "Mis anuncios",
-                link: "/adverts/published",
               },
-              { icon: "heart", label: "Favoritos", link: "/adverts/favorites" },
+              { icon: "heart", label: "Favoritos" }, //quité el link a la ruta
               { icon: "creditCard", label: "Formas de pago" },
               { icon: "fileText", label: "Datos de facturación" },
               { icon: "list", label: "Historial de pedidos" },
@@ -110,7 +111,7 @@ export default function UserProfilePage() {
           </aside>
 
           {/* Sección derecha dinámica */}
-          <section className="w-full md:w-3/4 bg-white rounded-lg p-6 shadow space-y-4">
+          <section className="w-full md:w-3/4 bg-white rounded p-2 shadow space-y-4">
             {activeSection === "Mi Perfil" && (
               <>
                 <div className="flex justify-between items-center">
@@ -164,6 +165,8 @@ export default function UserProfilePage() {
                 </div>
               </>
             )}
+            {activeSection === "Mis anuncios" && <AdvertsPublished />}
+            {activeSection === "Favoritos" && <AdvertsFavorites />}
 
             {activeSection === "Mis datos" && (
               <div>

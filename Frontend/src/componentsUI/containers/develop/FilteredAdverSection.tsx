@@ -29,7 +29,7 @@ export default function FiteredAdvertSection({
           <Title headerLabel={headerLabel} label={label} />
         </div>
 
-        <div className="col-span-12 md:col-span-9  flex items-end  justify-end">
+        <div className="col-span-12 md:col-span-9  flex items-end  justify-start">
           <PaginationBlock />
         </div>
 

@@ -3,10 +3,10 @@ import { useGetMyFavAdvertsQuery } from "@/services/usersApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 
-import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
+import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdvertSectionUser";
 import NoResults from "@/componentsUI/elements/noResults";
 
-export default function UserAdvertsFavorites() {
+export default function AdvertsFavorites() {
   const filters = useSelector(selectFilters);
 
   const filterProducts: FilterAdverts = {
@@ -23,10 +23,10 @@ export default function UserAdvertsFavorites() {
   if (isError) return <p>Ocurrio un error</p>;
   return (
     <>
-      <div className="pt-24 md:pt-32">
+      <div>
         <div className="max-w-7xl mx-auto px-4 space-y-6">
           {/* Encabezado */}
-          <div className="text-center">
+          <div className="text-left">
             <h1 className="text-2xl font-bold text-darkblue">Tus favoritos</h1>
             <p className="text-sm text-gray-600">
               Aquí están los anuncios que has marcado como favoritos.
@@ -35,11 +35,7 @@ export default function UserAdvertsFavorites() {
 
           {/* Contenido */}
           {adverts ? (
-            <FilteredAdvertSectionProps
-              headerLabel="Favoritos"
-              label="Tus anuncios favoritos"
-              adverts={adverts.adverts}
-            />
+            <FilteredAdvertSectionProps adverts={adverts.adverts} />
           ) : (
             <NoResults />
           )}
