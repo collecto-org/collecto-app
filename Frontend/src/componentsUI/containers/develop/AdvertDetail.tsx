@@ -112,7 +112,7 @@ export default function AdvertDetail({
 
             <Button
               variant="outline"
-              onClick={() => navigate(`/chat/${user._id}`)}
+              onClick={() => navigate(`/chat/${advert.slug}`)}
             >
               Iniciar Chat
             </Button>

@@ -36,18 +36,15 @@ export default function Banner({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const nextImage = getRandomImage(currentImage);
-
-      // fade-out → cambio imagen → fade-in
       setFade(false);
       setTimeout(() => {
-        setCurrentImage(nextImage);
+        setCurrentImage(prev => getRandomImage(prev));
         setFade(true);
-      }, 500); // espera antes de mostrar nueva imagen
-    }, 10000); // cada 10 segundos
-
-    return () => clearInterval(interval); // cleanup
-  }, [currentImage, backgroundImages]);
+      }, 500);
+    }, 10000);
+  
+    return () => clearInterval(interval);
+  }, [backgroundImages]);
 
   return (
     <div className={`relative w-full ${height} overflow-hidden`}>
