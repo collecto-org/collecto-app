@@ -1,33 +1,35 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectFilterAdverts, selectFilters } from "@/store/selectors/advertsSelectors";
+import {
+  selectFilterAdverts,
+  selectFilters,
+} from "@/store/selectors/advertsSelectors";
 import { setFilter } from "@/store/slices/advertsSlice";
 
 export default function PaginationControls() {
   const dispatch = useDispatch();
 
-  const  total  = useSelector(selectFilterAdverts);
+  const total = useSelector(selectFilterAdverts);
   const filters = useSelector(selectFilters);
-  
 
   const limit = filters.limit ?? 12;
-  const page =  filters.page ?? 1;
-
+  const page = filters.page ?? 1;
 
   const [currentPage, setCurrentPage] = useState(page);
 
-  const totalPages = Math.max(1, Math.ceil((Number(total)) / limit));
-  console.log(total)
-  console.log(totalPages)
+  const totalPages = Math.max(1, Math.ceil(Number(total) / limit));
+  console.log(total);
+  console.log(totalPages);
 
   useEffect(() => {
     setCurrentPage(page);
   }, [page]);
 
   const handlePageChange = (direction: "prev" | "next") => {
-    const newPage = direction === "prev"
-      ? Math.max(currentPage - 1, 1)
-      : Math.min(currentPage + 1, totalPages);
+    const newPage =
+      direction === "prev"
+        ? Math.max(currentPage - 1, 1)
+        : Math.min(currentPage + 1, totalPages);
 
     setCurrentPage(newPage);
     dispatch(setFilter({ page: newPage }));
@@ -35,21 +37,25 @@ export default function PaginationControls() {
 
   const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLimit = Number(e.target.value);
-    dispatch(setFilter({ limit: newLimit , page: 1 }));
+    dispatch(setFilter({ limit: newLimit, page: 1 }));
     setCurrentPage(1);
   };
 
   const pageSizeOptions = [1, 6, 12];
 
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[0.7rem] text-darkblue font-quicksand">
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[0.9rem] text-darkblue">
+      <div className="flex items-center gap-2 relative">
+        <span className="font-bold p-2">Resultado: {total} anuncios</span>
+      </div>
+
       {/* cantidad por página */}
       <div className="flex items-center gap-2 relative">
       <span className="font-medium">Total de anuncios: {total}</span>
 
         <span className="font-medium">Mostrar:</span>
         <select
-          className="bg-cream border border-turquoise rounded-full px-3 py-1 text-turquoise font-quicksand appearance-none pr-8"
+          className="border-2 border-turquoise rounded-full px-3 py-1 text-turquoise font-quicksand appearance-none pr-8"
           value={limit}
           onChange={handlePageSizeChange}
         >
@@ -60,7 +66,7 @@ export default function PaginationControls() {
           ))}
         </select>
         <svg
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-turquoise pointer-events-none"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-turquoise  pointer-events-none"
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -77,7 +83,7 @@ export default function PaginationControls() {
         <button
           disabled={currentPage === 1}
           onClick={() => handlePageChange("prev")}
-          className="px-3 py-1 border border-turquoise rounded-full text-darkblue hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed transition font-quicksand"
+          className="px-3 py-1 border-2 border-turquoise rounded-full text-darkblue hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed transition"
         >
           <span className="flex items-center gap-1">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -87,14 +93,14 @@ export default function PaginationControls() {
           </span>
         </button>
 
-        <span className="text-darkblue font-quicksand">
+        <span className="text-darkblue">
           Página <strong>{currentPage}</strong> de <strong>{totalPages}</strong>
         </span>
 
         <button
           disabled={currentPage >= totalPages}
           onClick={() => handlePageChange("next")}
-          className="px-3 py-1 border border-turquoise rounded-full text-darkblue hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed transition font-quicksand"
+          className="px-3 py-1 border-2 border-turquoise rounded-full text-darkblue hover:bg-cream disabled:opacity-50 disabled:cursor-not-allowed transition"
         >
           <span className="flex items-center gap-1">
             Siguiente
