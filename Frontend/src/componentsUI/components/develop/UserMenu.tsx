@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function UserMenu(user: { user: User }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [logout] = useLogoutMutation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -26,15 +26,18 @@ export default function UserMenu(user: { user: User }) {
       <Dropdown
         onToggle={() => setIsMenuOpen((prev) => !prev)}
         label={
-          <div className="flex items-center gap-1 bg-cream focus:outline-none">
-            <Logo
-              src={user.user.avatarUrl || "https://github.com/mdo.png"}
-              alt={user.user.username}
-              width={40}
-              rounded
-            />
+          <div className="flex items-center gap-1 bg-white focus:outline-none">
+            <div className="w-9 h-9 rounded-full overflow-hidden">
+              <Logo
+                src={user.user.avatarUrl || "https://github.com/mdo.png"}
+                alt={user.user.username}
+                width={36}
+                height={36}
+                rounded
+              />
+            </div>
             <svg
-              className={`w-3 h-3 text-darkblue transition-transform duration-200 ${
+              className={`w-6 h-6 text-darkblue transition-transform duration-200 ${
                 isMenuOpen ? "rotate-180" : "rotate-0"
               }`}
               fill="currentColor"
@@ -54,10 +57,9 @@ export default function UserMenu(user: { user: User }) {
         </Dropdown.Item>
 
         <Dropdown.Item onClick={() => navigate("/catalogmanager")}>
-        Administrar catálogos
+          Administrar catálogos
         </Dropdown.Item>
 
-        
         <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
       </Dropdown>
     </div>
