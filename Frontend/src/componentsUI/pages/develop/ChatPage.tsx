@@ -14,10 +14,10 @@ export default function ChatPage() {
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<{ message: string; username: string }[]>([]);
-
+const advertId = slug
   useEffect(() => {
     if (slug) {
-      socket.emit("join_chat", { username, slug }); // Envías solo el username y slug
+      socket.emit("join_chat", { username, advertId }); // Envías solo el username y slug
     }
 
     // Recibir nuevos mensajes y actualizar el estado

@@ -96,6 +96,7 @@ title?: string;
 }
 
 export type listingId = string
+export type Username = string
 
 export type AdvertId = string
 

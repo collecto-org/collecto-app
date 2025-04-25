@@ -1,6 +1,6 @@
 import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 import { GetChatsResponse, User } from "./schemas/UserSchemas";
-import { Advert, FilterAdverts, listingId } from "./schemas/AdvertsSchemas";
+import { Advert, FilterAdverts, listingId, Username } from "./schemas/AdvertsSchemas";
 
 
 
@@ -82,6 +82,15 @@ export const userApi = createApi({
   
         }),
       }),
+      getUserAdverts: builder.query<{adverts:Advert[]; total:string},Username >({
+        query: (username) => ({
+          url: `/api/users/${username}`,
+          method: "GET",
+          credentials:"include",
+          
+  
+        }),
+      }),
     })
 })
 
@@ -94,6 +103,7 @@ export const {
   useRemoveAdvertFavMutation,
   useGetMyFavAdvertsQuery,
 useSetAdvertFavMutation,
-useGetChatsQuery
+useGetChatsQuery,
+useGetUserAdvertsQuery,
 
 } = userApi

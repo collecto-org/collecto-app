@@ -6,7 +6,7 @@ import InputField from "../components/InputField"
 import Button from "../components/Button"
 import { useLoginMutation } from "../../services/authApi"
 import logo from "../../assets/logos/collecto.png"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import "../../styles/index copy.css"
 import { ApiError } from "../../services/schemas/AdvertsSchemas"
 
@@ -36,7 +36,9 @@ function LoginForm() {
   const [loginError, setLoginError] = useState<string | null>(null)
 const [trigger,] = useLazyGetMeQuery()
   const navigate = useNavigate()
+  const location = useLocation();
 
+  const from = (location.state as any)?.from?.pathname || '/';
 
 
 
@@ -44,7 +46,7 @@ const [trigger,] = useLazyGetMeQuery()
     try {
        await login(data).unwrap();
        trigger({})
-       navigate("/")
+       navigate(from, { replace: true })
     } catch (err) {
       console.log(err)
       const apiError = err as ApiError;

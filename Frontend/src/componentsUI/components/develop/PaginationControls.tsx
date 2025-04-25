@@ -51,6 +51,8 @@ export default function PaginationControls() {
 
       {/* cantidad por página */}
       <div className="flex items-center gap-2 relative">
+      <span className="font-medium">Total de anuncios: {total}</span>
+
         <span className="font-medium">Mostrar:</span>
         <select
           className="border-2 border-turquoise rounded-full px-3 py-1 text-turquoise font-quicksand appearance-none pr-8"

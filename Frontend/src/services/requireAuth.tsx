@@ -10,7 +10,7 @@ function RequireAuth() {
   return isLogged?.username ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" replace state={{ from: location.pathname }} />
+    <Navigate to="/login" replace state={{ from: location }} />
   );
 }
 
