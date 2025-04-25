@@ -7,18 +7,19 @@ import { selectTotalPendingNotifications } from "@/store/selectors/notificationS
 import { RootState } from "@/store/store";
 
 export default function NavIcons(user: { user: User }) {
-
-    const totalPendingNotifications = useSelector((state:RootState) => selectTotalPendingNotifications(state))
+  const totalPendingNotifications = useSelector((state: RootState) =>
+    selectTotalPendingNotifications(state)
+  );
 
   if (!user.user.username) {
     return null;
   }
   return (
-    <div className="flex items-center gap-2 text-darkblue text-sm px-5">
+    <div className="flex items-center gap-3 text-darkblue text-sm px-5">
       <div className="relative">
         <Icon
           name="mail"
-          size={20}
+          size={25}
           className="hover:text-coral transition-colors"
           onClick={() => alert("revisar correo")}
         />
@@ -26,16 +27,17 @@ export default function NavIcons(user: { user: User }) {
       </div>
 
       <div className="relative">
-      <Link
-          to="/notifications" 
-          className="text-darkblue hover:text-coral"
-        >
-        <Icon
-          name="bell"
-          size={20}
-          className="hover:text-coral transition-colors"
-        />
-        <NotificationBadge count={totalPendingNotifications} position="top-right" variant="warning" />
+        <Link to="/notifications" className="text-darkblue hover:text-coral">
+          <Icon
+            name="bell"
+            size={25}
+            className="hover:text-coral transition-colors"
+          />
+          <NotificationBadge
+            count={totalPendingNotifications}
+            position="top-right"
+            variant="warning"
+          />
         </Link>
       </div>
 
@@ -46,7 +48,7 @@ export default function NavIcons(user: { user: User }) {
         >
           <Icon
             name="heart"
-            size={20}
+            size={25}
             className="hover:text-coral transition-colors"
           />
           <NotificationBadge
@@ -60,7 +62,7 @@ export default function NavIcons(user: { user: User }) {
       <div className="relative">
         <Icon
           name="chat"
-          size={20}
+          size={25}
           className="hover:text-coral transition-colors text-darkblue"
           onClick={() => alert("Iniciando chat")}
         />

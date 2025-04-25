@@ -9,7 +9,7 @@ interface LogoProps {
   rounded?: boolean;
   className?: string;
   onClick?: () => void;
-  redirectTo?: string; 
+  redirectTo?: string;
 }
 
 export default function Logo({
@@ -38,7 +38,9 @@ export default function Logo({
       src={src}
       alt={alt}
       onClick={handleClick}
-      className={`object-cover ${rounded ? "rounded-full" : ""} ${className} cursor-pointer`}
+      className={`object-cover ${
+        rounded ? "rounded-full" : ""
+      } ${className} cursor-pointer`}
       style={{ width: `${width}px`, height: `${finalHeight}px` }}
     />
   );

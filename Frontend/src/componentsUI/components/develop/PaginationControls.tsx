@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  selectFilterAdverts,
-  selectFilters,
-} from "@/store/selectors/advertsSelectors";
+import { RootState } from "@/store/store";
+import { selectFilters } from "@/store/selectors/advertsSelectors";
 import { setFilter } from "@/store/slices/advertsSlice";
 
 export default function PaginationControls() {
   const dispatch = useDispatch();
 
-  const total = useSelector(selectFilterAdverts);
+  const total = useSelector(
+    (state: RootState) => state.adverts.totalFilterAdverts
+  );
   const filters = useSelector(selectFilters);
 
   const limit = filters.limit ?? 12;
@@ -17,13 +17,20 @@ export default function PaginationControls() {
 
   const [currentPage, setCurrentPage] = useState(page);
 
-  const totalPages = Math.max(1, Math.ceil(Number(total) / limit));
-  console.log(total);
-  console.log(totalPages);
-
   useEffect(() => {
     setCurrentPage(page);
   }, [page]);
+
+  const isTotalValid = typeof total === "number" && !isNaN(total);
+  const totalPages = isTotalValid ? Math.max(1, Math.ceil(total / limit)) : 1;
+
+  if (!isTotalValid) {
+    return (
+      <div className="text-sm text-gray-500 px-2 py-1">
+        Cargando paginación...
+      </div>
+    );
+  }
 
   const handlePageChange = (direction: "prev" | "next") => {
     const newPage =
@@ -49,7 +56,6 @@ export default function PaginationControls() {
         <span className="font-bold p-2">Resultado: {total} anuncios</span>
       </div>
 
-      {/* cantidad por página */}
       <div className="flex items-center gap-2 relative">
       <span className="font-medium">Total de anuncios: {total}</span>
 
@@ -66,7 +72,7 @@ export default function PaginationControls() {
           ))}
         </select>
         <svg
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-turquoise  pointer-events-none"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-turquoise pointer-events-none"
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -78,7 +84,6 @@ export default function PaginationControls() {
         </svg>
       </div>
 
-      {/* navegación */}
       <div className="flex items-center gap-3">
         <button
           disabled={currentPage === 1}

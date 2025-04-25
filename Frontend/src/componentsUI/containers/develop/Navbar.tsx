@@ -51,7 +51,7 @@ export default function Navbar({ auth }: Props) {
 
       {/* DERECHA - SEARCH + ICONOS */}
 
-      <div className="flex items-center gap-4 flex-grow justify-end max-w-xl">
+      <div className="flex items-center gap-2 flex-grow justify-end px-6">
         {/* SEARCHBAR solo en md+ */}
         {!auth && (
           <>
@@ -63,11 +63,16 @@ export default function Navbar({ auth }: Props) {
             </div>
 
             {/* ACCIONES */}
-            <div className="hidden md:flex items-center gap-2">
-              <NavIcons user={user} />
-              <NavActions user={user} />
-              <UserMenu user={user} />
-              <LanguajeSelector />
+            <div className="hidden md:flex items-center space-x-2">
+              <div className="flex items-center space-x-1">
+                <NavIcons user={user} />
+                <NavActions user={user} />
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <UserMenu user={user} />
+                <LanguajeSelector />
+              </div>
             </div>
           </>
         )}
