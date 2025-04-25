@@ -20,7 +20,7 @@ export const notificationApi = createApi({
       }),
       getNotifications: builder.query<NotificationSchema[], {}>({
         query: () => ({
-          url: `/api/users/me/notifications`,
+          url: `/api/notifications/user`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"
