@@ -16,6 +16,8 @@ import {
   FaCalendar,
   FaDatabase,
   FaSave,
+  FaFacebook, 
+  FaTwitter,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 
@@ -39,6 +41,8 @@ const icons: Record<string, IconType> = {
   database: FaDatabase,
   Save: FaSave,
   box: HiOutlineCube,
+  twitter: FaTwitter,
+  facebook: FaFacebook,
 };
 
 interface IconProps {

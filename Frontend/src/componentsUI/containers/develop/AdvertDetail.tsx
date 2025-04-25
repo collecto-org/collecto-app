@@ -7,6 +7,7 @@ import Tags from "@/componentsUI/elements/tags"
 import ActionBar from "@/componentsUI/components/develop/ActionBar";
 import Button from "@/componentsUI/elements/Button";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
+import ShareButtons from "@/componentsUI/components/develop/SharedButtons";
 
 interface AdvertDetailProps {
   advert:Advert;
@@ -117,7 +118,11 @@ export default function AdvertDetail({
               Iniciar Chat
             </Button>
           </div>
-
+          <ShareButtons
+            title={advert.title}
+            price={advert.price}
+            slug={advert.slug || advert._id}
+          />
           {/* Vendedor */}
           <SellerCard 
               username={user.username || "autor API"}

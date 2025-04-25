@@ -52,6 +52,7 @@ useEffect(()=>{
 
   if (isLoading) return <p>Loading...</p>;
 
+
   if (brands) {
     return (
       <>
