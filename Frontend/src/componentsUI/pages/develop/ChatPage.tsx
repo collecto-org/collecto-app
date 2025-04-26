@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { selectUser } from "@/store/selectors/userSelectors";
 
-const socket = io("http://localhost:4000");
+//const socket = io("http://localhost:4000");
 
 export default function ChatPage() {
   const { slug } = useParams();
@@ -15,30 +15,30 @@ export default function ChatPage() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<{ message: string; username: string }[]>([]);
 const advertId = slug
-  useEffect(() => {
-    if (slug) {
-      socket.emit("join_chat", { username, advertId }); // Envías solo el username y slug
-    }
+ // useEffect(() => {
+  //  if (slug) {
+   //   socket.emit("join_chat", { username, advertId }); // Envías solo el username y slug
+   // }
 
     // Recibir nuevos mensajes y actualizar el estado
-    socket.on("message", (data) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { message: data.message, username: data.username },
-      ]);
-    });
+   // socket.on("message", (data) => {
+   //   setMessages((prevMessages) => [
+   //     ...prevMessages,
+   //     { message: data.message, username: data.username },
+   //   ]);
+   // });
 
-    return () => {
-      socket.off("message"); // Limpiar el listener cuando se desmonte el componente
-    };
-  }, [slug, username]);  // Dependiendo de `slug` y `username`
+   // return () => {
+  //    socket.off("message"); // Limpiar el listener cuando se desmonte el componente
+  //  };
+ // }, [slug, username]);  // Dependiendo de `slug` y `username`
 
-  const sendMessage = () => {
-    if (message.trim() !== "") {
-      socket.emit("send_message", { message, username, slug }); // Asegúrate de enviar el username
-      setMessage(""); // Limpiar el input después de enviar el mensaje
-    }
-  };
+  //const sendMessage = () => {
+   // if (message.trim() !== "") {
+    //  socket.emit("send_message", { message, username, slug }); // Asegúrate de enviar el username
+    //  setMessage(""); // Limpiar el input después de enviar el mensaje
+   // }
+  //};
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-darkblue text-center">

@@ -12,10 +12,11 @@ export default function UserMenu(user: { user: User }) {
 
   const handleLogout = async () => {
     try {
-      console.log("llega");
       await logout().unwrap();
+      navigate("/")
+      window.location.reload();
     } catch (error) {
-      console.error("Error al cerrar sesión:", error);
+      alert("Hubo un problema al cerrar sesión, por favor intenta de nuevo.");
     }
   };
 

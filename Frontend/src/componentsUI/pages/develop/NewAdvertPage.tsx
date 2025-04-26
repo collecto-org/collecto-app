@@ -20,7 +20,12 @@ import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 const newAdvertSchema = z.object({
   title: z.string().min(3, "El título es obligatorio"),
   description: z.string().min(10, "La descripción tiene que tener al menos 10 caracteres"),
-  price: z.string().min(1, "El precio es obligatorio"),
+  price: z.string()
+  .min(1, "El precio es obligatorio")
+  .transform((val) => parseFloat(val)) // Convierte a número
+  .refine((val) => val >= 0, {
+    message: "El precio no puede ser negativo",
+  }),
   transaction: z.string().min(1, "Selecciona un tipo de transacción"),
   status: z.string().min(1, "Selecciona un estado"),
   product_type: z.string().min(1, "Selecciona un tipo de producto"),
@@ -65,7 +70,7 @@ const statusOptions = useSelector((state:RootState)=> selectStatus(state))
   });
   const [message, setMessage] = useState<string>("");
 
-  const [newAdvert,{isLoading}]= useNewAdvertMutation()
+  const [newAdvert, { isLoading, isError,  data }] = useNewAdvertMutation();
 
   useEffect(() => {
     setTransactionTypes(transactionsOptions || []);
@@ -79,7 +84,7 @@ const statusOptions = useSelector((state:RootState)=> selectStatus(state))
     if (!e.target.files) return;
     const selectedFiles = Array.from(e.target.files);
     if (images.length + selectedFiles.length > 6) {
-      alert("Solo puedes subir hasta 6 imágenes");
+      setMessage("Solo puedes subir hasta 6 imágenes");
       return;
     }
     setImages([...images, ...selectedFiles]);
@@ -90,39 +95,58 @@ const statusOptions = useSelector((state:RootState)=> selectStatus(state))
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setMessage(""); 
-  
-    const result = newAdvertSchema.safeParse(formData);
-  
-    if (!result.success) {
-      const firstError = result.error.errors[0]?.message;
-      setMessage(firstError || "Hay errores en el formulario");
-      return;
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setMessage(""); 
+
+  if (images.length === 0) {
+    setMessage("Debes subir al menos una imagen.");
+    return;
+  }
+
+  if (images.length > 6) {
+    setMessage("Solo puedes subir hasta 6 imágenes.");
+    return;
+  }
+
+  const result = newAdvertSchema.safeParse(formData);
+  if (!result.success) {
+    const firstError = result.error.errors[0]?.message;
+    setMessage(firstError || "Hay errores en el formulario");
+    return;
+  }
+
+  const advertForm = new FormData();
+  Object.entries(formData).forEach(([key, value]) => {
+    if (key === "tags" && Array.isArray(value)) {
+      value.forEach((tag) => advertForm.append("tags", tag));
+    } else {
+      advertForm.append(key, value as string);
     }
-  
-    const advertForm = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (key === "tags" && Array.isArray(value)) {
-        value.forEach((tag) => advertForm.append("tags", tag));
-      } else {
-        advertForm.append(key, value as string);
-      }
-    });
-  
-    advertForm.append("type", "advert");
-    images.forEach((img) => advertForm.append("images", img));
-  
-    try {
-      await newAdvert({ formData: advertForm });
-      setMessage("Anuncio creado exitosamente");
-      setImages([]);
-      navigate("/");
-    } catch (err: any) {
-      setMessage(err.message || "Error al crear el anuncio");
-    }
-  };
+  });
+
+  advertForm.append("type", "advert");
+  images.forEach((img) => advertForm.append("images", img));
+
+  const response = await newAdvert({ formData: advertForm });
+
+  if (isLoading) {
+    setMessage("Cargando...");
+    return;
+  }
+
+  if (isError) {
+    setMessage( "Error al crear el anuncio");
+    return;
+  }
+  if (response.data) {
+    setMessage("Anuncio creado exitosamente");
+    setImages([]); 
+    navigate(`/adverts/${response.data.advert.slug}`)
+  }
+};
+
   
   console.log("statuses", statuses);
   return (

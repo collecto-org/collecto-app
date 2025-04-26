@@ -4,11 +4,11 @@ import Button from "@/componentsUI/elements/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { selectBrands, selectConditions, selectProductTypes, selectStatus, selectTransactions, selectUniverses } from "@/store/selectors/optionsSelectors";
-import { useEditAdvertMutation, useNewAdvertMutation } from "@/services/advertsApi";
+import { useEditAdvertMutation} from "@/services/advertsApi";
 import { useNavigate } from "react-router-dom";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
 import { z } from "zod";
-import { usePriceChangeMutation } from "@/services/notificationsApi";
+
 
 interface CatalogOption {
   _id: string;
@@ -20,13 +20,17 @@ interface CatalogOption {
 interface EditAdvert{
   advert:Advert
   handleEdit : () => void
-  refetch: () => void
 }
 
 const editAdvertSchema = z.object({
   title: z.string().min(3, "El título es obligatorio"),
   description: z.string().min(10, "La descripción tiene que tener al menos 10 caracteres"),
-  price: z.string().min(1, "El precio es obligatorio"),
+  price: z.string()
+  .min(1, "El precio es obligatorio")
+  .transform((val) => parseFloat(val)) // Convierte a número
+  .refine((val) => val >= 0, {
+    message: "El precio no puede ser negativo",
+  }),
   transaction: z.string().min(1, "Selecciona un tipo de transacción"),
   status: z.string().min(1, "Selecciona un estado"),
   product_type: z.string().min(1, "Selecciona un tipo de producto"),
@@ -37,7 +41,7 @@ const editAdvertSchema = z.object({
   tags: z.array(z.string()),
 });
 
-export default function EditAdvertPage({advert,handleEdit,refetch}:EditAdvert) {
+export default function EditAdvertPage({advert,handleEdit}:EditAdvert) {
 
   const navigate = useNavigate()
 
@@ -90,8 +94,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
   }, [advert]);
   const [message, setMessage] = useState<string>("");
 
-  const [editAdvert,{isLoading}]= useEditAdvertMutation()
-  const [priceNotification,{isLoading:isPriceNotificationLoading}] = usePriceChangeMutation()
+  const [editAdvert,{isLoading,isError,  data}]= useEditAdvertMutation()
 
   useEffect(() => {
     setTransactionTypes(transactionsOptions || []);
@@ -138,29 +141,55 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
       }
     });
 
-  
     advertForm.append("type", "advert");
   
     images.forEach((img) => advertForm.append("images", img));
-    existingImages.forEach((url) => advertForm.append("existingImages", url));
+    existingImages.forEach((url) => advertForm.append("imagesUrl", url));
+
     
-    try {
-      const response = await editAdvert({ formData: advertForm, id: advert._id });      
-      setMessage("Anuncio editado exitosamente");
-      setImages([]);
-      setExistingImages([]);
-      handleEdit()
-      navigate(`/adverts/${response.data?.advert.slug}`)
-    } catch (err: any) {
-      setMessage(err.message || "Error al editar el anuncio");
-    }
-  };
+   
+      if (images.length + existingImages.length > 6) {
+        console.log("fallo");      
+        setMessage("No puedes subir más de 6 imágenes");
+        return
+      }
+
+      if (existingImages.length <=0 && images.length <=0) {
+        console.log("fallo");      
+        setMessage("Debes de subir al menos una imagen");
+        return
+      }
+      
+  
+     const response = await editAdvert({ formData: advertForm, id: advert._id });      
+
+      
+
+      if (isLoading) {
+        setMessage("Cargando...");
+        return;
+      }
+    
+      if (isError) {
+        setMessage( "Error al editar el anuncio");
+        return;
+      }
+      if (response.data) {
+        setMessage("Anuncio editado exitosamente");
+        setImages([]); 
+        handleEdit()
+        navigate(`/adverts/${response.data.advert.slug}`)
+
+      }
+    };
+     
+
   
   return (
     <MainLayout>
       <div className="mt-10 max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold text-darkblue mb-6">
-          Crear nuevo anuncio
+          Editar anuncio
         </h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <label className="block">Título</label>
@@ -309,6 +338,8 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
           <label className="block">Imágenes</label>
           <input
             type="file"
+            name="images"
+
             accept="image/*"
             multiple
             onChange={handleImageChange}

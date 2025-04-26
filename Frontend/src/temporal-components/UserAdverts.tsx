@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 export default function UserAdverts() {
 
   const {username} = useParams()
-
+console.log(username)
 
   const {data:adverts, isLoading, isError } = useGetUserAdvertsQuery(username? username: "", {skip:!username});
 

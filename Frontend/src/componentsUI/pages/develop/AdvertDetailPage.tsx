@@ -16,6 +16,8 @@ import {
 import { selectUser } from "@/store/selectors/userSelectors";
 import Editadvert from "@/temporal-components/EditAdvert";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
+import { SelectOptionEl } from "@material/web/select/internal/selectoption/select-option";
+import { selectStatus } from "@/store/selectors/optionsSelectors";
 
 function AdvertDetailPage() {
   const params = useParams();
@@ -27,10 +29,11 @@ function AdvertDetailPage() {
 
   const navigate = useNavigate();
   const {
-    data: advert ,refetch} = useGetAdvertDetailQuery({ slug: slug || "" });
+    data: advert } = useGetAdvertDetailQuery({ slug: slug || "" });
   const universeProduct = advert?.universe._id;
 
   const filter = useSelector((state:RootState)=>selectFilters(state))
+  const status = useSelector((state:RootState)=>selectStatus(state))
 
 const { data: relatedAdverts } = useFilterAdvertsQuery(
   {
@@ -48,6 +51,7 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
   const [notificationDelete] = useRemoveAdvertFavMutation()
 
   const isOwner = user.username === advert?.user.username;
+  const isSold =  advert?.status.code === "sold";
 
   const [isEdit, setEdit] = useState(false);
   const handleEdit = () => {
@@ -105,7 +109,7 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
   if (isEdit) {
     return (
    
-        <Editadvert refetch={refetch} handleEdit={handleEdit} advert={advert} />
+        <Editadvert handleEdit={handleEdit} advert={advert} />
  
     );
   }
@@ -114,9 +118,9 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
     <>
       <AdvertDetail
         advert={advert}
-        onEdit={isOwner ? handleEdit : undefined}
-        onDelete={isOwner ? handleDelete : undefined}
-        onToggleFav={handleFav}
+        onEdit={isOwner && !isSold ? handleEdit : undefined}
+        onDelete={isOwner  && !isSold ? handleDelete : undefined}
+        onToggleFav={!isOwner ? handleFav: undefined}
         isFavorite={isFavorite}
       />
       <section className="mt-10 px-4 space-y-4">
