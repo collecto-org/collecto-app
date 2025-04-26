@@ -1,13 +1,16 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetMyadvertsQuery } from "@/services/usersApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdvertSectionUser";
-import NoResults from "@/componentsUI/elements/noResults";
+import NoResults from "@/componentsUI/elements/NoResults";
+import { useEffect } from "react";
+import { clearFilter } from "@/store/slices/advertsSlice";
 
 export default function UserAdvertsPublished() {
   const filters = useSelector(selectFilters);
+  const dispatch = useDispatch()
 
   const filterProducts: FilterAdverts = {
     ...filters,
@@ -18,6 +21,12 @@ export default function UserAdvertsPublished() {
     isLoading,
     isError,
   } = useGetMyadvertsQuery(filterProducts);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearFilter());
+    };
+  }, []);
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Ocurrio un error</p>;
@@ -37,7 +46,7 @@ export default function UserAdvertsPublished() {
 
           {/* Contenido */}
           {adverts ? (
-            <FilteredAdvertSectionProps adverts={adverts.adverts} />
+            <FilteredAdvertSectionProps total={Number(adverts.total)} adverts={adverts.adverts} />
           ) : (
             <NoResults />
           )}

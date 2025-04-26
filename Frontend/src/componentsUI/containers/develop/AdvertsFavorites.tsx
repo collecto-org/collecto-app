@@ -1,18 +1,25 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetMyFavAdvertsQuery } from "@/services/usersApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdvertSectionUser";
-import NoResults from "@/componentsUI/elements/noResults";
+import NoResults from "@/componentsUI/elements/NoResults";
+import { useEffect } from "react";
+import { clearFilter } from "@/store/slices/advertsSlice";
 
 export default function AdvertsFavorites() {
   const filters = useSelector(selectFilters);
+  const dispatch = useDispatch();
 
   const filterProducts: FilterAdverts = {
     ...filters,
   };
-
+  useEffect(() => {
+    return () => {
+      dispatch(clearFilter());
+    };
+  }, []);
   const {
     data: adverts,
     isLoading,
@@ -35,7 +42,7 @@ export default function AdvertsFavorites() {
 
           {/* Contenido */}
           {adverts ? (
-            <FilteredAdvertSectionProps adverts={adverts.adverts} />
+            <FilteredAdvertSectionProps total={Number(adverts.total)} adverts={adverts.adverts} />
           ) : (
             <NoResults />
           )}

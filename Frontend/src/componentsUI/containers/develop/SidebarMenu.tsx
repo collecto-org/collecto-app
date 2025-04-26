@@ -1,9 +1,7 @@
 import { ProductTypeSchema } from "@/services/schemas/UniverseSchemas";
-import { selectProductTypes } from "@/store/selectors/optionsSelectors";
 import { setFilter } from "@/store/slices/advertsSlice";
-import { RootState } from "@/store/store";
 import  { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 interface FiltersSidebarProps {
   title: string;
@@ -15,17 +13,12 @@ export default function FiltersSidebar({ title, options, onSelect }: FiltersSide
   const [selected, setSelected] = useState<string | null>(null);
   const dispatch = useDispatch()
 
-
-
- 
-
   const handleClick = (option: string) => {
     setSelected(option);
     if(option === "Todos"){
-      dispatch(setFilter({product_type:""}))} 
+      dispatch(setFilter({product_type:"",page:1}))} 
     else if(option){
-      console.log(option)
-      dispatch(setFilter({product_type:option}))} 
+      dispatch(setFilter({product_type:option,page:1}))} 
     onSelect?.(option);
   };
 

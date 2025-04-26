@@ -38,7 +38,7 @@ export default function UserAdvertsFavorites() {
             <FilteredAdvertSectionProps
               headerLabel="Favoritos"
               label="Tus anuncios favoritos"
-              adverts={adverts.adverts}
+              adverts={adverts}
             />
           ) : (
             <NoResults />

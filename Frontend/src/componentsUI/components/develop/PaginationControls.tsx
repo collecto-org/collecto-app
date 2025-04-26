@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/store/store";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
-import { setFilter } from "@/store/slices/advertsSlice";
+import {  setFilter } from "@/store/slices/advertsSlice";
 
-export default function PaginationControls() {
+interface PaginationControlsProps {
+  total?:number
+}
+export default function PaginationControls({total}:PaginationControlsProps) {
   const dispatch = useDispatch();
 
-  const total = useSelector(
-    (state: RootState) => state.adverts.totalFilterAdverts
-  );
-  const filters = useSelector(selectFilters);
 
+  const filters = useSelector(selectFilters);
+  
   const limit = filters.limit ?? 12;
   const page = filters.page ?? 1;
 
