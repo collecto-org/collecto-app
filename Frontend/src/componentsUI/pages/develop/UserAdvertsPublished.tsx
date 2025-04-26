@@ -40,7 +40,7 @@ export default function UserAdvertsPublished() {
             <FilteredAdvertSectionProps
               headerLabel="Mis productos"
               label="Tus anuncios publicados"
-              adverts={adverts.adverts}
+              adverts={adverts}
             />
           ) : (
             <NoResults />

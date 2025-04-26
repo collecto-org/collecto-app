@@ -10,7 +10,7 @@ import { Advert } from "@/services/schemas/AdvertsSchemas";
 interface FilteredAdvertSectionProps {
   headerLabel: string;
   label: string;
-  adverts: Advert[];
+  adverts: {adverts:Advert[],total:string};
 }
 
 export default function FiteredAdvertSection({
@@ -30,7 +30,7 @@ export default function FiteredAdvertSection({
         </div>
 
         <div className="col-span-12 md:col-span-9  flex items-end  justify-start">
-          <PaginationBlock />
+          <PaginationBlock total={Number(adverts.total)} />
         </div>
 
         <div className="col-span-12 md:col-span-3">
@@ -38,7 +38,7 @@ export default function FiteredAdvertSection({
         </div>
 
         <div className="col-span-12 md:col-span-9 pt-2">
-          <ProductGrid adverts={adverts} />
+          <ProductGrid adverts={adverts.adverts} />
         </div>
       </div>
     );

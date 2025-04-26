@@ -45,10 +45,11 @@ export default function UniversePage() {
   }, [slug, actualUniverse, dispatch, filter]);
 
 useEffect(()=>{
-  dispatch(setFilter({limit:12}))
+  dispatch(setFilter({limit:12,page:1}))
 },[])
 
-  const { data: adverts, error, isLoading } = useFilterAdvertsQuery(filter);
+  const { data: adverts,  isLoading } = useFilterAdvertsQuery(filter,{skip:!filter.limit
+  });
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -74,12 +75,12 @@ useEffect(()=>{
           logos={brands}
         /> */}
 
-        <FilteredAdvertSectionProps
+        <FilteredAdvertSectionProps 
           headerLabel="Universo"
           label={
             actualUniverse ? actualUniverse.universe.name : "No hay uniuverso"
           }
-          adverts={adverts ? adverts.adverts : []}
+          adverts={adverts ? adverts : {adverts:[],total:"0"}}
 
         />
       </>

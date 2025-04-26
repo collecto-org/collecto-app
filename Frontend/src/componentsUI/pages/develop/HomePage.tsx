@@ -1,7 +1,7 @@
 import Banner from "../../components/develop/Banner";
 import AdvertSlider from "../../containers/develop/AdvertSlider";
 import { useNavigate } from "react-router-dom";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {
   useFilterAdvertsQuery,
@@ -13,7 +13,7 @@ import {
   selectUniverses,
 } from "@/store/selectors/optionsSelectors";
 import BrandCarousel from "../../components/develop/BrandCarousel";
-import NoResults from "@/componentsUI/elements/noResults";
+import NoResults from "@/componentsUI/elements/NoResults";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
@@ -118,7 +118,7 @@ export default function HomePage() {
           <FilteredAdvertSectionProps
             headerLabel="¿ Qúe estás buscando?"
             label={filter.title}
-            adverts={filterAdverts ? filterAdverts.adverts : []}
+            adverts={filterAdverts ? filterAdverts : {adverts:[],total:"0"}}
           />
         ) : (
           <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
