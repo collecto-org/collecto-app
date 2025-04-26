@@ -3,7 +3,7 @@ import Button from "@/componentsUI/elements/Button";
 
 interface UserProfileViewProps {
   form: {
-    avatar: string;
+    avatarUrl: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -19,7 +19,7 @@ export default function UserProfileView({ form, setIsEditing }: UserProfileViewP
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
           <img
-            src={form.avatar}
+            src={form.avatarUrl}
             alt="avatar"
             className="w-16 h-16 rounded-full object-cover border"
           />

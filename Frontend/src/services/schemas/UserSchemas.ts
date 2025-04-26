@@ -6,6 +6,8 @@ export type User = {
       phone?: string;
       location?: string;
       avatarUrl?: string;
+      dateOfBirth?: Date;
+      gender?:string;
       bio?: string;
       isLogged: boolean;
 }
