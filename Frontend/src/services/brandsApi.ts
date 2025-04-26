@@ -11,10 +11,41 @@ export const brandsApi = createApi({
       query: () => '/api/brands',
       providesTags: ['Brands'], // 
     }),
+        updateBrands: builder.mutation<
+          BrandSchema,
+          { id: string; data: Partial<BrandSchema> }
+        >({
+          query: ({ id, data }) => ({
+            url: `/api/brands/${id}`,
+            method: "PUT",
+            credentials: "include",
+            body: data,
+          }),
+          invalidatesTags: ["Brands"],
+        }),
+        postBrands: builder.mutation<BrandSchema, BrandSchema>({
+          query: (data) => ({
+            url: `/api/brands`,
+            method: "POST",
+            credentials: "include",
+            body: data,
+          }),
+          invalidatesTags: ["Brands"],
+        }),
+        deleteBrands: builder.mutation<BrandSchema, { id: string }>({
+          query: ({ id }) => ({
+            url: `/api/brands/${id}`,
+            method: "DELETE",
+            credentials: "include",
+          }),
+          invalidatesTags: ["Brands"],
+        }),
   }),
 });
 
 export const {
-  useGetBrandsQuery
-
+  useGetBrandsQuery,
+  useDeleteBrandsMutation,
+  usePostBrandsMutation,
+  useUpdateBrandsMutation,
 } = brandsApi;
