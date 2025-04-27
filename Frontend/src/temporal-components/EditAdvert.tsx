@@ -3,7 +3,7 @@ import MainLayout from "@/componentsUI/layouts/MainLayout";
 import Button from "@/componentsUI/elements/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { selectBrands, selectConditions, selectProductTypes, selectStatus, selectTransactions, selectUniverses } from "@/store/selectors/optionsSelectors";
+import { selectAdvertStatus, selectBrands, selectConditions, selectProductTypes,  selectTransactions, selectUniverses,  } from "@/store/selectors/optionsSelectors";
 import { useEditAdvertMutation} from "@/services/advertsApi";
 import { useNavigate } from "react-router-dom";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
@@ -50,7 +50,7 @@ const brandsOptions = useSelector((state:RootState)=> selectBrands(state))
 const transactionsOptions = useSelector((state:RootState)=> selectTransactions(state))
 const conditionsOptions = useSelector((state:RootState)=> selectConditions(state))
 const productTypesOptions = useSelector((state:RootState)=> selectProductTypes(state))
-const statusOptions = useSelector((state:RootState)=> selectStatus(state))
+const statusOptions = useSelector((state:RootState)=> selectAdvertStatus(state))
 
 const [existingImages, setExistingImages] = useState<string[]>(advert.images || []);
 
@@ -94,7 +94,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
   }, [advert]);
   const [message, setMessage] = useState<string>("");
 
-  const [editAdvert,{isLoading,isError,  data}]= useEditAdvertMutation()
+  const [editAdvert,{isLoading,isError}]= useEditAdvertMutation()
 
   useEffect(() => {
     setTransactionTypes(transactionsOptions || []);

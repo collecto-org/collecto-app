@@ -30,7 +30,7 @@ export const notificationApi = createApi({
       }),
       readNotifications: builder.mutation<{message:string}, string>({
         query: (id) => ({
-          url: `/api/users/me/notifications/${id}/read`,
+          url: `/api/notifications/${id}/read`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"

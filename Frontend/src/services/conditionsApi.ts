@@ -11,10 +11,41 @@ export const conditionsApi = createApi({
       query: () => '/api/conditions',
       providesTags: ['conditions'], // 
     }),
+        updateConditions: builder.mutation<
+          ConditionSchema,
+          { id: string; data: Partial<ConditionSchema> }
+        >({
+          query: ({ id, data }) => ({
+            url: `/api/conditions/${id}`,
+            method: "PUT",
+            credentials: "include",
+            body: data,
+          }),
+          invalidatesTags: ["conditions"],
+        }),
+        postConditions: builder.mutation<ConditionSchema, ConditionSchema>({
+          query: (data) => ({
+            url: `/api/conditions`,
+            method: "POST",
+            credentials: "include",
+            body: data,
+          }),
+          invalidatesTags: ["conditions"],
+        }),
+        deleteConditions: builder.mutation<ConditionSchema, { id: string }>({
+          query: ({ id }) => ({
+            url: `/api/conditions/${id}`,
+            method: "DELETE",
+            credentials: "include",
+          }),
+          invalidatesTags: ["conditions"],
+        }),
   }),
 });
 
 export const {
-  useGetConditionsQuery
-
+  useGetConditionsQuery,
+  useDeleteConditionsMutation,
+  usePostConditionsMutation,
+  useUpdateConditionsMutation,
 } = conditionsApi;

@@ -34,8 +34,9 @@ export type UniverseSchema = {
 
   export type statusSchema = {
     _id: string;
+    code: string;
     label: string;
-   
+    context:"payment" | "Advert" | "order"   
   }
 
   export type TransactionSchema = {

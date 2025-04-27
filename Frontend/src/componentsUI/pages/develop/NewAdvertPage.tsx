@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "@/componentsUI/elements/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { selectBrands, selectConditions, selectProductTypes, selectStatus, selectTransactions, selectUniverses } from "@/store/selectors/optionsSelectors";
+import { selectAdvertStatus, selectBrands, selectConditions, selectProductTypes, selectTransactions, selectUniverses } from "@/store/selectors/optionsSelectors";
 import { useNewAdvertMutation } from "@/services/advertsApi";
 import { useNavigate } from "react-router-dom";
 
@@ -46,7 +46,7 @@ const brandsOptions = useSelector((state:RootState)=> selectBrands(state))
 const transactionsOptions = useSelector((state:RootState)=> selectTransactions(state))
 const conditionsOptions = useSelector((state:RootState)=> selectConditions(state))
 const productTypesOptions = useSelector((state:RootState)=> selectProductTypes(state))
-const statusOptions = useSelector((state:RootState)=> selectStatus(state))
+const statusOptions = useSelector((state:RootState)=> selectAdvertStatus(state))
 
 
   const [transactionTypes, setTransactionTypes] = useState<CatalogOption[]>([]);
@@ -70,7 +70,7 @@ const statusOptions = useSelector((state:RootState)=> selectStatus(state))
   });
   const [message, setMessage] = useState<string>("");
 
-  const [newAdvert, { isLoading, isError,  data }] = useNewAdvertMutation();
+  const [newAdvert, { isLoading, isError }] = useNewAdvertMutation();
 
   useEffect(() => {
     setTransactionTypes(transactionsOptions || []);
