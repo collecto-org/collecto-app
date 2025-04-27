@@ -1,16 +1,18 @@
 import { useState } from "react";
 import Icon from "@/componentsUI/elements/Icon";
-import Button from "@/componentsUI/elements/Button";
 import { Link } from "react-router-dom";
 import AdvertsFavorites from "@/componentsUI/containers/develop/AdvertsFavorites";
 import AdvertsPublished from "@/componentsUI/containers/develop/AdvertsPublished";
 import UserProfile         from "@/componentsUI/containers/develop/UserProfile";
+import { selectLastNotifications} from "@/store/selectors/notificationSelector";
+import { useSelector } from "react-redux";
 
 
 export default function UserProfilePage() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [activeSection, setActiveSection] = useState("Mi Perfil");
+  const notifications = useSelector(selectLastNotifications);
 
   return (
     <>
@@ -25,13 +27,13 @@ export default function UserProfilePage() {
               setShowChat(false);
             }}
           />
-          {showNotifications && (
+          {showNotifications && notifications && notifications.length > 0 &&(
             <div className="absolute right-0 mt-2 w-64 bg-white shadow-md rounded-lg p-4 z-50 text-sm">
               <p className="font-semibold text-darkblue mb-2">Notificaciones</p>
               <ul className="space-y-2">
-                <li>✅ Tu pedido fue confirmado</li>
-                <li>📦 Tu producto fue enviado</li>
-                <li>🛒 Hay nuevas ofertas en tu universo</li>
+                {notifications.map((notification) => (
+            <li key={notification._id}>{notification.message}</li>
+        ))}
               </ul>
             </div>
           )}
