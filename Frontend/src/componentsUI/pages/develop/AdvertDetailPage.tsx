@@ -29,11 +29,10 @@ function AdvertDetailPage() {
 
   const navigate = useNavigate();
   const {
-    data: advert } = useGetAdvertDetailQuery({ slug: slug || "" });
+    data: advert,refetch } = useGetAdvertDetailQuery({ slug: slug || "" });
   const universeProduct = advert?.universe._id;
 
   const filter = useSelector((state:RootState)=>selectFilters(state))
-  const status = useSelector((state:RootState)=>selectStatus(state))
 
 const { data: relatedAdverts } = useFilterAdvertsQuery(
   {
@@ -109,7 +108,7 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
   if (isEdit) {
     return (
    
-        <Editadvert handleEdit={handleEdit} advert={advert} />
+        <Editadvert refetch={refetch} handleEdit={handleEdit} advert={advert} />
  
     );
   }

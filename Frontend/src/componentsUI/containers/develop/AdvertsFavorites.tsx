@@ -27,7 +27,7 @@ export default function AdvertsFavorites() {
   } = useGetMyFavAdvertsQuery(filterProducts);
 
   if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Ocurrio un error</p>;
+  if (isError) return <NoResults />
   return (
     <>
       <div>

@@ -19,6 +19,7 @@ interface CatalogOption {
 
 interface EditAdvert{
   advert:Advert
+  refetch: () => void
   handleEdit : () => void
 }
 
@@ -41,7 +42,7 @@ const editAdvertSchema = z.object({
   tags: z.array(z.string()),
 });
 
-export default function EditAdvertPage({advert,handleEdit}:EditAdvert) {
+export default function EditAdvertPage({advert,handleEdit,refetch}:EditAdvert) {
 
   const navigate = useNavigate()
 
@@ -178,6 +179,8 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
         setMessage("Anuncio editado exitosamente");
         setImages([]); 
         handleEdit()
+        if(advert.title===formData.title){
+        refetch()}
         navigate(`/adverts/${response.data.advert.slug}`)
 
       }
