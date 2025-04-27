@@ -1,6 +1,6 @@
 import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 import { GetChatsResponse, User } from "./schemas/UserSchemas";
-import { Advert, FilterAdverts, listingId, Username } from "./schemas/AdvertsSchemas";
+import { Advert, FilterAdverts, listingId } from "./schemas/AdvertsSchemas";
 
 
 

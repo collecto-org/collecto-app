@@ -39,6 +39,7 @@ import { ToastContainer } from "react-toastify";
 import NotFoundPage from "./componentsUI/components/develop/NotFoundPage";
 import ServerErrorPage from "./componentsUI/components/develop/ServerErrorPage";
 import UnauthorizedPage from "./componentsUI/components/develop/UnauthorizedPage";
+import { ErrorBoundary } from "./utils/ErrorBoundary";
 
 function App() {
   const dispatch = useDispatch();
@@ -66,9 +67,12 @@ function App() {
       <Routes>
         <Route
           element={
+            <ErrorBoundary>
+            
             <MainLayout>
               <RequireAuth />
             </MainLayout>
+            </ErrorBoundary>
           }
         >
           <Route path="/userprofile" element={<UserProfilePage />} />
@@ -85,9 +89,11 @@ function App() {
 
         <Route
           element={
+            <ErrorBoundary>
             <MainLayout>
               <Outlet />
             </MainLayout>
+            </ErrorBoundary>
           }
         >
           <Route path="/" element={<HomePage />} />
@@ -98,9 +104,11 @@ function App() {
 
         <Route
           element={
+            <ErrorBoundary>
             <MainLayout auth={true}>
               <Outlet />
             </MainLayout>
+            </ErrorBoundary>
           }
         >
           <Route path="/login" element={<LoginForm />} />
@@ -112,9 +120,11 @@ function App() {
 
         <Route
           element={
+            <ErrorBoundary>
             <MainLayout>
               <RequireAdmin />
             </MainLayout>
+            </ErrorBoundary>
           }
         >
           <Route path="/catalogmanager" element={<CatalogManagerPage />} />
