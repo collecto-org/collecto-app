@@ -1,7 +1,7 @@
 import Icon from "@/componentsUI/elements/Icon";
 
 interface ActionBarProps {
-  onEdit?: () => void ;
+  onEdit?: () => void;
   onDelete?: () => void;
   onToggleFav?: () => void;
   isFavorite?: boolean;
@@ -18,7 +18,7 @@ export default function ActionBar({
       {onDelete && (
         <Icon
           name="Trash"
-          size={20}
+          size={25}
           onClick={onDelete}
           className="hover:text-coral transition-colors"
         />
@@ -26,7 +26,7 @@ export default function ActionBar({
       {onEdit && (
         <Icon
           name="Edit"
-          size={20}
+          size={25}
           onClick={onEdit}
           className="hover:text-coral transition-colors"
         />
@@ -34,11 +34,11 @@ export default function ActionBar({
       {onToggleFav && (
         <Icon
           name="heart"
-          size={20}
+          size={25}
           active={isFavorite}
           onClick={onToggleFav}
-          className={`text-darkblue hover:text-coral transform transition-all duration-300 ease-in-out ${
-            isFavorite ? "scale-125 drop-shadow-[0_0_4px_#e8796e]" : "scale-100"
+          className={`text-coral hover:text-coral transform transition-all duration-300 ease-in-out ${
+            isFavorite ? "scale-115" : "scale-115"
           }`}
         />
       )}
