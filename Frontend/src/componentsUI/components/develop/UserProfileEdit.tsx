@@ -1,8 +1,11 @@
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Button from "@/componentsUI/elements/Button";
 import { useEditMeMutation } from "@/services/usersApi";
 import { ChangeEvent, FormEvent } from "react";
+import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
+import MessageBanner  from "@/componentsUI/elements/MessageBanner"
+import { formatUserToForm } from "@/hooks/formatUserToForm";
+
 
 interface UserProfileEditFormProps {
   form: {
@@ -17,80 +20,203 @@ interface UserProfileEditFormProps {
     username: string;
     location: string,
   };
-  setForm: (form: any) => void;
+  setForm: (form: (prev: UserProfileEditFormProps["form"]) => UserProfileEditFormProps ["form"]) => void;
   setIsEditing: (editing: boolean) => void; 
+  refetch: () => void;
+  originalUser : any;
 }
 
-export default function UserProfileEditForm({ form, setForm, setIsEditing }: UserProfileEditFormProps) {
-  
+export default function UserProfileEditForm({ form, setForm, setIsEditing, refetch, originalUser   }: UserProfileEditFormProps) {
   const [images, setImages] = useState<File[]>([]);
+  const [isSaving, setIsSaving] = useState(false)
+  const [successMessage, setSuccessMessage ] = useState<string | null >(null)
+  const [errorMessage, setErrorMessage ] = useState<string | null >(null)
+  const [emailChanged, setEmailChanged] = useState(false)
+  const [ emailValid, setEmailValid ] = useState(false)
+  const [ phoneValid, setPhoneValid ] = useState(false)
+  
+  useEffect(() => {
+    if (!originalUser) return;
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
+  
+    setEmailValid(emailRegex.test(originalUser.email));
+    setPhoneValid(phoneRegex.test(originalUser.phone || ""));
+  }, [originalUser]);
+  
+
+  const isModified = () => {
+    return (
+      form.firstName !== originalUser.firstName ||
+      form.lastName !== originalUser.lastName ||
+      form.email !== originalUser.email ||
+      form.phone !== (originalUser.phone || "") ||
+      form.bio !== (originalUser.bio || "") ||
+      form.birthdate !== (originalUser.dateOfBirth ? new Date(originalUser.dateOfBirth).toISOString().slice(0, 10) : "") ||
+      form.gender !== (originalUser.gender || "") ||
+      form.avatarUrl !== (originalUser.avatarUrl || "") ||
+      form.location !== (originalUser.location || "")
+    );
+  };
+
+  
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setForm((prev: any) => ({ ...prev, [name]: value }));
+
+    if(name == "email"){
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setEmailValid(emailRegex.test(value));
+      setEmailChanged(value !== originalUser.email);
+    }
+
+    if (name === "phone") {
+      const phoneRegex = /^[0-9]{10}$/;
+      setPhoneValid(phoneRegex.test(value));
+    }
   };
 
-
-
-    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!e.target.files) return;
-      const selectedFiles = Array.from(e.target.files);
-      if (images.length + selectedFiles.length > 1) {
-        alert("Solo puedes subir una imagen");
-        return;
-      }
-      //setImages([...images, ...selectedFiles]);
-      const newImages = [...images, ...selectedFiles];
-      setImages(newImages);
-
-      if (newImages.length > 0) {
-        const previewUrl = URL.createObjectURL(newImages[0]);
-        setForm((prev: any) => ({
-          ...prev,
-          avatarUrl: previewUrl,
-        }));
-      }
-
-    };
-
+  const handleBirthdateBlur = () => {
+    const inputDate = new Date(form.birthdate);
+    const today = new Date();
+    const year = inputDate.getFullYear();
   
-   const [editme] = useEditMeMutation();
+    const eighteenYearsAgo = new Date();
+    eighteenYearsAgo.setFullYear(today.getFullYear() - 18);
+  
+    const isValidYear = year >= 1900 && year <= today.getFullYear();
+    const isAdult = inputDate <= eighteenYearsAgo;
+  
+    if (!isValidYear || !isAdult) {
+      alert("La fecha debe ser válida y corresponder a un mayor de 18 años.");
+      setForm(prev => ({ ...prev, birthdate: "" }));
+    }
+  };
 
-   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleEmailBlur = async () => {
+    if (!form.email) return;
   
-    try {
-      const formData = new FormData();
-      
-      formData.append('email', form.email);
-      formData.append('firstName', form.firstName);
-      formData.append('lastName', form.lastName);
-      formData.append('phone', form.phone);
-      formData.append('bio', form.bio);
-      formData.append('dateOfBirth', form.birthdate);
-      formData.append('location', form.location);
+    // Aquí después irá la llamada real al backend
+    console.log("Validar si existe el email:", form.email);
   
-      if (images.length > 0) {
-        formData.append('image', images[0]);
-      }
   
-      const updatedUserResponse = await editme({ formData }).unwrap(); 
+    const fakeEmailExists = false; 
   
-      setForm({
-        ...form,
-        avatarUrl: updatedUserResponse.avatarUrl, 
-      });
-  
-      setIsEditing(false);
-      console.log("Perfil actualizado correctamente:", updatedUserResponse);
-      
-    } catch (error) {
-      console.error("Error al actualizar el perfil:", error);
+    if (fakeEmailExists) {
+      setEmailValid(false);
+      setErrorMessage("El correo ya está registrado en la plataforma.");
+    } else {
+      setEmailValid(true);
+      setErrorMessage(null); 
     }
   };
   
   
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const selectedFiles = Array.from(e.target.files);
+    if (images.length + selectedFiles.length > 6) {
+      alert("Solo puedes subir hasta 6 imágenes");
+      return;
+    }
+    const newImages = [...images, ...selectedFiles];
+    setImages(newImages);
+  
+    if (newImages.length > 0) {
+      const previewUrl = URL.createObjectURL(newImages[0]);
+      setForm((prev: any) => ({
+        ...prev,
+        avatarUrl: previewUrl,
+      }));
+    }
+  };
+  
+
+  
+   const [editme] = useEditMeMutation();
+
+   const handleSubmit = async ( e: FormEvent) =>{
+    e.preventDefault()
+    setIsSaving(true)
+    console.log ("datos a enviar: ", form)
+    const formData = new FormData();
+    formData.append("email", form.email);
+    formData.append("firstName", form.firstName);
+    formData.append("lastName", form.lastName);
+    formData.append("phone", form.phone);
+    formData.append("bio", form.bio);
+    formData.append("dateOfBirth", form.birthdate);
+    formData.append("location", form.location);
+
+    if (images.length > 0) {
+      // El usuario seleccionó nuevas imágenes
+      images.forEach((img) => formData.append("image", img));
+    } else {
+      // No seleccionó nuevas imágenes
+      const avatarUrlToFetch = form.avatarUrl || "/assets/default-avatar-mas.jpg";
+      const response = await fetch(avatarUrlToFetch);
+      const blob = await response.blob();
+      const file = new File([blob], "avatar.jpg", { type: blob.type });
+      formData.append("image", file);
+    }
+    
+
+    // if(form.avatarUrl && !form.avatarUrl.startsWith("http")){
+    //   const blob = await fetch(form.avatarUrl).then(res => res.blob());
+    //   const file = new File([blob], "avatar.jpg", { type: blob.type });
+    //   //formData.append("images", file);
+    //   console.log("imagenes a enviar: ", file)
+    //   console.log("avatar en form data despues de ")
+    // }
+
+    // images.forEach((img) => formData.append("image", img));
+    // console.log("imagenes a enviar despue sde imagen ", formData)
+
+    try{
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+    console.log("datos a enviar API 9999: ", formData)
+    const updatedUser  = await editme({ formData: formData }).unwrap();
+    setForm(prev => ({
+      ...prev,
+      ...updatedUser,
+    }));
+    refetch ()
+    setSuccessMessage("perfil Actualizado correctamente")
+    setTimeout(() => {
+      setSuccessMessage(null)
+    }, 4000);
+    
+    setIsEditing(false);
+    console.log("avtar en images: ", images)
+
+    } catch (error){
+      console.error("Error al actualizar el perfil: ", error)
+      setErrorMessage("Hubo un error al actualizar el perfil. Intente de nuevo")
+      setTimeout(() => setErrorMessage(null), 4000)
+    } finally{
+      setIsSaving(false)
+    }
+   }
+
    
+  if(isSaving) return  <LoadingSpinner message="Actualizando perfil, por favor espera ..."/>
+
+    console.log("phonevalid :", phoneValid)
+    console.log("email valid :", emailValid)
+    console.log("email cambiado : ", emailChanged)
+
+
+
   return (
+        <>
+        {successMessage && <MessageBanner type="success" text={successMessage} />}
+        {errorMessage && <MessageBanner type="error" text={errorMessage} />} 
+
     <form className="space-y-6 text-sm text-darkblue" onSubmit={handleSubmit}>
       <h2 className="text-xl font-bold text-darkblue">Editar Perfil</h2>
 
@@ -128,8 +254,12 @@ export default function UserProfileEditForm({ form, setForm, setIsEditing }: Use
             name="email"
             value={form.email}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            onBlur={handleEmailBlur}
+            className={`w-full border px-3 py-2 rounded ${emailValid?"" : "border-red-500"}` }
           />
+          {!emailValid && (
+            <p className="text-red-500 text-xs mt-1">Por favor ingresa un correo valido</p>
+          )}
         </div>
 
         <div>
@@ -162,8 +292,11 @@ export default function UserProfileEditForm({ form, setForm, setIsEditing }: Use
             value={form.phone}
             onChange={handleChange}
             placeholder="Ej. 5527730937"
-            className="w-full border px-3 py-2 rounded"
+            className={`w-full border px-3 py-2 rounded ${phoneValid? "": "border-red-500"}`}
           />
+          { !phoneValid && (
+            <p  className="text-red-500 text-xs mt-1">El número debe tener exactamente 10 dígitos</p>
+          )}
         </div>
 
         <div>
@@ -173,6 +306,7 @@ export default function UserProfileEditForm({ form, setForm, setIsEditing }: Use
             name="birthdate"
             value={form.birthdate}
             onChange={handleChange}
+            onBlur={handleBirthdateBlur}
             className="w-full border px-3 py-2 rounded"
           />
         </div>
@@ -203,15 +337,29 @@ export default function UserProfileEditForm({ form, setForm, setIsEditing }: Use
           />
         </div>
       </div>
-
+      
+      {emailChanged && emailValid && (
+          <MessageBanner type="info" text="Has cambiado tu email. Deberas verificar el nuevo correo para completar el cambio." />
+        )}
       <div className="flex justify-end gap-4">
-        <Button variant="outline" onClick={() => setIsEditing(false)}>
+        <Button variant="outline" onClick={() => {
+              setForm(() => formatUserToForm(originalUser));
+              setIsEditing(false);
+        }}>
           Cancelar
         </Button>
-        <Button variant="turquoise" type="submit">
+        <Button 
+          variant="turquoise" 
+          type="submit" 
+          disabled={
+            !emailValid ||
+            !phoneValid ||
+            (!isModified() && !emailChanged)
+          }>
           Guardar cambios
         </Button>
       </div>
     </form>
+    </>
   );
 }

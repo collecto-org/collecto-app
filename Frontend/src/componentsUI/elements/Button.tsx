@@ -45,7 +45,7 @@ export default function Button({
         type={type}
         disabled={disabled}
         onClick={onClick}
-        className={classNames(baseClasses, variantClasses[variant] ,sizeClasses[size || "md"], className)}
+        className={classNames(baseClasses, variantClasses[variant] ,sizeClasses[size || "md"], className, disabled? "opacity-50 cursor-not-allowed" : "")}
         >
             {children}
         </button>
