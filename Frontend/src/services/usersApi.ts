@@ -82,11 +82,12 @@ export const userApi = createApi({
   
         }),
       }),
-      getUserAdverts: builder.query<{adverts:Advert[]; total:string},Username >({
-        query: (username) => ({
+      getUserAdverts: builder.query<{adverts:Advert[]; total:string},{username:string,filters:FilterAdverts} >({
+        query: ({username,filters}) => ({
           url: `/api/users/${username}`,
           method: "GET",
           credentials:"include",
+          params:filters
           
   
         }),

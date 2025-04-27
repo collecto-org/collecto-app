@@ -1,15 +1,32 @@
 import { useGetUserAdvertsQuery } from "@/services/usersApi";
 
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
-import NoResults from "@/componentsUI/elements/noResults";
+import NoResults from "@/componentsUI/elements/NoResults";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { clearFilter } from "@/store/slices/advertsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectFilters } from "@/store/selectors/advertsSelectors";
+import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 
 export default function UserAdverts() {
 
   const {username} = useParams()
-console.log(username)
+  const filters = useSelector(selectFilters);
+  const dispatch = useDispatch()
 
-  const {data:adverts, isLoading, isError } = useGetUserAdvertsQuery(username? username: "", {skip:!username});
+  const filterProducts: FilterAdverts = {
+    ...filters,
+  };
+console.log(filterProducts)
+  useEffect(() => {
+    return () => {
+      dispatch(clearFilter());
+    };
+  }, []);
+
+
+  const {data:adverts, isLoading, isError } = useGetUserAdvertsQuery({username:username? username: "",filters:filterProducts}, {skip:!username});
 
   if(isLoading) return <p>Loading...</p>
   if(isError) return <p>Ocurrio un error</p>
@@ -30,7 +47,7 @@ console.log(username)
           <FilteredAdvertSectionProps
             headerLabel={username || "usuario no encontrado"}
             label={`Anuncios de ${ username || "usuario no encontrado"}`}
-            adverts={adverts.adverts}
+            adverts={adverts}
           /> : <NoResults/>}
         </div>
       </div>
