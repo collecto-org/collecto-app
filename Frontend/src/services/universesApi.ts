@@ -14,6 +14,7 @@ export const universesApi = createApi({
       query: (newData) => ({
         url: '/universes',
         method: 'POST',
+        credentials:"include",
         body: newData,
       }),
       invalidatesTags: ['Universes'], 
@@ -22,6 +23,7 @@ export const universesApi = createApi({
       query: ({ id, data }) => ({
         url: `/universes/${id}`,
         method: 'PUT',
+        credentials:"include",
         body: data,
       }),
       invalidatesTags: ['Universes'], 
@@ -29,6 +31,7 @@ export const universesApi = createApi({
     deleteUniverse: builder.mutation<void, string>({
       query: (id) => ({
         url: `/universes/${id}`,
+        credentials:"include",
         method: 'DELETE',
       }),
       invalidatesTags: ['Universes'], 

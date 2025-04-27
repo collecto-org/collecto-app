@@ -44,7 +44,7 @@ function App() {
   const dispatch = useDispatch();
   const { data: user } = useGetMeQuery({});
 
-  const { refetch } = useGetNotificationsQuery({});
+  const { refetch } = useGetNotificationsQuery({},{skip:!user});
 
   useGetBrandsQuery();
   useGetUniversesQuery();

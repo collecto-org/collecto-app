@@ -1,5 +1,6 @@
 import { createSelector } from "reselect";
 import { RootState } from "../store";
+import { useMemo } from "react";
 
 
 export const selectUniverses = (state:RootState) => state.options.universes
@@ -46,5 +47,17 @@ export const selectUniverseOrBrandBySlug = createSelector(
   );
   
 
+export const selectPaymentStatus = createSelector(
+  [selectStatus],
+  (status) => status?.filter(s => s.context === "payment")
+);
 
+export const selectAdvertStatus = createSelector(
+  [selectStatus],
+  (status) => status?.filter(s => s.context === "Advert")
+);
 
+export const selectOrderStatus = createSelector(
+  [selectStatus],
+  (status) => status?.filter(s => s.context === "order")
+);

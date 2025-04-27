@@ -3,7 +3,7 @@ import ProductCard from "@/componentsUI/components/develop/AdvertCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilter } from "@/store/slices/advertsSlice";
+import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 
 
@@ -40,6 +40,12 @@ export default function AdvertSlider({
   const [displayedAdverts, setDisplayedAdverts] = useState<Advert[]>([]);
   
   const [position,setPosition] = useState(limit)
+
+ useEffect(() => {
+    return () => {
+      dispatch(clearFilter());
+    };
+  }, []);
 
   useEffect(() => {
     if (adverts.adverts.length > 0) {

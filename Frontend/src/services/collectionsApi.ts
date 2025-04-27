@@ -11,10 +11,41 @@ export const collectionsApi = createApi({
       query: () => '/api/collections',
       providesTags: ['collections'], // 
     }),
+        updateCollections: builder.mutation<
+          CollectionSchema,
+          { id: string; data: Partial<CollectionSchema> }
+        >({
+          query: ({ id, data }) => ({
+            url: `/api/collections/${id}`,
+            method: "PUT",
+            credentials: "include",
+            body: data,
+          }),
+          invalidatesTags: ["collections"],
+        }),
+        postCollections: builder.mutation<CollectionSchema, CollectionSchema>({
+          query: (data) => ({
+            url: `/api/collections`,
+            method: "POST",
+            credentials: "include",
+            body: data,
+          }),
+          invalidatesTags: ["collections"],
+        }),
+        deleteCollections: builder.mutation<CollectionSchema, { id: string }>({
+          query: ({ id }) => ({
+            url: `/api/collections/${id}`,
+            method: "DELETE",
+            credentials: "include",
+          }),
+          invalidatesTags: ["collections"],
+        }),
   }),
 });
 
 export const {
-  useGetCollectionsQuery
-
+  useGetCollectionsQuery,
+  useDeleteCollectionsMutation,
+  usePostCollectionsMutation,
+  useUpdateCollectionsMutation,
 } = collectionsApi;

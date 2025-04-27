@@ -74,6 +74,13 @@ const advertsSlice = createSlice({
           const parsed = parseInt(action.payload.total, 10);
           state.totalFilterAdverts = isNaN(parsed) ? 0 : parsed;
         }
+      )
+      .addMatcher(
+        userApi.endpoints.getUserAdverts.matchFulfilled,
+        (state, action) => {
+          const parsed = parseInt(action.payload.total, 10);
+          state.totalFilterAdverts = isNaN(parsed) ? 0 : parsed;
+        }
       );
   },
 });
