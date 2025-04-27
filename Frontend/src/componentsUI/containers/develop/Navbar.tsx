@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, ShoppingCart, X } from "lucide-react";
 import Logo from "../../elements/Logo";
 import SearchBar from "../../components/develop/SearchBar";
 import LanguajeSelector from "../../components/develop/LanguajeSelector";
@@ -71,7 +71,7 @@ export default function Navbar({ auth }: Props) {
 
               <div className="flex items-center space-x-2">
                 <UserMenu user={user} />
-                <LanguajeSelector />
+                <ShoppingCart user={user} />
               </div>
             </div>
           </>
@@ -100,7 +100,7 @@ export default function Navbar({ auth }: Props) {
             <NavIcons user={user} />
             <NavActions user={user} />
             <UserMenu user={user} />
-            <LanguajeSelector />
+            <ShoppingCart />
           </div>
         </div>
       )}

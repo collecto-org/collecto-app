@@ -36,6 +36,9 @@ import RequireAuth from "./services/requireAuth";
 import RequireAdmin from "./services/requireAdmin";
 import MainLayout from "./componentsUI/layouts/MainLayout";
 import { ToastContainer } from "react-toastify";
+import NotFoundPage from "./componentsUI/components/develop/NotFoundPage";
+import ServerErrorPage from "./componentsUI/components/develop/ServerErrorPage";
+import UnauthorizedPage from "./componentsUI/components/develop/UnauthorizedPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -116,9 +119,12 @@ function App() {
         >
           <Route path="/catalogmanager" element={<CatalogManagerPage />} />
         </Route>
+        <Route path="/500" element={<ServerErrorPage />} />
+        <Route path="/401" element={<UnauthorizedPage />} />
+        {/* ⚡ ESTA ES CLAVE: 404 para cualquier ruta no encontrada */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
-      {/* ✅ Agregas el ToastContainer FUERA de Routes */}
       <ToastContainer
         position="top-center"
         autoClose={4000}
