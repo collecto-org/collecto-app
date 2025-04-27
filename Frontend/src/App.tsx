@@ -11,8 +11,6 @@ import { setUser } from "./store/slices/userSlice";
 import "./styles/index.css";
 import Edituser from "./temporal-components/EditUser";
 import MyAdvertsGrid from "./temporal-components/MyAdvertsGrid";
-import UserAdvertsFavorites from "./componentsUI/pages/develop/UserAdvertsFavorites";
-import UserAdvertsPublished from "./componentsUI/pages/develop/UserAdvertsPublished";
 import { useGetNotificationsQuery } from "./services/notificationsApi";
 import { NotificationView } from "./temporal-components/NotificationView";
 import HomePage from "./componentsUI/pages/develop/HomePage";
@@ -37,6 +35,10 @@ import { useGetStatusQuery } from "./services/statusApi";
 import RequireAuth from "./services/requireAuth";
 import RequireAdmin from "./services/requireAdmin";
 import MainLayout from "./componentsUI/layouts/MainLayout";
+import { ToastContainer } from "react-toastify";
+import NotFoundPage from "./componentsUI/components/develop/NotFoundPage";
+import ServerErrorPage from "./componentsUI/components/develop/ServerErrorPage";
+import UnauthorizedPage from "./componentsUI/components/develop/UnauthorizedPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,15 +46,13 @@ function App() {
 
   const { refetch } = useGetNotificationsQuery({},{skip:!user});
 
-
   useGetBrandsQuery();
   useGetUniversesQuery();
   useGetProductTypesQuery();
   useGetshippingMethodsQuery();
   useGetTransactionsQuery();
   useGetConditionsQuery();
-  useGetStatusQuery()
-
+  useGetStatusQuery();
 
   useEffect(() => {
     if (user) {
@@ -62,50 +62,81 @@ function App() {
   }, [user, dispatch]);
 
   return (
-    <Routes> 
-      <Route element = {<MainLayout><RequireAuth/></MainLayout>}> 
-      
-      <Route path="/userprofile" element={<UserProfilePage />} />
-      <Route path="/new-advert" element={<NewAdvertPage />} />
-      <Route path="/edit-me" element={<Edituser />} />
-      <Route path="/adverts/favorites" element={<UserAdvertsFavorites />} />
-      <Route path="/adverts/published" element={<UserAdvertsPublished />} />
-      <Route path="/Orderpage" element={<Orderpage />} />
-      <Route path="/my-orders" element={<MyOrders />} />
-      <Route path="/adverts/me" element={<MyAdvertsGrid />} />
-      <Route path="/notifications" element={<NotificationView />} />
-      <Route path="/ratings/:userId" element={<RatingsPage />} />
-      <Route path="/my-chats" element={<MyChats />} />
-      <Route path="/chat/:slug" element={<ChatPage />} />
- 
-      </Route>
+    <>
+      <Routes>
+        <Route
+          element={
+            <MainLayout>
+              <RequireAuth />
+            </MainLayout>
+          }
+        >
+          <Route path="/userprofile" element={<UserProfilePage />} />
+          <Route path="/new-advert" element={<NewAdvertPage />} />
+          <Route path="/edit-me" element={<Edituser />} />
+          <Route path="/Orderpage" element={<Orderpage />} />
+          <Route path="/my-orders" element={<MyOrders />} />
+          <Route path="/adverts/me" element={<MyAdvertsGrid />} />
+          <Route path="/notifications" element={<NotificationView />} />
+          <Route path="/ratings/:userId" element={<RatingsPage />} />
+          <Route path="/my-chats" element={<MyChats />} />
+          <Route path="/chat/:slug" element={<ChatPage />} />
+        </Route>
 
-      <Route element = {<MainLayout><Outlet /></MainLayout>}>
+        <Route
+          element={
+            <MainLayout>
+              <Outlet />
+            </MainLayout>
+          }
+        >
+          <Route path="/" element={<HomePage />} />
+          <Route path="/universe/:slug" element={<UniversePage />} />
+          <Route path="/adverts/:slug" element={<AdvertDetailPage />} />
+          <Route path="/users/:username" element={<UserAdvertsPage />} />
+        </Route>
 
-      <Route path="/" element={<HomePage />} />
-      <Route path="/universe/:slug" element={<UniversePage />} />      
-      <Route path="/adverts/:slug" element={<AdvertDetailPage />} />
-      <Route path="/users/:username" element={<UserAdvertsPage />} />
+        <Route
+          element={
+            <MainLayout auth={true}>
+              <Outlet />
+            </MainLayout>
+          }
+        >
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/recover" element={<RecoverPassForm />} />
+          <Route path="/recover/:token" element={<ChangePassPage />} />
+          <Route path="/verify-email/:token" element={<ConfirmEmail />} />
+        </Route>
 
-      </Route>
+        <Route
+          element={
+            <MainLayout>
+              <RequireAdmin />
+            </MainLayout>
+          }
+        >
+          <Route path="/catalogmanager" element={<CatalogManagerPage />} />
+        </Route>
+        <Route path="/500" element={<ServerErrorPage />} />
+        <Route path="/401" element={<UnauthorizedPage />} />
+        {/* ⚡ ESTA ES CLAVE: 404 para cualquier ruta no encontrada */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
 
-      <Route element = {<MainLayout auth={true}><Outlet /></MainLayout>}>
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/register" element={<RegisterForm />} />
-      <Route path="/recover" element={<RecoverPassForm />} />
-      <Route path="/recover/:token" element={<ChangePassPage />} />
-      <Route path="/recover/:token" element={<ChangePassPage />} />
-      <Route path="/verify-email/:token" element={<ConfirmEmail />} />
-
-      </Route>
-
-      <Route element = {<MainLayout><RequireAdmin/></MainLayout>}> 
-
-      <Route path="/catalogmanager" element={<CatalogManagerPage />} />
-
-      </Route>
-
-    </Routes>
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
   );
 }
 

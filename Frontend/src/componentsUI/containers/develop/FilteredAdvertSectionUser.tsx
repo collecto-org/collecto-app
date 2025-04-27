@@ -27,7 +27,7 @@ export default function FilteredAdvertSectionUser({
           <PaginationBlock total={total} />
         </div>
 
-        <ProductGrid adverts={adverts} />
+        <ProductGrid adverts={adverts} forceFavorite />
       </div>
     </div>
   );

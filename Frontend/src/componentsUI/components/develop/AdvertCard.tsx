@@ -1,18 +1,56 @@
-import { Advert } from "@/services/schemas/AdvertsSchemas";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { Advert } from "@/services/schemas/AdvertsSchemas";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/store/selectors/userSelectors";
+import useRefreshFavorites from "../../../hooks/useRefreshFavorites";
+import { toast } from "react-toastify";
 
-export default function ProductCard({
+export default function AdvertCard({
   images,
   brand,
   title,
   price,
   slug,
+  isFavorite: initialFavorite,
+  _id,
 }: Advert) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(initialFavorite || false);
+  const user = useSelector(selectUser);
+  const navigate = useNavigate();
+  const refreshFavorites = useRefreshFavorites();
 
-  const toggleFavorite = () => {
-    setIsFavorite((prev) => !prev);
+  const toggleFavorite = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    if (!user || !user.isLogged) {
+      toast.info(
+        <div className="text-center">
+          <p className="text-sm mb-2">
+            Para guardar este artículo como favorito, debes iniciar sesión.
+          </p>
+          <button
+            onClick={() => navigate("/login")}
+            className="px-4 py-1 bg-coral text-white rounded-full text-xs hover:bg-darkblue transition"
+          >
+            Ir a login
+          </button>
+        </div>,
+        {
+          autoClose: false,
+          closeOnClick: false,
+        }
+      );
+      return;
+    }
+    try {
+      await refreshFavorites(_id, isFavorite);
+      setIsFavorite((prev) => !prev);
+    } catch (error) {
+      console.error("Error al actualizar favorito:", error);
+      toast.error("Hubo un error al actualizar favoritos.");
+    }
   };
 
   return (
@@ -26,29 +64,19 @@ export default function ProductCard({
           lg:w-[200px] lg:h-[325px]
         `}
       >
+        {/* ❤️ BOTÓN FAVORITO */}
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            toggleFavorite();
-          }}
-          aria-label="Agregar a favoritos"
-          className={`absolute top-2 right-2 z-10 p-2 rounded-full transition ${
-            isFavorite ? "bg-coral text-white" : "bg-white text-darkblue"
-          }`}
+          onClick={toggleFavorite}
+          className="absolute top-2 right-2 z-10 p-1 bg-white rounded-full shadow-md hover:bg-lightgray transition"
         >
-          <span
-            className="material-symbols-outlined text-darkblue"
-            style={{
-              fontVariationSettings:
-                '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24',
-              fontSize: "24px",
-              lineHeight: "1",
-            }}
-          >
-            {isFavorite ? "on" : "off"}
-          </span>
+          {isFavorite ? (
+            <FaHeart className="text-coral w-5 h-5" />
+          ) : (
+            <FaRegHeart className="text-darkblue w-5 h-5" />
+          )}
         </button>
 
+        {/* IMAGEN */}
         <div className="relative w-full h-[160px] sm:h-[180px] md:h-[200px] lg:h-[240px] overflow-hidden bg-white">
           <img
             src={images[0]}
@@ -58,12 +86,18 @@ export default function ProductCard({
           />
         </div>
 
+        {/* DETALLES */}
         <div className="p-2 sm:p-2.5 md:p-3 text-[11px] sm:text-xs md:text-sm lg:text-sm">
           <p className="text-[10px] sm:text-xs text-coral font-semibold">
             {brand.name}
           </p>
           <p className="text-darkblue leading-tight line-clamp-2">{title}</p>
-          <p className="text-sm font-semibold text-darkblue mt-1">{price}</p>
+          <p className="text-sm font-semibold text-darkblue mt-1">
+            {price.toLocaleString("es-ES", {
+              style: "currency",
+              currency: "EUR",
+            })}
+          </p>
         </div>
       </div>
     </Link>
