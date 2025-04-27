@@ -11,6 +11,7 @@ interface UserProfileViewProps {
     gender: string;
   };
   setIsEditing: (value: boolean) => void;
+
 }
 
 export default function UserProfileView({ form, setIsEditing }: UserProfileViewProps) {
@@ -18,15 +19,15 @@ export default function UserProfileView({ form, setIsEditing }: UserProfileViewP
     <div className="space-y-4 text-sm text-darkblue">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <img
-            src={form.avatarUrl}
-            alt="avatar"
-            className="w-16 h-16 rounded-full object-cover border"
-          />
+            <img 
+              src={form.avatarUrl || "/assets/default-avatar-mas.jpg"}
+              alt="avatar"
+              className="w-16 h16 rounded-full object-cover border"
+            />
           <div>
             <p className="text-gray-600 text-sm">Hola</p>
             <h2 className="text-xl font-bold text-darkblue uppercase">
-              {form.firstName.toUpperCase()}
+              {form.firstName?.toUpperCase()}
             </h2>
           </div>
         </div>

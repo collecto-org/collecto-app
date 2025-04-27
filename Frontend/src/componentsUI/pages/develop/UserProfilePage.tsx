@@ -4,21 +4,13 @@ import Button from "@/componentsUI/elements/Button";
 import { Link } from "react-router-dom";
 import AdvertsFavorites from "@/componentsUI/containers/develop/AdvertsFavorites";
 import AdvertsPublished from "@/componentsUI/containers/develop/AdvertsPublished";
-import EditUserProfileForm from "@/componentsUI/containers/develop/EditUserProfileForm";
+import UserProfile         from "@/componentsUI/containers/develop/UserProfile";
 
 
 export default function UserProfilePage() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [activeSection, setActiveSection] = useState("Mi Perfil");
-
-  const user = {
-    avatar: "https://github.com/mdo.png",
-    firstName: "Martin",
-    lastName: "Rivas Reynoso",
-    email: "test@hotmail.com",
-    birthdate: "2000-10-10",
-  };
 
   return (
     <>
@@ -116,7 +108,7 @@ export default function UserProfilePage() {
           <section className="w-full md:w-3/4 bg-white rounded p-2 shadow space-y-4">
             {activeSection === "Mis anuncios" && <AdvertsPublished />}
             {activeSection === "Favoritos" && <AdvertsFavorites />}
-            {activeSection === "Mi Perfil" && <EditUserProfileForm />}
+            {activeSection === "Mi Perfil" && <UserProfile />}
           </section>
         </div>
       </div>
