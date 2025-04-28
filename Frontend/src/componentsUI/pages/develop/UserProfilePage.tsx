@@ -66,12 +66,11 @@ export default function UserProfilePage() {
           <aside className="w-full md:w-1/4 bg-coral rounded p-4 space-y-8 text-white">
             {[
               { icon: "user", label: "Mi Perfil" },
+              { icon: "user", label: "Cambiar Contraseña" },
+              { icon: "user", label: "Eliminar Cuenta" },
+              { icon: "box",label: "Mis anuncios",},
+              { icon: "heart", label: "Favoritos" }, 
               { icon: "mapPin", label: "Direcciones de envío" },
-              {
-                icon: "box",
-                label: "Mis anuncios",
-              },
-              { icon: "heart", label: "Favoritos" }, //quité el link a la ruta
               { icon: "creditCard", label: "Formas de pago" },
               { icon: "fileText", label: "Datos de facturación" },
               { icon: "list", label: "Historial de pedidos" },

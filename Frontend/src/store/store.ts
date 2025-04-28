@@ -11,6 +11,7 @@ import { notificationApi } from "@/services/notificationsApi";
 import { ordersApi } from "@/services/ordersApi";
 import { paymentsApi } from "@/services/paymentsApi";
 import { shipmentsApi } from "@/services/shipmentsApi";
+import { gendersApi } from "@/services/gendersApi";
 import { universesApi } from "@/services/universesApi";
 import { brandsApi } from "@/services/brandsApi";
 import { collectionsApi } from "@/services/collectionsApi";
@@ -19,6 +20,7 @@ import { conditionsApi } from "@/services/conditionsApi";
 import { shippingMethodsApi } from "@/services/shipmentMethodsApi";
 import { transactionsApi } from "@/services/transactionsApi";
 import { statusApi } from "@/services/statusApi";
+import { usersTableApi } from "@/services/Tables/usersApi"
 
 
 export const store = configureStore({
@@ -35,6 +37,7 @@ export const store = configureStore({
         [ordersApi.reducerPath]:ordersApi.reducer,
         [paymentsApi.reducerPath]:paymentsApi.reducer,
         [shipmentsApi.reducerPath]:shipmentsApi.reducer,
+        [gendersApi.reducerPath]:gendersApi.reducer,
         [universesApi.reducerPath]:universesApi.reducer,
         [brandsApi.reducerPath]:brandsApi.reducer,
         [collectionsApi.reducerPath]:collectionsApi.reducer,
@@ -43,6 +46,7 @@ export const store = configureStore({
         [shippingMethodsApi.reducerPath]:shippingMethodsApi.reducer,
         [transactionsApi.reducerPath]:transactionsApi.reducer,
         [statusApi.reducerPath]:statusApi.reducer,
+        [usersTableApi.reducerPath]:usersTableApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -53,6 +57,7 @@ export const store = configureStore({
     .concat(ordersApi.middleware)
     .concat(paymentsApi.middleware)
     .concat(shipmentsApi.middleware)
+    .concat(gendersApi.middleware)
     .concat(universesApi.middleware)
     .concat(brandsApi.middleware)
     .concat(collectionsApi.middleware)
@@ -61,6 +66,7 @@ export const store = configureStore({
     .concat(conditionsApi.middleware)
     .concat(transactionsApi.middleware)
     .concat(statusApi.middleware)
+    .concat(usersTableApi.middleware)
 
 });
 

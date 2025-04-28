@@ -30,7 +30,7 @@ export default function UserMenu(user: { user: User }) {
           <div className="flex items-center gap-1 bg-white focus:outline-none">
             <div className="w-9 h-9 rounded-full overflow-hidden">
               <Logo
-                src={user.user.avatarUrl || "https://github.com/mdo.png"}
+                src={user.user.avatarUrl || "/assets/default-avatar-mas.jpg"}
                 alt={user.user.username}
                 width={36}
                 height={36}

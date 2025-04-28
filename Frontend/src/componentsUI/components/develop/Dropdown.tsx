@@ -53,9 +53,8 @@ export default function Dropdown({
             if (React.isValidElement<DropdownItemProps>(child)) {
               return React.cloneElement(child, {
                 onClick: () => {
-                  child.props.onClick?.(); // ✅ importante: ejecuta handleLogout o cualquier otro onClick que hayas pasado
-                  handleItemClick(child.props.children); // si quieres que se cierre el menú o se dispare onSelect
-                },
+                  child.props.onClick?.(); 
+                  handleItemClick(child.props.children);                 },
               });
             }
             return child;

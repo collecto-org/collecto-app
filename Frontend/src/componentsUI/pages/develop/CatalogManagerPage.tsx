@@ -1,5 +1,6 @@
 import { useState } from "react";
 import UniverseTable from "@/componentsUI/tables/UniverseTable"
+import UserTable from "@/componentsUI/tables/UserTable";
 
 export default function CatalogManagerPage() {
   const [activeTable, setActiveTable] = useState("Categorías");
@@ -7,6 +8,7 @@ export default function CatalogManagerPage() {
   const tableList = [
     "Categorías",
     "Universos",
+    "Usuarios",
     "Métodos de pago",
     "Marcas",
     "Proveedores",
@@ -40,6 +42,7 @@ export default function CatalogManagerPage() {
             <h2 className="text-xl font-semibold text-darkblue mb-4">{activeTable}</h2>
 
             {activeTable === "Universos" && <UniverseTable />}
+            {activeTable === "Usuarios" && <UserTable />}
 
             {/* Si quieres dejar el placeholder por defecto para otras tablas aún no implementadas */}
             {activeTable !== "Universos" && (

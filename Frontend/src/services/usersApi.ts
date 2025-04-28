@@ -91,6 +91,17 @@ export const userApi = createApi({
   
         }),
       }),
+      checkEmailExists: builder.mutation<{ exists: boolean }, { email: string }>({
+        query: ({ email }) => ({
+          url: `/api/users/me/check-email`,
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: { email },
+        }),
+      }),      
     })
 })
 
@@ -105,5 +116,6 @@ export const {
 useSetAdvertFavMutation,
 useGetChatsQuery,
 useGetUserAdvertsQuery,
+useCheckEmailExistsMutation,
 
 } = userApi

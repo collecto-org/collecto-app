@@ -18,6 +18,8 @@ import {
   FaSave,
   FaFacebook, 
   FaTwitter,
+  FaPhone,
+  FaInfoCircle,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 
@@ -43,6 +45,8 @@ const icons: Record<string, IconType> = {
   box: HiOutlineCube,
   twitter: FaTwitter,
   facebook: FaFacebook,
+  phone: FaPhone,
+  info: FaInfoCircle,
 };
 
 interface IconProps {

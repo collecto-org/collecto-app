@@ -1,7 +1,7 @@
 import LoginForm from "./componentsUI/containers/LoginForm";
 import RegisterForm from "./componentsUI/containers/RegisterForm";
 import { Routes, Route, Outlet } from "react-router-dom";
-import ConfirmEmail from "./componentsUI/containers/ConfirmEmail";
+import VerifyEmailPage from "./componentsUI/pages/develop/VerifyEmailPage";
 import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
 import ChangePassPage from "./componentsUI/containers/ChangePassPage";
 import { useDispatch } from "react-redux";
@@ -107,7 +107,7 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/recover" element={<RecoverPassForm />} />
           <Route path="/recover/:token" element={<ChangePassPage />} />
-          <Route path="/verify-email/:token" element={<ConfirmEmail />} />
+          <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
         </Route>
 
         <Route
