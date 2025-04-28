@@ -29,7 +29,7 @@ export default function UserAdvertsPublished() {
   }, []);
 
   if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Ocurrio un error</p>;
+  if (isError) return <NoResults /> //temporal hasta que la api devuelva un 200
   return (
     <>
       <div>
