@@ -45,9 +45,6 @@ export default function HomePage() {
   },[])
 
 
-  if (isError) {
-  }
-
   if (isLoading) {
     return <LoadingSpinner/>;
   }
@@ -122,7 +119,7 @@ export default function HomePage() {
           />
         ) : (
           <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
-            {adverts && !isError ? (
+            { adverts && adverts?.adverts.length >0 && !isError  ? (
               <>
                 <AdvertSlider
                   title="Nuevos lanzamientos"

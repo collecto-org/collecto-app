@@ -1,5 +1,5 @@
 import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react"
-import { GetChatsResponse, User } from "./schemas/UserSchemas";
+import { Chat, GetChatsResponse, User } from "./schemas/UserSchemas";
 import { Advert, FilterAdverts, listingId } from "./schemas/AdvertsSchemas";
 
 
@@ -73,9 +73,9 @@ export const userApi = createApi({
   
         }),
       }),
-      getChats: builder.query<GetChatsResponse,void >({
+      getChats: builder.query<Chat[],void >({
         query: () => ({
-          url: `/api/users/chats`,
+          url: `/api/users/me/chat`,
           method: "GET",
           credentials:"include",
           

@@ -5,11 +5,14 @@ import { User } from "@/services/schemas/UserSchemas";
 import { useSelector } from "react-redux";
 import { selectTotalPendingNotifications } from "@/store/selectors/notificationSelector";
 import { RootState } from "@/store/store";
+import { selectTotalPendingChats } from "@/store/selectors/userSelectors";
 
 export default function NavIcons(user: { user: User }) {
   const totalPendingNotifications = useSelector((state: RootState) =>
     selectTotalPendingNotifications(state)
   );
+
+  const TotalPendingChats = useSelector((state:RootState) => selectTotalPendingChats(state))
 
   if (!user.user.username) {
     return null;
@@ -60,17 +63,21 @@ export default function NavIcons(user: { user: User }) {
       </div>
 
       <div className="relative">
+      <Link
+          to="/my-chats"
+          className="text-darkblue hover:text-coral"
+        >
         <Icon
           name="chat"
           size={25}
           className="hover:text-coral transition-colors text-darkblue"
-          onClick={() => alert("Iniciando chat")}
         />
         <NotificationBadge
-          count={10}
+          count={TotalPendingChats}
           position="bottom-right"
           variant="danger"
         />
+        </Link>
       </div>
     </div>
   );

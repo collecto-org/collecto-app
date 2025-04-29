@@ -9,6 +9,7 @@ interface ButtonProps {
     className?: string;
     type?: "button" | "submit" | "reset";
     disabled?:boolean
+    hidden?:boolean
   }
 
   //  button {
@@ -21,6 +22,7 @@ export default function Button({
     size,
     className,
     disabled,
+    hidden,
     type = "button",
 }: ButtonProps){
     
@@ -44,6 +46,7 @@ export default function Button({
         <button
         type={type}
         disabled={disabled}
+        hidden = {hidden}
         onClick={onClick}
         className={classNames(baseClasses, variantClasses[variant] ,sizeClasses[size || "md"], className, disabled? "opacity-50 cursor-not-allowed" : "")}
         >

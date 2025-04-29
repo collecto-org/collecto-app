@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { userApi } from "../../services/usersApi";
-import { User } from "../../services/schemas/UserSchemas";
+import { Chat,  User } from "../../services/schemas/UserSchemas";
 import { authApi } from "@/services/authApi";
 
 const initialState: User = {
@@ -13,6 +13,7 @@ const initialState: User = {
   avatarUrl: undefined,
   bio: undefined,
   isLogged: false,
+  chats:[]
 };
 
   
@@ -29,6 +30,29 @@ const initialState: User = {
         removeUserProfile: (state) => {
             state = { ...initialState }; 
         },
+        setChatRoom: (state, action: PayloadAction<Chat>) => {
+            const index = state.chats.findIndex(c => c.roomId === action.payload.roomId);
+            if (index !== -1) {
+              state.chats[index] = action.payload; 
+            } else {
+              state.chats.push(action.payload); 
+            }
+          },
+          
+          markMessageAsRead: (
+            state,
+            action: PayloadAction<{ roomId: string; messageIds: string[] }>
+          ) => {
+            const chat = state.chats.find((c) => c.roomId === action.payload.roomId);
+          
+            if (chat) {
+              chat.messages.forEach((msg) => {
+                if (action.payload.messageIds.includes(msg._id)) {
+                  msg.isRead = true;
+                }
+              });
+            }
+          },
     },
     extraReducers: (builder) => {
         builder
@@ -64,6 +88,12 @@ const initialState: User = {
                 }
             )
             .addMatcher(
+                userApi.endpoints.getChats.matchFulfilled, 
+                (state, action) => {                    
+                    state.chats = action.payload
+                }
+            )
+            .addMatcher(
                 userApi.endpoints.deleteMe.matchFulfilled, 
                 () => {
                     return initialState
@@ -79,6 +109,6 @@ const initialState: User = {
     },
 });
 
-export const { setUser, updateUserProfile, removeUserProfile } = userSlice.actions;
+export const { setUser, updateUserProfile, removeUserProfile,setChatRoom,markMessageAsRead } = userSlice.actions;
 
 export default userSlice.reducer;
