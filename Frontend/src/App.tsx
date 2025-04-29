@@ -40,12 +40,14 @@ import NotFoundPage from "./componentsUI/components/develop/NotFoundPage";
 import ServerErrorPage from "./componentsUI/components/develop/ServerErrorPage";
 import UnauthorizedPage from "./componentsUI/components/develop/UnauthorizedPage";
 import { ErrorBoundary } from "./utils/ErrorBoundary";
+import { useNotificationsSocket } from "./hooks/useNotificationsSocket";
 
 function App() {
   const dispatch = useDispatch();
   const { data: user } = useGetMeQuery({});
 
   const { refetch } = useGetNotificationsQuery({},{skip:!user});
+  useNotificationsSocket()
 
 
   useGetBrandsQuery();

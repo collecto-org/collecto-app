@@ -4,12 +4,12 @@ import { notificationApi } from "@/services/notificationsApi";
 import { NotificationSchema } from "@/services/schemas/NotificationSchema";
 
 interface NotificationState {
-  notifications:NotificationSchema[] | null;
+  notifications:NotificationSchema[] ;
   loading: boolean;
 }
 
 const initialState: NotificationState = {
-  notifications:null,
+  notifications:[],
   loading:false
 };
 
@@ -26,7 +26,13 @@ const notificationSlice = createSlice({
       action: PayloadAction<{ notification: NotificationSchema[]; }>
     ) => {
       state.notifications = action.payload.notification;
-    }
+    },
+    addNotification: (
+      state,
+      action: PayloadAction<NotificationSchema>
+    ) => {
+      state.notifications.unshift(action.payload); 
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -52,6 +58,7 @@ const notificationSlice = createSlice({
 
 export const {
   setNotifications,
+  addNotification
 } = notificationSlice.actions;
 
 export default notificationSlice.reducer;
