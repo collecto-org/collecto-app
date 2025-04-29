@@ -20,9 +20,10 @@ const schema = z.object({
 interface ModalLoginProps {
   isOpen: boolean;
   onClose: () => void;
+  onRecoverPassword: () => void; // AGREGADO PARA FLUJO CORRECTO
 }
 
-export default function ModalLogin({ isOpen, onClose }: ModalLoginProps) {
+export default function ModalLogin({ isOpen, onClose, onRecoverPassword }: ModalLoginProps) {
   const {
     register,
     handleSubmit,
@@ -57,48 +58,54 @@ export default function ModalLogin({ isOpen, onClose }: ModalLoginProps) {
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    isOpen && (
-      <AuthModalLayout onClose={onClose}>
-        <div className="flex flex-col items-center">
-          <img src={logo} alt="Logo Collecto" className="h-16 mb-6" />
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
-            <InputField
-              label="Nombre de usuario"
-              name="username"
-              register={register}
-              type="text"
-              error={errors.username?.message}
-              props={{ placeholder: "Usuario" }}
-            />
+    <AuthModalLayout onClose={onClose}>
+      <div className="flex flex-col items-center">
+        <img src={logo} alt="Logo Collecto" className="h-16 mb-6" />
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
+          <InputField
+            label="Nombre de usuario"
+            name="username"
+            register={register}
+            type="text"
+            error={errors.username?.message}
+            props={{ placeholder: "Usuario" }}
+          />
 
-            <InputField
-              label="Contraseña"
-              name="password"
-              register={register}
-              type="password"
-              error={errors.password?.message}
-              props={{ placeholder: "*****" }}
-            />
+          <InputField
+            label="Contraseña"
+            name="password"
+            register={register}
+            type="password"
+            error={errors.password?.message}
+            props={{ placeholder: "*****" }}
+          />
 
-            <div className="flex items-center gap-2">
-              <input type="checkbox" {...register("rememberMe")} />
-              <span className="text-sm">Recordar sesión</span>
-            </div>
+          <div className="flex items-center gap-2">
+            <input type="checkbox" {...register("rememberMe")} />
+            <span className="text-sm">Recordar sesión</span>
+          </div>
 
-            {loginError && <p className="text-red-500 text-xs text-center">{loginError}</p>}
+          {loginError && <p className="text-red-500 text-xs text-center">{loginError}</p>}
 
-            <Button type="submit" variant="primary" className="w-full">
-              {isLoading ? "Cargando..." : "Ingresar"}
-            </Button>
+          <Button type="submit" variant="primary" className="w-full">
+            {isLoading ? "Cargando..." : "Ingresar"}
+          </Button>
 
-            <div className="flex justify-between items-center text-xs text-sage mt-4">
-              <Link to="/recover" className="hover:underline">Olvidé mi contraseña</Link>
-              <Link to="/register" className="hover:underline">Registrarme</Link>
-            </div>
-          </form>
-        </div>
-      </AuthModalLayout>
-    )
+          <div className="flex justify-between items-center text-xs text-sage mt-4">
+            <button
+              type="button"
+              className="text-blue-600 hover:underline"
+              onClick={onRecoverPassword}
+            >
+              Olvidé mi contraseña
+            </button>
+            <Link to="/register" className="hover:underline">Registrarme</Link>
+          </div>
+        </form>
+      </div>
+    </AuthModalLayout>
   );
 }
