@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Menu, ShoppingCart, X } from "lucide-react";
 import Logo from "../../elements/Logo";
 import SearchBar from "../../components/develop/SearchBar";
-import LanguajeSelector from "../../components/develop/LanguajeSelector";
 import UserMenu from "../../components/develop/UserMenu";
 import NavActions from "../../components/develop/NavActions";
 import NavIcons from "../../components/develop/NavIcons";
@@ -11,6 +10,7 @@ import { RootState } from "@/store/store";
 import { selectUser } from "@/store/selectors/userSelectors";
 import { clearFilter } from "@/store/slices/advertsSlice";
 import { useNavigate } from "react-router-dom";
+import ModalLogin from "./ModalLogin";
 
 interface Props {
   auth?: boolean;
@@ -19,6 +19,7 @@ interface Props {
 export default function Navbar({ auth }: Props) {
   const user = useSelector((state: RootState) => selectUser(state));
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,6 +28,8 @@ export default function Navbar({ auth }: Props) {
     navigate("/");
   };
 
+  const openLoginModal = () => setIsLoginModalOpen(true)
+  const closeLoginModal = () => setIsLoginModalOpen(false)
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white text-darkblue shadow-md flex justify-between items-center py-2 px-4">
       {/* IZQUIERDA - LOGO */}
@@ -66,7 +69,7 @@ export default function Navbar({ auth }: Props) {
             <div className="hidden md:flex items-center space-x-2">
               <div className="flex items-center space-x-1">
                 <NavIcons user={user} />
-                <NavActions user={user} />
+                <NavActions user={user} openLoginModal={openLoginModal} />
               </div>
 
               <div className="flex items-center space-x-2">
@@ -98,12 +101,14 @@ export default function Navbar({ auth }: Props) {
           <SearchBar placeholder="Buscar..." width="w-full" />
           <div className="flex flex-col gap-3">
             <NavIcons user={user} />
-            <NavActions user={user} />
+            <NavActions user={user}  openLoginModal={openLoginModal}/>
             <UserMenu user={user} />
             <ShoppingCart />
           </div>
         </div>
       )}
+          {/* Modal de Login */}
+    <ModalLogin isOpen={isLoginModalOpen} onClose={closeLoginModal}/>
     </nav>
   );
 }
