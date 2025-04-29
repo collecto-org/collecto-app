@@ -16,8 +16,7 @@ import {
 import { selectUser } from "@/store/selectors/userSelectors";
 import Editadvert from "@/temporal-components/EditAdvert";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
-import { SelectOptionEl } from "@material/web/select/internal/selectoption/select-option";
-import { selectStatus } from "@/store/selectors/optionsSelectors";
+
 
 function AdvertDetailPage() {
   const params = useParams();

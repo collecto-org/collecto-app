@@ -61,6 +61,17 @@ export const advertsApi = createApi({
       }),
       
     }),
+    getAdvertDetailById: builder.query<Advert, { id: string }>({
+      query: ({ id }) => ({
+        url: `/api/adverts/${id}/id`,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "GET",
+      }),
+      
+    }),
     filterAdverts: builder.query<{adverts:Advert[]; total:string},  FilterAdverts >({
       query: (filters) => ({
         url: `/api/adverts/search`,
@@ -79,5 +90,6 @@ export const {
   useGetAllAdvertsQuery,
   useGetAdvertDetailQuery,
   useFilterAdvertsQuery,
-  useLazyFilterAdvertsQuery
+  useLazyFilterAdvertsQuery,
+  useGetAdvertDetailByIdQuery
 } = advertsApi;

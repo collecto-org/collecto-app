@@ -20,9 +20,10 @@ export type Message = {
 
 export type Chat = {
   roomId: string;
-  slug: string;
-  withUser: string;
-  messages: Message[];
+  advertTitle: string;
+  participants: string[];
+  lastMessage: string;
+  lastMessageTimestamp: string;
 }
 
 export type GetChatsResponse = {

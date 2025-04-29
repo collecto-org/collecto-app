@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "@/store/selectors/userSelectors";
 
 export default function ChatsList() {
-  const { data = [], error, isLoading } = useGetChatsQuery();
+  const { data, error, isLoading } = useGetChatsQuery();
   const user = useSelector(selectUser);
 
   const currentUsername = user.username
@@ -14,13 +14,13 @@ export default function ChatsList() {
   if (!Array.isArray(data) || data.length === 0) return <div>No tienes chats disponibles.</div>;
 
   const chatsWithDetails = data.map(chat => {
-    const otherUser = chat.participants.find(u => u.username !== currentUsername);
-    const lastMessage = chat.messages?.[chat.messages.length - 1];
+    const otherUser = chat.participants.find((u) => u !== currentUsername);
+ 
 
     return {
       ...chat,
-      withUser: otherUser?.username || "Desconocido",
-      lastMessage: lastMessage?.message || "Sin mensajes aún",
+      withUser: otherUser || "Desconocido",
+      
     };
   });
 
@@ -31,7 +31,7 @@ export default function ChatsList() {
         {chatsWithDetails.map((chat) => (
           <div key={chat.roomId} className="p-4 border-b-2 text-darkblue text-center">
             <Link to={`/chat/${chat.roomId}`}>
-              <h2 className="font-semibold text-lg">{chat.roomId.split("_")[0]}</h2>
+              <h2 className="font-semibold text-lg">{chat.advertTitle}</h2>
               <p>Con: {chat.withUser}</p>
               <p className="text-gray-500">Último mensaje: "{chat.lastMessage}"</p>
             </Link>
