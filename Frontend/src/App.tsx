@@ -84,7 +84,7 @@ function App() {
           <Route path="/notifications" element={<NotificationView />} />
           <Route path="/ratings/:userId" element={<RatingsPage />} />
           <Route path="/my-chats" element={<MyChats />} />
-          <Route path="/chat/:slug" element={<ChatPage />} />
+          <Route path="/chat/:roomId" element={<ChatPage />} />
         </Route>
 
         <Route
