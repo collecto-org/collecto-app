@@ -47,6 +47,7 @@ function App() {
 
   const { refetch } = useGetNotificationsQuery({},{skip:!user});
 
+
   useGetBrandsQuery();
   useGetUniversesQuery();
   useGetProductTypesQuery();
