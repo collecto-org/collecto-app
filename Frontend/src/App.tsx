@@ -5,7 +5,7 @@ import VerifyEmailPage from "./componentsUI/pages/develop/VerifyEmailPage";
 import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
 import ChangePassPage from "./componentsUI/containers/ChangePassPage";
 import { useDispatch } from "react-redux";
-import { useGetMeQuery } from "./services/usersApi";
+import { useGetChatsQuery, useGetMeQuery } from "./services/usersApi";
 import { useEffect } from "react";
 import { setUser } from "./store/slices/userSlice";
 import "./styles/index.css";
@@ -41,6 +41,7 @@ import ServerErrorPage from "./componentsUI/components/develop/ServerErrorPage";
 import UnauthorizedPage from "./componentsUI/components/develop/UnauthorizedPage";
 import { ErrorBoundary } from "./utils/ErrorBoundary";
 import { useNotificationsSocket } from "./hooks/useNotificationsSocket";
+import { useChatSocket } from "./hooks/useChatSocket";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ function App() {
 
   const { refetch } = useGetNotificationsQuery({},{skip:!user});
   useNotificationsSocket()
+  useChatSocket()
 
 
   useGetBrandsQuery();
@@ -57,9 +59,12 @@ function App() {
   useGetTransactionsQuery();
   useGetConditionsQuery();
   useGetStatusQuery();
+  useGetChatsQuery(undefined,{skip:!user?.username});
+
+  
 
   useEffect(() => {
-    if (user) {
+    if (user?.username) {
       dispatch(setUser(user));
       refetch();
     }

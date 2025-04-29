@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import socket from '@/utils/socketNotifications';
+import socket from '@/utils/connectSocket';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNotification } from '@/store/slices/notificationSlice'; 
 import { selectUser } from '@/store/selectors/userSelectors'; 
@@ -18,8 +18,6 @@ export const useNotificationsSocket = () => {
 
     // Escucha nuevas notificaciones
     const handleNewNotification = (notification:NotificationSchema) => {
-      console.log("Notificación recibida", notification);
-
             dispatch(addNotification(notification)); 
     };
 

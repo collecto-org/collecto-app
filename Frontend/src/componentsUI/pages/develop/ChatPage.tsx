@@ -24,11 +24,10 @@ export default function ChatPage() {
 
  useEffect(() => {
   // Conectar con socket.io
-  socketRef.current = io("http://localhost:4000");
+  socketRef.current = io(import.meta.env.VITE_SOCKET_URL);
 
   // Escuchar los mensajes
   socketRef.current.on("chat message", (data) => {
-    console.log("data", data);
     setMessages((prevMessages) => [
       ...prevMessages,
       { message: data.message, username: data.username },
@@ -37,23 +36,26 @@ export default function ChatPage() {
 
   // Limpiar cuando el componente se desmonte
   return () => {
+    socketRef.current?.emit("inactive in chat", { roomId, user });
     socketRef.current?.disconnect();
+
   };
 }, []); 
 
 useEffect(() => {
+  if (!roomId || !user) return;
+
   socketRef.current?.emit("joinRoom", { roomId, user });
+  socketRef.current?.emit("active in chat", { roomId, user });
 
   socketRef.current?.on("previousMessages", (previous) => {
-    console.log(previous)
     setMessages(previous);
   });
 
   return () => {
-    socketRef.current?.emit("leaveRoom", { roomId });
     socketRef.current?.off("previousMessages");
   };
-}, [roomId])
+}, [roomId, user]);
 
 const sendMessage = () => {
   if (message.trim() !== "") {
