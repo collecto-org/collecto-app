@@ -27,7 +27,7 @@ export default function AdvertsFavorites() {
   } = useGetMyFavAdvertsQuery(filterProducts);
 
   if (isLoading) return <p>Loading...</p>;
-  if (isError) return <NoResults />
+  if (isError) return <NoResults />;
   return (
     <>
       <div>
@@ -42,7 +42,11 @@ export default function AdvertsFavorites() {
 
           {/* Contenido */}
           {adverts ? (
-            <FilteredAdvertSectionProps total={Number(adverts.total)} adverts={adverts.adverts} />
+            <FilteredAdvertSectionProps
+              total={Number(adverts.total)}
+              adverts={adverts.adverts}
+              forceFavorite={true}
+            />
           ) : (
             <NoResults />
           )}

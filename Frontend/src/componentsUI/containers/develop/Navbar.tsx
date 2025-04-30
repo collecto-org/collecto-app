@@ -109,18 +109,21 @@ export default function Navbar({ auth }: Props) {
           {!auth && (
             <>
               <div className="hidden md:flex flex-grow max-w-xl">
-                <SearchBar placeholder="Busca en todos los universos" width="w-full" />
+                <SearchBar
+                  placeholder="Busca en todos los universos"
+                  width="w-full"
+                />
               </div>
 
               <div className="hidden md:flex items-center space-x-2">
                 <div className="flex items-center space-x-1">
-                  <NavIcons user={user} />
                   <NavActions user={user} openLoginModal={openLoginModal} />
+                  <NavIcons user={user} />
                 </div>
 
                 <div className="flex items-center space-x-2">
                   <UserMenu user={user} />
-                  <ShoppingCart user={user} />
+                  <ShoppingCart />
                 </div>
               </div>
             </>
@@ -132,7 +135,11 @@ export default function Navbar({ auth }: Props) {
               onClick={() => setMenuOpen(!menuOpen)}
               className="text-darkblue"
             >
-              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {menuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -142,10 +149,10 @@ export default function Navbar({ auth }: Props) {
           <div className="md:hidden px-4 pb-4 space-y-4 bg-white shadow-inner">
             <SearchBar placeholder="Buscar..." width="w-full" />
             <div className="flex flex-col gap-3">
-              <NavIcons user={user} />
               <NavActions user={user} openLoginModal={openLoginModal} />
+              <NavIcons user={user} />
               <UserMenu user={user} />
-              <ShoppingCart user={user} />
+              <ShoppingCart />
             </div>
           </div>
         )}

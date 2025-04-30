@@ -4,7 +4,12 @@ import "@material/web/button/filled-tonal-button.js";
 import React from "react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-type MaterialVariant = "filled" | "outlined" | "tonal" | "filledDark";
+type MaterialVariant =
+  | "filled"
+  | "outlined"
+  | "tonal"
+  | "filledDark"
+  | "outlinedDark";
 
 interface MaterialButtonProps extends ButtonHTMLAttributes<HTMLElement> {
   children: ReactNode;
@@ -30,6 +35,10 @@ const stylesByVariant: Record<MaterialVariant, React.CSSProperties> = {
     "--md-sys-color-primary": "#1d313c", // darkblue
     "--md-sys-color-on-primary": "#ffffff", // text color
   } as React.CSSProperties,
+  outlinedDark: {
+    "--md-sys-color-outline": "#7bc1c7",
+    "--md-sys-color-primary": "#1d313c",
+  } as React.CSSProperties,
 };
 
 export default function MaterialButton({
@@ -40,6 +49,8 @@ export default function MaterialButton({
 }: MaterialButtonProps) {
   const tagName =
     variant === "outlined"
+      ? "md-outlined-button"
+      : variant === "outlinedDark"
       ? "md-outlined-button"
       : variant === "tonal"
       ? "md-filled-tonal-button"

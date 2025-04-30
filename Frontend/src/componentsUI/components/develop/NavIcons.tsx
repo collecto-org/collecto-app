@@ -15,11 +15,11 @@ export default function NavIcons(user: { user: User }) {
     return null;
   }
   return (
-    <div className="flex items-center gap-3 text-darkblue text-sm px-5">
+    <div className="flex items-center gap-2 text-darkblue text-sm px-3">
       <div className="relative">
         <Icon
           name="mail"
-          size={25}
+          size={22}
           className="hover:text-coral transition-colors"
           onClick={() => alert("revisar correo")}
         />
@@ -30,7 +30,7 @@ export default function NavIcons(user: { user: User }) {
         <Link to="/notifications" className="text-darkblue hover:text-coral">
           <Icon
             name="bell"
-            size={25}
+            size={22}
             className="hover:text-coral transition-colors"
           />
           <NotificationBadge
@@ -48,7 +48,7 @@ export default function NavIcons(user: { user: User }) {
         >
           <Icon
             name="heart"
-            size={25}
+            size={22}
             className="hover:text-coral transition-colors"
           />
           <NotificationBadge
@@ -62,7 +62,7 @@ export default function NavIcons(user: { user: User }) {
       <div className="relative">
         <Icon
           name="chat"
-          size={25}
+          size={22}
           className="hover:text-coral transition-colors text-darkblue"
           onClick={() => alert("Iniciando chat")}
         />

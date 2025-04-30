@@ -2,23 +2,13 @@ import { useState } from "react";
 import Dropdown from "./Dropdown";
 import Logo from "../../elements/Logo";
 import { User } from "@/services/schemas/UserSchemas";
-import { useLogoutMutation } from "@/services/authApi";
 import { useNavigate } from "react-router-dom";
+import useLogoutHandler from "../../../hooks/useLogoutHandler";
 
 export default function UserMenu(user: { user: User }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [logout] = useLogoutMutation();
   const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await logout().unwrap();
-      navigate("/")
-      window.location.reload();
-    } catch (error) {
-      alert("Hubo un problema al cerrar sesión, por favor intenta de nuevo.");
-    }
-  };
+  const { handleLogout } = useLogoutHandler();
 
   if (!user.user.username) return null;
 
