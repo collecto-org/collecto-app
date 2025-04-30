@@ -5,7 +5,7 @@ import { Advert } from "@/services/schemas/AdvertsSchemas";
 
 type Props = {
   adverts: Advert[];
-  forceFavorite?: boolean; // 👈 añadimos esta prop
+  forceFavorite?: boolean;
 };
 
 export default function ProductGrid({ adverts, forceFavorite = false }: Props) {
@@ -27,7 +27,7 @@ export default function ProductGrid({ adverts, forceFavorite = false }: Props) {
             <ProductCard
               key={index}
               {...product}
-              isFavorite={forceFavorite || product.isFavorite} // 👈 Aquí el cambio importante
+              isFavorite={forceFavorite ? true : product.isFavorite}
             />
           ))}
         </div>

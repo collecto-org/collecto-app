@@ -129,13 +129,18 @@ export default function Navbar({ auth }: Props) {
           {!auth && (
             <>
               <div className="hidden md:flex flex-grow max-w-xl">
-                <SearchBar placeholder="Busca en todos los universos" width="w-full" />
+                <SearchBar
+                  placeholder="Busca en todos los universos"
+                  width="w-full"
+                />
               </div>
 
               <div className="hidden md:flex items-center space-x-2">
                 <div className="flex items-center space-x-1">
+
                   <NavIcons user={user} />
                   <NavActions user={user} openLoginModal={openLoginModal} openRegisterModal={() => setIsRegisterModalOpen(true)} />
+
                 </div>
 
                 <div className="flex items-center space-x-2">
@@ -152,7 +157,11 @@ export default function Navbar({ auth }: Props) {
               onClick={() => setMenuOpen(!menuOpen)}
               className="text-darkblue"
             >
-              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {menuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -164,6 +173,7 @@ export default function Navbar({ auth }: Props) {
             <div className="flex flex-col gap-3">
               <NavIcons user={user} />
               <NavActions user={user} openLoginModal={openLoginModal} openRegisterModal={() => setIsRegisterModalOpen(true)}/>
+
               <UserMenu user={user} />
               <ShoppingCart />
             </div>

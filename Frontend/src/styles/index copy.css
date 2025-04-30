@@ -1,13 +1,13 @@
 :root {
-  --white: #FFFFFF;
+  --white: #ffffff;
   --black: #000000;
-  --very-light-pink: #C7C7C7;
-  --text-input-field: #F7F7F7;
-  --hospital-green: #ACD9B2;
+  --very-light-pink: #c7c7c7;
+  --text-input-field: #f7f7f7;
+  --hospital-green: #7bc1c7;
   --coral: #e8796e;
   --turquoise: #7bc1c7;
   --cream: #f0eee1;
-  --light-gray: #fd4d5; /* Revisar ya que tiene un digito de mas*/
+  --light-gray: #d2d4d5; /* Revisar ya que tiene un digito de mas*/
   --sage: #72847f;
   --dark-blue: #1d313c;
   --sm: 14px;
@@ -16,8 +16,7 @@
 }
 body {
   margin: 0;
-  font-family: 'Quicksand', sans-serif;
-
+  font-family: "Quicksand", sans-serif;
 }
 nav {
   display: flex;
@@ -86,14 +85,13 @@ nav {
   height: auto;
   border: 1px solid var(--very-light-pink);
   border-radius: 6px;
-  top: 80px; 
-  right: 24px; 
+  top: 80px;
+  right: 24px;
   background-color: var(--white);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 20px 20px 0 20px;
   z-index: 10;
 }
-
 
 .desktop-menu ul {
   list-style: none;
@@ -138,7 +136,7 @@ nav {
 
 .logo_nav {
   width: 70px;
-  padding: 0 20px ;
+  padding: 0 20px;
 }
 .title {
   font-size: var(--lg);
@@ -228,8 +226,6 @@ nav {
   height: 50px;
 }
 
-
-
 .secondary-button {
   background-color: var(--white);
   border-radius: 8px;
@@ -255,12 +251,12 @@ nav {
     justify-content: space-between;
   }
   .menu {
-      display: block;
-    }
-    .navbar-left ul {
-      display: none;
-    }
-    .navbar-email {
-      display: none;
-    }
+    display: block;
+  }
+  .navbar-left ul {
+    display: none;
+  }
+  .navbar-email {
+    display: none;
+  }
 }

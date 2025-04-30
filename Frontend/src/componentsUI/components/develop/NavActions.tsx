@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import MaterialButton from "../../components/MaterialButton";
 import { User } from "@/services/schemas/UserSchemas";
-import Button from "@/componentsUI/elements/Button";
+import useLogoutHandler from "@/hooks/useLogoutHandler";
 
 interface NavActionsprops {
   user: User;
@@ -9,17 +9,27 @@ interface NavActionsprops {
   openRegisterModal: () => void
 }
 
-export default function NavActions({ user, openLoginModal, openRegisterModal }: NavActionsprops) {
+
+export default function NavActions({ user, openLoginModal }: NavActionsprops) {
+  const { handleLogout } = useLogoutHandler();
+
+
   if (!user.username) {
     return (
       <div className="flex gap-2 flex-shrink-0">
-        <Button variant="outline" size="sm" onClick={openLoginModal}>
+        <MaterialButton
+          variant="filled"
+          className="text-sm px-4 py-1.5"
+          onClick={openLoginModal}
+        >
           Haz login
-        </Button>
+        </MaterialButton>
+
 
         <Button variant="outline" size="sm" onClick={openRegisterModal}>
           Registrate
         </Button>
+
       </div>
     );
   } else {
@@ -27,9 +37,17 @@ export default function NavActions({ user, openLoginModal, openRegisterModal }: 
       <div className="flex gap-2 flex-shrink-0">
         <NavLink to="/new-advert">
           <MaterialButton variant="filled" className="text-sm px-4 py-1.5">
-            Publica un anuncio
+            Sube un anuncio
           </MaterialButton>
         </NavLink>
+
+        <MaterialButton
+          onClick={handleLogout}
+          variant="outlinedDark"
+          className="text-sm px-4 py-1.5 "
+        >
+          Cerrar sesión
+        </MaterialButton>
       </div>
     );
   }

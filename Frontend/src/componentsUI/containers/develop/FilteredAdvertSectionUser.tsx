@@ -7,12 +7,14 @@ import { Advert } from "@/services/schemas/AdvertsSchemas";
 
 interface FilteredAdvertSectionProps {
   adverts: Advert[];
-  total?:number
+  total?: number;
+  forceFavorite?: boolean; // <- añade esto
 }
 
 export default function FilteredAdvertSectionUser({
   adverts,
-  total
+  total,
+  forceFavorite = false, // <- valor por defecto
 }: FilteredAdvertSectionProps) {
   const productTypes = useSelector((state: RootState) =>
     selectProductTypes(state)
@@ -27,7 +29,7 @@ export default function FilteredAdvertSectionUser({
           <PaginationBlock total={total} />
         </div>
 
-        <ProductGrid adverts={adverts} forceFavorite />
+        <ProductGrid adverts={adverts} forceFavorite={forceFavorite} />
       </div>
     </div>
   );
