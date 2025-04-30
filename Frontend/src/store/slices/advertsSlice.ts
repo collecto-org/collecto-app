@@ -11,7 +11,7 @@ interface AdvertsState {
 }
 
 const initialState: AdvertsState = {
-  filter: { page: 1, limit: 10 },
+  filter: { page: 1, limit: 12 },
   showDeleteModal: false,
   totalFilterAdverts: 0,
   loading: false,
@@ -32,7 +32,7 @@ const advertsSlice = createSlice({
       };
     },
     clearFilter: (state) => {
-      state.filter = {};
+      state.filter = {page:1,limit:12};
     },
     toggleDeleteModal: (state, action: PayloadAction<boolean>) => {
       state.showDeleteModal = action.payload;

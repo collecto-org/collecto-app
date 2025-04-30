@@ -27,7 +27,6 @@ export default function Navbar({ auth }: Props) {
   const [isConfirmEmailSentOpen, setIsConfirmEmailSentOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

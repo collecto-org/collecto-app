@@ -7,7 +7,7 @@ export const selectUniverses = (state:RootState) => state.options.universes
 
 export const selectBrands = (state:RootState) => state.options.brands
 
-export const selectProductTypes = (state:RootState) => state.options.productsTypes
+export const selectProductTypes = (state:RootState) => state.options.productTypes
 
 export const selectCollections = (state:RootState) => state.options.collections
 
@@ -15,7 +15,7 @@ export const selectConditions = (state:RootState) => state.options.conditions
 
 export const selectTransactions = (state:RootState) => state.options.transactions
 
-export const selectStatus = (state:RootState) => state.options.status
+export const selectStatus = (state:RootState) => state.options.statuses
 
 export const selectShipmentMethods = (state:RootState) => state.options.shippingMethods
 

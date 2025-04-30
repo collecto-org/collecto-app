@@ -23,7 +23,6 @@ export default function UniversePage() {
   const actualUniverse = useSelector((state: RootState) =>
     selectUniverseOrBrandBySlug(state, slug)
   );
-
   const filter = useSelector((state: RootState) => selectFilters(state));
   useEffect(() => {
     if (!actualUniverse || !slug) return;
@@ -44,11 +43,13 @@ export default function UniversePage() {
     }
   }, [slug, actualUniverse, dispatch, filter]);
 
-useEffect(()=>{
-  dispatch(setFilter({limit:12,page:1}))
-},[])
+  useEffect(() => {
+    if (filter.limit !== 12 || filter.page !== 1) {
+      dispatch(setFilter({ limit: 12, page: 1 }));
+    }
+  }, [dispatch, filter.limit, filter.page]);
 
-  const { data: adverts,  isLoading } = useFilterAdvertsQuery(filter,{skip:!filter.limit
+  const { data: adverts,  isLoading } = useFilterAdvertsQuery(filter,{skip: !filter.universe && !filter.brand,refetchOnMountOrArgChange: false,
   });
 
   if (isLoading) return <p>Loading...</p>;

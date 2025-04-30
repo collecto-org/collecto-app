@@ -1,7 +1,7 @@
 import Banner from "../../components/develop/Banner";
 import AdvertSlider from "../../containers/develop/AdvertSlider";
 import { useNavigate } from "react-router-dom";
-import {  useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {
   useFilterAdvertsQuery,
@@ -17,13 +17,11 @@ import NoResults from "@/componentsUI/elements/NoResults";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
-import { useEffect } from "react";
-import { clearFilter } from "@/store/slices/advertsSlice";
+
 
 export default function HomePage() {
   const navigate = useNavigate();
   const filter = useSelector(selectFilters);
-  const dispatch = useDispatch()
   
   const universe = useSelector((state: RootState) => selectUniverses(state));
   const brands = useSelector((state: RootState) => selectBrands(state));
@@ -33,16 +31,13 @@ export default function HomePage() {
     isLoading,
     isError,
 
-  } = useGetAllAdvertsQuery(filter,{skip:!universe} );
+  } = useGetAllAdvertsQuery({...filter,universe:"",brand:""},{skip:!universe ||!!filter.title} );
 
   console.count("useGetAllAdvertsQuery call");
   const { data: filterAdverts } = useFilterAdvertsQuery(filter, {
     skip: !filter.title,
   });
 
-  useEffect(()=>{
-        dispatch(clearFilter())    
-  },[])
 
 
   if (isLoading) {

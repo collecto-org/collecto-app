@@ -10,7 +10,6 @@ export default function ChatPage() {
   const { roomId } = useParams();
   const { username } = useSelector((state: RootState) => selectUser(state));
   const id = roomId?.split("_")[0]
-  console.log(id)
 
   const {data:advert} = useGetAdvertDetailByIdQuery({id:id? id : ""},{skip:!id})
 
@@ -64,6 +63,12 @@ const sendMessage = () => {
   }
 };
 
+const bottomRef = useRef<HTMLDivElement | null>(null);
+
+useEffect(() => {
+  bottomRef.current?.scrollIntoView({ behavior: "auto" }); // o "smooth"
+}, [messages]); // se ejecuta cada vez que llegan nuevos mensajes
+
 return (
   <div className="max-w-4xl mx-auto p-6 text-darkblue text-center">
     <h1 className="text-2xl font-bold mb-4">Chat con el usuario</h1>
@@ -85,6 +90,8 @@ return (
           >
             <strong>{msg.username}:</strong> {msg.message}
           </div>
+          <div ref={bottomRef} />
+
         </div>
       ))}
     </div>

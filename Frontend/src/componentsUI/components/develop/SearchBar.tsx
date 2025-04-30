@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FiX, FiSearch } from "react-icons/fi";
 import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type SearchBarProps = {
   placeholder?: string;
@@ -18,10 +19,10 @@ export default function SearchBar({
   width = "w-full",
 }: SearchBarProps) {
   const dispatch = useDispatch()
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  useEffect(() =>{
-    dispatch(setFilter({limit:12}))
-  },[])
+  const isAdvertDetailPage = /^\/adverts\/[^/]+$/.test(location.pathname);
 
   const { register, watch, setValue } = useForm<FormValues>({  //  useForm para manejar los input
     defaultValues: { search: "" }, //  Valores por defecto del useForm
@@ -30,11 +31,16 @@ export default function SearchBar({
   const searchValue = watch("search"); //  aqui esta disponible el valor de cada punto del formulario
 
   const handleSearch = () => {
-  dispatch(setFilter({title:searchValue})) }; //  modificar valores del filtro
+  dispatch(setFilter({title:searchValue,limit:12})) 
+  if (isAdvertDetailPage) {
+    navigate("/"); // redirige al Home si estás en el detalle
+  }
+}; 
+
 
   const clearSearch = () => {
     setValue("search", ""); //  borrar valores deluseForm
-     dispatch(setFilter({title:""})) //  borrar valores del filtro
+     dispatch(setFilter({title:"",limit:12})) //  borrar valores del filtro
   };
 
   return (

@@ -16,7 +16,6 @@ export type Advert = {
   brand: { _id: string; name: string };
   tags: string[],
   user:  {
-    _id?: string;
     username?: string;
     avatar?: string;
     rating?: number;
