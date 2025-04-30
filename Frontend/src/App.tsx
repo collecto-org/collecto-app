@@ -1,11 +1,8 @@
-import LoginForm from "./componentsUI/containers/LoginForm";
-import RegisterForm from "./componentsUI/containers/RegisterForm";
 import { Routes, Route, Outlet } from "react-router-dom";
 import VerifyEmailPage from "./componentsUI/pages/develop/VerifyEmailPage";
 import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
-import ChangePassPage from "./componentsUI/containers/ChangePassPage";
 import { useDispatch } from "react-redux";
-import { useGetMeQuery } from "./services/usersApi";
+import { useGetChatsQuery, useGetMeQuery } from "./services/usersApi";
 import { useEffect } from "react";
 import { setUser } from "./store/slices/userSlice";
 import "./styles/index.css";
@@ -40,12 +37,20 @@ import NotFoundPage from "./componentsUI/components/develop/NotFoundPage";
 import ServerErrorPage from "./componentsUI/components/develop/ServerErrorPage";
 import UnauthorizedPage from "./componentsUI/components/develop/UnauthorizedPage";
 import { ErrorBoundary } from "./utils/ErrorBoundary";
+import { useNotificationsSocket } from "./hooks/useNotificationsSocket";
+import { useChatSocket } from "./hooks/useChatSocket";
+import RecoverPasswordPage from "./componentsUI/pages/develop/RecoverPasswordpage";
+
+
 
 function App() {
   const dispatch = useDispatch();
   const { data: user } = useGetMeQuery({});
 
   const { refetch } = useGetNotificationsQuery({},{skip:!user});
+  useNotificationsSocket()
+  useChatSocket()
+
 
   useGetBrandsQuery();
   useGetUniversesQuery();
@@ -54,9 +59,12 @@ function App() {
   useGetTransactionsQuery();
   useGetConditionsQuery();
   useGetStatusQuery();
+  useGetChatsQuery(undefined,{skip:!user?.username});
+
+  
 
   useEffect(() => {
-    if (user) {
+    if (user?.username) {
       dispatch(setUser(user));
       refetch();
     }
@@ -84,7 +92,7 @@ function App() {
           <Route path="/notifications" element={<NotificationView />} />
           <Route path="/ratings/:userId" element={<RatingsPage />} />
           <Route path="/my-chats" element={<MyChats />} />
-          <Route path="/chat/:slug" element={<ChatPage />} />
+          <Route path="/chat/:roomId" element={<ChatPage />} />
         </Route>
 
         <Route
@@ -111,11 +119,12 @@ function App() {
             </ErrorBoundary>
           }
         >
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
+          
+         
           <Route path="/recover" element={<RecoverPassForm />} />
-          <Route path="/recover/:token" element={<ChangePassPage />} />
+          <Route path="/recover/:token" element={<RecoverPasswordPage />} />
           <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
+          <Route path="/RecoverPasswordPage" element={<RecoverPasswordPage />} />
         </Route>
 
         <Route

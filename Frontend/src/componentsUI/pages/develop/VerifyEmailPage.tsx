@@ -17,7 +17,7 @@ export default function VerifyEmailPage() {
       try {
         await verifyEmail({ token }).unwrap();
         setStatus("success");
-        setTimeout(() => navigate("/login"), 3000); 
+        setTimeout(() => navigate("/"), 3000); 
       } catch (error) {
         setStatus("error");
       }

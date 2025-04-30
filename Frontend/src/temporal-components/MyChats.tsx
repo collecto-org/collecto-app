@@ -1,26 +1,28 @@
-import { useGetChatsQuery } from "@/services/usersApi";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/store/selectors/userSelectors";
 
 export default function ChatsList() {
-  const { data = [], error, isLoading } = useGetChatsQuery();
   const user = useSelector(selectUser);
+  const data = user.chats;
 
-  const currentUsername = user.username
+  const currentUsername = user.username;
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading chats</div>;
+  // Si no hay chats disponibles
   if (!Array.isArray(data) || data.length === 0) return <div>No tienes chats disponibles.</div>;
 
   const chatsWithDetails = data.map(chat => {
-    const otherUser = chat.participants.find(u => u.username !== currentUsername);
-    const lastMessage = chat.messages?.[chat.messages.length - 1];
+    // Encontrar al otro usuario en el chat
+    const otherUser = chat.users.find((u) => u.username !== currentUsername);
+
+    // Obtener el último mensaje del chat
+    const lastMessage = chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null;
+    const lastMessageContent = lastMessage ? lastMessage.content : "No hay mensajes aún";
 
     return {
       ...chat,
-      withUser: otherUser?.username || "Desconocido",
-      lastMessage: lastMessage?.message || "Sin mensajes aún",
+      withUser: otherUser ? otherUser.username : "Desconocido",
+      lastMessage: lastMessageContent,  // Último mensaje
     };
   });
 
@@ -31,7 +33,7 @@ export default function ChatsList() {
         {chatsWithDetails.map((chat) => (
           <div key={chat.roomId} className="p-4 border-b-2 text-darkblue text-center">
             <Link to={`/chat/${chat.roomId}`}>
-              <h2 className="font-semibold text-lg">{chat.roomId.split("_")[0]}</h2>
+              <h2 className="font-semibold text-lg">{chat.advertId.title}</h2>
               <p>Con: {chat.withUser}</p>
               <p className="text-gray-500">Último mensaje: "{chat.lastMessage}"</p>
             </Link>

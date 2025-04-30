@@ -6,10 +6,13 @@ import useLogoutHandler from "@/hooks/useLogoutHandler";
 interface NavActionsprops {
   user: User;
   openLoginModal: () => void;
+  openRegisterModal: () => void
 }
+
 
 export default function NavActions({ user, openLoginModal }: NavActionsprops) {
   const { handleLogout } = useLogoutHandler();
+
 
   if (!user.username) {
     return (
@@ -22,14 +25,11 @@ export default function NavActions({ user, openLoginModal }: NavActionsprops) {
           Haz login
         </MaterialButton>
 
-        <NavLink to="/register">
-          <MaterialButton
-            variant="outlinedDark"
-            className="text-sm px-4 py-1.5"
-          >
-            Regístrate
-          </MaterialButton>
-        </NavLink>
+
+        <Button variant="outline" size="sm" onClick={openRegisterModal}>
+          Registrate
+        </Button>
+
       </div>
     );
   } else {

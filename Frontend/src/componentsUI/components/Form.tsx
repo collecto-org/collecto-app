@@ -6,7 +6,7 @@ type FormProps = {
   
   export default function Form({ onSubmit, children,className }: FormProps) {
     return (
-      <form onSubmit={onSubmit} className={`${className} form`} >
+      <form onSubmit={onSubmit} className={className}>
         {children}
       </form>
     );

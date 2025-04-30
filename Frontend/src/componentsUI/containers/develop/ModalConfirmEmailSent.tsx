@@ -11,17 +11,9 @@ export default function ModalConfirmEmailSent({ isOpen, onClose }: ModalConfirmE
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center top-22">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-[600px] max-w-2xl relative">
-        {/* Botón de cerrar */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-darkblue hover:text-coral text-xl font-bold"
-        >
-          ✕
-        </button>
-
-        <div className="flex flex-col items-center text-center space-y-6">
+    <AuthModalLayout onClose={onClose}  maxWidth="max-w-xl" maxHeight="max-h-[90vh]">
+    <div className="flex flex-col items-center text-center h-full justify-between ">
+        <div className="flex flex-col items-center text-center space-y-4  ">
           {/* Logo Collecto */}
           <Logo
             src="/logos/collecto.png"
@@ -31,7 +23,7 @@ export default function ModalConfirmEmailSent({ isOpen, onClose }: ModalConfirmE
             className="mb-2"
           />
 
-          <h2 className="text-2xl font-bold text-darkblue">
+          <h2 className="text-sm font-bold text-darkblue ">
             Enviamos un correo a la dirección ingresada
           </h2>
 
@@ -39,7 +31,7 @@ export default function ModalConfirmEmailSent({ isOpen, onClose }: ModalConfirmE
             ¿No recibiste el correo electrónico? Intenta lo siguiente:
           </p>
 
-          <ul className="list-disc list-inside text-base text-gray-600 text-left space-y-2 px-8">
+          <ul className="list-disc list-inside text-gray-600 text-left space-y-2 px-8 text-sm">
             <li>Verifica que no haya llegado a la carpeta de Correo no deseado.</li>
             <li>Revisa que la dirección de correo esté bien escrita.</li>
             <li>Comprueba que el dominio no esté bloqueado de tu correo.</li>
@@ -57,7 +49,7 @@ export default function ModalConfirmEmailSent({ isOpen, onClose }: ModalConfirmE
             Cerrar
           </Button>
         </div>
-      </div>
     </div>
+    </AuthModalLayout>    
   );
 }
