@@ -10,6 +10,7 @@ import Button from "@/componentsUI/elements/Button";
 import InputField from "@/componentsUI/components/InputField";
 import logo from "@/assets/logos/collecto.png";
 import { ApiError } from "@/services/schemas/AdvertsSchemas";
+import Title from "@/componentsUI/components/develop/Title";
 
 const schema = z.object({
   username: z.string().min(3, "El nombre de usuario es obligatorio"),
@@ -20,10 +21,11 @@ const schema = z.object({
 interface ModalLoginProps {
   isOpen: boolean;
   onClose: () => void;
-  onRecoverPassword: () => void; // AGREGADO PARA FLUJO CORRECTO
+  onRecoverPassword: () => void;
+  onRegister: () => void;
 }
 
-export default function ModalLogin({ isOpen, onClose, onRecoverPassword }: ModalLoginProps) {
+export default function ModalLogin({ isOpen, onClose, onRecoverPassword, onRegister }: ModalLoginProps) {
   const {
     register,
     handleSubmit,
@@ -61,10 +63,13 @@ export default function ModalLogin({ isOpen, onClose, onRecoverPassword }: Modal
   if (!isOpen) return null;
 
   return (
-    <AuthModalLayout onClose={onClose}>
+    <AuthModalLayout onClose={onClose} maxWidth="max-w-sm" maxHeight="max-h-[90vh]">
       <div className="flex flex-col items-center">
         <img src={logo} alt="Logo Collecto" className="h-16 mb-6" />
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
+        <Title
+            headerLabel="Inicio de Sesión"
+        />
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4 text-xs">
           <InputField
             label="Nombre de usuario"
             name="username"
@@ -102,7 +107,14 @@ export default function ModalLogin({ isOpen, onClose, onRecoverPassword }: Modal
             >
               Olvidé mi contraseña
             </button>
-            <Link to="/register" className="hover:underline">Registrarme</Link>
+           
+            <button
+                type="button"
+                className="text-blue-600 hover:underline"
+                onClick={onRegister}
+              >
+                Registrarme
+            </button>
           </div>
         </form>
       </div>

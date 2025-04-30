@@ -1,9 +1,6 @@
-import LoginForm from "./componentsUI/containers/LoginForm";
-import RegisterForm from "./componentsUI/containers/RegisterForm";
 import { Routes, Route, Outlet } from "react-router-dom";
 import VerifyEmailPage from "./componentsUI/pages/develop/VerifyEmailPage";
 import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
-import ChangePassPage from "./componentsUI/containers/ChangePassPage";
 import { useDispatch } from "react-redux";
 import { useGetChatsQuery, useGetMeQuery } from "./services/usersApi";
 import { useEffect } from "react";
@@ -42,6 +39,9 @@ import UnauthorizedPage from "./componentsUI/components/develop/UnauthorizedPage
 import { ErrorBoundary } from "./utils/ErrorBoundary";
 import { useNotificationsSocket } from "./hooks/useNotificationsSocket";
 import { useChatSocket } from "./hooks/useChatSocket";
+import RecoverPasswordPage from "./componentsUI/pages/develop/RecoverPasswordpage";
+
+
 
 function App() {
   const dispatch = useDispatch();
@@ -119,11 +119,12 @@ function App() {
             </ErrorBoundary>
           }
         >
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
+          
+         
           <Route path="/recover" element={<RecoverPassForm />} />
-          <Route path="/recover/:token" element={<ChangePassPage />} />
+          <Route path="/recover/:token" element={<RecoverPasswordPage />} />
           <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
+          <Route path="/RecoverPasswordPage" element={<RecoverPasswordPage />} />
         </Route>
 
         <Route

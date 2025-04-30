@@ -46,9 +46,9 @@ export default function ModalRecoverPassword({ isOpen, onClose, onSuccess }: Mod
   if (!isOpen) return null;
 
   return (
-    <AuthModalLayout onClose={onClose}>
+    <AuthModalLayout onClose={onClose}  maxWidth="max-w-sm" maxHeight="max-h-[90vh]">
       <h2 className="text-center text-lg font-semibold text-darkblue mb-4">Recuperar contraseña</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-sm">
         <InputField
           label="Email"
           name="email"
