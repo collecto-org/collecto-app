@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import ModalLogin from "./ModalLogin";
 import ModalRecoverPassword from "./ModalRecoverPassword";
 import ModalConfirmEmailSent from "./ModalConfirmEmailSent";
+import ModalRegister from "./ModalRegister";
 
 interface Props {
   auth?: boolean;
@@ -24,6 +25,8 @@ export default function Navbar({ auth }: Props) {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRecoverPasswordOpen, setIsRecoverPasswordOpen] = useState(false);
   const [isConfirmEmailSentOpen, setIsConfirmEmailSentOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,7 +67,12 @@ export default function Navbar({ auth }: Props) {
           isOpen={isLoginModalOpen}
           onClose={closeAllModals}
           onRecoverPassword={openRecoverPasswordModal}
-        />
+          onRegister={() => {
+            setIsLoginModalOpen(false);
+            setIsRegisterModalOpen(true);
+  }}
+/>
+
       )}
 
       {isRecoverPasswordOpen && (
@@ -81,6 +89,18 @@ export default function Navbar({ auth }: Props) {
           onClose={closeAllModals}
         />
       )}
+
+      {isRegisterModalOpen && (
+        <ModalRegister 
+        isOpen={isRegisterModalOpen} 
+        onClose={() => setIsRegisterModalOpen(false)} 
+        onLogin={() => {
+          setIsRegisterModalOpen(false)
+          setIsLoginModalOpen(true)
+        }}
+        />
+      )}
+
 
       {/* Navbar */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-white text-darkblue shadow-md flex justify-between items-center py-2 px-4">
@@ -115,12 +135,12 @@ export default function Navbar({ auth }: Props) {
               <div className="hidden md:flex items-center space-x-2">
                 <div className="flex items-center space-x-1">
                   <NavIcons user={user} />
-                  <NavActions user={user} openLoginModal={openLoginModal} />
+                  <NavActions user={user} openLoginModal={openLoginModal} openRegisterModal={() => setIsRegisterModalOpen(true)} />
                 </div>
 
                 <div className="flex items-center space-x-2">
                   <UserMenu user={user} />
-                  <ShoppingCart user={user} />
+                  <ShoppingCart />
                 </div>
               </div>
             </>
@@ -143,9 +163,9 @@ export default function Navbar({ auth }: Props) {
             <SearchBar placeholder="Buscar..." width="w-full" />
             <div className="flex flex-col gap-3">
               <NavIcons user={user} />
-              <NavActions user={user} openLoginModal={openLoginModal} />
+              <NavActions user={user} openLoginModal={openLoginModal} openRegisterModal={() => setIsRegisterModalOpen(true)}/>
               <UserMenu user={user} />
-              <ShoppingCart user={user} />
+              <ShoppingCart />
             </div>
           </div>
         )}

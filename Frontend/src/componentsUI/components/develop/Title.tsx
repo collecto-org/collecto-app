@@ -1,8 +1,8 @@
 import React from "react";
 
 interface TitleProps {
-  headerLabel: string;
-  label: string;
+  headerLabel?: string;
+  label?: string;
 }
 
 export default function Title({ headerLabel, label }: TitleProps) {

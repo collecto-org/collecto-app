@@ -20,6 +20,8 @@ import {
   FaTwitter,
   FaPhone,
   FaInfoCircle,
+  FaEye, 
+  FaEyeSlash,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 
@@ -47,6 +49,8 @@ const icons: Record<string, IconType> = {
   facebook: FaFacebook,
   phone: FaPhone,
   info: FaInfoCircle,
+  openEye:FaEye, 
+  closeEye: FaEyeSlash,
 };
 
 interface IconProps {
