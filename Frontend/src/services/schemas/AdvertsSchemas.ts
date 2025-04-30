@@ -17,7 +17,7 @@ export type Advert = {
   tags: string[],
   user:  {
     username?: string;
-    avatar?: string;
+    avatarUrl?: string;
     rating?: number;
   };
   createdAt: Date;

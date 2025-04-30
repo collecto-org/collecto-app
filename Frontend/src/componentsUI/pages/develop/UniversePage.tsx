@@ -12,7 +12,7 @@ import {
   selectBrands,
   selectUniverseOrBrandBySlug,
 } from "@/store/selectors/optionsSelectors";
-import { setFilter } from "@/store/slices/advertsSlice";
+import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
 import { useFilterAdvertsQuery } from "@/services/advertsApi";
 
 export default function UniversePage() {
@@ -48,6 +48,12 @@ export default function UniversePage() {
       dispatch(setFilter({ limit: 12, page: 1 }));
     }
   }, [dispatch, filter.limit, filter.page]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearFilter());
+    };
+  }, [dispatch]);
 
   const { data: adverts,  isLoading } = useFilterAdvertsQuery(filter,{skip: !filter.universe && !filter.brand,refetchOnMountOrArgChange: false,
   });
