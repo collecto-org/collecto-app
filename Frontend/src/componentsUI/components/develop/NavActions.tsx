@@ -27,10 +27,9 @@ export default function NavActions({ user, openLoginModal,openRegisterModal }: N
         </MaterialButton>
 
 
-        <Button variant="outline" size="sm" onClick={openRegisterModal}>
+        <Button variant="signup-button" size="sm" onClick={openRegisterModal}>
           Registrate
         </Button>
-
       </div>
     );
   } else {
