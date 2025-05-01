@@ -30,7 +30,7 @@ export function NotificationView() {
             className="bg-cream text-darkblue rounded-2xl shadow-md p-5 flex flex-col justify-between h-full"
           >
             <p className="font-bold text-lg mb-2">Notificación</p>
-            <Link className="text-gray-800" to={`/adverts/${slugify(notification.advertId.slug)}`}>
+            <Link className="text-gray-800" to={`/adverts/${slugify(notification.advertId?.slug) }`}>
             <p className="text-sm mb-4">{notification.message}</p>
             </Link>
             <button
