@@ -15,7 +15,7 @@ import Orderpage from "./componentsUI/pages/develop/RatingPage";
 import UserProfilePage from "./componentsUI/pages/develop/UserProfilePage";
 import CatalogManagerPage from "./componentsUI/pages/develop/CatalogManagerPage";
 import { MyOrders } from "./temporal-components/myOrdersJosemi";
-import UserAdvertsPage from "./temporal-components/UserAdverts";
+import UserAdvertsPage from "./componentsUI/pages/develop/UserAdverts";
 import MyChats from "./temporal-components/MyChats";
 import AdvertDetailPage from "./componentsUI/pages/develop/AdvertDetailPage";
 import { useGetBrandsQuery } from "./services/brandsApi";

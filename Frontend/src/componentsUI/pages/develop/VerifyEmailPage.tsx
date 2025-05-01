@@ -39,7 +39,7 @@ export default function VerifyEmailPage() {
         <div className="flex flex-col items-center gap-4">
             <MessageBanner type="error" text="El enlace de verificación es inválido o ha expirado." />
             <button
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/")}
             className="bg-turquoise text-white font-semibold py-2 px-4 rounded hover:bg-darkblue transition"
             >
             Ir al Login

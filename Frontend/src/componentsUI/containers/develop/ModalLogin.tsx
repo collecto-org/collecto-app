@@ -23,9 +23,10 @@ interface ModalLoginProps {
   onClose: () => void;
   onRecoverPassword: () => void;
   onRegister: () => void;
+  returnPath?: string;
 }
 
-export default function ModalLogin({ isOpen, onClose, onRecoverPassword, onRegister }: ModalLoginProps) {
+export default function ModalLogin({ isOpen, onClose, onRecoverPassword, onRegister, returnPath }: ModalLoginProps) {
   const {
     register,
     handleSubmit,
@@ -46,7 +47,7 @@ export default function ModalLogin({ isOpen, onClose, onRecoverPassword, onRegis
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = (location.state as any)?.from?.pathname || "/";
+  const from = returnPath || "/";
 
   const onSubmit = async (data: { username: string; password: string; rememberMe: boolean }) => {
     try {

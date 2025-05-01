@@ -16,6 +16,7 @@ import {
 import { selectUser } from "@/store/selectors/userSelectors";
 import Editadvert from "@/temporal-components/EditAdvert";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
+import ModalLogin from "@/componentsUI/containers/develop/ModalLogin";
 
 
 function AdvertDetailPage() {
@@ -23,15 +24,14 @@ function AdvertDetailPage() {
   const slug = params.slug;
 
   const location = useLocation();
-
   const user = useSelector((state: RootState) => selectUser(state));
-
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const navigate = useNavigate();
   const {
     data: advert,refetch } = useGetAdvertDetailQuery({ slug: slug || "" },);
     
-    const universeProduct = advert?.universe._id;
-    const filter = useSelector((state:RootState)=>selectFilters(state))
+  const universeProduct = advert?.universe._id;
+  const filter = useSelector((state:RootState)=>selectFilters(state))
 
 
 const { data: relatedAdverts } = useFilterAdvertsQuery(
@@ -48,6 +48,7 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
   const [setFavAdvert] = useSetAdvertFavMutation();
   const [deleteFavAdvert] = useRemoveAdvertFavMutation();
   const [notificationDelete] = useRemoveAdvertFavMutation()
+  const [returnPath, setReturnPath] = useState(location.pathname);
 
   const isOwner = user.username === advert?.user.username;
   const isSold =  advert?.status.code === "sold";
@@ -85,12 +86,19 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
       setFavorite(advert.isFavorite);
     }
   }, [advert]);
+
+  useEffect(() => {
+    if(location.state?.showLoginModal){
+      setIsLoginModalOpen(true)
+    }
+  }, [location.state])
+
   const handleFav = async () => {
    
     if (!advert) return;
     try {
       if(!user.username){
-        navigate('/login', { replace: true, state: { from: location } });
+        setIsLoginModalOpen(true);
       }
       if (!isFavorite) {
         await setFavAdvert(advert._id).unwrap();
@@ -115,12 +123,24 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
 
   return advert ? (
     <>
+      {isLoginModalOpen && (
+        <ModalLogin
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+          onRecoverPassword={() => {}}
+          onRegister={() => {}}
+          returnPath={returnPath}
+        />
+      )}
       <AdvertDetail
         advert={advert}
         onEdit={isOwner && !isSold ? handleEdit : undefined}
         onDelete={isOwner  && !isSold ? handleDelete : undefined}
         onToggleFav={!isOwner ? handleFav: undefined}
         isFavorite={isFavorite}
+        onForceLogin={(path) => {
+          setIsLoginModalOpen(true),
+          setReturnPath(path || location.pathname)}}
       />
       <section className="mt-10 px-4 space-y-4">
         <h3 className="text-lg font-semibold text-darkblue">

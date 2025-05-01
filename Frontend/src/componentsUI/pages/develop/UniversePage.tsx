@@ -1,5 +1,6 @@
 import BannerPages from "../../components/develop/BannerPages";
-import { useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {
@@ -14,11 +15,12 @@ import {
 } from "@/store/selectors/optionsSelectors";
 import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
 import { useFilterAdvertsQuery } from "@/services/advertsApi";
+import ModalLogin from "@/componentsUI/containers/develop/ModalLogin";
 
 export default function UniversePage() {
   const dispatch = useDispatch();
   const { slug } = useParams();
-
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const brands = useSelector((state: RootState) => selectBrands(state));
   const actualUniverse = useSelector((state: RootState) =>
     selectUniverseOrBrandBySlug(state, slug)
@@ -61,9 +63,18 @@ export default function UniversePage() {
   if (isLoading) return <p>Loading...</p>;
 
 
+
   if (brands) {
     return (
       <>
+        {isLoginModalOpen && (
+          <ModalLogin
+            isOpen={isLoginModalOpen}
+            onClose={() => setIsLoginModalOpen(false)}
+            onRecoverPassword={() => {}}
+            onRegister={() => {}}
+          />
+        )}
         <div className="pt-10 md:pt-14">
           <BannerPages
             backgroundImages={[
@@ -88,7 +99,7 @@ export default function UniversePage() {
             actualUniverse ? actualUniverse.universe.name : "No hay uniuverso"
           }
           adverts={adverts ? adverts : {adverts:[],total:"0"}}
-
+          openLoginModal={()=>setIsLoginModalOpen(true)}
         />
       </>
     );

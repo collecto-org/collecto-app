@@ -17,6 +17,9 @@ import NoResults from "@/componentsUI/elements/NoResults";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
+import  {  useState, useEffect } from "react"
+import {  useLocation } from "react-router-dom";
+import ModalLogin from "@/componentsUI/containers/develop/ModalLogin";
 
 
 export default function HomePage() {
@@ -25,6 +28,10 @@ export default function HomePage() {
   
   const universe = useSelector((state: RootState) => selectUniverses(state));
   const brands = useSelector((state: RootState) => selectBrands(state));
+  const location = useLocation();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+
 
   const {
     data: adverts,
@@ -47,7 +54,7 @@ export default function HomePage() {
   if (universe && brands) {
     return (
       <>
-      
+
         <div className="pt-8">
           <Banner
             backgroundImages={logosBanner}
@@ -111,6 +118,7 @@ export default function HomePage() {
             headerLabel="¿ Qúe estás buscando?"
             label={filter.title}
             adverts={filterAdverts ? filterAdverts : {adverts:[],total:"0"}}
+            openLoginModal={()=>setIsLoginModalOpen(true)}
           />
         ) : (
           <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">

@@ -1,4 +1,4 @@
-import NoResults from "@/componentsUI/elements/noResults";
+import NoResults from "@/componentsUI/elements/NoResults";
 import ProductCard from "../../components/develop/AdvertCard";
 
 import { Advert } from "@/services/schemas/AdvertsSchemas";
@@ -6,9 +6,10 @@ import { Advert } from "@/services/schemas/AdvertsSchemas";
 type Props = {
   adverts: Advert[];
   forceFavorite?: boolean;
+  openLoginModal: () => void;
 };
 
-export default function ProductGrid({ adverts, forceFavorite = false }: Props) {
+export default function ProductGrid({ adverts, forceFavorite = false,openLoginModal }: Props) {
   if (adverts.length === 0) {
     return <NoResults />;
   } else {
@@ -28,6 +29,7 @@ export default function ProductGrid({ adverts, forceFavorite = false }: Props) {
               key={index}
               {...product}
               isFavorite={forceFavorite ? true : product.isFavorite}
+              openLoginModal={openLoginModal}
             />
           ))}
         </div>

@@ -20,6 +20,7 @@ interface AdvertDetailProps {
   onEdit?: () => void;
   onDelete?: () => void;
   onToggleFav?: () => void;
+  onForceLogin: (path?: string) => void;
 }
 
 export default function AdvertDetail({
@@ -28,6 +29,7 @@ export default function AdvertDetail({
   onDelete,
   onToggleFav,
   isFavorite,
+  onForceLogin,
 }: AdvertDetailProps) {
   const {
     images,
@@ -141,16 +143,30 @@ export default function AdvertDetail({
           </div>
 
           <div className="flex gap-4 mt-4">
-            <Button variant="primary" 
-            hidden={advert.user.username === userMe.username || advert.status.label === "Reservado"}
-            onClick={() => navigate(`/Orderpage`)}>
+            <Button
+              hidden={advert.user.username === userMe.username || advert.status.label === "Reservado"}
+              variant="primary"
+              onClick={() => {
+                if(!userMe.username){
+                  onForceLogin?.("/orderpage");
+                } else{
+                  navigate("/orderpage")
+                }
+              }}
+            >
               Comprar
             </Button>
 
             <Button
               hidden={advert.user.username === userMe.username || advert.status.label === "Reservado"}
               variant="outline"
-              onClick={() => navigate(`/chat/${advert._id}_${userMe.username}`)}
+              onClick={() => {
+                if(!userMe.username){
+                  onForceLogin?.(`/chat/${advert._id}_${userMe.username}`);
+                } else{
+                  navigate(`/chat/${advert._id}_${userMe.username}`)
+                }
+              }}
             >
               Iniciar Chat
             </Button>

@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/store/selectors/userSelectors";
 import useRefreshFavorites from "../../../hooks/useRefreshFavorites";
 import { toast } from "react-toastify";
+
+interface AdvertCardProps extends Advert {
+  
+openLoginModal: () => void;
+
+}
 
 export default function AdvertCard({
   images,
@@ -16,10 +22,12 @@ export default function AdvertCard({
   isFavorite: initialFavorite,
   user:owner,
   _id,
-}: Advert) {
+  openLoginModal
+}: AdvertCardProps) {
+ 
+
   const [isFavorite, setIsFavorite] = useState(initialFavorite || false);
   const user = useSelector(selectUser);
-  const navigate = useNavigate();
   const refreshFavorites = useRefreshFavorites();
 
   const toggleFavorite = async (e: React.MouseEvent) => {
@@ -32,7 +40,10 @@ export default function AdvertCard({
             Para guardar este artículo como favorito, debes iniciar sesión.
           </p>
           <button
-            onClick={() => navigate("/login")}
+              onClick={() => {
+                console.log("abrir modal login");
+                openLoginModal();
+              }}
             className="px-4 py-1 bg-coral text-white rounded-full text-xs hover:bg-darkblue transition"
           >
             Ir a login

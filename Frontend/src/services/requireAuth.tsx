@@ -10,7 +10,9 @@ function RequireAuth() {
   return isLogged?.username ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" replace state={{ from: location }} />
+    <Navigate to={location.pathname + location.search} 
+    replace 
+    state={{ showLoginModal: true, from: location }} />
   );
 }
 
