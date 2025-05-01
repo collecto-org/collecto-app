@@ -54,6 +54,7 @@ export default function ModalLogin({ isOpen, onClose, onRecoverPassword, onRegis
       await login(data).unwrap();
       trigger({});
       navigate(from, { replace: true });
+      window.location.reload()
       onClose();
     } catch (err) {
       const apiError = err as ApiError;

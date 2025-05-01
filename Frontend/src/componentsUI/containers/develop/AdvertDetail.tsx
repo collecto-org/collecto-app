@@ -11,8 +11,7 @@ import ShareButtons from "@/componentsUI/components/develop/SharedButtons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "@/store/selectors/userSelectors";
 import { RootState } from "@/store/store";
-import { slugify } from "@/utils/slugify";
-import { setFilter } from "@/store/slices/advertsSlice";
+import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
 
 interface AdvertDetailProps {
   advert: Advert;
@@ -34,15 +33,8 @@ export default function AdvertDetail({
   const {
     images,
     universe,
-    product_type,
-    title,
-    transaction,
-    brand,
     createdAt,
-
-    price,
     collection,
-    status,
     condition,
     tags,
     description,
@@ -52,6 +44,7 @@ export default function AdvertDetail({
   const userMe = useSelector((state: RootState) => selectUser(state));
   const dispatch = useDispatch()
   const handleFilter = (productType:string) =>{
+    dispatch(clearFilter())
     dispatch(setFilter({product_type:productType}))
   }
 
@@ -66,20 +59,20 @@ export default function AdvertDetail({
           <Link to={"/"} className="text-sm text-gray-500 ">
           <span className="hover:underline cursor-pointer">Inicio</span> /
           </Link>
-          <Link to={`/universe/${slugify(advert.universe.name)}`} className="text-sm text-gray-500 ">
+          <Link to={`/universe/${advert.universe.slug}`} className="text-sm text-gray-500 ">
           <span className="hover:underline cursor-pointer">
             {advert.universe.name}
           </span>{" "}
           </Link>
           /
-          <Link to={`/universe/${slugify(advert.brand.name)}`} className="text-sm text-gray-500 ">
+          <Link to={`/universe/${advert.brand.slug}`} className="text-sm text-gray-500 ">
           <span className="hover:underline cursor-pointer">
             {advert.brand.name}
           </span>{" "}
           </Link>
 
           /
-          <Link to={`/universe/${slugify(advert.universe.name)}`} onClick={()=>{handleFilter(slugify(advert.product_type._id))}} className="text-sm text-gray-500 ">
+          <Link to={`/`} onClick={()=>{handleFilter(advert.product_type._id)}} className="text-sm text-gray-500 ">
           <span className="hover:underline cursor-pointer">
             {advert.product_type.name}
           </span>{" "}
@@ -102,7 +95,7 @@ export default function AdvertDetail({
                 {advert.brand.name}
               </p>
               <p className="text-xs text-sage">
-                Transacción: {advert.transaction.label} / Estado:{" "}
+                Transacción: {advert.transaction.value} / Estado:{" "}
                 {advert.status.label}
               </p>
               <p className="text-xs text-sage">
@@ -144,7 +137,7 @@ export default function AdvertDetail({
 
           <div className="flex gap-4 mt-4">
             <Button
-              hidden={advert.user.username === userMe.username || advert.status.label === "Reservado"}
+              hidden={advert.user.username === userMe.username || advert.status.label === "Reservado" || advert.transaction.value === "compra"}
               variant="primary"
               onClick={() => {
                 if(!userMe.username){
