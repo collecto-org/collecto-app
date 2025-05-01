@@ -11,7 +11,7 @@ interface NavActionsprops {
 }
 
 
-export default function NavActions({ user, openLoginModal, openRegisterModal,openRegisterModal }: NavActionsprops) {
+export default function NavActions({ user, openLoginModal,openRegisterModal }: NavActionsprops) {
   const { handleLogout } = useLogoutHandler();
 
 
@@ -27,7 +27,7 @@ export default function NavActions({ user, openLoginModal, openRegisterModal,ope
         </MaterialButton>
 
 
-        <Button variant="signup-button" size="sm" onClick={openRegisterModal}>
+        <Button variant="primary" size="sm" onClick={openRegisterModal}>
           Registrate
         </Button>
       </div>
