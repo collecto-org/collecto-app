@@ -3,7 +3,6 @@ import MaterialButton from "../../components/MaterialButton";
 import { User } from "@/services/schemas/UserSchemas";
 import useLogoutHandler from "@/hooks/useLogoutHandler";
 import Button from "@/componentsUI/elements/Button";
-import Button from "../Button";
 
 interface NavActionsprops {
   user: User;
