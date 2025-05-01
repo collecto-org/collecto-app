@@ -7,11 +7,6 @@ import { selectUser } from "@/store/selectors/userSelectors";
 import useRefreshFavorites from "../../../hooks/useRefreshFavorites";
 import { toast } from "react-toastify";
 
-interface AdvertCardProps extends Advert {
-  
-openLoginModal: () => void;
-
-}
 
 export default function AdvertCard({
   images,
@@ -22,8 +17,7 @@ export default function AdvertCard({
   isFavorite: initialFavorite,
   user:owner,
   _id,
-  openLoginModal
-}: AdvertCardProps) {
+}: Advert) {
  
 
   const [isFavorite, setIsFavorite] = useState(initialFavorite || false);
@@ -42,7 +36,6 @@ export default function AdvertCard({
           <button
               onClick={() => {
                 console.log("abrir modal login");
-                openLoginModal();
               }}
             className="px-4 py-1 bg-coral text-white rounded-full text-xs hover:bg-darkblue transition"
           >

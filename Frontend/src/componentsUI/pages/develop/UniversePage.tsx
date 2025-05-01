@@ -99,7 +99,6 @@ export default function UniversePage() {
             actualUniverse ? actualUniverse.universe.name : "No hay uniuverso"
           }
           adverts={adverts ? adverts : {adverts:[],total:"0"}}
-          openLoginModal={()=>setIsLoginModalOpen(true)}
         />
       </>
     );

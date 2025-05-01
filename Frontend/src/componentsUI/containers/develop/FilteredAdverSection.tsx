@@ -12,14 +12,14 @@ interface FilteredAdvertSectionProps {
   headerLabel: string;
   label: string;
   adverts: {adverts:Advert[],total:string};
-  openLoginModal: () => void;
+
 }
 
 export default function FiteredAdvertSection({
   headerLabel,
   label,
   adverts,
-  openLoginModal
+  
 }: FilteredAdvertSectionProps) {
   const productTypes = useSelector((state: RootState) =>
     selectProductTypes(state)
@@ -40,7 +40,7 @@ export default function FiteredAdvertSection({
         </div>
 
         <div className="col-span-12 md:col-span-9 pt-2">
-          <ProductGrid adverts={adverts.adverts} openLoginModal={openLoginModal} />
+          <ProductGrid adverts={adverts.adverts} />
         </div>
       </div>
     );

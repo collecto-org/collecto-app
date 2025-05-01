@@ -6,10 +6,10 @@ import { Advert } from "@/services/schemas/AdvertsSchemas";
 type Props = {
   adverts: Advert[];
   forceFavorite?: boolean;
-  openLoginModal: () => void;
+
 };
 
-export default function ProductGrid({ adverts, forceFavorite = false,openLoginModal }: Props) {
+export default function ProductGrid({ adverts, forceFavorite = false }: Props) {
   if (adverts.length === 0) {
     return <NoResults />;
   } else {
@@ -29,7 +29,6 @@ export default function ProductGrid({ adverts, forceFavorite = false,openLoginMo
               key={index}
               {...product}
               isFavorite={forceFavorite ? true : product.isFavorite}
-              openLoginModal={openLoginModal}
             />
           ))}
         </div>

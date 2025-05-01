@@ -118,7 +118,6 @@ export default function HomePage() {
             headerLabel="¿ Qúe estás buscando?"
             label={filter.title}
             adverts={filterAdverts ? filterAdverts : {adverts:[],total:"0"}}
-            openLoginModal={()=>setIsLoginModalOpen(true)}
           />
         ) : (
           <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
