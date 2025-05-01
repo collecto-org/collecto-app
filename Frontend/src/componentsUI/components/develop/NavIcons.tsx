@@ -3,7 +3,7 @@ import Icon from "../../elements/Icon";
 import NotificationBadge from "../../elements/NotificationBadge";
 import { User } from "@/services/schemas/UserSchemas";
 import { useSelector } from "react-redux";
-import { selectLastNotifications, selectTotalPendingNotifications } from "@/store/selectors/notificationSelector";
+import {  selectLastUnreadNotifications, selectTotalPendingNotifications } from "@/store/selectors/notificationSelector";
 import { RootState } from "@/store/store";
 import { selectTotalPendingChats } from "@/store/selectors/userSelectors";
 import { useState } from "react";
@@ -15,7 +15,7 @@ export default function NavIcons(user: { user: User }) {
 
   const TotalPendingChats = useSelector((state:RootState) => selectTotalPendingChats(state))
     const [showNotifications, setShowNotifications] = useState(false);
-      const notifications = useSelector(selectLastNotifications);
+      const notifications = useSelector((state:RootState)=>selectLastUnreadNotifications(state));
     
   
 
@@ -24,30 +24,7 @@ export default function NavIcons(user: { user: User }) {
   }
   return (
     <div className="flex items-center gap-2 text-darkblue text-sm px-3">
-      <div className="relative">
-        <Icon
-          name="mail"
-          size={22}
-          className="hover:text-coral transition-colors"
-          onClick={() => alert("revisar correo")}
-        />
-        <NotificationBadge count={105} position="top-left" variant="success" />
-      </div>
 
-      {/* <div className="relative">
-        <Link to="/notifications" className="text-darkblue hover:text-coral">
-          <Icon
-            name="bell"
-            size={22}
-            className="hover:text-coral transition-colors"
-          />
-          <NotificationBadge
-            count={totalPendingNotifications}
-            position="top-right"
-            variant="warning"
-          />
-        </Link>
-      </div> */}
           <div className="relative">
             <Icon
               name="bell"
@@ -61,7 +38,7 @@ export default function NavIcons(user: { user: User }) {
                 <p className="font-semibold text-darkblue mb-2">Notificaciones</p>
                 <ul className="space-y-2">
                   {notifications.map((notification) => (
-                    <Link onClick={()=>{setShowNotifications(!showNotifications)}} to="/notifications" className="text-darkblue hover:text-coral">
+                    <Link key={notification._id} onClick={()=>{setShowNotifications(!showNotifications)}} to="/notifications" className="text-darkblue hover:text-coral">
               <li key={notification._id}>{notification.message}</li></Link>
           ))}
                 </ul>

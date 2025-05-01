@@ -5,15 +5,15 @@ export type Advert = {
   description: string;
   mainImage: string;
   price: number;
-  transaction: { _id: string; code: string; label: string };
+  transaction: { _id: string; code: string; value: string };
   status: { _id: string; code: string; label: string };
   isVisible: string; 
   isFavorite?:boolean                    
-  product_type: { _id: string; name: string };
-  universe: { _id: string; name: string };
-  condition:  { _id: string; value: string };
+  product_type: { _id: string; name: string,slug:string };
+  universe: { _id: string; name: string ,slug:string};
+  condition:  { _id: string; value: string,slug:string };
   collection: string;                                  
-  brand: { _id: string; name: string };
+  brand: { _id: string; name: string,slug:string };
   tags: string[],
   user:  {
     username?: string;
@@ -92,6 +92,7 @@ title?: string;
   limit?: number;
   sortBy?: string;
   sortOrder?: string;
+  searchTerm?:string
 }
 
 export type listingId = string

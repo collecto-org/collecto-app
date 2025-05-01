@@ -15,7 +15,7 @@ export type User = {
 
 export interface ChatUser {
   username: string;
-  avatar?: string; 
+  avatarUrl: string; 
 }
 
 export interface ChatMessage {

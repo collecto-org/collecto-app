@@ -78,7 +78,7 @@ export const advertsApi = createApi({
         params: filters,
         method: "GET",
       }),
-      
+      providesTags: ["Adverts"]
     }),
   }),
 });

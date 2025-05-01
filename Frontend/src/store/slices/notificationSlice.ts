@@ -33,6 +33,13 @@ const notificationSlice = createSlice({
     ) => {
       state.notifications.unshift(action.payload); 
     },
+      markNotificationAsRead: (state, action: PayloadAction<string>) => {
+    const notification = state.notifications.find(n => n._id === action.payload);
+    if (notification) {
+      notification.isRead = true; // Esto cambia la referencia de la notificación
+    }
+
+},
   },
   extraReducers: (builder) => {
     builder

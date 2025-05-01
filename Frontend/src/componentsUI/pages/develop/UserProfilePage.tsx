@@ -4,16 +4,17 @@ import { Link } from "react-router-dom";
 import AdvertsFavorites from "@/componentsUI/containers/develop/AdvertsFavorites";
 import AdvertsPublished from "@/componentsUI/containers/develop/AdvertsPublished";
 import UserProfile         from "@/componentsUI/containers/develop/UserProfile";
-import { selectLastNotifications} from "@/store/selectors/notificationSelector";
 import { useSelector } from "react-redux";
+import { selectLastUnreadNotifications } from "@/store/selectors/notificationSelector";
 import UpdatePassword from "@/componentsUI/containers/develop/UpdatePassword";
+
 
 
 export default function UserProfilePage() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [activeSection, setActiveSection] = useState("Mi Perfil");
-  const notifications = useSelector(selectLastNotifications);
+  const notifications = useSelector(selectLastUnreadNotifications);
 
   return (
     <>

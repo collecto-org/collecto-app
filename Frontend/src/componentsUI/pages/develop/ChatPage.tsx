@@ -66,15 +66,15 @@ const sendMessage = () => {
 const bottomRef = useRef<HTMLDivElement | null>(null);
 
 useEffect(() => {
-  bottomRef.current?.scrollIntoView({ behavior: "auto" }); // o "smooth"
+  bottomRef.current?.scrollIntoView({ behavior: "auto" }); 
 }, [messages]); // se ejecuta cada vez que llegan nuevos mensajes
 
 return (
   <div className="max-w-4xl mx-auto p-6 text-darkblue text-center">
     <h1 className="text-2xl font-bold mb-4">Chat con el usuario</h1>
     <p>
-      Chateando con <strong><Link to={`/users/${otherUser}`}>{otherUser}</Link></strong> en el
-      anuncio: <strong>{advert?.title}</strong>
+      Hablando con <strong><Link className="text-coral" to={`/users/${otherUser}`}>{otherUser}</Link></strong> en el
+      anuncio:<Link className="text-coral" to={`/adverts/${advert?.slug}`}><strong>{advert?.title}</strong></Link> 
     </p>
 
     <div className="bg-gray-100 p-4 my-4 h-96 overflow-y-scroll rounded-lg shadow-inner">
@@ -85,7 +85,7 @@ return (
         >
           <div
             className={`p-2 rounded-xl shadow-sm max-w-xs ${
-              msg.username === user ? "bg-blue-500 text-white" : "bg-white text-gray-800"
+              msg.username === user ? "bg-coral text-white" : "bg-white text-gray-800"
             }`}
           >
             <strong>{msg.username}:</strong> {msg.message}
@@ -101,12 +101,12 @@ return (
         type="text"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        className="w-full p-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full p-2 rounded-lg border-2  bg-lightgray focus:outline-none focus:ring-2 focus:bg-pinklight"
         placeholder="Escribe un mensaje..."
       />
       <button
         onClick={sendMessage}
-        className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        className="ml-4 px-4 py-2 bg-coral text-white rounded-lg hover:bg-pinklight"
       >
         Enviar
       </button>

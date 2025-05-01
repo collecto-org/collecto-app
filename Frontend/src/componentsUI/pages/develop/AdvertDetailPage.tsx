@@ -1,6 +1,6 @@
-import {  useSelector } from "react-redux";
-import {  useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import AdvertDetail from "@/componentsUI/containers/develop/AdvertDetail";
 import AdvertSlider from "@/componentsUI/containers/develop/AdvertSlider";
 import { RootState } from "@/store/store";
@@ -17,7 +17,10 @@ import { selectUser } from "@/store/selectors/userSelectors";
 import Editadvert from "@/temporal-components/EditAdvert";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 import ModalLogin from "@/componentsUI/containers/develop/ModalLogin";
-
+import { Advert } from "@/services/schemas/AdvertsSchemas";
+import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
+import NotFoundPage from "@/componentsUI/components/develop/NotFoundPage";
+import MessageBanner from "@/componentsUI/elements/MessageBanner";
 
 function AdvertDetailPage() {
   const params = useParams();
@@ -25,33 +28,46 @@ function AdvertDetailPage() {
 
   const location = useLocation();
   const user = useSelector((state: RootState) => selectUser(state));
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const navigate = useNavigate();
   const {
-    data: advert,refetch } = useGetAdvertDetailQuery({ slug: slug || "" },);
-    
+    data: advert,
+    refetch,
+    isLoading: isAdvertLoading,
+  } = useGetAdvertDetailQuery({ slug: slug || "" });
+
   const universeProduct = advert?.universe._id;
-  const filter = useSelector((state:RootState)=>selectFilters(state))
+  const filter = useSelector((state: RootState) => selectFilters(state));
 
+  const universeFilter = useMemo(
+    () => ({
+      ...filter,
+      universe: universeProduct,
+      product_type: undefined,
+    }),
+    [filter, universeProduct]
+  );
 
-const { data: relatedAdverts } = useFilterAdvertsQuery(
-  {
-    universe: universeProduct,
-    ...filter,
-  },
-  {
-    skip: !universeProduct,
-  }
-);
+  const { data: universeAdverts } = useFilterAdvertsQuery(universeFilter);
 
-  const [deleteAdvert, {isSuccess: isDeleteSucess,}] = useDeleteAdvertMutation();
-  const [setFavAdvert] = useSetAdvertFavMutation();
-  const [deleteFavAdvert] = useRemoveAdvertFavMutation();
-  const [notificationDelete] = useRemoveAdvertFavMutation()
+  const relatedAdverts =
+    universeAdverts?.adverts && advert?._id
+      ? {
+          adverts: universeAdverts.adverts.filter(
+            (product) => product._id !== advert._id
+          ),
+          total: universeAdverts.total,
+        }
+      : { adverts: [] as Advert[], total: "0" };
+
+  const [deleteAdvert, { isSuccess: isDeleteSucess }] =
+    useDeleteAdvertMutation();
+  const [setFavAdvert, { isError: isFavError }] = useSetAdvertFavMutation();
+  const [deleteFavAdvert,{ isError: isDelete}] = useRemoveAdvertFavMutation();
   const [returnPath, setReturnPath] = useState(location.pathname);
 
   const isOwner = user.username === advert?.user.username;
-  const isSold =  advert?.status.code === "sold";
+  const isSold = advert?.status.code === "sold";
 
   const [isEdit, setEdit] = useState(false);
   const handleEdit = () => {
@@ -66,8 +82,6 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
     if (user) {
       if (advert && user.username === advert.user.username) {
         await deleteAdvert({ id: advert._id });
-        await notificationDelete(advert._id)
-        
       }
     }
   };
@@ -81,29 +95,27 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
   const [isFavorite, setFavorite] = useState(false);
 
   useEffect(() => {
-
     if (advert?.isFavorite !== undefined) {
       setFavorite(advert.isFavorite);
     }
   }, [advert]);
 
   useEffect(() => {
-    if(location.state?.showLoginModal){
-      setIsLoginModalOpen(true)
+    if (location.state?.showLoginModal) {
+      setIsLoginModalOpen(true);
     }
-  }, [location.state])
+  }, [location.state]);
 
   const handleFav = async () => {
-   
     if (!advert) return;
     try {
-      if(!user.username){
+      if (!user.username) {
         setIsLoginModalOpen(true);
       }
       if (!isFavorite) {
         await setFavAdvert(advert._id).unwrap();
         setFavorite(true);
-      } else if(advert.isFavorite || isFavorite) {
+      } else if (advert.isFavorite || isFavorite) {
         await deleteFavAdvert(advert._id).unwrap();
         setFavorite(false);
       }
@@ -111,13 +123,16 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
       console.error("Error al cambiar favorito", err);
     }
   };
-
-  if (!advert) return <p>Cargando anuncio...</p>;
+  if (isAdvertLoading)
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center bg-white p-6 text-center">
+        <LoadingSpinner />
+      </div>
+    );
+  if (!advert) return <NotFoundPage />;
   if (isEdit) {
     return (
-   
-        <Editadvert refetch={refetch} handleEdit={handleEdit} advert={advert} />
- 
+      <Editadvert refetch={refetch} handleEdit={handleEdit} advert={advert} />
     );
   }
 
@@ -135,26 +150,33 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
       <AdvertDetail
         advert={advert}
         onEdit={isOwner && !isSold ? handleEdit : undefined}
-        onDelete={isOwner  && !isSold ? handleDelete : undefined}
-        onToggleFav={!isOwner ? handleFav: undefined}
+        onDelete={isOwner && !isSold ? handleDelete : undefined}
+        onToggleFav={!isOwner ? handleFav : undefined}
         isFavorite={isFavorite}
         onForceLogin={(path) => {
-          setIsLoginModalOpen(true),
-          setReturnPath(path || location.pathname)}}
+          setIsLoginModalOpen(true), setReturnPath(path || location.pathname);
+        }}
       />
+       { isFavError && <MessageBanner type="error" text="Error al añadir el artículo a favoritos" />}
+       { isDelete && <MessageBanner type="error" text="Error al eliminar el artículo" />}
+      
+     
       <section className="mt-10 px-4 space-y-4">
         <h3 className="text-lg font-semibold text-darkblue">
           Artículos del Universo {advert.universe.name}
         </h3>
-        {relatedAdverts?(
-        <AdvertSlider
-          title="Más del universo"
-          adverts={relatedAdverts}
-        />): <p>Loading...</p>}
+        {relatedAdverts ? (
+          <AdvertSlider
+            title="Más del universo"
+            adverts={relatedAdverts || []}
+          />
+        ) : (
+          <p>Loading...</p>
+        )}
       </section>
     </>
   ) : (
-    <p>No existe el anuncio</p>
+    <NotFoundPage />
   );
 }
 
