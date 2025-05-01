@@ -28,11 +28,10 @@ export default function NavActions({ user, openLoginModal,openRegisterModal }: N
 
 
         <Button variant="primary" size="sm" onClick={openRegisterModal}>
-        <Button variant="primary" size="sm" onClick={openRegisterModal}>
           Registrate
         </Button>
       </div>
-    );
+    )
   } else {
     return (
       <div className="flex gap-2 flex-shrink-0">
