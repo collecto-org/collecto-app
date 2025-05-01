@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useLoginMutation } from "@/services/authApi";
 import { useLazyGetMeQuery } from "@/services/usersApi";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AuthModalLayout from "@/componentsUI/layouts/AuthModalLayout";
 import Button from "@/componentsUI/elements/Button";
 import InputField from "@/componentsUI/components/InputField";

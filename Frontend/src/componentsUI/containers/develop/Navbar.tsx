@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Menu, ShoppingCart, X } from "lucide-react";
 import Logo from "../../elements/Logo";
 import SearchBar from "../../components/develop/SearchBar";
