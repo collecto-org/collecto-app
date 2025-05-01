@@ -14,6 +14,7 @@ export default function AdvertCard({
   price,
   slug,
   isFavorite: initialFavorite,
+  user:owner,
   _id,
 }: Advert) {
   const [isFavorite, setIsFavorite] = useState(initialFavorite || false);
@@ -67,7 +68,7 @@ export default function AdvertCard({
         {/* ❤️ BOTÓN FAVORITO */}
         <button
           onClick={toggleFavorite}
-          className="absolute top-2 right-2 z-10 p-1 bg-white rounded-full shadow-md hover:bg-lightgray transition"
+          className={`absolute top-2 right-2 z-10 p-1 bg-white rounded-full shadow-md hover:bg-lightgray transition ${owner.username === user.username? "hidden" : null}`}
         >
           {isFavorite ? (
             <FaHeart className="text-coral w-5 h-5" />

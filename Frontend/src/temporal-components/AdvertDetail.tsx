@@ -1,11 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Editadvert from "@/temporal-components/EditAdvert";
-import { RootState } from "@/store/store";
-import { selectAdvertBySlug } from "@/store/selectors/advertsSelectors";
-import { setSelectedAdvert, setSelectedAdvertAndLoad } from "@/store/slices/advertsSlice";
+
 import { useDeleteAdvertMutation, useGetAdvertDetailQuery } from "@/services/advertsApi";
 import { useRemoveAdvertFavMutation, useSetAdvertFavMutation } from "@/services/usersApi";
 import { useNewOrderMutation } from "@/services/ordersApi";
@@ -15,22 +13,19 @@ function AdvertDetail() {
 
   const slug = params.slug;
 
-  const dispatch = useDispatch();
 
-  let advert = useSelector((state: RootState) =>
-    selectAdvertBySlug(slug)(state)
-  );
 
   const navigate = useNavigate();
 
   const {
-    data: newAdvert,
+    data: advert,
     isLoading,
     isError,
     isSuccess,
+    refetch
   } = useGetAdvertDetailQuery(
     { slug: slug || "" },
-    { skip: advert?.slug === slug }
+    { skip: !slug }
   );
 
   const [deleteAdvert,{isError:isDeleteError, isLoading:isDeleteLoading}] = useDeleteAdvertMutation()
@@ -39,19 +34,6 @@ function AdvertDetail() {
   const [newOrder] = useNewOrderMutation()
   const [isEdit, setEdit] = useState(false);
 
-  useEffect(() => {
-    if (slug && !advert) {
-      if (newAdvert && isSuccess) {
-        dispatch(setSelectedAdvertAndLoad(newAdvert));
-      }}
-
-    if (advert && slug && slug === advert.slug) {
-      dispatch(setSelectedAdvert(advert));
-    }
-
-    if (isError) {
-      navigate("/");
-    }}, [slug, advert, newAdvert, isSuccess, isError, navigate, dispatch]);
 
   const handleEdit = () => {
     setEdit(true);
@@ -112,7 +94,7 @@ function AdvertDetail() {
 
   return advert ? (
     isEdit ? (
-      <Editadvert />
+      <Editadvert advert={advert} handleEdit={handleEdit} refetch={refetch}/>
     ) : (
       <div className="text-darkblue">
         <h1 className="material-symbols-outlined text-darkblue">

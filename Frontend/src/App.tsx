@@ -1,10 +1,7 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 import VerifyEmailPage from "./componentsUI/pages/develop/VerifyEmailPage";
 import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
-import { useDispatch } from "react-redux";
 import { useGetChatsQuery, useGetMeQuery } from "./services/usersApi";
-import { useEffect } from "react";
-import { setUser } from "./store/slices/userSlice";
 import "./styles/index.css";
 import Edituser from "./temporal-components/EditUser";
 import MyAdvertsGrid from "./temporal-components/MyAdvertsGrid";
@@ -40,18 +37,9 @@ import { ErrorBoundary } from "./utils/ErrorBoundary";
 import { useNotificationsSocket } from "./hooks/useNotificationsSocket";
 import { useChatSocket } from "./hooks/useChatSocket";
 import RecoverPasswordPage from "./componentsUI/pages/develop/RecoverPasswordpage";
+import { useGetCatalogsQuery } from "./services/catalogsApi";
 
-
-
-function App() {
-  const dispatch = useDispatch();
-  const { data: user } = useGetMeQuery({});
-
-  const { refetch } = useGetNotificationsQuery({},{skip:!user});
-  useNotificationsSocket()
-  useChatSocket()
-
-
+export const useInitialOptions = () => {
   useGetBrandsQuery();
   useGetUniversesQuery();
   useGetProductTypesQuery();
@@ -59,24 +47,27 @@ function App() {
   useGetTransactionsQuery();
   useGetConditionsQuery();
   useGetStatusQuery();
-  useGetChatsQuery(undefined,{skip:!user?.username});
+};
+
+
+function App() {
+  useGetCatalogsQuery()
 
   
+  const { data: user } = useGetMeQuery({});
 
-  useEffect(() => {
-    if (user?.username) {
-      dispatch(setUser(user));
-      refetch();
-    }
-  }, [user, dispatch]);
+  useGetNotificationsQuery({},{skip:!user});
+  useNotificationsSocket()
+  useChatSocket() 
+  useGetChatsQuery(undefined,{skip:!user?.username});
+;
 
   return (
     <>
       <Routes>
         <Route
           element={
-            <ErrorBoundary>
-            
+            <ErrorBoundary>            
             <MainLayout>
               <RequireAuth />
             </MainLayout>

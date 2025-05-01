@@ -27,6 +27,8 @@ export default function Banner({
   const mainImage = "/gridImages/collecto-banner-principal.jpg";
   const [currentImage, setCurrentImage] = useState(mainImage);
   const [fade, setFade] = useState(true);
+  console.count("Banner call");
+
 
   // 🔄 Función para elegir una imagen aleatoria distinta a la actual
   const getRandomImage = (current: string) => {

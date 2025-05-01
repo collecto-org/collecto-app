@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import MaterialButton from "../../components/MaterialButton";
 import { User } from "@/services/schemas/UserSchemas";
 import useLogoutHandler from "@/hooks/useLogoutHandler";
+import Button from "../Button";
 
 interface NavActionsprops {
   user: User;
@@ -10,7 +11,7 @@ interface NavActionsprops {
 }
 
 
-export default function NavActions({ user, openLoginModal }: NavActionsprops) {
+export default function NavActions({ user, openLoginModal,openRegisterModal }: NavActionsprops) {
   const { handleLogout } = useLogoutHandler();
 
 
@@ -26,10 +27,9 @@ export default function NavActions({ user, openLoginModal }: NavActionsprops) {
         </MaterialButton>
 
 
-        <Button variant="outline" size="sm" onClick={openRegisterModal}>
+        <Button variant="signup-button" size="sm" onClick={openRegisterModal}>
           Registrate
         </Button>
-
       </div>
     );
   } else {
