@@ -53,3 +53,16 @@ export type UniverseSchema = {
     order: number;
     active: boolean;
   };
+
+
+  export type  CatalogSchema = {
+    universes: UniverseSchema[] 
+    brands:BrandSchema[] 
+    collections:CollectionSchema[] 
+    productsTypes:ProductTypeSchema[] 
+    conditions:ConditionSchema[] 
+    transactions:TransactionSchema[] 
+    shippingMethods:ShippingMethodSchema[] 
+    statuses:statusSchema[] 
+    loading:boolean
+  }

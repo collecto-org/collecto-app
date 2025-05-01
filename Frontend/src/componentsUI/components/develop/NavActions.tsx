@@ -3,6 +3,7 @@ import MaterialButton from "../../components/MaterialButton";
 import { User } from "@/services/schemas/UserSchemas";
 import useLogoutHandler from "@/hooks/useLogoutHandler";
 import Button from "@/componentsUI/elements/Button";
+import Button from "../Button";
 
 interface NavActionsprops {
   user: User;
@@ -11,7 +12,7 @@ interface NavActionsprops {
 }
 
 
-export default function NavActions({ user, openLoginModal, openRegisterModal }: NavActionsprops) {
+export default function NavActions({ user, openLoginModal, openRegisterModal,openRegisterModal }: NavActionsprops) {
   const { handleLogout } = useLogoutHandler();
 
 
@@ -27,10 +28,9 @@ export default function NavActions({ user, openLoginModal, openRegisterModal }: 
         </MaterialButton>
 
 
-        <Button variant="outline" size="sm" onClick={openRegisterModal}>
+        <Button variant="signup-button" size="sm" onClick={openRegisterModal}>
           Registrate
         </Button>
-
       </div>
     );
   } else {

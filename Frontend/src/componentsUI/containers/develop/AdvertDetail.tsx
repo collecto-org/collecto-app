@@ -8,9 +8,11 @@ import ActionBar from "@/componentsUI/components/develop/ActionBar";
 import Button from "@/componentsUI/elements/Button";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
 import ShareButtons from "@/componentsUI/components/develop/SharedButtons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "@/store/selectors/userSelectors";
 import { RootState } from "@/store/store";
+import { slugify } from "@/utils/slugify";
+import { setFilter } from "@/store/slices/advertsSlice";
 
 interface AdvertDetailProps {
   advert: Advert;
@@ -46,6 +48,10 @@ export default function AdvertDetail({
   } = advert;
   const navigate = useNavigate();
   const userMe = useSelector((state: RootState) => selectUser(state));
+  const dispatch = useDispatch()
+  const handleFilter = (productType:string) =>{
+    dispatch(setFilter({product_type:productType}))
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-6 pt-4 pb-10, mt-5 text-darkblue">
@@ -55,18 +61,27 @@ export default function AdvertDetail({
           label={advert.universe.name || "universoAPI"}
         />
         <div className="text-sm text-gray-500 flex flex-wrap gap-1">
+          <Link to={"/"} className="text-sm text-gray-500 ">
           <span className="hover:underline cursor-pointer">Inicio</span> /
+          </Link>
+          <Link to={`/universe/${slugify(advert.universe.name)}`} className="text-sm text-gray-500 ">
           <span className="hover:underline cursor-pointer">
             {advert.universe.name}
           </span>{" "}
+          </Link>
           /
+          <Link to={`/universe/${slugify(advert.brand.name)}`} className="text-sm text-gray-500 ">
           <span className="hover:underline cursor-pointer">
             {advert.brand.name}
           </span>{" "}
+          </Link>
+
           /
+          <Link to={`/universe/${slugify(advert.universe.name)}`} onClick={()=>{handleFilter(slugify(advert.product_type._id))}} className="text-sm text-gray-500 ">
           <span className="hover:underline cursor-pointer">
             {advert.product_type.name}
           </span>{" "}
+          </Link>
           /<span className="font-medium text-darkblue">{advert.title}</span>
         </div>
       </div>
@@ -127,13 +142,13 @@ export default function AdvertDetail({
 
           <div className="flex gap-4 mt-4">
             <Button variant="primary" 
-            hidden={advert.user.username === userMe.username}
+            hidden={advert.user.username === userMe.username || advert.status.label === "Reservado"}
             onClick={() => navigate(`/Orderpage`)}>
               Comprar
             </Button>
 
             <Button
-              hidden={advert.user.username === userMe.username}
+              hidden={advert.user.username === userMe.username || advert.status.label === "Reservado"}
               variant="outline"
               onClick={() => navigate(`/chat/${advert._id}_${userMe.username}`)}
             >
@@ -148,8 +163,8 @@ export default function AdvertDetail({
           {/* Vendedor */}
           <Link className="text-black" to={`/users/${user.username}`}>
             <SellerCard
-              username={user.username || "autor API"}
-              avatarUrl={user.avatar || "IMAGEAPI"}
+              username={user.username || "Usuario"}
+              avatarUrl={user.avatarUrl || ""}
               rating={user.rating || 4}
             />
           </Link>

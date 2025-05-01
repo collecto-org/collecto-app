@@ -28,10 +28,11 @@ function AdvertDetailPage() {
 
   const navigate = useNavigate();
   const {
-    data: advert,refetch } = useGetAdvertDetailQuery({ slug: slug || "" });
-  const universeProduct = advert?.universe._id;
+    data: advert,refetch } = useGetAdvertDetailQuery({ slug: slug || "" },);
+    
+    const universeProduct = advert?.universe._id;
+    const filter = useSelector((state:RootState)=>selectFilters(state))
 
-  const filter = useSelector((state:RootState)=>selectFilters(state))
 
 const { data: relatedAdverts } = useFilterAdvertsQuery(
   {
@@ -39,7 +40,7 @@ const { data: relatedAdverts } = useFilterAdvertsQuery(
     ...filter,
   },
   {
-    skip: !universeProduct, // <- no lanzar la query si no hay universo
+    skip: !universeProduct,
   }
 );
 

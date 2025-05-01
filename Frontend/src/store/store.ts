@@ -21,6 +21,7 @@ import { shippingMethodsApi } from "@/services/shipmentMethodsApi";
 import { transactionsApi } from "@/services/transactionsApi";
 import { statusApi } from "@/services/statusApi";
 import { usersTableApi } from "@/services/Tables/usersApi"
+import { catalogsApi } from "@/services/catalogsApi";
 
 
 export const store = configureStore({
@@ -47,6 +48,7 @@ export const store = configureStore({
         [transactionsApi.reducerPath]:transactionsApi.reducer,
         [statusApi.reducerPath]:statusApi.reducer,
         [usersTableApi.reducerPath]:usersTableApi.reducer,
+        [catalogsApi.reducerPath]:catalogsApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -67,6 +69,7 @@ export const store = configureStore({
     .concat(transactionsApi.middleware)
     .concat(statusApi.middleware)
     .concat(usersTableApi.middleware)
+    .concat(catalogsApi.middleware)
 
 });
 

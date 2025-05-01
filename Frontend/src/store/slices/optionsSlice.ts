@@ -1,23 +1,24 @@
 import { brandsApi } from "@/services/brandsApi";
+import { catalogsApi } from "@/services/catalogsApi";
 import { collectionsApi } from "@/services/collectionsApi";
 import { conditionsApi } from "@/services/conditionsApi";
 import { productTypesApi } from "@/services/productTypesApi";
-import { BrandSchema, CollectionSchema, ConditionSchema, ProductTypeSchema, ShippingMethodSchema, statusSchema, TransactionSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
+import { BrandSchema, CatalogSchema, CollectionSchema, ConditionSchema, ProductTypeSchema, ShippingMethodSchema, statusSchema, TransactionSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
 import { shippingMethodsApi } from "@/services/shipmentMethodsApi";
 import { statusApi } from "@/services/statusApi";
 import { transactionsApi } from "@/services/transactionsApi";
 import { universesApi } from "@/services/universesApi";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface OptionsState {
   universes: UniverseSchema[] | null
   brands:BrandSchema[] | null
   collections:CollectionSchema[] | null
-  productsTypes:ProductTypeSchema[] | null
+  productTypes:ProductTypeSchema[] | null
   conditions:ConditionSchema[] | null
   transactions:TransactionSchema[] | null
   shippingMethods:ShippingMethodSchema[] | null
-  status:statusSchema[] | null
+  statuses:statusSchema[] | null
   loading:boolean
 }
 
@@ -26,10 +27,10 @@ const initialState: OptionsState = {
   brands:null,
   collections:null,
   conditions:null,
-  productsTypes:null,
+  productTypes:null,
   shippingMethods:null,
   transactions:null,
-  status:null,
+  statuses:null,
   loading:false,
 };
 
@@ -75,7 +76,7 @@ const optionsSlice = createSlice({
       .addMatcher(
         productTypesApi.endpoints.getProductTypes.matchFulfilled,
         (state, action) => {
-          state.productsTypes= action.payload
+          state.productTypes= action.payload
         }
       )
       .addMatcher(
@@ -99,7 +100,16 @@ const optionsSlice = createSlice({
       .addMatcher(
         statusApi.endpoints.getStatus.matchFulfilled,
         (state, action) => {
-          state.status= action.payload
+          state.statuses= action.payload
+        }
+      )
+      .addMatcher(
+        catalogsApi.endpoints.getCatalogs.matchFulfilled,
+        (state,  action:PayloadAction<CatalogSchema>) => {
+          return {
+            ...state,
+            ...action.payload,
+          };
         }
       )
   },
