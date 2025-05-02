@@ -38,6 +38,11 @@ export default function AdvertDetail({
     collection,
     condition,
     tags,
+    status,
+    transaction,
+    title,
+    brand,
+    product_type,
     description,
     user,
   } = advert;
@@ -50,8 +55,18 @@ export default function AdvertDetail({
     dispatch(setFilter({ product_type: productType }));
   };
 
-  const isSold = status.code.toLowerCase() === "sold";
-  const isReserved = status.code.toLowerCase() === "reserved";
+  const slugify = (text: string) =>
+    text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-") 
+      .replace(/[^\w\-]+/g, "") 
+      .replace(/\-\-+/g, "-"); 
+  
+
+  const isSold = advert.status?.code?.toLowerCase?.() === "sold";
+  const isReserved = advert.status?.code?.toLowerCase?.() === "reserved";
 
 
   return (
@@ -123,7 +138,7 @@ export default function AdvertDetail({
             <div>
               <p className="text-coral text-sm font-medium">{brand.name}</p>
               <p className="text-xs text-sage">
-                Transacción: {transaction.label} / Estado: {status.label}
+                Transacción: {transaction.value} / Estado: {status.label}
 
               </p>
               <p className="text-xs text-sage">

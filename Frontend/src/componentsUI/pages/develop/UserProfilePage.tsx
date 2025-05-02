@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { selectLastUnreadNotifications } from "@/store/selectors/notificationSelector";
 import UpdatePassword from "@/componentsUI/containers/develop/UpdatePassword";
 import DeleteAccount from "@/componentsUI/containers/develop/DeleteAccount";
+import UserChats from "@/componentsUI/containers/develop/UserChats";
 
 
 
@@ -16,6 +17,8 @@ export default function UserProfilePage() {
   const [showChat, setShowChat] = useState(false);
   const [activeSection, setActiveSection] = useState("Mi Perfil");
   const notifications = useSelector(selectLastUnreadNotifications);
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
+
 
   return (
     <>
@@ -116,6 +119,10 @@ export default function UserProfilePage() {
             {activeSection === "Mi Perfil" && <UserProfile />}
             {activeSection === "Cambiar Contraseña" && <UpdatePassword/>}
             {activeSection === "Eliminar Cuenta" && <DeleteAccount/>}
+            {activeSection === "Chat" && (
+              <UserChats roomId={selectedRoomId} onBack={() => setSelectedRoomId(null)} />
+            )}
+
             
           </section>
         </div>
