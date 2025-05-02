@@ -1,5 +1,4 @@
 import { setFilter } from "@/store/slices/advertsSlice";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FiX, FiSearch } from "react-icons/fi";
 import { useDispatch } from "react-redux";
@@ -31,7 +30,7 @@ export default function SearchBar({
   const searchValue = watch("search"); //  aqui esta disponible el valor de cada punto del formulario
 
   const handleSearch = () => {
-  dispatch(setFilter({title:searchValue,limit:12})) 
+  dispatch(setFilter({searchTerm:searchValue,limit:12})) 
   if (isAdvertDetailPage) {
     navigate("/"); // redirige al Home si estás en el detalle
   }

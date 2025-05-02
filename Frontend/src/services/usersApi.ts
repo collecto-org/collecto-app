@@ -102,7 +102,16 @@ export const userApi = createApi({
           },
           body: { email },
         }),
-      }),      
+      }),
+      updatePassword: builder.mutation<{ message: string }, { currentPassword: string; newPassword: string }>({
+      query: (data) => ({
+        url: '/api/users/me/password',
+        method: 'PATCH',
+        credentials:"include",
+        body: data,
+      }),
+    }),
+         
     })
 })
 
@@ -114,9 +123,10 @@ export const {
   useGetMyadvertsQuery,
   useRemoveAdvertFavMutation,
   useGetMyFavAdvertsQuery,
-useSetAdvertFavMutation,
-useGetChatsQuery,
-useGetUserAdvertsQuery,
-useCheckEmailExistsMutation,
+  useSetAdvertFavMutation,
+  useGetChatsQuery,
+  useGetUserAdvertsQuery,
+  useCheckEmailExistsMutation,
+  useUpdatePasswordMutation,
 
 } = userApi

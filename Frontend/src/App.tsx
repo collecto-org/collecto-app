@@ -1,6 +1,6 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 import VerifyEmailPage from "./componentsUI/pages/develop/VerifyEmailPage";
-import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
+//import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
 import { useGetChatsQuery, useGetMeQuery } from "./services/usersApi";
 import "./styles/index.css";
 import Edituser from "./temporal-components/EditUser";
@@ -112,7 +112,7 @@ function App() {
         >
           
          
-          <Route path="/recover" element={<RecoverPassForm />} />
+       {/*<Route path="/recover" element={<RecoverPassForm />} />*/}   
           <Route path="/recover/:token" element={<RecoverPasswordPage />} />
           <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
           <Route path="/RecoverPasswordPage" element={<RecoverPasswordPage />} />

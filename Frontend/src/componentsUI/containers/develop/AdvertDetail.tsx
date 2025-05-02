@@ -11,8 +11,7 @@ import ShareButtons from "@/componentsUI/components/develop/SharedButtons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "@/store/selectors/userSelectors";
 import { RootState } from "@/store/store";
-import { slugify } from "@/utils/slugify";
-import { setFilter } from "@/store/slices/advertsSlice";
+import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
 
 interface AdvertDetailProps {
   advert: Advert;
@@ -34,14 +33,9 @@ export default function AdvertDetail({
   const {
     images,
     universe,
-    product_type,
-    title,
-    transaction,
-    brand,
     createdAt,
     price,
     collection,
-    status,
     condition,
     tags,
     description,
@@ -59,6 +53,7 @@ export default function AdvertDetail({
   const isSold = status.code.toLowerCase() === "sold";
   const isReserved = status.code.toLowerCase() === "reserved";
 
+
   return (
     <div className="max-w-3xl mx-auto px-6 pt-4 pb-10 mt-5 text-darkblue">
       <div className="mb-4">
@@ -67,6 +62,7 @@ export default function AdvertDetail({
           label={advert.universe.name || "universoAPI"}
         />
         <div className="text-sm text-gray-500 flex flex-wrap gap-1">
+
           <Link to={"/"} className="hover:underline cursor-pointer">
             Inicio
           </Link>{" "}
@@ -75,21 +71,26 @@ export default function AdvertDetail({
             to={`/universe/${slugify(advert.universe.name)}`}
             className="hover:underline cursor-pointer"
           >
+
             {advert.universe.name}
           </Link>{" "}
           /
+
           <Link
             to={`/universe/${slugify(advert.brand.name)}`}
             className="hover:underline cursor-pointer"
           >
+
             {advert.brand.name}
           </Link>{" "}
           /
+
           <Link
             to={`/universe/${slugify(advert.universe.name)}`}
             onClick={() => handleFilter(slugify(advert.product_type._id))}
             className="hover:underline cursor-pointer"
           >
+
             {advert.product_type.name}
           </Link>{" "}
           /<span className="font-medium text-darkblue">{advert.title}</span>
@@ -123,6 +124,7 @@ export default function AdvertDetail({
               <p className="text-coral text-sm font-medium">{brand.name}</p>
               <p className="text-xs text-sage">
                 Transacción: {transaction.label} / Estado: {status.label}
+
               </p>
               <p className="text-xs text-sage">
                 Publicado el: {new Date(createdAt).toLocaleDateString()}
@@ -161,10 +163,12 @@ export default function AdvertDetail({
 
           <div className="flex gap-4 mt-4">
             <Button
+
               hidden={
                 user.username === userMe.username ||
                 status.label === "Reservado"
               }
+
               variant="primary"
               onClick={() => {
                 if (!userMe.username) {

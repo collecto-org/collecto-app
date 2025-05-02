@@ -88,6 +88,7 @@ export const advertsApi = createApi({
         params: filters,
         method: "GET",
       }),
+       providesTags: ["Adverts"]
     }),
     updateAdvertStatus: builder.mutation<
       { message: string },

@@ -17,7 +17,7 @@ export type NotificationSchema = {
     notificationType: string;
     advertId: {
         _id: string,
-        title: string
+        slug: string
     }
     message: string;
     isRead: boolean;

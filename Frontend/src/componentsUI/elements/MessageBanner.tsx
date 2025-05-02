@@ -1,4 +1,3 @@
-import React from "react";
 
 interface MessageProps {
     type: "success" | "error" | "info";

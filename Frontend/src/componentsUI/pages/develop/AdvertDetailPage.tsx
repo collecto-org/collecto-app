@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+
+import { useEffect, useMemo, useState } from "react";
 import AdvertDetail from "@/componentsUI/containers/develop/AdvertDetail";
 import AdvertSlider from "@/componentsUI/containers/develop/AdvertSlider";
 import { RootState } from "@/store/store";
@@ -18,6 +19,12 @@ import Editadvert from "@/temporal-components/EditAdvert";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 import ModalLogin from "@/componentsUI/containers/develop/ModalLogin";
 
+import { Advert } from "@/services/schemas/AdvertsSchemas";
+import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
+import NotFoundPage from "@/componentsUI/components/develop/NotFoundPage";
+import MessageBanner from "@/componentsUI/elements/MessageBanner";
+
+
 function AdvertDetailPage() {
   const params = useParams();
   const slug = params.slug;
@@ -26,6 +33,7 @@ function AdvertDetailPage() {
   const user = useSelector((state: RootState) => selectUser(state));
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const navigate = useNavigate();
+
   const { data: advert, refetch } = useGetAdvertDetailQuery({
     slug: slug || "",
   });
@@ -48,6 +56,7 @@ function AdvertDetailPage() {
   const [setFavAdvert] = useSetAdvertFavMutation();
   const [deleteFavAdvert] = useRemoveAdvertFavMutation();
   const [notificationDelete] = useRemoveAdvertFavMutation();
+=======
   const [returnPath, setReturnPath] = useState(location.pathname);
 
   const isOwner = user.username === advert?.user.username;
@@ -66,7 +75,9 @@ function AdvertDetailPage() {
     if (user) {
       if (advert && user.username === advert.user.username) {
         await deleteAdvert({ id: advert._id });
+
         await notificationDelete(advert._id);
+
       }
     }
   };
@@ -108,8 +119,13 @@ function AdvertDetailPage() {
       console.error("Error al cambiar favorito", err);
     }
   };
-
-  if (!advert) return <p>Cargando anuncio...</p>;
+  if (isAdvertLoading)
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center bg-white p-6 text-center">
+        <LoadingSpinner />
+      </div>
+    );
+  if (!advert) return <NotFoundPage />;
   if (isEdit) {
     return (
       <Editadvert refetch={refetch} handleEdit={handleEdit} advert={advert} />
@@ -137,19 +153,25 @@ function AdvertDetailPage() {
           setIsLoginModalOpen(true), setReturnPath(path || location.pathname);
         }}
       />
+       { isFavError && <MessageBanner type="error" text="Error al añadir el artículo a favoritos" />}
+       { isDelete && <MessageBanner type="error" text="Error al eliminar el artículo" />}
+      
+     
       <section className="mt-10 px-4 space-y-4">
         <h3 className="text-lg font-semibold text-darkblue">
           Artículos del Universo {advert.universe.name}
         </h3>
         {relatedAdverts ? (
+
           <AdvertSlider title="Más del universo" adverts={relatedAdverts} />
+
         ) : (
           <p>Loading...</p>
         )}
       </section>
     </>
   ) : (
-    <p>No existe el anuncio</p>
+    <NotFoundPage />
   );
 }
 

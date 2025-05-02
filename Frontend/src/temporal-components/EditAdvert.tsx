@@ -3,35 +3,45 @@ import MainLayout from "@/componentsUI/layouts/MainLayout";
 import Button from "@/componentsUI/elements/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { selectAdvertStatus, selectBrands, selectConditions, selectProductTypes,  selectTransactions, selectUniverses,  } from "@/store/selectors/optionsSelectors";
-import { useEditAdvertMutation} from "@/services/advertsApi";
+import {
+  selectAdvertStatus,
+  selectBrands,
+  selectConditions,
+  selectProductTypes,
+  selectTransactions,
+  selectUniverses,
+} from "@/store/selectors/optionsSelectors";
+import { useEditAdvertMutation } from "@/services/advertsApi";
 import { useNavigate } from "react-router-dom";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
 import { z } from "zod";
-
+import MessageBanner from "@/componentsUI/elements/MessageBanner";
 
 interface CatalogOption {
   _id: string;
   name?: string;
-  value?:string;
-  label?:string
+  value?: string;
+  label?: string;
 }
 
-interface EditAdvert{
-  advert:Advert
-  refetch: () => void
-  handleEdit : () => void
+interface EditAdvert {
+  advert: Advert;
+  refetch: () => void;
+  handleEdit: () => void;
 }
 
 const editAdvertSchema = z.object({
   title: z.string().min(3, "El título es obligatorio"),
-  description: z.string().min(10, "La descripción tiene que tener al menos 10 caracteres"),
-  price: z.string()
-  .min(1, "El precio es obligatorio")
-  .transform((val) => parseFloat(val)) // Convierte a número
-  .refine((val) => val >= 0, {
-    message: "El precio no puede ser negativo",
-  }),
+  description: z
+    .string()
+    .min(10, "La descripción tiene que tener al menos 10 caracteres"),
+  price: z
+    .string()
+    .min(1, "El precio es obligatorio")
+    .transform((val) => parseFloat(val)) // Convierte a número
+    .refine((val) => val >= 0, {
+      message: "El precio no puede ser negativo",
+    }),
   transaction: z.string().min(1, "Selecciona un tipo de transacción"),
   status: z.string().min(1, "Selecciona un estado"),
   product_type: z.string().min(1, "Selecciona un tipo de producto"),
@@ -42,18 +52,31 @@ const editAdvertSchema = z.object({
   tags: z.array(z.string()),
 });
 
-export default function EditAdvertPage({advert,handleEdit,refetch}:EditAdvert) {
+export default function EditAdvertPage({
+  advert,
+  handleEdit,
+  refetch,
+}: EditAdvert) {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const universes = useSelector((state: RootState) => selectUniverses(state));
+  const brandsOptions = useSelector((state: RootState) => selectBrands(state));
+  const transactionsOptions = useSelector((state: RootState) =>
+    selectTransactions(state)
+  );
+  const conditionsOptions = useSelector((state: RootState) =>
+    selectConditions(state)
+  );
+  const productTypesOptions = useSelector((state: RootState) =>
+    selectProductTypes(state)
+  );
+  const statusOptions = useSelector((state: RootState) =>
+    selectAdvertStatus(state)
+  );
 
-const universes = useSelector((state:RootState)=> selectUniverses(state))
-const brandsOptions = useSelector((state:RootState)=> selectBrands(state))
-const transactionsOptions = useSelector((state:RootState)=> selectTransactions(state))
-const conditionsOptions = useSelector((state:RootState)=> selectConditions(state))
-const productTypesOptions = useSelector((state:RootState)=> selectProductTypes(state))
-const statusOptions = useSelector((state:RootState)=> selectAdvertStatus(state))
-
-const [existingImages, setExistingImages] = useState<string[]>(advert.images || []);
+  const [existingImages, setExistingImages] = useState<string[]>(
+    advert.images || []
+  );
 
   const [transactionTypes, setTransactionTypes] = useState<CatalogOption[]>([]);
   const [brands, setBrands] = useState<CatalogOption[]>([]);
@@ -95,16 +118,23 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
   }, [advert]);
   const [message, setMessage] = useState<string>("");
 
-  const [editAdvert,{isLoading,isError}]= useEditAdvertMutation()
+  const [editAdvert, { isLoading, isError, isSuccess }] =
+    useEditAdvertMutation();
 
   useEffect(() => {
     setTransactionTypes(transactionsOptions || []);
-    setBrands(brandsOptions|| []);
+    setBrands(brandsOptions || []);
     setStatuses(statusOptions || []);
     setconditions(conditionsOptions || []);
     setproductType(productTypesOptions || []);
-  }, [brandsOptions,transactionsOptions,conditionsOptions,productTypesOptions,statusOptions]);
-  
+  }, [
+    brandsOptions,
+    transactionsOptions,
+    conditionsOptions,
+    productTypesOptions,
+    statusOptions,
+  ]);
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const selectedFiles = Array.from(e.target.files);
@@ -115,7 +145,11 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
     setImages([...images, ...selectedFiles]);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -123,17 +157,17 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
-  
+
     const result = editAdvertSchema.safeParse(formData);
-  
+
     if (!result.success) {
       const firstError = result.error.errors[0]?.message;
       setMessage(firstError || "Hay errores en el formulario");
       return;
     }
-  
+
     const advertForm = new FormData();
-  
+
     Object.entries(formData).forEach(([key, value]) => {
       if (key === "tags" && Array.isArray(value)) {
         value.forEach((tag) => advertForm.append("tags", tag));
@@ -143,51 +177,48 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
     });
 
     advertForm.append("type", "advert");
-  
+
     images.forEach((img) => advertForm.append("images", img));
     existingImages.forEach((url) => advertForm.append("imagesUrl", url));
 
-    
-   
-      if (images.length + existingImages.length > 6) {
-        console.log("fallo");      
-        setMessage("No puedes subir más de 6 imágenes");
-        return
-      }
+    if (images.length + existingImages.length > 6) {
+      console.log("fallo");
+      setMessage("No puedes subir más de 6 imágenes");
+      return;
+    }
 
-      if (existingImages.length <=0 && images.length <=0) {
-        console.log("fallo");      
-        setMessage("Debes de subir al menos una imagen");
-        return
-      }
-      
-  
-     const response = await editAdvert({ formData: advertForm, id: advert._id });      
+    if (existingImages.length <= 0 && images.length <= 0) {
+      console.log("fallo");
+      setMessage("Debes de subir al menos una imagen");
+      return;
+    }
 
-      
+    const response = await editAdvert({ formData: advertForm, id: advert._id });
 
-      if (isLoading) {
-        setMessage("Cargando...");
-        return;
-      }
-    
-      if (isError) {
-        setMessage( "Error al editar el anuncio");
-        return;
-      }
-      if (response.data) {
-        setMessage("Anuncio editado exitosamente");
-        setImages([]); 
-        handleEdit()
-        if(advert.title===formData.title){
-        refetch()}
-        navigate(`/adverts/${response.data.advert.slug}`)
+    if (isLoading) {
+      setMessage("Cargando...");
+      return;
+    }
 
-      }
-    };
-     
+    if (isError) {
+      setMessage("Error al editar el anuncio");
+      return;
+    }
+    if (response.data) {
+      setMessage("Anuncio editado exitosamente");
 
-  
+      setTimeout(() => {
+        setImages([]);
+        handleEdit();
+
+        if (advert.title === formData.title) {
+          refetch();
+        }
+      }, 3000);
+      navigate(`/adverts/${response.data.advert.slug}`);
+    }
+  };
+
   return (
     <MainLayout>
       <div className="mt-10 max-w-4xl mx-auto px-4 py-8">
@@ -226,7 +257,7 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
           >
-            <option value={advert.transaction.label}>
+            <option value={advert.transaction.value}>
               Selecciona una opción
             </option>
             {transactionTypes.map((t) => (
@@ -342,7 +373,6 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
           <input
             type="file"
             name="images"
-
             accept="image/*"
             multiple
             onChange={handleImageChange}
@@ -391,10 +421,15 @@ const [existingImages, setExistingImages] = useState<string[]>(advert.images || 
             ))}
           </div>
 
-          <Button type="submit" variant="turquoise" disabled={isLoading}>
+          <Button
+            type="submit"
+            variant="turquoise"
+            disabled={isLoading || isSuccess}
+          >
             {isLoading ? "Cargando..." : "Enviar"}
           </Button>
-          {message && <p className="text-sm text-darkblue mt-2">{message}</p>}
+          {message && isError && <MessageBanner type="error" text={message} />}
+          {message && !isError && <MessageBanner type="info" text={message} />}
         </form>
       </div>
     </MainLayout>

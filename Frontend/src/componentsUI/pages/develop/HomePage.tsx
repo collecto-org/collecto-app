@@ -17,9 +17,10 @@ import NoResults from "@/componentsUI/elements/NoResults";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import ModalLogin from "@/componentsUI/containers/develop/ModalLogin";
+
+import { useGetMyFavAdvertsQuery } from "@/services/usersApi";
+
+
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -27,22 +28,27 @@ export default function HomePage() {
 
   const universe = useSelector((state: RootState) => selectUniverses(state));
   const brands = useSelector((state: RootState) => selectBrands(state));
-  const location = useLocation();
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+
 
   const {
     data: adverts,
     isLoading,
     isError,
+
   } = useGetAllAdvertsQuery(
     { ...filter, universe: "", brand: "" },
     { skip: !universe || !!filter.title }
   );
 
+
   console.count("useGetAllAdvertsQuery call");
-  const { data: filterAdverts } = useFilterAdvertsQuery(filter, {
-    skip: !filter.title,
+  const { data: filterAdverts } = useFilterAdvertsQuery({...filter,universe:undefined}, {
+    skip: !filter.searchTerm && !filter.product_type,
   });
+
+  const {data:userFavorites} = useGetMyFavAdvertsQuery(filter)
+
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -78,13 +84,14 @@ export default function HomePage() {
             />
           </section>
         </div>
-        {filter.title ? (
+        {filter.searchTerm || filter.product_type? (
           <FilteredAdvertSectionProps
             headerLabel="¿ Qúe estás buscando?"
-            label={filter.title}
-            adverts={
-              filterAdverts ? filterAdverts : { adverts: [], total: "0" }
-            }
+
+
+            label={filter.searchTerm || ""}
+            adverts={filterAdverts ? filterAdverts : {adverts:[],total:"0"}}
+
           />
         ) : (
           <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
@@ -94,10 +101,12 @@ export default function HomePage() {
                   title="Nuevos lanzamientos"
                   adverts={adverts ?? { adverts: [], total: "0" }}
                 />
-                <AdvertSlider
-                  title="Recomendados para ti"
-                  adverts={adverts ?? { adverts: [], total: "0" }}
-                />
+                {userFavorites && userFavorites.adverts?.length > 0 && (
+  <AdvertSlider
+    title="Tus productos favoritos"
+    adverts={userFavorites}
+  />
+)}
                 <AdvertSlider
                   title="Ver todos los artículos"
                   adverts={adverts ?? { adverts: [], total: "0" }}
