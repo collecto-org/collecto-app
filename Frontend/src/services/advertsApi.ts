@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {  NewAdvertResponse,  Advert, FilterAdverts } from "./schemas/AdvertsSchemas";
+import {
+  NewAdvertResponse,
+  Advert,
+  FilterAdverts,
+} from "./schemas/AdvertsSchemas";
 
 export const advertsApi = createApi({
   reducerPath: "advertsApi",
@@ -15,70 +19,91 @@ export const advertsApi = createApi({
         method: "POST",
         body: formData,
       }),
-      invalidatesTags: ["Adverts"], 
+      invalidatesTags: ["Adverts"],
     }),
-    editAdvert: builder.mutation<NewAdvertResponse, { formData: FormData; id:string }>({
+    editAdvert: builder.mutation<
+      NewAdvertResponse,
+      { formData: FormData; id: string }
+    >({
       query: ({ formData, id }) => ({
         url: `/api/adverts/${id}`,
         credentials: "include",
         method: "PUT",
         body: formData,
       }),
-      invalidatesTags: ["Adverts"], 
+      invalidatesTags: ["Adverts"],
     }),
     deleteAdvert: builder.mutation<{ message: string }, { id: string }>({
       query: ({ id }) => ({
         url: `/api/adverts/${id}`,
         credentials: "include",
-          headers: {
-            "Content-Type": "application/json"
-          },
+        headers: {
+          "Content-Type": "application/json",
+        },
         method: "DELETE",
       }),
-      invalidatesTags: ["Adverts"], 
+      invalidatesTags: ["Adverts"],
     }),
-    getAllAdverts: builder.query<{adverts:Advert[]; total:string},  FilterAdverts >({
+    getAllAdverts: builder.query<
+      { adverts: Advert[]; total: string },
+      FilterAdverts
+    >({
       query: (filters) => ({
         url: `/api/adverts`,
         credentials: "include",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         method: "GET",
-        params:filters
-
+        params: filters,
       }),
-      providesTags: ["Adverts"]
+      providesTags: ["Adverts"],
     }),
     getAdvertDetail: builder.query<Advert, { slug: string }>({
       query: ({ slug }) => ({
         url: `/api/adverts/${slug}`,
         credentials: "include",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         method: "GET",
       }),
-      
     }),
     getAdvertDetailById: builder.query<Advert, { id: string }>({
       query: ({ id }) => ({
         url: `/api/adverts/${id}/id`,
         credentials: "include",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         method: "GET",
       }),
-      
     }),
-    filterAdverts: builder.query<{adverts:Advert[]; total:string},  FilterAdverts >({
+    filterAdverts: builder.query<
+      { adverts: Advert[]; total: string },
+      FilterAdverts
+    >({
       query: (filters) => ({
         url: `/api/adverts/search`,
         params: filters,
         method: "GET",
       }),
-      providesTags: ["Adverts"]
+       providesTags: ["Adverts"]
+    }),
+    updateAdvertStatus: builder.mutation<
+      { message: string },
+      { id: string; status: string }
+    >({
+      query: ({ id, status }) => ({
+        url: `/api/adverts/${id}/status`,
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: { status },
+      }),
+      invalidatesTags: ["Adverts"],
     }),
   }),
 });
@@ -91,5 +116,6 @@ export const {
   useGetAdvertDetailQuery,
   useFilterAdvertsQuery,
   useLazyFilterAdvertsQuery,
-  useGetAdvertDetailByIdQuery
+  useGetAdvertDetailByIdQuery,
+  useUpdateAdvertStatusMutation,
 } = advertsApi;

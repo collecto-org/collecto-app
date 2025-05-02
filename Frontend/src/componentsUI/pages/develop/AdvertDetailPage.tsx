@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+
 import { useEffect, useMemo, useState } from "react";
 import AdvertDetail from "@/componentsUI/containers/develop/AdvertDetail";
 import AdvertSlider from "@/componentsUI/containers/develop/AdvertSlider";
@@ -17,10 +18,12 @@ import { selectUser } from "@/store/selectors/userSelectors";
 import Editadvert from "@/temporal-components/EditAdvert";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 import ModalLogin from "@/componentsUI/containers/develop/ModalLogin";
+
 import { Advert } from "@/services/schemas/AdvertsSchemas";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 import NotFoundPage from "@/componentsUI/components/develop/NotFoundPage";
 import MessageBanner from "@/componentsUI/elements/MessageBanner";
+
 
 function AdvertDetailPage() {
   const params = useParams();
@@ -30,40 +33,30 @@ function AdvertDetailPage() {
   const user = useSelector((state: RootState) => selectUser(state));
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const navigate = useNavigate();
-  const {
-    data: advert,
-    refetch,
-    isLoading: isAdvertLoading,
-  } = useGetAdvertDetailQuery({ slug: slug || "" });
+
+  const { data: advert, refetch } = useGetAdvertDetailQuery({
+    slug: slug || "",
+  });
 
   const universeProduct = advert?.universe._id;
   const filter = useSelector((state: RootState) => selectFilters(state));
 
-  const universeFilter = useMemo(
-    () => ({
-      ...filter,
+  const { data: relatedAdverts } = useFilterAdvertsQuery(
+    {
       universe: universeProduct,
-      product_type: undefined,
-    }),
-    [filter, universeProduct]
+      ...filter,
+    },
+    {
+      skip: !universeProduct,
+    }
   );
-
-  const { data: universeAdverts } = useFilterAdvertsQuery(universeFilter);
-
-  const relatedAdverts =
-    universeAdverts?.adverts && advert?._id
-      ? {
-          adverts: universeAdverts.adverts.filter(
-            (product) => product._id !== advert._id
-          ),
-          total: universeAdverts.total,
-        }
-      : { adverts: [] as Advert[], total: "0" };
 
   const [deleteAdvert, { isSuccess: isDeleteSucess }] =
     useDeleteAdvertMutation();
-  const [setFavAdvert, { isError: isFavError }] = useSetAdvertFavMutation();
-  const [deleteFavAdvert,{ isError: isDelete}] = useRemoveAdvertFavMutation();
+  const [setFavAdvert] = useSetAdvertFavMutation();
+  const [deleteFavAdvert] = useRemoveAdvertFavMutation();
+  const [notificationDelete] = useRemoveAdvertFavMutation();
+=======
   const [returnPath, setReturnPath] = useState(location.pathname);
 
   const isOwner = user.username === advert?.user.username;
@@ -82,6 +75,9 @@ function AdvertDetailPage() {
     if (user) {
       if (advert && user.username === advert.user.username) {
         await deleteAdvert({ id: advert._id });
+
+        await notificationDelete(advert._id);
+
       }
     }
   };
@@ -166,10 +162,9 @@ function AdvertDetailPage() {
           Artículos del Universo {advert.universe.name}
         </h3>
         {relatedAdverts ? (
-          <AdvertSlider
-            title="Más del universo"
-            adverts={relatedAdverts || []}
-          />
+
+          <AdvertSlider title="Más del universo" adverts={relatedAdverts} />
+
         ) : (
           <p>Loading...</p>
         )}
