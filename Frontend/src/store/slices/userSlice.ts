@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { userApi } from "../../services/usersApi";
 import { Chat,  User } from "../../services/schemas/UserSchemas";
 import { authApi } from "@/services/authApi";
+import { any } from "zod";
 
 const initialState: User = {
   username: '',
@@ -13,7 +14,7 @@ const initialState: User = {
   avatarUrl: undefined,
   bio: undefined,
   isLogged: false,
-  chats:[]
+  chats:[],
 };
 
   

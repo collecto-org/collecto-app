@@ -11,7 +11,7 @@ import { ApiError } from "@/services/schemas/AdvertsSchemas";
 interface ModalRecoverPasswordProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: () => void; // AGREGADO para abrir el modal de "correo enviado"
+  onSuccess: () => void; 
 }
 
 const schema = z.object({

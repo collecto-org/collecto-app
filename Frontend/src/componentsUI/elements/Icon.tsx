@@ -22,6 +22,7 @@ import {
   FaInfoCircle,
   FaEye, 
   FaEyeSlash,
+  FaExclamationTriangle
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 
@@ -51,6 +52,7 @@ const icons: Record<string, IconType> = {
   info: FaInfoCircle,
   openEye:FaEye, 
   closeEye: FaEyeSlash,
+  alertTriangle: FaExclamationTriangle,
 };
 
 interface IconProps {

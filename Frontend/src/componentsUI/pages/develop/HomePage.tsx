@@ -47,7 +47,7 @@ export default function HomePage() {
     skip: !filter.searchTerm && !filter.product_type,
   });
 
-  const {data:userFavorites} = useGetMyFavAdvertsQuery(filter)
+  const {data : userFavorites} = useGetMyFavAdvertsQuery(filter)
 
 
   if (isLoading) {

@@ -3,7 +3,7 @@ import classNames from "classnames"
 
 interface ButtonProps {
     children: React.ReactNode;
-    variant?: "primary" | "outline" | "turquoise";
+    variant?: "primary" | "outline" | "turquoise" | "danger";
     size?: "xs" | "sm" | "md" | "lg";
     onClick?: () => void;
     className?: string;
@@ -40,6 +40,7 @@ export default function Button({
         primary: "bg-coral text-white hover:bg-[#e4685c]",
         outline: "bg-cream border border-lightgray text-darkblue hover:bg-lightgray",
         turquoise: "bg-cream border border-turquoise text-darkblue hover:bg-[#e0f7f8]",
+        danger: "bg-red-500 border text-white hover:bg-lightgray",
       };
 
     return(
