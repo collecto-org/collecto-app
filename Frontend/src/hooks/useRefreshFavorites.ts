@@ -1,7 +1,7 @@
 import {
   useSetAdvertFavMutation,
   useRemoveAdvertFavMutation,
-} from "@/services/usersApi";
+} from "@/services/advertsApi";
 
 export default function useRefreshFavorites() {
   const [setAdvertFav] = useSetAdvertFavMutation();

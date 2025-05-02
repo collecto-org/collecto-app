@@ -13,7 +13,7 @@ import {
 import {
   useRemoveAdvertFavMutation,
   useSetAdvertFavMutation,
-} from "@/services/usersApi";
+} from "@/services/advertsApi"
 import { selectUser } from "@/store/selectors/userSelectors";
 import Editadvert from "@/temporal-components/EditAdvert";
 import { selectFilters } from "@/store/selectors/advertsSelectors";

@@ -40,7 +40,6 @@ export default function ChatsList() {
       <div className="space-y-4">
         {chatsWithDetails.map((chat) => {
           const pendingCount = totalPendingChats(chat.messages, user);
-
           return (
             <Link
               key={chat.roomId}

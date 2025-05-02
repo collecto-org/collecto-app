@@ -3,6 +3,7 @@ import {
   NewAdvertResponse,
   Advert,
   FilterAdverts,
+  listingId,
 } from "./schemas/AdvertsSchemas";
 
 export const advertsApi = createApi({
@@ -57,7 +58,7 @@ export const advertsApi = createApi({
         method: "GET",
         params: filters,
       }),
-      providesTags: ["Adverts"],
+      providesTags: [{ type: "Adverts", id: "LIST" }]
     }),
     getAdvertDetail: builder.query<Advert, { slug: string }>({
       query: ({ slug }) => ({
@@ -68,6 +69,8 @@ export const advertsApi = createApi({
         },
         method: "GET",
       }),
+      providesTags: [{ type: "Adverts", id: "LIST" }]
+
     }),
     getAdvertDetailById: builder.query<Advert, { id: string }>({
       query: ({ id }) => ({
@@ -78,6 +81,8 @@ export const advertsApi = createApi({
         },
         method: "GET",
       }),
+      providesTags: [{ type: "Adverts", id: "LIST" }]
+
     }),
     filterAdverts: builder.query<
       { adverts: Advert[]; total: string },
@@ -88,7 +93,7 @@ export const advertsApi = createApi({
         params: filters,
         method: "GET",
       }),
-       providesTags: ["Adverts"]
+      providesTags: [{ type: "Adverts", id: "LIST" }]
     }),
     updateAdvertStatus: builder.mutation<
       { message: string },
@@ -103,9 +108,29 @@ export const advertsApi = createApi({
         },
         body: { status },
       }),
-      invalidatesTags: ["Adverts"],
+      invalidatesTags: [{ type: "Adverts", id: "LIST" }]
     }),
+     setAdvertFav: builder.mutation<{message: string }, listingId>({
+            query: (listingId) => ({
+              url: `/api/users/me/favorites/${listingId}`,
+              method: "POST",
+              credentials:"include",
+      
+            }),
+            invalidatesTags: [{ type: "Adverts", id: "LIST" }],
+          }),
+          removeAdvertFav: builder.mutation<{message: string },listingId >({
+            query: (listingId) => ({
+              url: `/api/users/me/favorites/${listingId}`,
+              method: "DELETE",
+              credentials:"include",       
+      
+            }),
+            invalidatesTags: [{ type: "Adverts", id: "LIST" }],
+    
+          }),
   }),
+  
 });
 
 export const {
@@ -115,6 +140,8 @@ export const {
   useGetAllAdvertsQuery,
   useGetAdvertDetailQuery,
   useFilterAdvertsQuery,
+    useRemoveAdvertFavMutation,
+    useSetAdvertFavMutation,
   useLazyFilterAdvertsQuery,
   useGetAdvertDetailByIdQuery,
   useUpdateAdvertStatusMutation,
