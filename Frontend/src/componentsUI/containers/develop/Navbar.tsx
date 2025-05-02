@@ -69,9 +69,8 @@ export default function Navbar({ auth }: Props) {
           onRegister={() => {
             setIsLoginModalOpen(false);
             setIsRegisterModalOpen(true);
-  }}
-/>
-
+          }}
+        />
       )}
 
       {isRecoverPasswordOpen && (
@@ -90,16 +89,15 @@ export default function Navbar({ auth }: Props) {
       )}
 
       {isRegisterModalOpen && (
-        <ModalRegister 
-        isOpen={isRegisterModalOpen} 
-        onClose={() => setIsRegisterModalOpen(false)} 
-        onLogin={() => {
-          setIsRegisterModalOpen(false)
-          setIsLoginModalOpen(true)
-        }}
+        <ModalRegister
+          isOpen={isRegisterModalOpen}
+          onClose={() => setIsRegisterModalOpen(false)}
+          onLogin={() => {
+            setIsRegisterModalOpen(false);
+            setIsLoginModalOpen(true);
+          }}
         />
       )}
-
 
       {/* Navbar */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-white text-darkblue shadow-md flex justify-between items-center py-2 px-4">
@@ -136,13 +134,15 @@ export default function Navbar({ auth }: Props) {
 
               <div className="hidden md:flex items-center space-x-2">
                 <div className="flex items-center space-x-1">
-
                   <NavIcons user={user} />
-                  <NavActions user={user} openLoginModal={openLoginModal} openRegisterModal={() => setIsRegisterModalOpen(true)} />
-
+                  <NavActions
+                    user={user}
+                    openLoginModal={openLoginModal}
+                    openRegisterModal={() => setIsRegisterModalOpen(true)}
+                  />
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 hover:text-coral">
                   <UserMenu user={user} />
                   <ShoppingCart />
                 </div>
@@ -171,7 +171,11 @@ export default function Navbar({ auth }: Props) {
             <SearchBar placeholder="Buscar..." width="w-full" />
             <div className="flex flex-col gap-3">
               <NavIcons user={user} />
-              <NavActions user={user} openLoginModal={openLoginModal} openRegisterModal={() => setIsRegisterModalOpen(true)}/>
+              <NavActions
+                user={user}
+                openLoginModal={openLoginModal}
+                openRegisterModal={() => setIsRegisterModalOpen(true)}
+              />
 
               <UserMenu user={user} />
               <ShoppingCart />

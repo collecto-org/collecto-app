@@ -60,14 +60,12 @@ export default function AdvertDetail({
       .toString()
       .toLowerCase()
       .trim()
-      .replace(/\s+/g, "-") 
-      .replace(/[^\w\-]+/g, "") 
-      .replace(/\-\-+/g, "-"); 
-  
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "")
+      .replace(/\-\-+/g, "-");
 
   const isSold = advert.status?.code?.toLowerCase?.() === "sold";
   const isReserved = advert.status?.code?.toLowerCase?.() === "reserved";
-
 
   return (
     <div className="max-w-3xl mx-auto px-6 pt-4 pb-10 mt-5 text-darkblue">
@@ -77,7 +75,6 @@ export default function AdvertDetail({
           label={advert.universe.name || "universoAPI"}
         />
         <div className="text-sm text-gray-500 flex flex-wrap gap-1">
-
           <Link to={"/"} className="hover:underline cursor-pointer">
             Inicio
           </Link>{" "}
@@ -86,26 +83,21 @@ export default function AdvertDetail({
             to={`/universe/${slugify(advert.universe.name)}`}
             className="hover:underline cursor-pointer"
           >
-
             {advert.universe.name}
           </Link>{" "}
           /
-
           <Link
             to={`/universe/${slugify(advert.brand.name)}`}
             className="hover:underline cursor-pointer"
           >
-
             {advert.brand.name}
           </Link>{" "}
           /
-
           <Link
             to={`/universe/${slugify(advert.universe.name)}`}
             onClick={() => handleFilter(slugify(advert.product_type._id))}
             className="hover:underline cursor-pointer"
           >
-
             {advert.product_type.name}
           </Link>{" "}
           /<span className="font-medium text-darkblue">{advert.title}</span>
@@ -139,7 +131,6 @@ export default function AdvertDetail({
               <p className="text-coral text-sm font-medium">{brand.name}</p>
               <p className="text-xs text-sage">
                 Transacción: {transaction.value} / Estado: {status.label}
-
               </p>
               <p className="text-xs text-sage">
                 Publicado el: {new Date(createdAt).toLocaleDateString()}
@@ -178,12 +169,10 @@ export default function AdvertDetail({
 
           <div className="flex gap-4 mt-4">
             <Button
-
               hidden={
                 user.username === userMe.username ||
                 status.label === "Reservado"
               }
-
               variant="primary"
               onClick={() => {
                 if (!userMe.username) {
@@ -201,7 +190,7 @@ export default function AdvertDetail({
                 user.username === userMe.username ||
                 status.label === "Reservado"
               }
-              variant="outline"
+              variant="turquoise"
               onClick={() => {
                 if (!userMe.username) {
                   onForceLogin(`/chat/${advert._id}_${userMe.username}`);
@@ -213,12 +202,16 @@ export default function AdvertDetail({
               Iniciar Chat
             </Button>
           </div>
-
-          <ShareButtons
-            title={title}
-            price={price}
-            slug={advert.slug || advert._id}
-          />
+          <div className="flex justify-center lg:justify-start">
+            <div className="p-2 bg-white border rounded-lg flex items-center gap-2 text-sm shadow-sm">
+              <p className="font-medium text-darkblue">Compartir en:</p>
+              <ShareButtons
+                title={title}
+                price={price}
+                slug={advert.slug || advert._id}
+              />
+            </div>
+          </div>
 
           <Link className="text-black" to={`/users/${user.username}`}>
             <SellerCard
