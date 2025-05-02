@@ -32,13 +32,12 @@ const initialState: User = {
             state = { ...initialState }; 
         },
         setChatRoom: (state, action: PayloadAction<Chat>) => {
-            const index = state.chats.findIndex(c => c.roomId === action.payload.roomId);
-            if (index !== -1) {
-              state.chats[index] = action.payload; 
-            } else {
-              state.chats.push(action.payload); 
-            }
-          },
+          const index = state.chats.findIndex(c => c.roomId === action.payload.roomId);
+          if (index !== -1) {
+            state.chats.splice(index, 1);
+          }
+          state.chats.unshift(action.payload);
+        },
           
           markMessageAsRead: (
             state,

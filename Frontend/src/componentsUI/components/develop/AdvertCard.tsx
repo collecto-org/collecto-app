@@ -27,6 +27,7 @@ export default function AdvertCard({
   const user = useSelector(selectUser);
   const refreshFavorites = useRefreshFavorites();
   const toggleReserved = useToggleReserved();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const toggleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -71,13 +72,18 @@ export default function AdvertCard({
       );
       return;
     }
+    if (isProcessing) return;
+    
 
+      setIsProcessing(true);
     try {
       await toggleReserved(_id, isReservedLocal);
-      setIsReservedLocal((prev) => !prev); // ✅ actualización visual inmediata
+      setIsReservedLocal((prev) => !prev); 
     } catch (error) {
       console.error("Error al actualizar reservado:", error);
       toast.error("Hubo un error al actualizar el estado de reservado.");
+    }   finally {
+      setTimeout(() => setIsProcessing(false), 10000); 
     }
   };
 

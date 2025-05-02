@@ -28,9 +28,7 @@ export default function HomePage() {
 
   const universe = useSelector((state: RootState) => selectUniverses(state));
   const brands = useSelector((state: RootState) => selectBrands(state));
-
-
-
+  
   const {
     data: adverts,
     isLoading,
@@ -38,7 +36,7 @@ export default function HomePage() {
 
   } = useGetAllAdvertsQuery(
     { ...filter, universe: "", brand: "" },
-    { skip: !universe || !!filter.title }
+    { skip: !universe || !!filter.title || !!filter.product_type}
   );
 
 
@@ -47,7 +45,7 @@ export default function HomePage() {
     skip: !filter.searchTerm && !filter.product_type,
   });
 
-  const {data : userFavorites} = useGetMyFavAdvertsQuery(filter)
+  const {data : userFavorites} = useGetMyFavAdvertsQuery(filter,{ skip: !universe || !!filter.title || !!filter.product_type})
 
 
   if (isLoading) {

@@ -45,8 +45,9 @@ function AdvertDetailPage() {
 
   const { data: relatedAdverts } = useFilterAdvertsQuery(
     {
-      universe: universeProduct,
       ...filter,
+      universe: universeProduct,
+      product_type:undefined
     },
     {
       skip: !universeProduct,
@@ -63,6 +64,7 @@ function AdvertDetailPage() {
 
   const isOwner = user.username === advert?.user.username;
   const isSold = advert?.status.code === "sold";
+  const isReserved = advert?.status.code === "reserved";
 
   const [isEdit, setEdit] = useState(false);
   const handleEdit = () => {
@@ -148,7 +150,7 @@ function AdvertDetailPage() {
       <AdvertDetail
         advert={advert}
         onEdit={isOwner && !isSold ? handleEdit : undefined}
-        onDelete={isOwner && !isSold ? handleDelete : undefined}
+        onDelete={isOwner && !isSold && !isReserved ? handleDelete : undefined}
         onToggleFav={!isOwner ? handleFav : undefined}
         isFavorite={isFavorite}
         onForceLogin={(path) => {
