@@ -7,6 +7,7 @@ import UserProfile         from "@/componentsUI/containers/develop/UserProfile";
 import { useSelector } from "react-redux";
 import { selectLastUnreadNotifications } from "@/store/selectors/notificationSelector";
 import UpdatePassword from "@/componentsUI/containers/develop/UpdatePassword";
+import DeleteAccount from "@/componentsUI/containers/develop/DeleteAccount";
 
 
 
@@ -114,6 +115,8 @@ export default function UserProfilePage() {
             {activeSection === "Favoritos" && <AdvertsFavorites />}
             {activeSection === "Mi Perfil" && <UserProfile />}
             {activeSection === "Cambiar Contraseña" && <UpdatePassword/>}
+            {activeSection === "Eliminar Cuenta" && <DeleteAccount/>}
+            
           </section>
         </div>
       </div>

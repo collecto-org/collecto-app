@@ -28,14 +28,15 @@ export const userApi = createApi({
           body:formData
         })
       }),
-      deleteMe: builder.mutation<User, { }>({
-        query: () => ({
+      deleteMe: builder.mutation<User, {password:string }>({
+        query: ({ password }) => ({
           url: `/api/users/me`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"
           },
-          method: "DELETE"
+          method: "DELETE",
+          body: { password },
         })
       }),
       getMyadverts: builder.query<{adverts:Advert[]; total:string},FilterAdverts>({

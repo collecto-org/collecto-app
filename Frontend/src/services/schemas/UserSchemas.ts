@@ -10,7 +10,7 @@ export type User = {
       gender?:string;
       bio?: string;
       isLogged: boolean;
-      chats:Chat[]
+      chats:Chat[];
 }
 
 export interface ChatUser {
