@@ -15,7 +15,13 @@ export default function ChatPage() {
 
   const user = username
 
-  const otherUser = user ===advert?.user.username  ?  roomId?.split("_")[1] :advert?.user.username
+  const otherUser = 
+    user ===advert?.user?.username
+    ?  roomId?.split("_")[1] 
+    :advert?.user?.username
+  
+
+
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<{ message: string; username: string }[]>([]);
   const socketRef = useRef<Socket | null>(null);

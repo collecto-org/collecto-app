@@ -15,7 +15,9 @@ export const selectTotalPendingChats = (state: RootState) => {
       
       // Filtra los mensajes no leídos destinados al usuario actual
       const totalPendingChats = messages.filter(
-        (message) => !message.isRead && message.receiver.username === state.user.username
+        (message) => 
+          !message.isRead && 
+          message.receiver?.username === state.user.username
       ).length;
   
       return total + totalPendingChats;

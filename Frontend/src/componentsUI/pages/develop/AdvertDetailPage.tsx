@@ -34,9 +34,11 @@ function AdvertDetailPage() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const { data: advert, refetch } = useGetAdvertDetailQuery({
-    slug: slug || "",
-  });
+  const {
+    data: advert,
+    refetch,
+    isLoading: isAdvertLoading,
+  } = useGetAdvertDetailQuery({ slug: slug || "" });
 
   const universeProduct = advert?.universe._id;
   const filter = useSelector((state: RootState) => selectFilters(state));
@@ -53,10 +55,10 @@ function AdvertDetailPage() {
 
   const [deleteAdvert, { isSuccess: isDeleteSucess }] =
     useDeleteAdvertMutation();
-  const [setFavAdvert] = useSetAdvertFavMutation();
-  const [deleteFavAdvert] = useRemoveAdvertFavMutation();
+  const [setFavAdvert, { isError: isFavError }] = useSetAdvertFavMutation();
+  const [deleteFavAdvert,{ isError: isDelete}] = useRemoveAdvertFavMutation();
   const [notificationDelete] = useRemoveAdvertFavMutation();
-=======
+
   const [returnPath, setReturnPath] = useState(location.pathname);
 
   const isOwner = user.username === advert?.user.username;
