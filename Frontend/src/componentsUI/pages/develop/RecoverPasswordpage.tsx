@@ -8,8 +8,7 @@ import MainLayout from "@/componentsUI/layouts/MainLayout";
 export default function RecoverPasswordPage() {
   const { token } = useParams();
   const navigate = useNavigate();
-  const [verifyToken, { isLoading, isSuccess, isError }] = useVerifyPasswordTokenMutation();
-  const [validToken, setValidToken] = useState(false);
+  const [verifyToken, { isSuccess, isError }] = useVerifyPasswordTokenMutation();
   const [tokenChecked, setTokenChecked] = useState(false);
 
   useEffect(() => {

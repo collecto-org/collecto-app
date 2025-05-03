@@ -3,8 +3,6 @@ import VerifyEmailPage from "./componentsUI/pages/develop/VerifyEmailPage";
 //import RecoverPassForm from "./componentsUI/containers/RecoverPassForm";
 import { useGetChatsQuery, useGetMeQuery } from "./services/usersApi";
 import "./styles/index.css";
-import Edituser from "./temporal-components/EditUser";
-import MyAdvertsGrid from "./temporal-components/MyAdvertsGrid";
 import { useGetNotificationsQuery } from "./services/notificationsApi";
 import { NotificationView } from "./temporal-components/NotificationView";
 import HomePage from "./componentsUI/pages/develop/HomePage";
@@ -72,10 +70,8 @@ function App() {
         >
           <Route path="/userprofile" element={<UserProfilePage />} />
           <Route path="/new-advert" element={<NewAdvertPage />} />
-          <Route path="/edit-me" element={<Edituser />} />
           <Route path="/Orderpage" element={<Orderpage />} />
           <Route path="/my-orders" element={<MyOrders />} />
-          <Route path="/adverts/me" element={<MyAdvertsGrid />} />
           <Route path="/notifications" element={<NotificationView />} />
           <Route path="/ratings/:userId" element={<RatingsPage />} />
           <Route path="/my-chats" element={<MyChats />} />

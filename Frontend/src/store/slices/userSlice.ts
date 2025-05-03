@@ -27,9 +27,8 @@ const initialState: User = {
         updateUserProfile: (state, action: PayloadAction<Partial<User>>) => {
             state = { ...state, ...action.payload }; 
         },
-        removeUserProfile: (state) => {
-            state = { ...initialState }; 
-        },
+        removeUserProfile: () => initialState,
+
         setChatRoom: (state, action: PayloadAction<Chat>) => {
           const index = state.chats.findIndex(c => c.roomId === action.payload.roomId);
           if (index !== -1) {

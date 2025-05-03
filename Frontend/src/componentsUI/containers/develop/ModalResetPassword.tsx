@@ -7,7 +7,6 @@ import AuthModalLayout from "@/componentsUI/layouts/AuthModalLayout"
 import { useState } from "react"
 import { useChangePasswordMutation } from "@/services/authApi"
 import { ApiError } from "@/services/schemas"
-import Logo from "@/componentsUI/elements/Logo"
 import Title from "@/componentsUI/components/develop/Title"
 
 

@@ -6,7 +6,7 @@ import ResetPasswordModal from "@/componentsUI/containers/develop/ModalResetPass
 export default function ResetPasswordWrapper() {
   const { token } = useParams();
   const navigate = useNavigate();
-  const [verifyToken, { isLoading, isError }] = useVerifyPasswordTokenMutation();
+  const [verifyToken, { isLoading}] = useVerifyPasswordTokenMutation();
   const [validToken, setValidToken] = useState(false);
 
   useEffect(() => {

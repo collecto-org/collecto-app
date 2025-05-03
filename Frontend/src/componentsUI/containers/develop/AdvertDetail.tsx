@@ -11,8 +11,7 @@ import ShareButtons from "@/componentsUI/components/develop/SharedButtons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "@/store/selectors/userSelectors";
 import { RootState } from "@/store/store";
-import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
-import { slugify } from "@/utils/slugify";
+import {  setFilter } from "@/store/slices/advertsSlice";
 
 interface AdvertDetailProps {
   advert: Advert;
@@ -33,7 +32,6 @@ export default function AdvertDetail({
 }: AdvertDetailProps) {
   const {
     images,
-    universe,
     createdAt,
     price,
     collection,
@@ -43,7 +41,6 @@ export default function AdvertDetail({
     transaction,
     title,
     brand,
-    product_type,
     description,
     user,
   } = advert;

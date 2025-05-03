@@ -37,7 +37,7 @@ export default function GenericEditableTable<T extends { _id: string }>({
     key: keyof T,
     value: string,
     isNew: boolean,
-    id?: string
+    _id?: string
   ) => {
     if (isNew) {
       setNewEntry((prev) => ({ ...prev, [key]: value }));

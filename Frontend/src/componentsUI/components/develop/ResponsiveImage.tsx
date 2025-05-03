@@ -1,4 +1,3 @@
-import React from "react";
 
 interface ResponsiveImageProps {
   src: string;

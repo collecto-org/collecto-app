@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FilterAdverts } from "../../services/schemas/AdvertsSchemas";
 import { advertsApi } from "../../services/advertsApi";
-import { userApi } from "../../services/usersApi";
 
 interface AdvertsState {
   filter: FilterAdverts;

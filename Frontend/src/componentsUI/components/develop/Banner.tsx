@@ -5,7 +5,6 @@ import {
   BrandSchema,
   UniverseSchema,
 } from "@/services/schemas/UniverseSchemas";
-import ResponsiveImage from "../develop/ResponsiveImage";
 import ResponsiveLogoGrid from "../../components/develop/ResponsiveLogoGrid";
 import { useNavigate } from "react-router-dom";
 
