@@ -11,6 +11,7 @@ export type User = {
       bio?: string;
       isLogged: boolean;
       chats:Chat[];
+      isAdmin?:boolean
 }
 
 export interface ChatUser {
