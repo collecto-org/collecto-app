@@ -3,7 +3,7 @@ import ProductCard from "../componentsUI/components/AdvertCard";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useGetMyadvertsQuery } from "@/services/usersApi";
+import { useGetMyadvertsQuery } from "@/services/advertsApi";
 import { RootState } from "@/store/store";
 
 

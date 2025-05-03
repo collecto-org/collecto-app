@@ -5,7 +5,7 @@ import Title from "@/componentsUI/components/develop/Title"
 import Icon from "@/componentsUI/elements/Icon"
 import ModalDeleteAccount from "./ModalDeleteAccount"
 import { useState } from "react"
-import { useGetMyadvertsQuery, useGetMyFavAdvertsQuery } from "@/services/usersApi";
+import { useGetMyadvertsQuery, useGetMyFavAdvertsQuery } from "@/services/advertsApi";
 
 export default function DeleteAccount() {
     const user = useSelector(selectUser);

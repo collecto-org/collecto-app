@@ -1,7 +1,7 @@
 import Banner from "../../components/develop/Banner";
 import AdvertSlider from "../../containers/develop/AdvertSlider";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {
   useFilterAdvertsQuery,
@@ -18,25 +18,28 @@ import { selectFilters } from "@/store/selectors/advertsSelectors";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 
-import { useGetMyFavAdvertsQuery } from "@/services/usersApi";
+import { useGetMyFavAdvertsQuery } from "@/services/advertsApi";
+import { useEffect, useRef, useState } from "react";
+import { setFilter } from "@/store/slices/advertsSlice";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const filter = useSelector(selectFilters);
+    const dispatch = useDispatch();
+  
 
   const universe = useSelector((state: RootState) => selectUniverses(state));
   const brands = useSelector((state: RootState) => selectBrands(state));
-
+  
+  const [isAdvertsCall,setAdvertsCall] = useState(true)
   const {
     data: adverts,
     isLoading,
     isError,
   } = useGetAllAdvertsQuery(
     { ...filter, universe: "", brand: "" },
-    { skip: !universe || !!filter.title || !!filter.product_type}
+    { skip: !universe || !!filter.title || !!filter.product_type ||  !isAdvertsCall}
   );
-
-  console.count("useGetAllAdvertsQuery call");
 
   const { data: filterAdverts } = useFilterAdvertsQuery(
     { ...filter, universe: undefined },
@@ -44,9 +47,30 @@ export default function HomePage() {
       skip: !filter.searchTerm && !filter.product_type,
     }
   );
+  const [isFavCall,setFavCall] = useState(true)
+  const isFirstRender = useRef(true);
 
 
-  const { data: userFavorites } = useGetMyFavAdvertsQuery(filter);
+  const [favPage, setFavPage] = useState(1);
+  const favFilter = { ...filter, page: favPage, limit: 10 };
+  
+  const { data: userFavorites } = useGetMyFavAdvertsQuery(favFilter, {
+    skip: !isFavCall && !isFirstRender.current,
+  });
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;      
+    }
+  }, []);
+
+  
+    useEffect(() => {
+      if (filter.limit !== 12 || filter.page !== 1) {
+        dispatch(setFilter({ limit: 12, page: 1 }));
+      }
+    }, [dispatch]);
+
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -95,17 +119,17 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
             {adverts && adverts?.adverts.length > 0 && !isError ? (
               <>
-                <AdvertSlider
+                <AdvertSlider setCall={setAdvertsCall}
                   title="Nuevos lanzamientos"
                   adverts={adverts ?? { adverts: [], total: "0" }}
                 />
                 {userFavorites && userFavorites.adverts?.length > 0 && (
-                  <AdvertSlider
+                  <AdvertSlider setCall={setFavCall}  setAditionalFilter={setFavPage}
                     title="Tus productos favoritos"
                     adverts={userFavorites}
                   />
                 )}
-                <AdvertSlider
+                <AdvertSlider setCall={setAdvertsCall}
                   title="Ver todos los artículos"
                   adverts={adverts ?? { adverts: [], total: "0" }}
                 />
