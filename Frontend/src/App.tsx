@@ -49,28 +49,24 @@ export const useInitialOptions = () => {
   useGetStatusQuery();
 };
 
-
 function App() {
-  useGetCatalogsQuery()
+  useGetCatalogsQuery();
 
-  
   const { data: user } = useGetMeQuery({});
 
-  useGetNotificationsQuery({},{skip:!user});
-  useNotificationsSocket()
-  useChatSocket() 
-  useGetChatsQuery(undefined,{skip:!user?.username});
-;
-
+  useGetNotificationsQuery({}, { skip: !user });
+  useNotificationsSocket();
+  useChatSocket();
+  useGetChatsQuery(undefined, { skip: !user?.username });
   return (
     <>
       <Routes>
         <Route
           element={
-            <ErrorBoundary>            
-            <MainLayout>
-              <RequireAuth />
-            </MainLayout>
+            <ErrorBoundary>
+              <MainLayout>
+                <RequireAuth />
+              </MainLayout>
             </ErrorBoundary>
           }
         >
@@ -89,9 +85,9 @@ function App() {
         <Route
           element={
             <ErrorBoundary>
-            <MainLayout>
-              <Outlet />
-            </MainLayout>
+              <MainLayout>
+                <Outlet />
+              </MainLayout>
             </ErrorBoundary>
           }
         >
@@ -104,26 +100,27 @@ function App() {
         <Route
           element={
             <ErrorBoundary>
-            <MainLayout auth={true}>
-              <Outlet />
-            </MainLayout>
+              <MainLayout auth={true}>
+                <Outlet />
+              </MainLayout>
             </ErrorBoundary>
           }
         >
-          
-         
-       {/*<Route path="/recover" element={<RecoverPassForm />} />*/}   
+          {/*<Route path="/recover" element={<RecoverPassForm />} />*/}
           <Route path="/recover/:token" element={<RecoverPasswordPage />} />
           <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
-          <Route path="/RecoverPasswordPage" element={<RecoverPasswordPage />} />
+          <Route
+            path="/RecoverPasswordPage"
+            element={<RecoverPasswordPage />}
+          />
         </Route>
 
         <Route
           element={
             <ErrorBoundary>
-            <MainLayout>
-              <RequireAdmin />
-            </MainLayout>
+              <MainLayout>
+                <RequireAdmin />
+              </MainLayout>
             </ErrorBoundary>
           }
         >

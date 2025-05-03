@@ -264,3 +264,17 @@ button {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Por defecto */
+input,
+select,
+textarea {
+  @apply bg-white text-darkblue rounded px-3 py-2;
+}
+
+/* Para dark mode */
+.dark input,
+.dark select,
+.dark textarea {
+  @apply bg-darkblue text-white border-gray-600;
+}

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 import {
   selectBrands,
@@ -12,9 +12,12 @@ import {
 import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
 import { useFilterAdvertsQuery } from "@/services/advertsApi";
 import ModalLogin from "@/componentsUI/containers/develop/ModalLogin";
+import Button from "@/componentsUI/elements/Button";
+import { FiArrowLeft } from "react-icons/fi";
 
 export default function UniversePage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { slug } = useParams();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -87,6 +90,16 @@ export default function UniversePage() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 pt-10">
+          {/* Botón de volver */}
+          <Button
+            onClick={() => navigate(-1)}
+            className="mb-4 flex items-center gap-2"
+            variant="turquoise"
+          >
+            <FiArrowLeft className="w-5 h-5" />
+            Volver
+          </Button>
+
           <FilteredAdvertSectionProps
             headerLabel={pageLabel}
             label={
