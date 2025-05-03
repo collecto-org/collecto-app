@@ -8,7 +8,12 @@ interface SellerCardProps {
   userId?: string;
 }
 
-export default function SellerCard({ username, avatarUrl, rating = 4.5, userId }: SellerCardProps) {
+export default function SellerCard({
+  username,
+  avatarUrl,
+  rating = 4.5,
+  userId,
+}: SellerCardProps) {
   const navigate = useNavigate();
 
   return (
@@ -25,7 +30,9 @@ export default function SellerCard({ username, avatarUrl, rating = 4.5, userId }
             <p className="font-medium">{username}</p>
             <div className="flex items-center gap-2">
               <RatingStars rating={rating} />
-              <p className="text-xs text-sage">{rating.toFixed(1)} · 354 valoraciones</p>
+              <p className="text-xs text-sage">
+                {rating.toFixed(1)} · 354 reviews
+              </p>
             </div>
           </div>
         </div>
@@ -33,7 +40,9 @@ export default function SellerCard({ username, avatarUrl, rating = 4.5, userId }
           onClick={() => navigate(`/ratings/${userId}`)}
           className="text-sage text-sm hover:underline"
         >
-          <span className="material-symbols-outlined text-xs">arrow_forward_ios</span>
+          <span className="material-symbols-outlined text-xs">
+            arrow_forward_ios
+          </span>
         </button>
       </div>
     </div>

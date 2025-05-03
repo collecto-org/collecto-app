@@ -48,13 +48,14 @@ export default function Dropdown({
         {label}
       </button>
       {open && (
-        <div className="absolute left-0 -ml-16 mt-3 w-48 bg-white border border-lightgray rounded shadow-md z-10">
+        <div className="absolute left-0 -ml-16 mt-3 w-48 bg-white border border-lightgrey rounded shadow-md z-10">
           {React.Children.map(children, (child) => {
             if (React.isValidElement<DropdownItemProps>(child)) {
               return React.cloneElement(child, {
                 onClick: () => {
-                  child.props.onClick?.(); 
-                  handleItemClick(child.props.children);                 },
+                  child.props.onClick?.();
+                  handleItemClick(child.props.children);
+                },
               });
             }
             return child;
@@ -75,7 +76,7 @@ Dropdown.Item = function DropdownItem({
   return (
     <button
       onClick={onClick}
-      className="w-full text-left px-4 py-2 text-sm sm:text-base hover:bg-lightgray"
+      className="w-full text-left px-4 py-2 text-sm sm:text-base hover:bg-lightgrey"
     >
       {children}
     </button>

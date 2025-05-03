@@ -57,47 +57,50 @@ export default function AdvertDetail({
   };
 
 
+  const slugify = (text: string) =>
+    text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "")
+      .replace(/\-\-+/g, "-");
+
+
   const isSold = advert.status?.code?.toLowerCase?.() === "sold";
   const isReserved = advert.status?.code?.toLowerCase?.() === "reserved";
 
-
   return (
-    <div className="max-w-3xl mx-auto px-6 pt-4 pb-10 mt-5 text-darkblue">
+    <div className="max-w-4xl mx-auto px-6 pt-4 pb-12 mt-5 text-darkblue">
       <div className="mb-4">
         <Title
           headerLabel="Universo"
           label={advert.universe.name || "universoAPI"}
         />
-        <div className="text-sm text-gray-500 flex flex-wrap gap-1">
-
+        <div className="text-md text-gray-500 flex flex-wrap gap-1">
           <Link to={"/"} className="hover:underline cursor-pointer">
-            Inicio
+            Home
           </Link>{" "}
           /
           <Link
             to={`/universe/${slugify(advert.universe.name)}`}
             className="hover:underline cursor-pointer"
           >
-
             {advert.universe.name}
           </Link>{" "}
           /
-
           <Link
             to={`/universe/${slugify(advert.brand.name)}`}
             className="hover:underline cursor-pointer"
           >
-
             {advert.brand.name}
           </Link>{" "}
           /
-
           <Link
             to={`/`}
             onClick={() => handleFilter(advert.product_type._id)}
             className="hover:underline cursor-pointer"
           >
-
             {advert.product_type.name}
           </Link>{" "}
           /<span className="font-medium text-darkblue">{advert.title}</span>
@@ -128,10 +131,9 @@ export default function AdvertDetail({
         <div className="w-full lg:w-1/2 space-y-3">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-coral text-sm font-medium">{brand.name}</p>
-              <p className="text-xs text-sage">
-                Transacción: {transaction.value} / Estado: {status.label}
-
+              <p className="text-coral text-md font-bold">{brand.name}</p>
+              <p className="text-md text-sage">
+                Transacción: {transaction.value} | Estado: {status.label}
               </p>
               <p className="text-xs text-sage">
                 Publicado el: {new Date(createdAt).toLocaleDateString()}
@@ -147,8 +149,8 @@ export default function AdvertDetail({
             </div>
           </div>
 
-          <h1 className="text-2xl font-bold text-darkblue">{title}</h1>
-          <p className="text-xl font-semibold text-[#f24e4e]">
+          <h2 className="text-2xl font-black text-darkblue">{title}</h2>
+          <p className="text-2xl font-bold text-coral">
             {price.toLocaleString("es-ES", {
               style: "currency",
               currency: "EUR",
@@ -156,11 +158,10 @@ export default function AdvertDetail({
             })}
           </p>
 
-          <p className="text-sm font-semibold text-darkblue">
+          <p className="text-md font-semibold text-darkblue">
             {condition.value}
           </p>
-          <p className="text-sm font-semibold text-darkblue">{universe.name}</p>
-          <p className="text-xs text-sage">{collection}</p>
+          <p className="text-md text-sage">{collection}</p>
 
           <ExpandableText text={description} />
 
@@ -170,13 +171,11 @@ export default function AdvertDetail({
 
           <div className="flex gap-4 mt-4">
             <Button
-
               hidden={
                 user.username === userMe.username ||
                 status.code === "reserved"||
                 status.code === "sold"
               }
-
               variant="primary"
               onClick={() => {
                 if (!userMe.username) {
@@ -195,7 +194,7 @@ export default function AdvertDetail({
                 status.code === "reserved" ||
                 status.code === "sold" 
               }
-              variant="outline"
+              variant="turquoise"
               onClick={() => {
                 if (!userMe.username) {
                   onForceLogin(`/chat/${advert._id}_${userMe.username}`);
@@ -207,12 +206,16 @@ export default function AdvertDetail({
               Iniciar Chat
             </Button>
           </div>
-
-          <ShareButtons
-            title={title}
-            price={price}
-            slug={advert.slug || advert._id}
-          />
+          <div className="flex justify-center lg:justify-start">
+            <div className="p-2 bg-white border rounded-lg flex items-center gap-2 text-sm shadow-sm">
+              <p className="font-medium text-darkblue">Compartir en:</p>
+              <ShareButtons
+                title={title}
+                price={price}
+                slug={advert.slug || advert._id}
+              />
+            </div>
+          </div>
 
           <Link className="text-black" to={`/users/${user.username}`}>
             <SellerCard

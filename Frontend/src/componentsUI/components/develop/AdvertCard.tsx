@@ -99,7 +99,7 @@ export default function AdvertCard({
         {isOwner && (
           <button
             onClick={handleReservedClick}
-            className="absolute top-2 left-2 z-10 p-1 bg-white rounded-full shadow-md hover:bg-lightgray transition"
+            className="absolute top-2 left-2 z-10 p-1 bg-white rounded-full shadow-md hover:bg-lightgrey transition"
           >
             {isReservedLocal ? (
               <FaBookmark className="text-turquoise w-5 h-5" />
@@ -113,7 +113,7 @@ export default function AdvertCard({
         {!isOwner && (
           <button
             onClick={toggleFavorite}
-            className="absolute top-2 right-2 z-10 p-1 bg-white rounded-full shadow-md hover:bg-lightgray transition"
+            className="absolute top-2 right-2 z-10 p-1 bg-white rounded-full shadow-md hover:bg-lightgrey transition"
           >
             {isFavorite ? (
               <FaHeart className="text-coral w-5 h-5" />

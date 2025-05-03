@@ -6,20 +6,17 @@ import { useSelector } from "react-redux";
 import { selectProductTypes } from "@/store/selectors/optionsSelectors";
 import { RootState } from "@/store/store";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
-import { useState } from "react";
 
 interface FilteredAdvertSectionProps {
   headerLabel: string;
   label: string;
-  adverts: {adverts:Advert[],total:string};
-
+  adverts: { adverts: Advert[]; total: string };
 }
 
 export default function FiteredAdvertSection({
   headerLabel,
   label,
   adverts,
-  
 }: FilteredAdvertSectionProps) {
   const productTypes = useSelector((state: RootState) =>
     selectProductTypes(state)

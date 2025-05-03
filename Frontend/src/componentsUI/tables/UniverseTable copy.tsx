@@ -10,8 +10,8 @@ import Icon from "@/componentsUI/elements/Icon";
 import Button from "@/componentsUI/elements/Button";
 
 export default function UniverseTable() {
-    const { data, isLoading } = useGetUniversesQuery();
-    const [universes, setUniverses] = useState<UniverseSchema[]>([]);
+  const { data, isLoading } = useGetUniversesQuery();
+  const [universes, setUniverses] = useState<UniverseSchema[]>([]);
   const [createUniverse] = useCreateUniverseMutation();
   const [updateUniverse] = useUpdateUniverseMutation();
   const [deleteUniverse] = useDeleteUniverseMutation();
@@ -29,7 +29,7 @@ export default function UniverseTable() {
       setUniverses(data);
     }
   }, [data]);
-  
+
   const handleCreate = async () => {
     if (!newEntry.name || !newEntry.logoUrl || !newEntry.slug) return;
     const slugExists = universes.some((u) => u.slug === newEntry.slug);
@@ -40,8 +40,6 @@ export default function UniverseTable() {
     await createUniverse(newEntry as UniverseSchema);
     setNewEntry({ name: "", logoUrl: "", slug: "" });
   };
-
-  
 
   const handleDelete = async (id: string) => {
     await deleteUniverse(id);
@@ -62,11 +60,10 @@ export default function UniverseTable() {
     setEditValues({});
   };
 
-
   return (
     <div className="space-y-6">
       <table className="w-full table-auto border border-collapse text-sm">
-        <thead className="bg-lightgray text-darkblue font-semibold">
+        <thead className="bg-lightgrey text-darkblue font-semibold">
           <tr>
             <th className="p-2 border">Nombre</th>
             <th className="p-2 border">Slug</th>
@@ -76,7 +73,7 @@ export default function UniverseTable() {
           </tr>
         </thead>
         <tbody>
-        {[...universes].map((u) => {
+          {[...universes].map((u) => {
             const isEditing = editingId === u._id;
             return (
               <tr key={u._id} className="hover:bg-gray-50">
@@ -120,18 +117,16 @@ export default function UniverseTable() {
                 </td>
                 <td className="border px-2 flex gap-2 justify-center py-2">
                   {isEditing ? (
-                
                     <Icon
-                        name="Save"
-                        className="text-coral cursor-pointer"
-                        onClick={() => handleSave(u._id)}
-                        />
+                      name="Save"
+                      className="text-coral cursor-pointer"
+                      onClick={() => handleSave(u._id)}
+                    />
                   ) : (
-
                     <Icon
-                    name="Edit"
-                    className="text-coral cursor-pointer"
-                    onClick={() => {
+                      name="Edit"
+                      className="text-coral cursor-pointer"
+                      onClick={() => {
                         setEditValues({
                           name: u.name,
                           slug: u.slug,
@@ -140,7 +135,6 @@ export default function UniverseTable() {
                         setEditingId(u._id);
                       }}
                     />
-
                   )}
                   <Icon
                     name="Trash"

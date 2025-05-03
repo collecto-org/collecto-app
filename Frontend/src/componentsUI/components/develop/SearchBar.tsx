@@ -9,7 +9,8 @@ type SearchBarProps = {
   width?: string;
 };
 
-type FormValues = { //  esquema del useForm
+type FormValues = {
+  //  esquema del useForm
   search: string;
 };
 
@@ -17,38 +18,40 @@ export default function SearchBar({
   placeholder = "Buscar...",
   width = "w-full",
 }: SearchBarProps) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
   const isAdvertDetailPage = /^\/adverts\/[^/]+$/.test(location.pathname);
 
-  const { register, watch, setValue } = useForm<FormValues>({  //  useForm para manejar los input
+  const { register, watch, setValue } = useForm<FormValues>({
+    //  useForm para manejar los input
     defaultValues: { search: "" }, //  Valores por defecto del useForm
   });
 
   const searchValue = watch("search"); //  aqui esta disponible el valor de cada punto del formulario
 
   const handleSearch = () => {
-  dispatch(setFilter({searchTerm:searchValue,limit:12})) 
-  if (isAdvertDetailPage) {
-    navigate("/"); // redirige al Home si estás en el detalle
-  }
-}; 
-
+    dispatch(setFilter({ searchTerm: searchValue, limit: 12 }));
+    if (isAdvertDetailPage) {
+      navigate("/"); // redirige al Home si estás en el detalle
+    }
+  };
 
   const clearSearch = () => {
     setValue("search", ""); //  borrar valores deluseForm
-     dispatch(setFilter({title:"",limit:12})) //  borrar valores del filtro
+    dispatch(setFilter({ title: "", limit: 12 })); //  borrar valores del filtro
   };
 
   return (
-    <div className={`flex items-center bg-lightgray rounded-full px-4 ${width}`}>
+    <div
+      className={`flex items-center bg-lightgrey rounded-full px-4 ${width}`}
+    >
       <input
         type="text"
         {...register("search")}
         placeholder={placeholder}
-        className="flex-1 bg-transparent py-2 outline-none text-sm text-darkblue text-[.9rem]"
+        className="flex-1 bg-transparent py-2 outline-none text-sm text-darkblue"
       />
 
       {searchValue && (

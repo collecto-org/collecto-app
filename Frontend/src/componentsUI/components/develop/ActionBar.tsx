@@ -1,4 +1,5 @@
 import Icon from "@/componentsUI/elements/Icon";
+import { toast } from "react-toastify";
 
 interface ActionBarProps {
   onEdit?: () => void;
@@ -13,13 +14,41 @@ export default function ActionBar({
   onToggleFav,
   isFavorite = false,
 }: ActionBarProps) {
+  const handleDeleteClick = () => {
+    toast.info(
+      ({ closeToast }) => (
+        <div className="text-center">
+          <p className="mb-2">¿Estás seguro de borrar este anuncio?</p>
+          <div className="flex justify-center gap-2">
+            <button
+              className="px-3 py-1 bg-coral text-white rounded hover:bg-[#e4685c] transition"
+              onClick={() => {
+                onDelete && onDelete();
+                closeToast();
+              }}
+            >
+              Sí, borrar
+            </button>
+            <button
+              className="px-3 py-1 bg-gray-300 text-darkblue rounded hover:bg-gray-400 transition"
+              onClick={closeToast}
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      ),
+      { autoClose: false }
+    );
+  };
+
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-4">
       {onDelete && (
         <Icon
           name="Trash"
-          size={25}
-          onClick={onDelete}
+          size={23}
+          onClick={handleDeleteClick}
           className="hover:text-coral transition-colors"
         />
       )}

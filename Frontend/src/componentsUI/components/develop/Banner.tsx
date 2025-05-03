@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import ImageGrid from "../../components/develop/ImageGrid";
 import HighlightedText from "../../elements/HighlightedText";
 
-import { BrandSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
+import {
+  BrandSchema,
+  UniverseSchema,
+} from "@/services/schemas/UniverseSchemas";
 import ResponsiveImage from "../develop/ResponsiveImage";
 import ResponsiveLogoGrid from "../../components/develop/ResponsiveLogoGrid";
 import { useNavigate } from "react-router-dom";
-
 
 interface BannerProps {
   backgroundImages: string[];
@@ -23,12 +24,11 @@ export default function Banner({
   logos,
   height = "h-96",
 }: BannerProps) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const mainImage = "/gridImages/collecto-banner-principal.jpg";
   const [currentImage, setCurrentImage] = useState(mainImage);
   const [fade, setFade] = useState(true);
   console.count("Banner call");
-
 
   // 🔄 Función para elegir una imagen aleatoria distinta a la actual
   const getRandomImage = (current: string) => {
@@ -40,11 +40,11 @@ export default function Banner({
     const interval = setInterval(() => {
       setFade(false);
       setTimeout(() => {
-        setCurrentImage(prev => getRandomImage(prev));
+        setCurrentImage((prev) => getRandomImage(prev));
         setFade(true);
       }, 500);
     }, 10000);
-  
+
     return () => clearInterval(interval);
   }, [backgroundImages]);
 
@@ -68,7 +68,7 @@ export default function Banner({
       {/* Contenido */}
       <div className="relative z-20 w-full h-full flex flex-col justify-center items-center">
         <div className="max-w-7xl w-full px-4 mx-auto text-white text-center space-y-4">
-          <h2 className="text-xl md:text-2xl font-bold pb-4 pt-8">
+          <h2 className="text-2xl md:text-4xl font-black pb-4 pt-8 font-lato text-shadow-darkblue">
             <HighlightedText text={text} highlights={highlights} />
           </h2>
           <ResponsiveLogoGrid
@@ -80,21 +80,6 @@ export default function Banner({
               navigate(`/universe/${logoUrl}`);
             }}
           />
-
-          {/* <ImageGrid
-            logos={logos}
-            columns={5}
-            width={160}
-            height={80}
-            onClickLogo={(src) => {
-              const slug = src
-                .split("/")
-                .pop()
-                ?.replace(".png", "")
-                .toLowerCase();
-              window.location.href = `/universe/${slug}`;
-            }}
-          /> */}
         </div>
       </div>
     </div>

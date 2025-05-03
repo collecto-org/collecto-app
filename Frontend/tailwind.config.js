@@ -13,14 +13,17 @@ export default {
         sage: "#72847f",
         darkblue: "#1d313c",
         greengrey: "#72847f",
-        lightgray: "#d2d4d5",
+        lightgrey: "#d2d4d5",
         pinklight: "#C7C7C7",
-        fontSize: {
-          xxs: "0.7rem",
-        },
+      },
+      fontSize: {
+        xxs: "0.7rem",
       },
       fontFamily: {
-        quicksand: ["Lato", "sans-serif"],
+        lato: ["Lato", "sans-serif"],
+      },
+      boxShadow: {
+        "solid-darkblue": "0 4px 0 0 #1d313c", // eje X, eje Y, blur, spread, color
       },
     },
   },
@@ -28,14 +31,17 @@ export default {
     plugin(function ({ addUtilities }) {
       addUtilities({
         ".scrollbar-hide": {
-          /* Webkit */
           "&::-webkit-scrollbar": {
             display: "none",
           },
-          /* Firefox */
           "scrollbar-width": "none",
-          /* IE/Edge */
           "-ms-overflow-style": "none",
+        },
+        ".text-shadow-darkblue": {
+          "text-shadow": "2px 2px 0 #1d313c",
+        },
+        ".text-shadow-turquoise": {
+          "text-shadow": "2px 2px 0 #7bc1c7",
         },
       });
     }),

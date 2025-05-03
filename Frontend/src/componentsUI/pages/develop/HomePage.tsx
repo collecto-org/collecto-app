@@ -20,33 +20,33 @@ import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 
 import { useGetMyFavAdvertsQuery } from "@/services/usersApi";
 
-
-
 export default function HomePage() {
   const navigate = useNavigate();
   const filter = useSelector(selectFilters);
 
   const universe = useSelector((state: RootState) => selectUniverses(state));
   const brands = useSelector((state: RootState) => selectBrands(state));
-  
+
   const {
     data: adverts,
     isLoading,
     isError,
-
   } = useGetAllAdvertsQuery(
     { ...filter, universe: "", brand: "" },
     { skip: !universe || !!filter.title || !!filter.product_type}
   );
 
-
   console.count("useGetAllAdvertsQuery call");
-  const { data: filterAdverts } = useFilterAdvertsQuery({...filter,universe:undefined}, {
-    skip: !filter.searchTerm && !filter.product_type,
-  });
 
-  const {data : userFavorites} = useGetMyFavAdvertsQuery(filter,{ skip: !universe || !!filter.title || !!filter.product_type})
+  const { data: filterAdverts } = useFilterAdvertsQuery(
+    { ...filter, universe: undefined },
+    {
+      skip: !filter.searchTerm && !filter.product_type,
+    }
+  );
 
+
+  const { data: userFavorites } = useGetMyFavAdvertsQuery(filter);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -58,7 +58,7 @@ export default function HomePage() {
         <div className="pt-8">
           <Banner
             backgroundImages={logosBanner}
-            text="Inicia tu búsqueda dentro del universo exacto"
+            text="Inicia tu búsqueda dentro de un universo"
             highlights={["búsqueda", "universo"]}
             height="h-70 md:h-96"
             logos={universe}
@@ -69,6 +69,7 @@ export default function HomePage() {
           <section className="my-4">
             <BrandCarousel
               logos={brands}
+              title="Encuentra lo mejor de tus marcas favoritas"
               width={90}
               height={90}
               onClickLogo={(src) => {
@@ -82,14 +83,13 @@ export default function HomePage() {
             />
           </section>
         </div>
-        {filter.searchTerm || filter.product_type? (
+        {filter.searchTerm || filter.product_type ? (
           <FilteredAdvertSectionProps
-            headerLabel="¿ Qúe estás buscando?"
-
-
+            headerLabel="¿Qúe estás buscando?"
             label={filter.searchTerm || ""}
-            adverts={filterAdverts ? filterAdverts : {adverts:[],total:"0"}}
-
+            adverts={
+              filterAdverts ? filterAdverts : { adverts: [], total: "0" }
+            }
           />
         ) : (
           <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
@@ -100,11 +100,11 @@ export default function HomePage() {
                   adverts={adverts ?? { adverts: [], total: "0" }}
                 />
                 {userFavorites && userFavorites.adverts?.length > 0 && (
-  <AdvertSlider
-    title="Tus productos favoritos"
-    adverts={userFavorites}
-  />
-)}
+                  <AdvertSlider
+                    title="Tus productos favoritos"
+                    adverts={userFavorites}
+                  />
+                )}
                 <AdvertSlider
                   title="Ver todos los artículos"
                   adverts={adverts ?? { adverts: [], total: "0" }}

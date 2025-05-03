@@ -12,13 +12,13 @@ export default function ExpandableText({
   maxLength = 100,
 }: ExpandableTextProps) {
   const [expanded, setExpanded] = useState(false);
-  const toggle = () => setExpanded(prev => !prev);
+  const toggle = () => setExpanded((prev) => !prev);
 
   const preview = text.slice(0, maxLength);
 
   return (
     <div className={className}>
-      <p className="text-[.7rem] text-gray-700">
+      <p className="text-[.8rem] text-gray-700">
         {expanded ? text : `${preview}...`}
       </p>
       <div className="text-right">

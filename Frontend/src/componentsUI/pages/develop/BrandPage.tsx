@@ -17,28 +17,30 @@ export default function UniversePage() {
   const dispatch = useDispatch();
   const { slug } = useParams();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
   const brands = useSelector((state: RootState) => selectBrands(state));
   const actualUniverse = useSelector((state: RootState) =>
     selectUniverseOrBrandBySlug(state, slug)
   );
   const filter = useSelector((state: RootState) => selectFilters(state));
 
-  const isBrandPage = actualUniverse?.type === "brand";
-  const pageLabel = isBrandPage ? "Marca" : "Universo";
-
   useEffect(() => {
     if (!actualUniverse || !slug) return;
 
     if (actualUniverse.universe) {
-      if (isBrandPage && actualUniverse.universe._id !== filter.brand) {
+      if (
+        actualUniverse.type === "brand" &&
+        actualUniverse.universe._id !== filter.brand
+      ) {
         dispatch(setFilter({ brand: actualUniverse.universe._id }));
       }
-      if (!isBrandPage && actualUniverse.universe._id !== filter.universe) {
+      if (
+        actualUniverse.type === "universe" &&
+        actualUniverse.universe._id !== filter.universe
+      ) {
         dispatch(setFilter({ universe: actualUniverse.universe._id }));
       }
     }
-  }, [slug, actualUniverse, dispatch, filter, isBrandPage]);
+  }, [slug, actualUniverse, dispatch, filter]);
 
   useEffect(() => {
     if (filter.limit !== 12 || filter.page !== 1) {
@@ -57,14 +59,6 @@ export default function UniversePage() {
     refetchOnMountOrArgChange: false,
   });
 
-  const bannerImage = actualUniverse?.universe?.slug
-    ? isBrandPage
-      ? `/gridImages/${actualUniverse.universe.slug}-brand.jpg`
-      : `/gridImages/${actualUniverse.universe.slug}.jpg`
-    : isBrandPage
-    ? "/gridImages/default-brand-banner.jpg"
-    : "/gridImages/collecto-banner-principal.jpg";
-
   if (isLoading) return <p>Loading...</p>;
 
   if (brands) {
@@ -81,18 +75,19 @@ export default function UniversePage() {
 
         <div className="pt-10 md:pt-14">
           <BannerPages
-            backgroundImages={[bannerImage]}
-            isBrandBanner={isBrandPage}
+            backgroundImages={[
+              actualUniverse?.universe?.slug
+                ? `/gridImages/${actualUniverse.universe.slug}.jpg`
+                : "/gridImages/collecto-banner-principal.jpg",
+            ]}
           />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 pt-10">
           <FilteredAdvertSectionProps
-            headerLabel={pageLabel}
+            headerLabel="Universo"
             label={
-              actualUniverse
-                ? actualUniverse.universe.name
-                : `No hay ${pageLabel.toLowerCase()}`
+              actualUniverse ? actualUniverse.universe.name : "No hay universo"
             }
             adverts={adverts ? adverts : { adverts: [], total: "0" }}
           />
@@ -100,6 +95,4 @@ export default function UniversePage() {
       </>
     );
   }
-
-  return null;
 }

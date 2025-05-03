@@ -18,7 +18,7 @@ export default function HighlightedText({
     <>
       {parts.map((part, i) =>
         terms.includes(part) ? (
-          <span key={i} className="text-coral font-bold">
+          <span key={i} className="text-coral font-black">
             {part}
           </span>
         ) : (

@@ -6,42 +6,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from "@/store/slices/advertsSlice";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 
-
-
 interface ProductCarouselProps {
   title: string;
-  adverts:{ adverts:Advert[],
-              total:string
-}}
+  adverts: { adverts: Advert[]; total: string };
+}
 
-export default function AdvertSlider({
-  title,
-  adverts,
-}: ProductCarouselProps) {
-
-
+export default function AdvertSlider({ title, adverts }: ProductCarouselProps) {
   const sliderRef = useRef<HTMLDivElement>(null);
- const dispatch = useDispatch()
-   const filters = useSelector(selectFilters);
- 
- const total = Number(adverts.total)
+  const dispatch = useDispatch();
+  const filters = useSelector(selectFilters);
 
- const limit = 10;
- const page =  filters.page ?? 1;
+  const total = Number(adverts.total);
 
-   const [currentPage, setCurrentPage] = useState(page);
- 
-  
- useEffect(() => {
+  const limit = 10;
+  const page = filters.page ?? 1;
+
+  const [currentPage, setCurrentPage] = useState(page);
+
+  useEffect(() => {
     setCurrentPage(page);
   }, [page]);
-  
 
   const [displayedAdverts, setDisplayedAdverts] = useState<Advert[]>([]);
-  
-  const [position,setPosition] = useState(limit)
 
-
+  const [position, setPosition] = useState(limit);
 
   useEffect(() => {
     if (adverts.adverts.length > 0) {
@@ -55,22 +43,18 @@ export default function AdvertSlider({
   }, [adverts.adverts]);
 
   const handlePageChange = (direction: "prev" | "next") => {
-    const newPage = direction === "prev"
-      ? Math.max(currentPage - 1, 1)
-      : currentPage + 1;
-  
+    const newPage =
+      direction === "prev" ? Math.max(currentPage - 1, 1) : currentPage + 1;
+
     const totalLoaded = displayedAdverts.length;
-    if (direction === "next" && totalLoaded >= total) return; 
-    setPosition(position+1)
+    if (direction === "next" && totalLoaded >= total) return;
+    setPosition(position + 1);
 
-    if(position === totalLoaded){
-  
-    setCurrentPage(newPage);
-    dispatch(setFilter({ page: newPage, limit }));}
+    if (position === totalLoaded) {
+      setCurrentPage(newPage);
+      dispatch(setFilter({ page: newPage, limit }));
+    }
   };
-
-
-
 
   const scroll = (direction: "left" | "right") => {
     if (sliderRef.current) {
@@ -80,24 +64,23 @@ export default function AdvertSlider({
         behavior: "smooth",
       });
 
-      if (direction === "right" ) {
-        handlePageChange("next")
-      } else if (direction === "left" ) {
-        handlePageChange("prev")
+      if (direction === "right") {
+        handlePageChange("next");
+      } else if (direction === "left") {
+        handlePageChange("prev");
       }
     }
-  }
- 
+  };
 
   return (
     <section className="px-4 md:px-8 py-2">
-      <h2 className="text-xl md:text-2xl font-semibold text-darkblue mb-4">
+      <h2 className="text-lg md:text-2xl font-semibold text-darkblue mb-4">
         {title}
       </h2>
       <div className="relative">
         <button
           onClick={() => scroll("left")}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow p-2"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow p-2 border border-lightgrey"
         >
           <ChevronLeft className="w-5 h-5 text-darkblue" />
         </button>
@@ -106,14 +89,14 @@ export default function AdvertSlider({
           className="flex gap-4 overflow-x-auto pb-2 px-6 scrollbar-hide"
         >
           {displayedAdverts.map((product, index) => (
-  <div key={product._id || index} className="flex-shrink-0">
-    <ProductCard {...product} />
-  </div>
-))}
+            <div key={product._id || index} className="flex-shrink-0">
+              <ProductCard {...product} />
+            </div>
+          ))}
         </div>
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow p-2"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-lightgrey rounded-full shadow p-2"
         >
           <ChevronRight className="w-5 h-5 text-darkblue" />
         </button>

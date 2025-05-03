@@ -6,6 +6,7 @@ import { useRegisterMutation } from "@/services/authApi";
 import { ApiError } from "@/services/schemas/AdvertsSchemas";
 import Icon from "@/componentsUI/elements/Icon";
 import AuthModalLayout from "@/componentsUI/layouts/AuthModalLayout";
+import Button from "@/componentsUI/elements/Button";
 
 const schema = z
   .object({
@@ -13,7 +14,9 @@ const schema = z
     username: z.string().nonempty("El nombre de usuario es obligatorio"),
     firstName: z.string().nonempty("El nombre es obligatorio"),
     lastName: z.string().nonempty("Los apellidos son obligatorios"),
-    password: z.string().min(4, "La contraseña debe tener al menos 4 caracteres"),
+    password: z
+      .string()
+      .min(4, "La contraseña debe tener al menos 4 caracteres"),
     confirmPassword: z.string(),
     consent: z.boolean(),
   })
@@ -63,7 +66,11 @@ export default function ModalRegister({ isOpen, onClose, onLogin }: Props) {
   if (!isOpen) return null;
 
   return (
-    <AuthModalLayout onClose={onClose} maxWidth="max-w-3xl" maxHeight="max-h-[90vh]">
+    <AuthModalLayout
+      onClose={onClose}
+      maxWidth="max-w-3xl"
+      maxHeight="max-h-[90vh]"
+    >
       <div className="text-center">
         <h2 className="text-lg font-bold text-darkblue mb-4">Registrarse</h2>
       </div>
@@ -74,26 +81,48 @@ export default function ModalRegister({ isOpen, onClose, onLogin }: Props) {
       >
         <div>
           <label className="block mb-1">Nombre</label>
-          <input {...register("firstName")} className="w-full border rounded p-2" />
-          {errors.firstName && <p className="text-red-500">{errors.firstName.message}</p>}
+          <input
+            {...register("firstName")}
+            className="w-full border rounded p-2"
+          />
+          {errors.firstName && (
+            <p className="text-red-500">{errors.firstName.message}</p>
+          )}
         </div>
 
         <div>
           <label className="block mb-1">Apellidos</label>
-          <input {...register("lastName")} className="w-full border rounded p-2" />
-          {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
+          <input
+            {...register("lastName")}
+            className="w-full border rounded p-2"
+          />
+          {errors.lastName && (
+            <p className="text-red-500">{errors.lastName.message}</p>
+          )}
         </div>
 
         <div>
           <label className="block mb-1">Email</label>
-          <input type="email" {...register("email")} className="w-full border rounded p-2" />
-          {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+          <input
+            type="email"
+            {...register("email")}
+            className="w-full border rounded p-2"
+          />
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
         </div>
 
         <div>
           <label className="block mb-1">Nombre de usuario</label>
-          <input type="text" {...register("username")} className="w-full border rounded p-2" />
-          {errors.username && <p className="text-red-500">{errors.username.message}</p>}
+          <input
+            type="text"
+            {...register("username")}
+            className="w-full border rounded p-2"
+          />
+          {errors.username && (
+            <p className="text-red-500">{errors.username.message}</p>
+          )}
         </div>
 
         <div className="relative">
@@ -109,7 +138,9 @@ export default function ModalRegister({ isOpen, onClose, onLogin }: Props) {
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-2 top-8 text-sage"
           />
-          {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
         </div>
 
         <div className="relative">
@@ -153,11 +184,11 @@ export default function ModalRegister({ isOpen, onClose, onLogin }: Props) {
           <p>
             ¿Ya tienes cuenta?{" "}
             <button
-                type="button"
-                className="text-blue-600 underline"
-                onClick={onLogin}
+              type="button"
+              className="text-blue-600 underline"
+              onClick={onLogin}
             >
-                Inicia sesión
+              Inicia sesión
             </button>
           </p>
         </div>
@@ -175,12 +206,9 @@ export default function ModalRegister({ isOpen, onClose, onLogin }: Props) {
         )}
 
         <div className="col-span-2 mt-4">
-          <button
-            type="submit"
-            className="w-full bg-coral text-white py-2 px-4 rounded font-medium"
-          >
+          <Button type="submit" variant="primary" className="w-full">
             {isLoading ? "Cargando..." : "Comenzar ahora"}
-          </button>
+          </Button>
         </div>
       </form>
     </AuthModalLayout>
