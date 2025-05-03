@@ -18,16 +18,16 @@ export default function ChatsList() {
   const chatsWithDetails = data.map((chat) => {
     const otherUser = chat.users.find((u) => u.username !== currentUsername);
     const lastMessage =
-      chat.messages.length > 0
-        ? chat.messages[chat.messages.length - 1]
-        : null;
+      chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null;
     const lastMessageContent = lastMessage
       ? lastMessage.content
       : "No hay mensajes aún";
 
     return {
       ...chat,
-      withUser: otherUser? otherUser : { username: "Desconocido", avatarUrl: "" },
+      withUser: otherUser
+        ? otherUser
+        : { username: "Desconocido", avatarUrl: "" },
       lastMessage: lastMessageContent,
     };
   });
@@ -45,7 +45,7 @@ export default function ChatsList() {
             <Link
               key={chat.roomId}
               to={`/chat/${chat.roomId}`}
-              className="flex items-center gap-4 p-4 rounded-xl shadow-md  bg-cream hover:bg-lightgray transition-colors"
+              className="flex items-center gap-4 p-4 rounded-xl shadow-md  bg-cream hover:bg-lightgrey transition-colors"
             >
               <img
                 src={chat.withUser.avatarUrl || "/default-avatar.png"}
@@ -59,13 +59,13 @@ export default function ChatsList() {
                   </h2>
                   {pendingCount > 0 && (
                     <span className="bg-coral text-white text-xxs px-2 py-1 flex-shrink-0  rounded-full">
-                      {pendingCount} mensaje{pendingCount > 1 ? "s" : ""} 
-                     
+                      {pendingCount} mensaje{pendingCount > 1 ? "s" : ""}
                     </span>
                   )}
                 </div>
                 <p className="text-sm text-sage">
-                  Con: <span className="font-medium">{chat.withUser.username}</span>
+                  Con:{" "}
+                  <span className="font-medium">{chat.withUser.username}</span>
                 </p>
                 <p className="text-xs text-greengrey truncate">
                   Último mensaje: "{chat.lastMessage}"

@@ -45,7 +45,7 @@ export default function SearchBar({
 
   return (
     <div
-      className={`flex items-center bg-lightgray rounded-full px-4 ${width}`}
+      className={`flex items-center bg-lightgrey rounded-full px-4 ${width}`}
     >
       <input
         type="text"

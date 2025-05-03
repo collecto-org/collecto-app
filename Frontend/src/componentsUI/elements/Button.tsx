@@ -38,7 +38,7 @@ export default function Button({
       "bg-white border border-coral text-coral hover:bg-cream hover:text-darkblue",
     turquoise:
       "bg-white border-2 border-turquoise text-turquoise hover:bg-turquoise hover:text-darkblue",
-    danger: "bg-red-500 border text-white hover:bg-lightgray",
+    danger: "bg-red-500 border text-white hover:bg-lightgrey",
     tonal: "bg-darkblue text-white hover:bg-turquoise",
   };
 

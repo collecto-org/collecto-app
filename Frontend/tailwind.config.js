@@ -13,7 +13,7 @@ export default {
         sage: "#72847f",
         darkblue: "#1d313c",
         greengrey: "#72847f",
-        lightgray: "#d2d4d5",
+        lightgrey: "#d2d4d5",
         pinklight: "#C7C7C7",
       },
       fontSize: {
@@ -36,6 +36,12 @@ export default {
           },
           "scrollbar-width": "none",
           "-ms-overflow-style": "none",
+        },
+        ".text-shadow-darkblue": {
+          "text-shadow": "2px 2px 0 #1d313c",
+        },
+        ".text-shadow-turquoise": {
+          "text-shadow": "2px 2px 0 #7bc1c7",
         },
       });
     }),

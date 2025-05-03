@@ -61,7 +61,7 @@ export default function GenericEditableTable<T extends { _id: string }>({
   return (
     <div className="space-y-6">
       <table className="w-full table-auto border border-collapse text-sm">
-        <thead className="bg-lightgray text-darkblue font-semibold">
+        <thead className="bg-lightgrey text-darkblue font-semibold">
           <tr>
             {columns.map((col) => (
               <th key={String(col.key)} className="p-2 border">
@@ -83,7 +83,8 @@ export default function GenericEditableTable<T extends { _id: string }>({
                       className="w-full bg-transparent border-none outline-none"
                       value={
                         isEditing
-                          ? (editValues[col.key] as string) ?? (row[col.key] as string)
+                          ? (editValues[col.key] as string) ??
+                            (row[col.key] as string)
                           : (row[col.key] as string)
                       }
                       disabled={!isEditing}
@@ -134,9 +135,7 @@ export default function GenericEditableTable<T extends { _id: string }>({
                 <input
                   className="w-full bg-transparent border-none outline-none"
                   value={(newEntry[col.key] as string) || ""}
-                  onChange={(e) =>
-                    handleChange(col.key, e.target.value, true)
-                  }
+                  onChange={(e) => handleChange(col.key, e.target.value, true)}
                   placeholder={`Nuevo ${col.label.toLowerCase()}`}
                 />
               </td>

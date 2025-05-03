@@ -1,12 +1,16 @@
 import { useRef } from "react";
 import Logo from "@/componentsUI/elements/Logo";
-import { BrandSchema, UniverseSchema } from "@/services/schemas/UniverseSchemas";
+import {
+  BrandSchema,
+  UniverseSchema,
+} from "@/services/schemas/UniverseSchemas";
 
 interface BrandCarouselProps {
   logos: BrandSchema[] | UniverseSchema[];
   width?: number;
   height?: number;
   onClickLogo?: (src: string) => void;
+  title?: string;
 }
 
 export default function BrandCarousel({
@@ -14,6 +18,7 @@ export default function BrandCarousel({
   width = 90,
   height = 90,
   onClickLogo,
+  title,
 }: BrandCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -24,8 +29,14 @@ export default function BrandCarousel({
   };
 
   return (
-    <div className="relative w-full bg-white py-4">
-      {/* Flechas de navegación: visibles desde sm en adelante */}
+    <div className="relative w-full bg-white py-2">
+      {title && (
+        <h2 className="text-center text-xl md:text-2xl font-black mb-2 text-darkblue">
+          {title}
+        </h2>
+      )}
+
+      {/* Flechas de navegación */}
       <button
         onClick={() => scrollBy("left")}
         className="absolute left-2 top-1/2 -translate-y-1/2 z-30 hidden sm:flex items-center justify-center bg-[#1d313c]/40 text-white rounded-full w-9 h-9 shadow hover:scale-105 transition"
@@ -66,14 +77,12 @@ export default function BrandCarousel({
             key={index}
             src={logo.logoUrl}
             alt={`Logo ${index}`}
-            width={90}
-            height={90}
+            width={width}
+            height={height}
             className="shrink-0 bg-white hover:scale-110 transition"
             onClick={() => onClickLogo?.(logo.slug)}
           />
         ))}
-
-        
       </div>
     </div>
   );

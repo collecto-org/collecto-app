@@ -16,11 +16,14 @@ export default function UserTable() {
   const [createUser] = useCreateUserMutation();
   const [updateUser] = useUpdateUserMutation();
   const [deleteUser] = useDeleteUserMutation();
-  const { data: genders = [], isLoading: loadingGenders } = useGetGendersQuery();
+  const { data: genders = [], isLoading: loadingGenders } =
+    useGetGendersQuery();
   const [editValues, setEditValues] = useState<Partial<UserSchema>>({});
 
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [newEntry, setNewEntry] = useState<Partial<UserSchema & { password: string }>>({
+  const [newEntry, setNewEntry] = useState<
+    Partial<UserSchema & { password: string }>
+  >({
     username: "",
     email: "",
     password: "",
@@ -80,7 +83,7 @@ export default function UserTable() {
   return (
     <div className="space-y-6">
       <table className="w-full table-auto border border-collapse text-xs">
-        <thead className="bg-lightgray text-darkblue font-semibold">
+        <thead className="bg-lightgrey text-darkblue font-semibold">
           <tr>
             <th className="p-2 border min-w-[120px]">Avatar</th>
             <th className="p-2 border min-w-[100px]">Username</th>
@@ -137,7 +140,10 @@ export default function UserTable() {
                     value={isEditing ? editValues.firstName ?? "" : u.firstName}
                     disabled={!isEditing}
                     onChange={(e) =>
-                      setEditValues({ ...editValues, firstName: e.target.value })
+                      setEditValues({
+                        ...editValues,
+                        firstName: e.target.value,
+                      })
                     }
                   />
                 </td>
@@ -164,7 +170,9 @@ export default function UserTable() {
                 <td className="border px-2 min-w-[100px]">
                   <input
                     className="w-full min-w-[100px] bg-transparent border-none outline-none"
-                    value={isEditing ? editValues.location ?? "" : u.location || ""}
+                    value={
+                      isEditing ? editValues.location ?? "" : u.location || ""
+                    }
                     disabled={!isEditing}
                     onChange={(e) =>
                       setEditValues({ ...editValues, location: e.target.value })
@@ -174,58 +182,56 @@ export default function UserTable() {
                 <td className="border px-2 min-w-[100px]">
                   <input
                     className="w-full min-w-[100px] bg-transparent border-none outline-none"
-                    value={isEditing ? editValues.dateOfBirth ?? "" : u.dateOfBirth || ""}
+                    value={
+                      isEditing
+                        ? editValues.dateOfBirth ?? ""
+                        : u.dateOfBirth || ""
+                    }
                     disabled={!isEditing}
                     onChange={(e) =>
-                      setEditValues({ ...editValues, dateOfBirth: e.target.value })
+                      setEditValues({
+                        ...editValues,
+                        dateOfBirth: e.target.value,
+                      })
                     }
                   />
                 </td>
 
-
-
-
                 <td className="min-w-[120px] w-full">
-  {isEditing ? (
-    <select
-      className="w-full border-none bg-transparent outline-none"
-      value={editValues.gender || ""}
-      onChange={(e) =>
-        setEditValues({ ...editValues, gender: e.target.value })
-      }
-    >
-      <option value="">Seleccione género</option>
-      {genders.map((gender) => (
-        <option key={gender._id} value={gender._id}>
-          {gender.label}
-        </option>
-      ))}
-    </select>
-  ) : (
-    <p>
-      {genders.find(g => g._id === u.gender)?.label || ""}
-    </p>
-  )}
-</td>
-
-
-
-
-
-
-
-
-
-
-
+                  {isEditing ? (
+                    <select
+                      className="w-full border-none bg-transparent outline-none"
+                      value={editValues.gender || ""}
+                      onChange={(e) =>
+                        setEditValues({ ...editValues, gender: e.target.value })
+                      }
+                    >
+                      <option value="">Seleccione género</option>
+                      {genders.map((gender) => (
+                        <option key={gender._id} value={gender._id}>
+                          {gender.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <p>
+                      {genders.find((g) => g._id === u.gender)?.label || ""}
+                    </p>
+                  )}
+                </td>
 
                 <td className="border px-2 min-w-[100px]">
                   <input
                     className="w-full min-w-[100px] bg-transparent border-none outline-none"
-                    value={isEditing ? editValues.avatarUrl ?? "" : u.avatarUrl || ""}
+                    value={
+                      isEditing ? editValues.avatarUrl ?? "" : u.avatarUrl || ""
+                    }
                     disabled={!isEditing}
                     onChange={(e) =>
-                      setEditValues({ ...editValues, avatarUrl: e.target.value })
+                      setEditValues({
+                        ...editValues,
+                        avatarUrl: e.target.value,
+                      })
                     }
                   />
                 </td>
@@ -246,7 +252,10 @@ export default function UserTable() {
                       className="w-full min-w-[50px] bg-transparent border-none outline-none"
                       value={editValues.role ?? u.role}
                       onChange={(e) =>
-                        setEditValues({ ...editValues, role: e.target.value as "user" | "admin" })
+                        setEditValues({
+                          ...editValues,
+                          role: e.target.value as "user" | "admin",
+                        })
                       }
                     >
                       <option value="user">User</option>
@@ -262,7 +271,10 @@ export default function UserTable() {
                       type="checkbox"
                       checked={editValues.emailVerified ?? u.emailVerified}
                       onChange={(e) =>
-                        setEditValues({ ...editValues, emailVerified: e.target.checked })
+                        setEditValues({
+                          ...editValues,
+                          emailVerified: e.target.checked,
+                        })
                       }
                     />
                   ) : (
@@ -311,7 +323,9 @@ export default function UserTable() {
               <input
                 className="w-full bg-transparent border-none outline-none"
                 value={newEntry.username || ""}
-                onChange={(e) => setNewEntry({ ...newEntry, username: e.target.value })}
+                onChange={(e) =>
+                  setNewEntry({ ...newEntry, username: e.target.value })
+                }
                 placeholder="username"
               />
             </td>
@@ -319,7 +333,9 @@ export default function UserTable() {
               <input
                 className="w-full bg-transparent border-none outline-none"
                 value={newEntry.email || ""}
-                onChange={(e) => setNewEntry({ ...newEntry, email: e.target.value })}
+                onChange={(e) =>
+                  setNewEntry({ ...newEntry, email: e.target.value })
+                }
                 placeholder="email"
               />
             </td>
@@ -327,7 +343,9 @@ export default function UserTable() {
               <input
                 className="w-full bg-transparent border-none outline-none"
                 value={newEntry.firstName || ""}
-                onChange={(e) => setNewEntry({ ...newEntry, firstName: e.target.value })}
+                onChange={(e) =>
+                  setNewEntry({ ...newEntry, firstName: e.target.value })
+                }
                 placeholder="first name"
               />
             </td>
@@ -335,7 +353,9 @@ export default function UserTable() {
               <input
                 className="w-full bg-transparent border-none outline-none"
                 value={newEntry.lastName || ""}
-                onChange={(e) => setNewEntry({ ...newEntry, lastName: e.target.value })}
+                onChange={(e) =>
+                  setNewEntry({ ...newEntry, lastName: e.target.value })
+                }
                 placeholder="last name"
               />
             </td>
@@ -343,7 +363,9 @@ export default function UserTable() {
               <input
                 className="w-full bg-transparent border-none outline-none"
                 value={newEntry.phone || ""}
-                onChange={(e) => setNewEntry({ ...newEntry, phone: e.target.value })}
+                onChange={(e) =>
+                  setNewEntry({ ...newEntry, phone: e.target.value })
+                }
                 placeholder="phone"
               />
             </td>
@@ -351,7 +373,9 @@ export default function UserTable() {
               <input
                 className="w-full bg-transparent border-none outline-none"
                 value={newEntry.location || ""}
-                onChange={(e) => setNewEntry({ ...newEntry, location: e.target.value })}
+                onChange={(e) =>
+                  setNewEntry({ ...newEntry, location: e.target.value })
+                }
                 placeholder="location"
               />
             </td>
@@ -359,7 +383,9 @@ export default function UserTable() {
               <input
                 className="w-full bg-transparent border-none outline-none"
                 value={newEntry.phone || ""}
-                onChange={(e) => setNewEntry({ ...newEntry, dateOfBirth: e.target.value })}
+                onChange={(e) =>
+                  setNewEntry({ ...newEntry, dateOfBirth: e.target.value })
+                }
                 placeholder="Fecha de nacimiento"
               />
             </td>
@@ -380,12 +406,13 @@ export default function UserTable() {
               </select>
             </td>
 
-            
             <td className="border px-2">
               <input
                 className="w-full bg-transparent border-none outline-none"
                 value={newEntry.phone || ""}
-                onChange={(e) => setNewEntry({ ...newEntry, avatarUrl: e.target.value })}
+                onChange={(e) =>
+                  setNewEntry({ ...newEntry, avatarUrl: e.target.value })
+                }
                 placeholder="Avatar URL"
               />
             </td>
@@ -394,17 +421,23 @@ export default function UserTable() {
               <input
                 className="w-full bg-transparent border-none outline-none"
                 value={newEntry.phone || ""}
-                onChange={(e) => setNewEntry({ ...newEntry, bio: e.target.value })}
+                onChange={(e) =>
+                  setNewEntry({ ...newEntry, bio: e.target.value })
+                }
                 placeholder="Biografía"
               />
             </td>
-
 
             <td className="border px-2">
               <select
                 className="w-full bg-transparent border-none outline-none"
                 value={newEntry.role || "user"}
-                onChange={(e) => setNewEntry({ ...newEntry, role: e.target.value as "user" | "admin" })}
+                onChange={(e) =>
+                  setNewEntry({
+                    ...newEntry,
+                    role: e.target.value as "user" | "admin",
+                  })
+                }
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
@@ -414,7 +447,9 @@ export default function UserTable() {
               <input
                 type="checkbox"
                 checked={newEntry.emailVerified || false}
-                onChange={(e) => setNewEntry({ ...newEntry, emailVerified: e.target.checked })}
+                onChange={(e) =>
+                  setNewEntry({ ...newEntry, emailVerified: e.target.checked })
+                }
               />
             </td>
             <td className="border px-2 text-center">

@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="bg-cream text-darkblue text-xs px-4 sm:px-6 py-10 mt-12">
       <div className="max-w-7xl mx-auto space-y-10">
         {/* Grid de secciones */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-left">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           <div>
             <h3 className="font-semibold mb-2">Collecto</h3>
             <ul className="space-y-1 text-darkblue/70">
@@ -40,7 +40,7 @@ export default function Footer() {
         </div>
 
         {/* Línea divisoria */}
-        <div className="border-t border-lightgray" />
+        <div className="border-t border-lightgrey" />
 
         {/* Social icons + copyright */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">

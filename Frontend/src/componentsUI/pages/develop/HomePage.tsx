@@ -67,6 +67,7 @@ export default function HomePage() {
           <section className="my-4">
             <BrandCarousel
               logos={brands}
+              title="Encuentra lo mejor de tus marcas favoritas"
               width={90}
               height={90}
               onClickLogo={(src) => {
@@ -82,7 +83,7 @@ export default function HomePage() {
         </div>
         {filter.searchTerm || filter.product_type ? (
           <FilteredAdvertSectionProps
-            headerLabel="¿ Qúe estás buscando?"
+            headerLabel="¿Qúe estás buscando?"
             label={filter.searchTerm || ""}
             adverts={
               filterAdverts ? filterAdverts : { adverts: [], total: "0" }
