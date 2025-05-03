@@ -1,6 +1,6 @@
 import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react"
-import { Chat, GetChatsResponse, User } from "./schemas/UserSchemas";
-import { Advert, FilterAdverts, listingId } from "./schemas/AdvertsSchemas";
+import { Chat,  User } from "./schemas/UserSchemas";
+import { Advert, FilterAdverts} from "./schemas/AdvertsSchemas";
 
 
 
@@ -9,6 +9,7 @@ export const userApi = createApi({
     baseQuery:fetchBaseQuery({
         baseUrl:import.meta.env.VITE_API_URL
     }),
+    tagTypes: ['Adverts'],
     endpoints:(builder) => ({
       getMe: builder.query<User, {}>({
         query: () => ({
@@ -57,23 +58,7 @@ export const userApi = createApi({
   
         }),
       }),
-      setAdvertFav: builder.mutation<{message: string }, listingId>({
-        query: (listingId) => ({
-          url: `/api/users/me/favorites/${listingId}`,
-          method: "POST",
-          credentials:"include",
-  
-        }),
-      }),
-      removeAdvertFav: builder.mutation<{message: string },listingId >({
-        query: (listingId) => ({
-          url: `/api/users/me/favorites/${listingId}`,
-          method: "DELETE",
-          credentials:"include",
-          
-  
-        }),
-      }),
+     
       getChats: builder.query<Chat[],void >({
         query: () => ({
           url: `/api/users/me/chat`,
@@ -122,9 +107,7 @@ export const {
   useDeleteMeMutation, 
   useEditMeMutation,
   useGetMyadvertsQuery,
-  useRemoveAdvertFavMutation,
   useGetMyFavAdvertsQuery,
-  useSetAdvertFavMutation,
   useGetChatsQuery,
   useGetUserAdvertsQuery,
   useCheckEmailExistsMutation,
