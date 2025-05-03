@@ -1,4 +1,4 @@
-import { useGetUserAdvertsQuery } from "@/services/usersApi";
+import { useGetUserAdvertsQuery } from "@/services/advertsApi";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 import NoResults from "@/componentsUI/elements/NoResults";
 import { useParams, useNavigate } from "react-router-dom";

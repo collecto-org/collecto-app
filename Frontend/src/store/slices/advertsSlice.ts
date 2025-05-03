@@ -62,21 +62,21 @@ const advertsSlice = createSlice({
         }
       )
       .addMatcher(
-        userApi.endpoints.getMyFavAdverts.matchFulfilled,
+        advertsApi.endpoints.getMyFavAdverts.matchFulfilled,
         (state, action) => {
           const parsed = parseInt(action.payload.total, 10);
           state.totalFilterAdverts = isNaN(parsed) ? 0 : parsed;
         }
       )
       .addMatcher(
-        userApi.endpoints.getMyadverts.matchFulfilled,
+        advertsApi.endpoints.getMyadverts.matchFulfilled,
         (state, action) => {
           const parsed = parseInt(action.payload.total, 10);
           state.totalFilterAdverts = isNaN(parsed) ? 0 : parsed;
         }
       )
       .addMatcher(
-        userApi.endpoints.getUserAdverts.matchFulfilled,
+        advertsApi.endpoints.getUserAdverts.matchFulfilled,
         (state, action) => {
           const parsed = parseInt(action.payload.total, 10);
           state.totalFilterAdverts = isNaN(parsed) ? 0 : parsed;

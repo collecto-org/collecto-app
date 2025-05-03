@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AdvertDetail from "@/componentsUI/containers/develop/AdvertDetail";
@@ -20,9 +20,11 @@ import ModalLogin from "@/componentsUI/containers/develop/ModalLogin";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 import NotFoundPage from "@/componentsUI/components/develop/NotFoundPage";
 import MessageBanner from "@/componentsUI/elements/MessageBanner";
+
 import BannerPages from "@/componentsUI/components/develop/BannerPages";
 import Button from "@/componentsUI/elements/Button";
 import { FiArrowLeft } from "react-icons/fi";
+
 
 function AdvertDetailPage() {
   const params = useParams();
@@ -31,6 +33,10 @@ function AdvertDetailPage() {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => selectUser(state));
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+
 
   const {
     data: advert,
@@ -45,18 +51,18 @@ function AdvertDetailPage() {
     {
       ...filter,
       universe: universeProduct,
+
       product_type: undefined,
+
     },
     {
       skip: !universeProduct,
     }
   );
-
   const [deleteAdvert, { isSuccess: isDeleteSucess }] =
     useDeleteAdvertMutation();
   const [setFavAdvert, { isError: isFavError }] = useSetAdvertFavMutation();
-  const [deleteFavAdvert, { isError: isDelete }] = useRemoveAdvertFavMutation();
-  const [notificationDelete] = useRemoveAdvertFavMutation();
+  const [deleteFavAdvert, { isError: isDeleteError }] = useRemoveAdvertFavMutation();
 
   const [returnPath, setReturnPath] = useState(location.pathname);
 
@@ -73,13 +79,15 @@ function AdvertDetailPage() {
   const handleDelete = async () => {
     if (user && advert && user.username === advert.user.username) {
       await deleteAdvert({ id: advert._id });
-      await notificationDelete(advert._id);
+    
     }
   };
 
   useEffect(() => {
     if (isDeleteSucess) {
-      navigate("/");
+      setTimeout(()=>{
+        navigate("/");
+      },1000)
     }
   }, [isDeleteSucess]);
 
@@ -96,6 +104,12 @@ function AdvertDetailPage() {
       setIsLoginModalOpen(true);
     }
   }, [location.state]);
+
+    useEffect(() => {
+      if (filter.limit !== 12 || filter.page !== 1) {
+        dispatch(setFilter({ limit: 12, page: 1 }));
+      }
+    }, [dispatch]);
 
   const handleFav = async () => {
     if (!advert) return;
@@ -165,7 +179,7 @@ function AdvertDetailPage() {
         <AdvertDetail
           advert={advert}
           onEdit={isOwner && !isSold ? handleEdit : undefined}
-          onDelete={isOwner && !isSold ? handleDelete : undefined}
+          onDelete={isOwner && !isSold && !isReserved ? handleDelete : undefined}
           onToggleFav={!isOwner ? handleFav : undefined}
           isFavorite={isFavorite}
           onForceLogin={(path) => {
@@ -180,8 +194,12 @@ function AdvertDetailPage() {
             text="Error al añadir el artículo a favoritos"
           />
         )}
-        {isDelete && (
+        {isDeleteError && (
           <MessageBanner type="error" text="Error al eliminar el artículo" />
+        )}
+        {isDeleteSucess && (
+          <MessageBanner type="success" text="Artículo eliminado con éxito" />
+
         )}
 
         <section className="mt-10 space-y-4">

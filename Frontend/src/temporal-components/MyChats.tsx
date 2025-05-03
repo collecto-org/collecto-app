@@ -67,7 +67,16 @@ export default function ChatsList() {
                   <span className="font-medium">{chat.withUser.username}</span>
                 </p>
                 <p className="text-xs text-greengrey truncate">
-                  Último mensaje: "{chat.lastMessage}"
+                  Último mensaje: "{chat.lastMessage}" {" | "}        
+                  {new Date(chat.createdAt).toLocaleTimeString("es-ES", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}{" "}
+                  {new Date(chat.createdAt).toLocaleDateString("es-ES", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
                 </p>
               </div>
             </Link>

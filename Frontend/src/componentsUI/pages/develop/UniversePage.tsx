@@ -47,7 +47,7 @@ export default function UniversePage() {
     if (filter.limit !== 12 || filter.page !== 1) {
       dispatch(setFilter({ limit: 12, page: 1 }));
     }
-  }, [dispatch, filter.limit, filter.page]);
+  }, [dispatch]);
 
   useEffect(() => {
     return () => {
