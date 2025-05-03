@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
-import {  setFilter } from "@/store/slices/advertsSlice";
+import { setFilter } from "@/store/slices/advertsSlice";
 
 interface PaginationControlsProps {
-  total?:number
+  total?: number;
 }
-export default function PaginationControls({total}:PaginationControlsProps) {
+export default function PaginationControls({ total }: PaginationControlsProps) {
   const dispatch = useDispatch();
 
-
   const filters = useSelector(selectFilters);
-  
+
   const limit = filters.limit ?? 12;
   const page = filters.page ?? 1;
 
@@ -53,12 +52,12 @@ export default function PaginationControls({total}:PaginationControlsProps) {
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[0.9rem] text-darkblue">
       <div className="flex items-center gap-2 relative">
-        <span className="font-bold p-2">Resultado: {total} anuncios</span>
+        <span className="font-bold p-2">
+          Total de anuncios: {total} anuncios
+        </span>
       </div>
 
       <div className="flex items-center gap-2 relative">
-      <span className="font-medium">Total de anuncios: {total}</span>
-
         <span className="font-medium">Mostrar:</span>
         <select
           className="border-2 border-turquoise rounded-full px-3 py-1 text-turquoise font-quicksand appearance-none pr-8"

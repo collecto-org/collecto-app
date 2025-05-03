@@ -3,22 +3,23 @@ import Icon from "@/componentsUI/elements/Icon";
 import { Link } from "react-router-dom";
 import AdvertsFavorites from "@/componentsUI/containers/develop/AdvertsFavorites";
 import AdvertsPublished from "@/componentsUI/containers/develop/AdvertsPublished";
-import UserProfile         from "@/componentsUI/containers/develop/UserProfile";
+import UserProfile from "@/componentsUI/containers/develop/UserProfile";
 import { useSelector } from "react-redux";
 import { selectLastUnreadNotifications } from "@/store/selectors/notificationSelector";
 import UpdatePassword from "@/componentsUI/containers/develop/UpdatePassword";
 import DeleteAccount from "@/componentsUI/containers/develop/DeleteAccount";
 import UserChats from "@/componentsUI/containers/develop/UserChats";
-
-
+import { useLocation } from "react-router-dom";
 
 export default function UserProfilePage() {
+  const location = useLocation();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showChat, setShowChat] = useState(false);
-  const [activeSection, setActiveSection] = useState("Mi Perfil");
   const notifications = useSelector(selectLastUnreadNotifications);
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
-
+  const [activeSection, setActiveSection] = useState(
+    location.state?.section || "Mi Perfil"
+  );
 
   return (
     <>
@@ -33,13 +34,13 @@ export default function UserProfilePage() {
               setShowChat(false);
             }}
           />
-          {showNotifications && notifications && notifications.length > 0 &&(
+          {showNotifications && notifications && notifications.length > 0 && (
             <div className="absolute right-0 mt-2 w-64 bg-white shadow-md rounded-lg p-4 z-50 text-sm">
               <p className="font-semibold text-darkblue mb-2">Notificaciones</p>
               <ul className="space-y-2">
                 {notifications.map((notification) => (
-            <li key={notification._id}>{notification.message}</li>
-        ))}
+                  <li key={notification._id}>{notification.message}</li>
+                ))}
               </ul>
             </div>
           )}
@@ -76,9 +77,9 @@ export default function UserProfilePage() {
               { icon: "user", label: "Mi Perfil" },
               { icon: "user", label: "Cambiar Contraseña" },
               { icon: "user", label: "Eliminar Cuenta" },
-              { icon: "box",label: "Mis anuncios",},
-              { icon: "heart", label: "Favoritos" }, 
-              { icon: "chat", label: "Chat" }, 
+              { icon: "box", label: "Mis anuncios" },
+              { icon: "heart", label: "Favoritos" },
+              { icon: "chat", label: "Chat" },
               { icon: "heart", label: "Notificaciones" },
               { icon: "mapPin", label: "Direcciones de envío" },
               { icon: "creditCard", label: "Formas de pago" },
@@ -117,13 +118,14 @@ export default function UserProfilePage() {
             {activeSection === "Mis anuncios" && <AdvertsPublished />}
             {activeSection === "Favoritos" && <AdvertsFavorites />}
             {activeSection === "Mi Perfil" && <UserProfile />}
-            {activeSection === "Cambiar Contraseña" && <UpdatePassword/>}
-            {activeSection === "Eliminar Cuenta" && <DeleteAccount/>}
+            {activeSection === "Cambiar Contraseña" && <UpdatePassword />}
+            {activeSection === "Eliminar Cuenta" && <DeleteAccount />}
             {activeSection === "Chat" && (
-              <UserChats roomId={selectedRoomId} onBack={() => setSelectedRoomId(null)} />
+              <UserChats
+                roomId={selectedRoomId}
+                onBack={() => setSelectedRoomId(null)}
+              />
             )}
-
-            
           </section>
         </div>
       </div>
