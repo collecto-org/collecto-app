@@ -53,7 +53,7 @@ export type UserSchema = {
   phone?: string;
   location?: string;
   avatarUrl?: string;
-  dateOfBirth?: Date;
+  dateOfBirth?: string;
   gender?: string;
   bio?: string;
   role: "user" | "admin";

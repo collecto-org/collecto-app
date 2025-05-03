@@ -253,10 +253,10 @@ export default function UserProfileEditForm({ form, setForm, setIsEditing, refet
         )}
 
         <div className="flex justify-end gap-4">
-          <Button variant="outline" onClick={() => { setForm(() => formatUserToForm(originalUser)); setIsEditing(false); }}>
+          <Button variant="turquoise" onClick={() => { setForm(() => formatUserToForm(originalUser)); setIsEditing(false); }}>
             Cancelar
           </Button>
-          <Button variant="turquoise" type="submit" disabled={!emailValid || !phoneValid || (!isModified() && !emailChanged)}>
+          <Button variant="primary" type="submit" disabled={!emailValid || !phoneValid || (!isModified() && !emailChanged)}>
             Guardar cambios
           </Button>
         </div>

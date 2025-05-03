@@ -24,6 +24,7 @@ import MessageBanner from "@/componentsUI/elements/MessageBanner";
 import BannerPages from "@/componentsUI/components/develop/BannerPages";
 import Button from "@/componentsUI/elements/Button";
 import { FiArrowLeft } from "react-icons/fi";
+import { setFilter } from "@/store/slices/advertsSlice";
 
 
 function AdvertDetailPage() {
@@ -34,7 +35,6 @@ function AdvertDetailPage() {
   const user = useSelector((state: RootState) => selectUser(state));
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch()
 
 
@@ -68,6 +68,7 @@ function AdvertDetailPage() {
 
   const isOwner = user.username === advert?.user.username;
   const isSold = advert?.status.code === "sold";
+  const isReserved = advert?.status.code === "reserved";
 
   const [isEdit, setEdit] = useState(false);
   const handleEdit = () => {

@@ -16,7 +16,7 @@ export default function UserTable() {
   const [createUser] = useCreateUserMutation();
   const [updateUser] = useUpdateUserMutation();
   const [deleteUser] = useDeleteUserMutation();
-  const { data: genders = [], isLoading: loadingGenders } =
+  const { data: genders = []} =
     useGetGendersQuery();
   const [editValues, setEditValues] = useState<Partial<UserSchema>>({});
 

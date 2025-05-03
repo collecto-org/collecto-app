@@ -66,7 +66,7 @@ export default function ModalDeleteAccount ({isOpen, onClose}: DeleteAccountModa
                         />
                         {error && <MessageBanner type="error" text={error}/>}
                         <div className="flex gap-2 justify-end">
-                            <Button type="button" variant="outline" onClick={onClose}>
+                            <Button type="button" variant="turquoise" onClick={onClose}>
                                 Cancelar
                             </Button>
                             <Button type="submit" variant="danger">

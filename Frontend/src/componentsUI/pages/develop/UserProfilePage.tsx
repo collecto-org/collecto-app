@@ -4,77 +4,26 @@ import { Link } from "react-router-dom";
 import AdvertsFavorites from "@/componentsUI/containers/develop/AdvertsFavorites";
 import AdvertsPublished from "@/componentsUI/containers/develop/AdvertsPublished";
 import UserProfile from "@/componentsUI/containers/develop/UserProfile";
-import { useSelector } from "react-redux";
-import { selectLastUnreadNotifications } from "@/store/selectors/notificationSelector";
 import UpdatePassword from "@/componentsUI/containers/develop/UpdatePassword";
 import DeleteAccount from "@/componentsUI/containers/develop/DeleteAccount";
-import UserChats from "@/componentsUI/containers/develop/UserChats";
 import { useLocation } from "react-router-dom";
 
 export default function UserProfilePage() {
   const location = useLocation();
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [showChat, setShowChat] = useState(false);
-  const notifications = useSelector(selectLastUnreadNotifications);
-  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState(
     location.state?.section || "Mi Perfil"
   );
 
   return (
     <>
-      {/* Notificaciones y Chat - flotantes */}
-      <div className="mt-10 absolute top-4 right-4 flex gap-4 z-50">
-        <div className="relative">
-          <Icon
-            name="bell"
-            className="text-darkblue hover:text-coral cursor-pointer"
-            onClick={() => {
-              setShowNotifications(!showNotifications);
-              setShowChat(false);
-            }}
-          />
-          {showNotifications && notifications && notifications.length > 0 && (
-            <div className="absolute right-0 mt-2 w-64 bg-white shadow-md rounded-lg p-4 z-50 text-sm">
-              <p className="font-semibold text-darkblue mb-2">Notificaciones</p>
-              <ul className="space-y-2">
-                {notifications.map((notification) => (
-                  <li key={notification._id}>{notification.message}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-
-        <div className="relative">
-          <Icon
-            name="chat"
-            className="text-darkblue hover:text-coral cursor-pointer"
-            onClick={() => {
-              setShowChat(!showChat);
-              setShowNotifications(false);
-            }}
-          />
-          {showChat && (
-            <div className="absolute right-0 mt-2 w-64 bg-white shadow-md rounded-lg p-4 z-50 text-sm">
-              <p className="font-semibold text-darkblue mb-2">Mensajes</p>
-              <ul className="space-y-2">
-                <li>🧑‍🚀 "Hola, ¿sigue disponible?"</li>
-                <li>👽 "¿Aceptas intercambios?"</li>
-                <li>🤖 "Gracias por la compra"</li>
-              </ul>
-            </div>
-          )}
-        </div>
-      </div>
-
+      
       {/* Página principal */}
       <div className="py-16 mt-10 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Sidebar */}
           <aside className="w-full md:w-1/4 bg-coral rounded p-4 space-y-8 text-white">
             {[
-              { icon: "user", label: "Mi Perfil" },
+              { icon: "user", label: "Mi Perfil" ,link:""},
               { icon: "user", label: "Cambiar Contraseña" },
               { icon: "user", label: "Eliminar Cuenta" },
               { icon: "box", label: "Mis anuncios" },
@@ -120,12 +69,7 @@ export default function UserProfilePage() {
             {activeSection === "Mi Perfil" && <UserProfile />}
             {activeSection === "Cambiar Contraseña" && <UpdatePassword />}
             {activeSection === "Eliminar Cuenta" && <DeleteAccount />}
-            {activeSection === "Chat" && (
-              <UserChats
-                roomId={selectedRoomId}
-                onBack={() => setSelectedRoomId(null)}
-              />
-            )}
+            
           </section>
         </div>
       </div>
