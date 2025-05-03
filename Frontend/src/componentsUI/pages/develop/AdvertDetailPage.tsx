@@ -88,7 +88,7 @@ function AdvertDetailPage() {
     if (isDeleteSucess) {
       setTimeout(()=>{
         navigate("/");
-      },1000)
+      },3000)
     }
   }, [isDeleteSucess]);
 
