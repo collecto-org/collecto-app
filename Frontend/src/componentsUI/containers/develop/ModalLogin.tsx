@@ -51,7 +51,7 @@ export default function ModalLogin({ isOpen, onClose, onRecoverPassword, onRegis
   const onSubmit = async (data: { username: string; password: string; rememberMe: boolean }) => {
     try {
       await login(data).unwrap();
-      trigger({});
+      await trigger({});
       navigate(from, { replace: true });
       window.location.reload()
       onClose();
