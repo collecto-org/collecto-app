@@ -9,9 +9,11 @@ import { selectFilters } from "@/store/selectors/advertsSelectors";
 interface ProductCarouselProps {
   title: string;
   adverts: { adverts: Advert[]; total: string };
+  setCall?: React.Dispatch<React.SetStateAction<boolean>>;
+  setAditionalFilter?: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function AdvertSlider({ title, adverts }: ProductCarouselProps) {
+export default function AdvertSlider({ title, adverts ,setCall, setAditionalFilter}: ProductCarouselProps) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const filters = useSelector(selectFilters);
@@ -19,7 +21,12 @@ export default function AdvertSlider({ title, adverts }: ProductCarouselProps) {
   const total = Number(adverts.total);
 
   const limit = 10;
-  const page = filters.page ?? 1;
+  let page 
+  if(!setAditionalFilter){
+    page = filters.page || 1
+  } else{
+    page = 1
+  }
 
   const [currentPage, setCurrentPage] = useState(page);
 
@@ -42,17 +49,31 @@ export default function AdvertSlider({ title, adverts }: ProductCarouselProps) {
     }
   }, [adverts.adverts]);
 
+  useEffect(() => {
+    if (setCall) {
+      setCall(false); 
+    }
+  }, []);
+
   const handlePageChange = (direction: "prev" | "next") => {
     const newPage =
       direction === "prev" ? Math.max(currentPage - 1, 1) : currentPage + 1;
 
     const totalLoaded = displayedAdverts.length;
     if (direction === "next" && totalLoaded >= total) return;
+    
     setPosition(position + 1);
-
+    
     if (position === totalLoaded) {
       setCurrentPage(newPage);
-      dispatch(setFilter({ page: newPage, limit }));
+      if(!setAditionalFilter){
+        dispatch(setFilter({ page: newPage, limit }));
+      }else{
+        setAditionalFilter(newPage)
+      }
+    }
+    if(setCall){
+      setCall(true)
     }
   };
 
