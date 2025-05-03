@@ -33,16 +33,18 @@ export default function HomePage() {
     isError,
   } = useGetAllAdvertsQuery(
     { ...filter, universe: "", brand: "" },
-    { skip: !universe || !!filter.title }
+    { skip: !universe || !!filter.title || !!filter.product_type}
   );
 
   console.count("useGetAllAdvertsQuery call");
+
   const { data: filterAdverts } = useFilterAdvertsQuery(
     { ...filter, universe: undefined },
     {
       skip: !filter.searchTerm && !filter.product_type,
     }
   );
+
 
   const { data: userFavorites } = useGetMyFavAdvertsQuery(filter);
 

@@ -12,7 +12,7 @@ import {
 import {
   useRemoveAdvertFavMutation,
   useSetAdvertFavMutation,
-} from "@/services/usersApi";
+} from "@/services/advertsApi"
 import { selectUser } from "@/store/selectors/userSelectors";
 import Editadvert from "@/temporal-components/EditAdvert";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
@@ -41,8 +41,9 @@ function AdvertDetailPage() {
 
   const { data: relatedAdverts } = useFilterAdvertsQuery(
     {
-      universe: universeProduct,
       ...filter,
+      universe: universeProduct,
+      product_type:undefined
     },
     {
       skip: !universeProduct,
@@ -59,6 +60,7 @@ function AdvertDetailPage() {
 
   const isOwner = user.username === advert?.user.username;
   const isSold = advert?.status.code === "sold";
+  const isReserved = advert?.status.code === "reserved";
 
   const [isEdit, setEdit] = useState(false);
   const handleEdit = () => {
@@ -138,6 +140,7 @@ function AdvertDetailPage() {
           returnPath={returnPath}
         />
       )}
+
       <div className="pt-10 md:pt-14">
         <BannerPages
           backgroundImages={[
@@ -168,6 +171,7 @@ function AdvertDetailPage() {
         )}
         {isDelete && (
           <MessageBanner type="error" text="Error al eliminar el artículo" />
+
         )}
 
         <section className="mt-10 space-y-4">

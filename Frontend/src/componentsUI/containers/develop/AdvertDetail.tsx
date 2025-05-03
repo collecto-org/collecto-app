@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "@/store/selectors/userSelectors";
 import { RootState } from "@/store/store";
 import { clearFilter, setFilter } from "@/store/slices/advertsSlice";
+import { slugify } from "@/utils/slugify";
 
 interface AdvertDetailProps {
   advert: Advert;
@@ -51,9 +52,10 @@ export default function AdvertDetail({
   const userMe = useSelector((state: RootState) => selectUser(state));
   const dispatch = useDispatch();
 
-  const handleFilter = (productType: string) => {
+  const handleFilter = (productType: string|undefined) => {
     dispatch(setFilter({ product_type: productType }));
   };
+
 
   const slugify = (text: string) =>
     text
@@ -63,6 +65,7 @@ export default function AdvertDetail({
       .replace(/\s+/g, "-")
       .replace(/[^\w\-]+/g, "")
       .replace(/\-\-+/g, "-");
+
 
   const isSold = advert.status?.code?.toLowerCase?.() === "sold";
   const isReserved = advert.status?.code?.toLowerCase?.() === "reserved";
@@ -94,8 +97,8 @@ export default function AdvertDetail({
           </Link>{" "}
           /
           <Link
-            to={`/universe/${slugify(advert.universe.name)}`}
-            onClick={() => handleFilter(slugify(advert.product_type._id))}
+            to={`/`}
+            onClick={() => handleFilter(advert.product_type._id)}
             className="hover:underline cursor-pointer"
           >
             {advert.product_type.name}
@@ -170,7 +173,8 @@ export default function AdvertDetail({
             <Button
               hidden={
                 user.username === userMe.username ||
-                status.label === "Reservado"
+                status.code === "reserved"||
+                status.code === "sold"
               }
               variant="primary"
               onClick={() => {
@@ -187,7 +191,8 @@ export default function AdvertDetail({
             <Button
               hidden={
                 user.username === userMe.username ||
-                status.label === "Reservado"
+                status.code === "reserved" ||
+                status.code === "sold" 
               }
               variant="turquoise"
               onClick={() => {
