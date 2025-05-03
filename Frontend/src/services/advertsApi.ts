@@ -129,6 +129,41 @@ export const advertsApi = createApi({
             invalidatesTags: [{ type: "Adverts", id: "LIST" }],
     
           }),
+                getMyadverts: builder.query<{adverts:Advert[]; total:string},FilterAdverts>({
+                  query: (filters) => ({
+                    url: `/api/users/me/adverts`,
+                    method: "GET",
+                    credentials:"include",
+                    params:filters
+            
+                  }),
+                  providesTags: [{ type: "Adverts", id: "LIST" }]
+
+                  
+                }),
+                getMyFavAdverts: builder.query<{adverts:Advert[]; total:string},FilterAdverts>({
+                  query: (filters) => ({
+                    url: `/api/users/me/favorites`,
+                    method: "GET",
+                    credentials:"include",
+                    params:filters
+            
+                  }),
+                  providesTags: [{ type: "Adverts", id: "LIST" }]
+
+                }),
+                getUserAdverts: builder.query<{adverts:Advert[]; total:string},{username:string,filters:FilterAdverts} >({
+                  query: ({username,filters}) => ({
+                    url: `/api/users/${username}/listings`,
+                    method: "GET",
+                    credentials:"include",
+                    params:filters
+                    
+            
+                  }),
+                  providesTags: [{ type: "Adverts", id: "LIST" }]
+
+                }),
   }),
   
 });
@@ -145,4 +180,7 @@ export const {
   useLazyFilterAdvertsQuery,
   useGetAdvertDetailByIdQuery,
   useUpdateAdvertStatusMutation,
+  useGetMyadvertsQuery,
+  useGetUserAdvertsQuery,
+  useGetMyFavAdvertsQuery,
 } = advertsApi;

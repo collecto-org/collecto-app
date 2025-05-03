@@ -18,7 +18,7 @@ import { selectFilters } from "@/store/selectors/advertsSelectors";
 import FilteredAdvertSectionProps from "@/componentsUI/containers/develop/FilteredAdverSection";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 
-import { useGetMyFavAdvertsQuery } from "@/services/usersApi";
+import { useGetMyFavAdvertsQuery } from "@/services/advertsApi";
 import { useEffect, useRef, useState } from "react";
 import { setFilter } from "@/store/slices/advertsSlice";
 

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useGetMyFavAdvertsQuery } from "@/services/usersApi";
+import { useGetMyFavAdvertsQuery } from "@/services/advertsApi";
 import { FilterAdverts } from "@/services/schemas/AdvertsSchemas";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 
