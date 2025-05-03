@@ -7,7 +7,7 @@ export default function Footer() {
         {/* Grid de secciones */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           <div>
-            <h3 className="font-semibold mb-2">Collecto</h3>
+            <h3 className="font-bold mb-2">COLLECTO APP</h3>
             <ul className="space-y-1 text-darkblue/70">
               <li>Quiénes somos</li>
               <li>Trabaja con nosotros</li>
@@ -15,7 +15,7 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold mb-2">Descubre</h3>
+            <h3 className="font-bold mb-2">DESCUBRE</h3>
             <ul className="space-y-1 text-darkblue/70">
               <li>Cómo funciona</li>
               <li>Marcas destacadas</li>
@@ -23,14 +23,14 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold mb-2">Ayuda</h3>
+            <h3 className="font-bold mb-2">AYUDA</h3>
             <ul className="space-y-1 text-darkblue/70">
               <li>Centro de ayuda</li>
               <li>Contacto</li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold mb-2">Legal</h3>
+            <h3 className="font-bold mb-2">LEGAL</h3>
             <ul className="space-y-1 text-darkblue/70">
               <li>Términos y condiciones</li>
               <li>Aviso de privacidad</li>

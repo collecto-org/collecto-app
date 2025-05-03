@@ -77,7 +77,7 @@ export default function ChatPage() {
   }, [messages]); // se ejecuta cada vez que llegan nuevos mensajes
 
   return (
-    <div className="max-w-4xl mx-auto p-6 text-darkblue text-center">
+    <div className="max-w-4xl mx-auto p-6 py-24 text-darkblue text-center">
       <h1 className="text-2xl font-bold mb-4">Chat con el usuario</h1>
       <p>
         Hablando con{" "}
@@ -86,7 +86,7 @@ export default function ChatPage() {
             {otherUser}
           </Link>
         </strong>{" "}
-        en el anuncio:
+        en el anuncio:{" "}
         <Link className="text-coral" to={`/adverts/${advert?.slug}`}>
           <strong>{advert?.title}</strong>
         </Link>

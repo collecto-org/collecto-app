@@ -12,7 +12,7 @@ import {
 import {
   useRemoveAdvertFavMutation,
   useSetAdvertFavMutation,
-} from "@/services/advertsApi"
+} from "@/services/advertsApi";
 import { selectUser } from "@/store/selectors/userSelectors";
 import Editadvert from "@/temporal-components/EditAdvert";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
@@ -20,15 +20,17 @@ import ModalLogin from "@/componentsUI/containers/develop/ModalLogin";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 import NotFoundPage from "@/componentsUI/components/develop/NotFoundPage";
 import MessageBanner from "@/componentsUI/elements/MessageBanner";
-import BannerPages from "@/componentsUI/components/develop/BannerPages"; // ✅ importamos el banner
+import BannerPages from "@/componentsUI/components/develop/BannerPages";
+import Button from "@/componentsUI/elements/Button";
+import { FiArrowLeft } from "react-icons/fi";
 
 function AdvertDetailPage() {
   const params = useParams();
   const slug = params.slug;
   const location = useLocation();
+  const navigate = useNavigate();
   const user = useSelector((state: RootState) => selectUser(state));
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const navigate = useNavigate();
 
   const {
     data: advert,
@@ -43,7 +45,7 @@ function AdvertDetailPage() {
     {
       ...filter,
       universe: universeProduct,
-      product_type:undefined
+      product_type: undefined,
     },
     {
       skip: !universeProduct,
@@ -60,7 +62,6 @@ function AdvertDetailPage() {
 
   const isOwner = user.username === advert?.user.username;
   const isSold = advert?.status.code === "sold";
-  const isReserved = advert?.status.code === "reserved";
 
   const [isEdit, setEdit] = useState(false);
   const handleEdit = () => {
@@ -150,7 +151,17 @@ function AdvertDetailPage() {
           ]}
         />
       </div>
+
       <div className="max-w-7xl mx-auto px-4">
+        <Button
+          onClick={() => navigate(-1)}
+          className="mb-4 flex items-center gap-2 mt-10"
+          variant="turquoise"
+        >
+          <FiArrowLeft className="w-5 h-5" />
+          Volver
+        </Button>
+
         <AdvertDetail
           advert={advert}
           onEdit={isOwner && !isSold ? handleEdit : undefined}
@@ -171,13 +182,9 @@ function AdvertDetailPage() {
         )}
         {isDelete && (
           <MessageBanner type="error" text="Error al eliminar el artículo" />
-
         )}
 
         <section className="mt-10 space-y-4">
-          {/* <h3 className="text-lg font-semibold text-darkblue">
-            Más Artículos del Universo {advert.universe.name}
-          </h3> */}
           {relatedAdverts ? (
             <AdvertSlider
               title="También te puede interesar"
