@@ -14,7 +14,6 @@ export default function DeleteAccount() {
     const { data: favData } = useGetMyFavAdvertsQuery({});
   
 
-    console.log("datos a renderizar en eliminacion de cuenta: ", user)
     return(
         <div className="max-w-2xl mx-auto space-y-6 text-sm">
             <Title headerLabel="Eliminar cuenta"/>

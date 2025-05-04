@@ -29,7 +29,6 @@ export default function UniversePage() {
 
   const isBrandPage = actualUniverse?.type === "brand";
   const pageLabel = isBrandPage ? "Marca" : "Universo";
-  console.log(pageLabel)
 
   useEffect(() => {
     if (!actualUniverse || !slug) return;

@@ -19,7 +19,6 @@ export default function UserAdverts() {
   const filterProducts: FilterAdverts = {
     ...filters,
   };
-  console.log(filterProducts);
   useEffect(() => {
     return () => {
       dispatch(clearFilter());

@@ -30,7 +30,6 @@ export default function UserProfile() {
         }
       }, [user]);
       
-    console.log("datos a renderizar: ", user)
     if(isLoading) return <LoadingSpinner/>
     if(isError) return <p>Error al cargar el perfil() {
         

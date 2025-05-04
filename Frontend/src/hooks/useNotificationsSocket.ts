@@ -14,7 +14,6 @@ export const useNotificationsSocket = () => {
 
     // usuario se conecta
     socket.emit('register', user.username); 
-    console.log("emitiendo");
 
     // Escucha nuevas notificaciones
     const handleNewNotification = (notification:NotificationSchema) => {
