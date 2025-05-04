@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { z } from "zod";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
+import { BrandSchema, ConditionSchema, ProductTypeSchema, statusSchema, TransactionSchema } from "@/services/schemas/UniverseSchemas";
+
 
 const newAdvertSchema = z.object({
   title: z.string().min(3, "El título es obligatorio"),
@@ -54,11 +56,11 @@ export default function NewAdvertPage() {
     selectAdvertStatus(state)
   );
 
-  const [transactionTypes, setTransactionTypes] = useState([]);
-  const [brands, setBrands] = useState([]);
-  const [statuses, setStatuses] = useState([]);
-  const [conditions, setconditions] = useState([]);
-  const [productType, setproductType] = useState([]);
+  const [transactionTypes, setTransactionTypes] = useState<TransactionSchema[]>([]);
+  const [brands, setBrands] = useState<BrandSchema[]>([]);
+  const [statuses, setStatuses] = useState<statusSchema[]>([]);
+  const [conditions, setconditions] = useState<ConditionSchema[]>([]);
+  const [productType, setproductType] = useState<ProductTypeSchema[]>([]);
   const [images, setImages] = useState<File[]>([]);
   const [currentTag, setCurrentTag] = useState("");
 
@@ -228,7 +230,7 @@ export default function NewAdvertPage() {
             className="w-full border border-coral rounded px-3 py-2"
           >
             <option value="">Selecciona una opción</option>
-            {transactionTypes.map((t) => (
+            {transactionTypes?.map((t) => (
               <option key={t._id} value={t._id}>
                 {t.value}
               </option>
@@ -242,7 +244,7 @@ export default function NewAdvertPage() {
             className="w-full border border-coral rounded px-3 py-2"
           >
             <option value="">Selecciona un estado</option>
-            {statuses.map((s) => (
+            {statuses?.map((s) => (
               <option key={s._id} value={s._id}>
                 {s.label}
               </option>
@@ -256,7 +258,7 @@ export default function NewAdvertPage() {
             className="w-full border border-coral rounded px-3 py-2"
           >
             <option value="">Selecciona un tipo</option>
-            {productType.map((p) => (
+            {productType?.map((p) => (
               <option key={p._id} value={p._id}>
                 {p.name}
               </option>
@@ -284,7 +286,7 @@ export default function NewAdvertPage() {
             className="w-full border border-coral rounded px-3 py-2"
           >
             <option value="">Selecciona una marca</option>
-            {brands.map((b) => (
+            {brands?.map((b) => (
               <option key={b._id} value={b._id}>
                 {b.name}
               </option>
@@ -298,7 +300,7 @@ export default function NewAdvertPage() {
             className="w-full border border-coral rounded px-3 py-2"
           >
             <option value="">Selecciona una condición</option>
-            {conditions.map((c) => (
+            {conditions?.map((c) => (
               <option key={c._id} value={c._id}>
                 {c.value}
               </option>

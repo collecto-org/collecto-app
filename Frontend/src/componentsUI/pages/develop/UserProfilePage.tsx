@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Icon from "@/componentsUI/elements/Icon";
-import { Link } from "react-router-dom";
 import AdvertsFavorites from "@/componentsUI/containers/develop/AdvertsFavorites";
 import AdvertsPublished from "@/componentsUI/containers/develop/AdvertsPublished";
 import UserProfile from "@/componentsUI/containers/develop/UserProfile";
