@@ -3,7 +3,7 @@
   --black: #000000;
   --very-light-pink: #c7c7c7;
   --text-input-field: #f7f7f7;
-  --hospital-green: #acd9b2;
+  --hospital-green: #7bc1c7;
   --color-coral: #e8796e;
   --color-darkblue: #1d313c;
   --color-cream: #f0eee1;
@@ -19,13 +19,6 @@ body {
   padding: 0;
   font-family: "Lato", sans-serif;
 }
-/* nav {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 24px;
-  border-bottom: 1px solid var(--very-light-pink);
-} */
 .menu {
   display: block;
 }

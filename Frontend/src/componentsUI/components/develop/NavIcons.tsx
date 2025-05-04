@@ -32,6 +32,7 @@ export default function NavIcons(user: { user: User }) {
       <div className="relative">
         <Icon
           name="bell"
+          size={22}
           className="text-darkblue hover:text-coral cursor-pointer"
           onClick={() => {
             setShowNotifications(!showNotifications);
@@ -48,7 +49,7 @@ export default function NavIcons(user: { user: User }) {
                     setShowNotifications(!showNotifications);
                   }}
                   to="/notifications"
-                  className="text-darkblue hover:text-coral"
+                  className="text-darkblue hover:text-coral cursor-pointer"
                 >
                   <li key={notification._id}>{notification.message}</li>
                 </Link>
@@ -59,35 +60,38 @@ export default function NavIcons(user: { user: User }) {
         <NotificationBadge
           count={totalPendingNotifications}
           position="top-right"
-          variant="warning"
+          variant="danger"
         />
       </div>
 
-      <div className="relative ">
+      <div className="relative">
         <Link
-          to="/userprofile"
-          state={{ section: "Favoritos" }}
-          className="text-darkblue hover:text-coral"
+          to="/my-chats"
+          className="text-darkblue hover:text-coral cursor-pointer"
         >
           <Icon
-            name="heart"
+            name="chat"
             size={22}
-            className="hover:text-coral transition-colors"
+            className="hover:text-coral transition-colors text-darkblue cursor-pointer"
+          />
+          <NotificationBadge
+            count={TotalPendingChats}
+            position="top-right"
+            variant="danger"
           />
         </Link>
       </div>
 
       <div className="relative">
-        <Link to="/my-chats" className="text-darkblue hover:text-coral">
+        <Link
+          to="/userprofile"
+          state={{ section: "Favoritos" }}
+          className="text-darkblue hover:text-coral cursor-pointer"
+        >
           <Icon
-            name="chat"
+            name="heart"
             size={22}
-            className="hover:text-coral transition-colors text-darkblue"
-          />
-          <NotificationBadge
-            count={TotalPendingChats}
-            position="bottom-right"
-            variant="danger"
+            className="hover:text-coral transition-colors text-darkblue cursor-pointer"
           />
         </Link>
       </div>
