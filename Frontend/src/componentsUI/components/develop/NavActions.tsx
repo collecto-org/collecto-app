@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { User } from "@/services/schemas/UserSchemas";
 import useLogoutHandler from "@/hooks/useLogoutHandler";
 import Button from "@/componentsUI/elements/Button";
+import { FiPlus } from "react-icons/fi";
 
 interface NavActionsprops {
   user: User;
@@ -32,11 +33,15 @@ export default function NavActions({
     return (
       <div className="flex gap-2 flex-shrink-0">
         <NavLink to="/new-advert">
-          <Button variant="primary" size="md">
-            Sube un anuncio
+          <Button
+            variant="primary"
+            size="md"
+            className="flex items-center gap-1 pl-2"
+          >
+            <FiPlus className="w-5 h-5" />
+            Carga un anuncio
           </Button>
         </NavLink>
-
         <Button onClick={handleLogout} variant="outlined" size="md">
           Cerrar sesión
         </Button>

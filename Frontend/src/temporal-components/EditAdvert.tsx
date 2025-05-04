@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import MainLayout from "@/componentsUI/layouts/MainLayout";
 import Button from "@/componentsUI/elements/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -16,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { Advert } from "@/services/schemas/AdvertsSchemas";
 import { z } from "zod";
 import MessageBanner from "@/componentsUI/elements/MessageBanner";
+import { FiArrowLeft } from "react-icons/fi";
 
 interface CatalogOption {
   _id: string;
@@ -38,10 +38,8 @@ const editAdvertSchema = z.object({
   price: z
     .string()
     .min(1, "El precio es obligatorio")
-    .transform((val) => parseFloat(val)) // Convierte a número
-    .refine((val) => val >= 0, {
-      message: "El precio no puede ser negativo",
-    }),
+    .transform((val) => parseFloat(val))
+    .refine((val) => val >= 0, { message: "El precio no puede ser negativo" }),
   transaction: z.string().min(1, "Selecciona un tipo de transacción"),
   status: z.string().min(1, "Selecciona un estado"),
   product_type: z.string().min(1, "Selecciona un tipo de producto"),
@@ -77,13 +75,13 @@ export default function EditAdvertPage({
   const [existingImages, setExistingImages] = useState<string[]>(
     advert.images || []
   );
-
   const [transactionTypes, setTransactionTypes] = useState<CatalogOption[]>([]);
   const [brands, setBrands] = useState<CatalogOption[]>([]);
   const [statuses, setStatuses] = useState<CatalogOption[]>([]);
-  const [conditions, setconditions] = useState<CatalogOption[]>([]);
-  const [productType, setproductType] = useState<CatalogOption[]>([]);
+  const [conditions, setConditions] = useState<CatalogOption[]>([]);
+  const [productType, setProductType] = useState<CatalogOption[]>([]);
   const [images, setImages] = useState<File[]>([]);
+  const [currentTag, setCurrentTag] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -98,6 +96,10 @@ export default function EditAdvertPage({
     brand: "",
     tags: ["general"],
   });
+
+  const [message, setMessage] = useState<string>("");
+  const [editAdvert, { isLoading, isError, isSuccess }] =
+    useEditAdvertMutation();
 
   useEffect(() => {
     if (advert) {
@@ -116,17 +118,13 @@ export default function EditAdvertPage({
       });
     }
   }, [advert]);
-  const [message, setMessage] = useState<string>("");
-
-  const [editAdvert, { isLoading, isError, isSuccess }] =
-    useEditAdvertMutation();
 
   useEffect(() => {
     setTransactionTypes(transactionsOptions || []);
     setBrands(brandsOptions || []);
     setStatuses(statusOptions || []);
-    setconditions(conditionsOptions || []);
-    setproductType(productTypesOptions || []);
+    setConditions(conditionsOptions || []);
+    setProductType(productTypesOptions || []);
   }, [
     brandsOptions,
     transactionsOptions,
@@ -154,6 +152,24 @@ export default function EditAdvertPage({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const trimmed = currentTag.trim();
+      if (trimmed && !formData.tags.includes(trimmed)) {
+        setFormData((prev) => ({ ...prev, tags: [...prev.tags, trimmed] }));
+        setCurrentTag("");
+      }
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      tags: prev.tags.filter((tag) => tag !== tagToRemove),
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
@@ -167,7 +183,6 @@ export default function EditAdvertPage({
     }
 
     const advertForm = new FormData();
-
     Object.entries(formData).forEach(([key, value]) => {
       if (key === "tags" && Array.isArray(value)) {
         value.forEach((tag) => advertForm.append("tags", tag));
@@ -177,18 +192,15 @@ export default function EditAdvertPage({
     });
 
     advertForm.append("type", "advert");
-
     images.forEach((img) => advertForm.append("images", img));
     existingImages.forEach((url) => advertForm.append("imagesUrl", url));
 
     if (images.length + existingImages.length > 6) {
-      console.log("fallo");
       setMessage("No puedes subir más de 6 imágenes");
       return;
     }
 
     if (existingImages.length <= 0 && images.length <= 0) {
-      console.log("fallo");
       setMessage("Debes de subir al menos una imagen");
       return;
     }
@@ -220,218 +232,246 @@ export default function EditAdvertPage({
   };
 
   return (
-    <MainLayout>
-      <div className="mt-10 max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-darkblue mb-6">
-          Editar anuncio
-        </h1>
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <label className="block">Título</label>
-          <input
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          />
+    <div className="mt-24 max-w-4xl mx-auto px-4 py-8">
+      <Button
+        onClick={() => navigate(-1)}
+        className="mb-4 flex items-center gap-2"
+        variant="turquoise"
+      >
+        <FiArrowLeft className="w-5 h-5" />
+        Salir
+      </Button>
+      <h1 className="text-3xl font-bold text-darkblue mb-6">Editar anuncio</h1>
 
-          <label className="block">Descripción</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          />
+      <form className="space-y-5" onSubmit={handleSubmit}>
+        <label className="block font-bold mb-0">Título</label>
+        <input
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          className="w-full border border-coral rounded px-3 py-2"
+        />
 
-          <label className="block">Precio</label>
-          <input
-            name="price"
-            type="number"
-            value={formData.price}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          />
+        <label className="block font-bold mb-0">Descripción</label>
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          className="w-full border border-coral rounded px-3 py-2"
+        />
 
-          <label className="block">Tipo de transacción</label>
-          <select
-            name="transaction"
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value={advert.transaction.value}>
-              Selecciona una opción
+        <label className="block font-bold mb-0">Precio</label>
+        <input
+          name="price"
+          type="number"
+          value={formData.price}
+          onChange={handleChange}
+          className="w-full border border-coral rounded px-3 py-2"
+        />
+
+        <label className="block font-bold mb-0">Tipo de transacción</label>
+        <select
+          name="transaction"
+          onChange={handleChange}
+          className="w-full border border-coral rounded px-3 py-2"
+        >
+          <option value={advert.transaction.value}>
+            Selecciona una opción
+          </option>
+          {transactionTypes.map((t) => (
+            <option
+              selected={t._id === advert.transaction._id}
+              key={t._id}
+              value={t._id}
+            >
+              {t.value}
             </option>
-            {transactionTypes.map((t) => (
-              <option
-                selected={t._id === advert.transaction._id}
-                key={t._id}
-                value={t._id}
+          ))}
+        </select>
+
+        <label className="block font-bold mb-0">Está Disponible</label>
+        <select
+          name="status"
+          onChange={handleChange}
+          className="w-full border border-coral rounded px-3 py-2"
+        >
+          <option value="">Selecciona un estado</option>
+          {statuses.map((s) => (
+            <option
+              selected={s._id === advert.status._id}
+              key={s._id}
+              value={s._id}
+            >
+              {s.label}
+            </option>
+          ))}
+        </select>
+
+        <label className="block font-bold mb-0">Tipo de producto</label>
+        <select
+          name="product_type"
+          onChange={handleChange}
+          className="w-full border border-coral rounded px-3 py-2"
+        >
+          <option value="">Selecciona un tipo</option>
+          {productType.map((p) => (
+            <option
+              selected={p._id === advert.product_type._id}
+              key={p._id}
+              value={p._id}
+            >
+              {p.name}
+            </option>
+          ))}
+        </select>
+
+        <label className="block font-bold mb-0">Universo</label>
+        <select
+          name="universe"
+          onChange={handleChange}
+          className="w-full border border-coral rounded px-3 py-2"
+        >
+          <option value="">Selecciona un universo</option>
+          {universes?.map((u) => (
+            <option
+              selected={u._id === advert.universe._id}
+              key={u._id}
+              value={u._id}
+            >
+              {u.name}
+            </option>
+          ))}
+        </select>
+
+        <label className="block font-bold mb-0">Condición</label>
+        <select
+          name="condition"
+          onChange={handleChange}
+          className="w-full border border-coral rounded px-3 py-2"
+        >
+          <option value="">Selecciona una condición</option>
+          {conditions.map((c) => (
+            <option
+              selected={c._id === advert.condition._id}
+              key={c._id}
+              value={c._id}
+            >
+              {c.value}
+            </option>
+          ))}
+        </select>
+
+        <label className="block font-bold mb-0">Marca</label>
+        <select
+          name="brand"
+          onChange={handleChange}
+          className="w-full border border-coral rounded px-3 py-2"
+        >
+          <option value="">Selecciona una marca</option>
+          {brands.map((b) => (
+            <option
+              selected={b._id === advert.brand._id}
+              key={b._id}
+              value={b._id}
+            >
+              {b.name}
+            </option>
+          ))}
+        </select>
+
+        <label className="block font-bold mb-0">Colección (opcional)</label>
+        <textarea
+          name="collection"
+          value={formData.collection}
+          onChange={handleChange}
+          className="w-full border border-coral rounded px-3 py-2"
+        />
+        <label className="block font-bold mb-0">Tags (opcional)</label>
+        <input
+          type="text"
+          placeholder="Escribe un tag y presiona Enter"
+          value={currentTag}
+          onChange={(e) => setCurrentTag(e.target.value)}
+          onKeyDown={handleAddTag}
+          className="w-full border border-coral rounded px-3 py-2"
+        />
+
+        <div className="mt-2 flex gap-2 flex-wrap">
+          {formData.tags.map((tag, index) => (
+            <div
+              key={index}
+              className="flex items-center bg-lightgray text-darkblue px-2 py-1 rounded-full text-xs"
+            >
+              #{tag}
+              <button
+                type="button"
+                onClick={() => handleRemoveTag(tag)}
+                className="ml-1 text-coral font-bold hover:text-red-600"
               >
-                {t.value}
-              </option>
-            ))}
-          </select>
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+        <label className="block font-bold mb-0">Imágenes</label>
+        <input
+          type="file"
+          name="images"
+          accept="image/*"
+          multiple
+          onChange={handleImageChange}
+          className="block w-full border border-coral rounded px-3 py-2"
+        />
 
-          <label className="block">Está Disponible</label>
-          <select
-            name="status"
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value="">Selecciona un estado</option>
-            {statuses.map((s) => (
-              <option
-                selected={s._id === advert.status._id}
-                key={s._id}
-                value={s._id}
+        <div className="grid grid-cols-3 gap-4">
+          {existingImages.map((url, idx) => (
+            <div key={`existing-${idx}`} className="relative border rounded">
+              <img
+                src={url}
+                alt={`existing-${idx}`}
+                className="w-full h-32 object-cover"
+              />
+              <button
+                type="button"
+                onClick={() =>
+                  setExistingImages(existingImages.filter((_, i) => i !== idx))
+                }
+                className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 text-xs rounded"
               >
-                {s.label}
-              </option>
-            ))}
-          </select>
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
 
-          <label className="block">Tipo de producto</label>
-          <select
-            name="product_type"
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value="">Selecciona un tipo</option>
-            {productType.map((p) => (
-              <option
-                selected={p._id === advert.product_type._id}
-                key={p._id}
-                value={p._id}
+        <div className="grid grid-cols-3 gap-4">
+          {images.map((file, idx) => (
+            <div key={idx} className="relative border border-coral rounded">
+              <img
+                src={URL.createObjectURL(file)}
+                alt={`preview-${idx}`}
+                className="w-full h-32 object-cover"
+              />
+              <button
+                type="button"
+                onClick={() => setImages(images.filter((_, i) => i !== idx))}
+                className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 text-xs rounded"
               >
-                {p.name}
-              </option>
-            ))}
-          </select>
-
-          <label className="block">Universo</label>
-          <select
-            name="universe"
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value="">Selecciona un universo</option>
-            {universes?.map((u) => (
-              <option
-                selected={u._id === advert.universe._id}
-                key={u._id}
-                value={u._id}
-              >
-                {u.name}
-              </option>
-            ))}
-          </select>
-
-          <label className="block">Condición</label>
-          <select
-            name="condition"
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value="">Selecciona una condición</option>
-            {conditions.map((c) => (
-              <option
-                selected={c._id === advert.condition._id}
-                key={c._id}
-                value={c._id}
-              >
-                {c.value}
-              </option>
-            ))}
-          </select>
-
-          <label className="block">Marca</label>
-          <select
-            name="brand"
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          >
-            <option value="">Selecciona una marca</option>
-            {brands.map((b) => (
-              <option
-                selected={b._id === advert.brand._id}
-                key={b._id}
-                value={b._id}
-              >
-                {b.name}
-              </option>
-            ))}
-          </select>
-
-          <label className="block">Collección</label>
-          <textarea
-            name="collection"
-            value={formData.collection}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2"
-          />
-
-          <label className="block">Imágenes</label>
-          <input
-            type="file"
-            name="images"
-            accept="image/*"
-            multiple
-            onChange={handleImageChange}
-            className="block w-full border rounded px-3 py-2"
-          />
-
-          <div className="grid grid-cols-3 gap-4">
-            {existingImages.map((url, idx) => (
-              <div key={`existing-${idx}`} className="relative border rounded">
-                <img
-                  src={url}
-                  alt={`existing-${idx}`}
-                  className="w-full h-32 object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={() =>
-                    setExistingImages(
-                      existingImages.filter((_, i) => i !== idx)
-                    )
-                  }
-                  className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 text-xs rounded"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
-            {images.map((file, idx) => (
-              <div key={idx} className="relative border rounded">
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt={`preview-${idx}`}
-                  className="w-full h-32 object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={() => setImages(images.filter((_, i) => i !== idx))}
-                  className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 text-xs rounded"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <Button
-            type="submit"
-            variant="turquoise"
-            disabled={isLoading || isSuccess}
-          >
-            {isLoading ? "Cargando..." : "Enviar"}
-          </Button>
-          {message && isError && <MessageBanner type="error" text={message} />}
-          {message && !isError && <MessageBanner type="info" text={message} />}
-        </form>
-      </div>
-    </MainLayout>
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={isLoading || isSuccess}
+        >
+          {isLoading ? "Cargando..." : "Guardar cambios"}
+        </Button>
+        {message && isError && <MessageBanner type="error" text={message} />}
+        {message && !isError && <MessageBanner type="info" text={message} />}
+      </form>
+    </div>
   );
 }

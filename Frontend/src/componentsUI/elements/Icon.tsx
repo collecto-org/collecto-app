@@ -15,13 +15,13 @@ import {
   FaCalendar,
   FaDatabase,
   FaSave,
-  FaFacebook, 
+  FaFacebook,
   FaTwitter,
   FaPhone,
   FaInfoCircle,
-  FaEye, 
+  FaEye,
   FaEyeSlash,
-  FaExclamationTriangle
+  FaExclamationTriangle,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 
@@ -49,7 +49,7 @@ const icons: Record<string, IconType> = {
   facebook: FaFacebook,
   phone: FaPhone,
   info: FaInfoCircle,
-  openEye:FaEye, 
+  openEye: FaEye,
   closeEye: FaEyeSlash,
   alertTriangle: FaExclamationTriangle,
 };
@@ -74,9 +74,8 @@ export default function Icon({
   return (
     <Component
       size={size}
-      className={className}
+      className={`${className} ${onClick ? "cursor-pointer" : ""}`}
       onClick={onClick}
-      style={{ cursor: onClick ? "pointer" : "default" }}
     />
   );
 }

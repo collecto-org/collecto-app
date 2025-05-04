@@ -12,14 +12,7 @@ import {
 } from "@/store/selectors/optionsSelectors";
 import { useNewAdvertMutation } from "@/services/advertsApi";
 import { useNavigate } from "react-router-dom";
-
-interface CatalogOption {
-  _id: string;
-  name?: string;
-  value?: string;
-  label?: string;
-}
-
+import { FiArrowLeft } from "react-icons/fi";
 import { z } from "zod";
 import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 
@@ -31,10 +24,8 @@ const newAdvertSchema = z.object({
   price: z
     .string()
     .min(1, "El precio es obligatorio")
-    .transform((val) => parseFloat(val)) // Convierte a número
-    .refine((val) => val >= 0, {
-      message: "El precio no puede ser negativo",
-    }),
+    .transform((val) => parseFloat(val))
+    .refine((val) => val >= 0, { message: "El precio no puede ser negativo" }),
   transaction: z.string().min(1, "Selecciona un tipo de transacción"),
   status: z.string().min(1, "Selecciona un estado"),
   product_type: z.string().min(1, "Selecciona un tipo de producto"),
@@ -63,12 +54,14 @@ export default function NewAdvertPage() {
     selectAdvertStatus(state)
   );
 
-  const [transactionTypes, setTransactionTypes] = useState<CatalogOption[]>([]);
-  const [brands, setBrands] = useState<CatalogOption[]>([]);
-  const [statuses, setStatuses] = useState<CatalogOption[]>([]);
-  const [conditions, setconditions] = useState<CatalogOption[]>([]);
-  const [productType, setproductType] = useState<CatalogOption[]>([]);
+  const [transactionTypes, setTransactionTypes] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [statuses, setStatuses] = useState([]);
+  const [conditions, setconditions] = useState([]);
+  const [productType, setproductType] = useState([]);
   const [images, setImages] = useState<File[]>([]);
+  const [currentTag, setCurrentTag] = useState("");
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -82,8 +75,8 @@ export default function NewAdvertPage() {
     brand: "",
     tags: ["general"],
   });
-  const [message, setMessage] = useState<string>("");
 
+  const [message, setMessage] = useState<string>("");
   const [newAdvert, { isLoading, isError }] = useNewAdvertMutation();
 
   useEffect(() => {
@@ -117,6 +110,24 @@ export default function NewAdvertPage() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const trimmed = currentTag.trim();
+      if (trimmed && !formData.tags.includes(trimmed)) {
+        setFormData((prev) => ({ ...prev, tags: [...prev.tags, trimmed] }));
+        setCurrentTag("");
+      }
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      tags: prev.tags.filter((tag) => tag !== tagToRemove),
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -170,10 +181,17 @@ export default function NewAdvertPage() {
     }
   };
 
-  console.log("statuses", statuses);
   return (
     <>
       <div className="mt-24 max-w-4xl mx-auto px-4 py-8">
+        <Button
+          onClick={() => navigate(-1)}
+          className="mb-4 flex items-center gap-2"
+          variant="turquoise"
+        >
+          <FiArrowLeft className="w-5 h-5" />
+          Volver
+        </Button>
         <h1 className="text-3xl font-bold text-darkblue mb-6">
           Agrega un nuevo anuncio
         </h1>
@@ -296,7 +314,38 @@ export default function NewAdvertPage() {
             className="w-full border border-coral rounded px-3 py-2"
           />
 
-          <label className="block font-bold mb-0">Imágenes</label>
+          <label className="block font-bold mb-0">Tags (opcional)</label>
+          <input
+            type="text"
+            name="tags"
+            placeholder="Escribe un tag y presiona Enter"
+            value={currentTag}
+            onChange={(e) => setCurrentTag(e.target.value)}
+            onKeyDown={handleAddTag}
+            className="w-full border border-coral rounded px-3 py-2"
+          />
+
+          <div className="mt-2 flex gap-2 flex-wrap">
+            {formData.tags.map((tag, index) => (
+              <div
+                key={index}
+                className="flex items-center bg-lightgray text-darkblue px-2 py-1 rounded-full text-xs"
+              >
+                #{tag}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveTag(tag)}
+                  className="ml-1 text-coral font-bold hover:text-red-600"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <label className="block font-bold mb-0">
+            Agrega máximo 5 imágenes
+          </label>
           <input
             type="file"
             accept="image/*"
@@ -313,6 +362,13 @@ export default function NewAdvertPage() {
                   alt={`preview-${idx}`}
                   className="w-full h-32 object-cover"
                 />
+                <button
+                  type="button"
+                  onClick={() => setImages(images.filter((_, i) => i !== idx))}
+                  className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 text-xs rounded"
+                >
+                  ✕
+                </button>
               </div>
             ))}
           </div>
