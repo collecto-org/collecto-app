@@ -9,7 +9,7 @@ import ResponsiveLogoGrid from "../../components/develop/ResponsiveLogoGrid";
 import { useNavigate } from "react-router-dom";
 
 interface BannerProps {
-  backgroundImages: string[];
+  backgroundImages: UniverseSchema[] | BrandSchema[];
   text: string;
   highlights: string | string[];
   logos: UniverseSchema[] | BrandSchema[];
@@ -17,7 +17,7 @@ interface BannerProps {
 }
 
 export default function Banner({
-  backgroundImages,
+  backgroundImages:prevBackgroundImages,
   text,
   highlights,
   logos,
@@ -27,7 +27,8 @@ export default function Banner({
   const mainImage = "/gridImages/collecto-banner-principal.jpg";
   const [currentImage, setCurrentImage] = useState(mainImage);
   const [fade, setFade] = useState(true);
-  console.count("Banner call");
+  const backgroundImages:string[] = []
+  prevBackgroundImages.map((universe) => backgroundImages.push(`/gridImages/${universe.slug}.jpg`) )
 
   // 🔄 Función para elegir una imagen aleatoria distinta a la actual
   const getRandomImage = (current: string) => {

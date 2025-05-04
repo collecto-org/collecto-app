@@ -7,7 +7,6 @@ import {
   useFilterAdvertsQuery,
   useGetAllAdvertsQuery,
 } from "@/services/advertsApi";
-import { logosBanner } from "../../containers/develop/MockData";
 import {
   selectBrands,
   selectUniverses,
@@ -81,7 +80,7 @@ export default function HomePage() {
       <>
         <div className="pt-8">
           <Banner
-            backgroundImages={logosBanner}
+            backgroundImages={universe}
             text="Inicia tu búsqueda dentro de un universo"
             highlights={["búsqueda", "universo"]}
             height="h-70 md:h-96"

@@ -1,9 +1,9 @@
+import Logo from "@/componentsUI/elements/Logo";
 import {
   useGetNotificationsQuery,
   useReadNotificationsMutation,
 } from "@/services/notificationsApi";
 import { selectUnreadNotifications } from "@/store/selectors/notificationSelector";
-import { slugify } from "@/utils/slugify";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -11,7 +11,6 @@ export function NotificationView() {
   const notifications = useSelector(selectUnreadNotifications);
   const [readNotification] = useReadNotificationsMutation();
   const { refetch } = useGetNotificationsQuery({});
-
   const handleOnClick = async (id: string) => {
     try {
       await readNotification(id);
@@ -23,8 +22,10 @@ export function NotificationView() {
 
   if (notifications && notifications.length > 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 pt-20 md:grid-cols-2  lg:grid-cols-4 gap-6 p-4">
+      
+      <div className="max-w-7xl mt-20 mx-auto px-4">
+        <p className="font-bold text-lg bg-coral rounded-md text-center">Tienes {notifications.length} notificaciones sin leer</p>
+        <div className="grid grid-cols-1 pt-5 md:grid-cols-2  lg:grid-cols-4 gap-6 p-4">
           {notifications.map((notification) => (
             <div
               key={notification._id}
@@ -33,7 +34,7 @@ export function NotificationView() {
               <p className="font-bold text-lg mb-2">Notificación</p>
               <Link
                 className="text-gray-800"
-                to={`/adverts/${slugify(notification.advertId?.slug)}`}
+                to={`/adverts/${notification.advertId?.slug}`}
               >
                 <p className="text-sm mb-4">{notification.message}</p>
               </Link>
@@ -51,8 +52,22 @@ export function NotificationView() {
   }
 
   return (
-    <p className="px-4 py-6 text-center text-sage text-sm font-medium">
-      No hay notificaciones.
-    </p>
+    <div className="max-w-7xl mt-20 mx-auto px-4">
+        <p className="font-bold text-lg bg-coral rounded-md text-center">Enhorabuena!! No tienes notificaciones pendientes</p>
+        <div className="flex flex-col mt-8 items-center text-center shadow-md  space-y-4  ">
+        <p className="font-bold text-sm rounded-md text-center">Puedes seguir buscando la figura que falta en tu colección!</p>
+
+                  <Logo
+                    src="/logos/collecto.png"
+                    alt="Logo Collecto"
+                    width={100}
+                    height={100}
+                    className="mb-2"
+                    redirectTo="/"
+                  
+                  />
+        </div>
+        
+        </div>
   );
 }

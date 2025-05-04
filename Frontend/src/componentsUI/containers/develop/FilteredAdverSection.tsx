@@ -29,7 +29,7 @@ export default function FiteredAdvertSection({
         </div>
 
         <div className="col-span-12 md:col-span-9  flex items-end  justify-start">
-          <PaginationBlock total={Number(adverts.total)} />
+          <PaginationBlock total={Number(adverts.total)} pageLabel={headerLabel}/>
         </div>
 
         <div className="col-span-12 md:col-span-3">
