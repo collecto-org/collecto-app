@@ -25,22 +25,21 @@ export default function SearchBar({
   const isAdvertDetailPage = /^\/adverts\/[^/]+$/.test(location.pathname);
 
   const { register, watch, setValue } = useForm<FormValues>({
-    //  useForm para manejar los input
-    defaultValues: { search: "" }, //  Valores por defecto del useForm
+    defaultValues: { search: "" }, 
   });
 
-  const searchValue = watch("search"); //  aqui esta disponible el valor de cada punto del formulario
+  const searchValue = watch("search"); 
 
   const handleSearch = () => {
-    dispatch(setFilter({ searchTerm: searchValue, limit: 12 }));
+    dispatch(setFilter({ searchTerm: searchValue, page:1,limit: 12 }));
     if (isAdvertDetailPage) {
-      navigate("/"); // redirige al Home si estás en el detalle
+      navigate("/"); 
     }
   };
 
   const clearSearch = () => {
-    setValue("search", ""); //  borrar valores deluseForm
-    dispatch(setFilter({ title: "", limit: 12 })); //  borrar valores del filtro
+    setValue("search", ""); 
+    dispatch(setFilter({ title: "", limit: 12 })); 
   };
 
   return (

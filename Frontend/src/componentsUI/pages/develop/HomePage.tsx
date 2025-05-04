@@ -20,11 +20,13 @@ import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 import { useGetMyFavAdvertsQuery } from "@/services/advertsApi";
 import { useEffect, useRef, useState } from "react";
 import { setFilter } from "@/store/slices/advertsSlice";
+import { selectUser } from "@/store/selectors/userSelectors";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const filter = useSelector(selectFilters);
     const dispatch = useDispatch();
+    const user = useSelector(selectUser)
   
 
   const universe = useSelector((state: RootState) => selectUniverses(state));
@@ -54,9 +56,9 @@ export default function HomePage() {
   const favFilter = { ...filter, page: favPage, limit: 10 };
   
   const { data: userFavorites } = useGetMyFavAdvertsQuery(favFilter, {
-    skip: !isFavCall && !isFirstRender.current,
+    skip: !user.username || !isFavCall && !isFirstRender.current,
   });
-
+  
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;      
