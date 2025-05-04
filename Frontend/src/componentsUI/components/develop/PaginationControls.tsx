@@ -85,12 +85,11 @@ export default function PaginationControls({
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[0.9rem] text-darkblue">
       <div className="flex items-center gap-2 relative">
         <span className="font-bold p-2">
-          Total de anuncios: {total} anuncios
+          {total} anuncios
         </span>
       </div>
 
       <div className="flex items-center gap-2 relative">
-        <span className="font-medium">Mostrar:</span>
         <select
           className="border-2 border-turquoise rounded-full px-3 py-1 text-turquoise font-quicksand appearance-none pr-8"
           value={limit}

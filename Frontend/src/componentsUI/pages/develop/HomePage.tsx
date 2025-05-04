@@ -109,6 +109,7 @@ export default function HomePage() {
           </section>
         </div>
         {filter.searchTerm || filter.product_type ? (
+          <div className="max-w-7xl mx-auto px-4 pt-10">
           <FilteredAdvertSectionProps
             headerLabel="¿Qúe estás buscando?"
             label={filter.searchTerm || ""}
@@ -116,6 +117,7 @@ export default function HomePage() {
               filterAdverts ? filterAdverts : { adverts: [], total: "0" }
             }
           />
+          </div>
         ) : (
           <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
             {adverts && adverts?.adverts.length > 0 && !isError ? (
