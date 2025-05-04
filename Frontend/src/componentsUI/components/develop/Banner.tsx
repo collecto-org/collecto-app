@@ -9,7 +9,7 @@ import ResponsiveLogoGrid from "../../components/develop/ResponsiveLogoGrid";
 import { useNavigate } from "react-router-dom";
 
 interface BannerProps {
-  backgroundImages: string[];
+  backgroundImages: UniverseSchema[] | BrandSchema[];
   text: string;
   highlights: string | string[];
   logos: UniverseSchema[] | BrandSchema[];
@@ -17,7 +17,7 @@ interface BannerProps {
 }
 
 export default function Banner({
-  backgroundImages,
+  backgroundImages:prevBackgroundImages,
   text,
   highlights,
   logos,
@@ -27,7 +27,8 @@ export default function Banner({
   const mainImage = "/gridImages/collecto-banner-principal.jpg";
   const [currentImage, setCurrentImage] = useState(mainImage);
   const [fade, setFade] = useState(true);
-  console.count("Banner call");
+  const backgroundImages:string[] = []
+  prevBackgroundImages.map((universe) => backgroundImages.push(`/gridImages/${universe.slug}.jpg`) )
 
   // 🔄 Función para elegir una imagen aleatoria distinta a la actual
   const getRandomImage = (current: string) => {
@@ -67,7 +68,7 @@ export default function Banner({
       {/* Contenido */}
       <div className="relative z-20 w-full h-full flex flex-col justify-center items-center">
         <div className="max-w-7xl w-full px-4 mx-auto text-white text-center space-y-4">
-          <h2 className="text-2xl md:text-4xl font-black pb-4 pt-8 font-lato text-shadow-darkblue">
+          <h2 className="text-2xl md:text-4xl font-bold pb-4 pt-8 font-lato text-shadow-darkblue">
             <HighlightedText text={text} highlights={highlights} />
           </h2>
           <ResponsiveLogoGrid

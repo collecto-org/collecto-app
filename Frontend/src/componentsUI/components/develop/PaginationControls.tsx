@@ -2,19 +2,40 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectFilters } from "@/store/selectors/advertsSelectors";
 import { setFilter } from "@/store/slices/advertsSlice";
+import {
+  selectBrands,
+  selectUniverses,
+} from "@/store/selectors/optionsSelectors";
 
 interface PaginationControlsProps {
   total?: number;
+  pageLabel?: string;
 }
-export default function PaginationControls({ total }: PaginationControlsProps) {
+export default function PaginationControls({
+  total,
+  pageLabel,
+}: PaginationControlsProps) {
   const dispatch = useDispatch();
 
   const filters = useSelector(selectFilters);
+  let brands = useSelector(selectBrands);
+  let universes = useSelector(selectUniverses);
+  const sortValues = [
+    { label: "Precio ascendente", value: JSON.stringify({ sortBy: "price", sortOrder: 1 }) },
+    { label: "Precio descendente", value: JSON.stringify({ sortBy: "price", sortOrder: -1 }) },
+    { label: "Más recientes", value: JSON.stringify({ sortBy: "createdAt", sortOrder: -1 }) },
+    { label: "Más antiguos", value: JSON.stringify({ sortBy: "createdAt", sortOrder: 1 }) },
+  ];
+
+  const filteredSelect = pageLabel === "Universo" ? brands : universes;
 
   const limit = filters.limit ?? 12;
   const page = filters.page ?? 1;
 
+
   const [currentPage, setCurrentPage] = useState(page);
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [selectedSort, setSelectedSort] = useState("");
 
   useEffect(() => {
     setCurrentPage(page);
@@ -47,18 +68,28 @@ export default function PaginationControls({ total }: PaginationControlsProps) {
     setCurrentPage(1);
   };
 
+  const handleBrandFilter = (e: string) => {
+    if(pageLabel === "Universo"){
+    dispatch(setFilter({ brand: e, page: 1}));}
+    else{
+      dispatch(setFilter({ universe: e, page: 1 }))
+    }
+  };
+
+  
+
+
   const pageSizeOptions = [1, 6, 12];
 
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[0.9rem] text-darkblue">
       <div className="flex items-center gap-2 relative">
         <span className="font-bold p-2">
-          Total de anuncios: {total} anuncios
+          {total} anuncios
         </span>
       </div>
 
       <div className="flex items-center gap-2 relative">
-        <span className="font-medium">Mostrar:</span>
         <select
           className="border-2 border-turquoise rounded-full px-3 py-1 text-turquoise font-quicksand appearance-none pr-8"
           value={limit}
@@ -82,6 +113,71 @@ export default function PaginationControls({ total }: PaginationControlsProps) {
           />
         </svg>
       </div>
+      {pageLabel != "¿Qúe estás buscando?" && filteredSelect && filteredSelect.length > 0 && (
+        <div className="flex items-center gap-2 relative">
+          <select
+            className="border-2 border-coral rounded-full px-3 py-1 text-white bg-coral font-quicksand appearance-none pr-8"
+            value={selectedBrand}
+            onChange={(e) => {
+              const selectedValue = e.target.value;
+              setSelectedBrand(selectedValue);
+              handleBrandFilter(selectedValue);
+            }}
+          >
+            <option value="">
+              {pageLabel === "Universo" ? "Marcas" : "Universos"}
+            </option>{" "}
+            {filteredSelect.map((brand) => (
+              <option key={brand._id} value={brand._id}>
+                {brand.name}
+              </option>
+            ))}
+          </select>
+
+          <svg
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-white pointer-events-none"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 01.02-1.06z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+      )}
+
+<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[0.9rem] text-darkblue">
+     
+      <div className="flex items-center gap-2 relative">
+        <select
+          className="border-2 border-turquoise rounded-full px-3 py-1 text-turquoise font-quicksand appearance-none pr-8"
+          value={selectedSort}
+          onChange={(e) => {
+            const { sortBy, sortOrder,label } = JSON.parse(e.target.value);
+            setSelectedSort(label)
+            dispatch(setFilter({ sortBy, sortOrder, page: 1 }));
+          }}        >
+          {sortValues.map((sort) => (
+            <option key={sort.label} value={sort.value}>
+              {sort.label}
+            </option>
+          ))}
+        </select>
+        <svg
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-turquoise pointer-events-none"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 01.02-1.06z"
+            clipRule="evenodd"
+          />
+        </svg>
+        </div>
+        </div>
 
       <div className="flex items-center gap-3">
         <button

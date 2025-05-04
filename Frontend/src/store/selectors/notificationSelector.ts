@@ -17,5 +17,5 @@ export const selectLastUnreadNotifications = createSelector(
 export const selectUnreadNotifications = createSelector(
   [selectNotifications],
   (notifications) =>
-    notifications.filter((n) => !n.isRead).slice(0, 5)
+    notifications.filter((n) => !n.isRead)
 );

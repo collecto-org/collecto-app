@@ -7,7 +7,6 @@ import {
   useFilterAdvertsQuery,
   useGetAllAdvertsQuery,
 } from "@/services/advertsApi";
-import { logosBanner } from "../../containers/develop/MockData";
 import {
   selectBrands,
   selectUniverses,
@@ -21,11 +20,13 @@ import LoadingSpinner from "@/componentsUI/elements/LoadingSpinner";
 import { useGetMyFavAdvertsQuery } from "@/services/advertsApi";
 import { useEffect, useRef, useState } from "react";
 import { setFilter } from "@/store/slices/advertsSlice";
+import { selectUser } from "@/store/selectors/userSelectors";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const filter = useSelector(selectFilters);
     const dispatch = useDispatch();
+    const user = useSelector(selectUser)
   
 
   const universe = useSelector((state: RootState) => selectUniverses(state));
@@ -55,9 +56,9 @@ export default function HomePage() {
   const favFilter = { ...filter, page: favPage, limit: 10 };
   
   const { data: userFavorites } = useGetMyFavAdvertsQuery(favFilter, {
-    skip: !isFavCall && !isFirstRender.current,
+    skip: !user.username || !isFavCall && !isFirstRender.current,
   });
-
+  
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;      
@@ -81,7 +82,7 @@ export default function HomePage() {
       <>
         <div className="pt-8">
           <Banner
-            backgroundImages={logosBanner}
+            backgroundImages={universe}
             text="Inicia tu búsqueda dentro de un universo"
             highlights={["búsqueda", "universo"]}
             height="h-70 md:h-96"
@@ -108,6 +109,7 @@ export default function HomePage() {
           </section>
         </div>
         {filter.searchTerm || filter.product_type ? (
+          <div className="max-w-7xl mx-auto px-4 pt-10">
           <FilteredAdvertSectionProps
             headerLabel="¿Qúe estás buscando?"
             label={filter.searchTerm || ""}
@@ -115,6 +117,7 @@ export default function HomePage() {
               filterAdverts ? filterAdverts : { adverts: [], total: "0" }
             }
           />
+          </div>
         ) : (
           <div className="max-w-7xl mx-auto space-y-10 px-4 mt-8">
             {adverts && adverts?.adverts.length > 0 && !isError ? (
