@@ -47,7 +47,7 @@ export default function ChatsList() {
               className="flex items-center gap-4 p-4 rounded-xl shadow-md  bg-cream hover:bg-lightgrey transition-colors"
             >
               <img
-                src={chat.withUser.avatarUrl || "/default-avatar.png"}
+                src={chat.withUser.avatarUrl || "https://res.cloudinary.com/ds6adqnyz/image/upload/v1746387623/sa3ooiwos6owqotkokos.webp"}
                 alt={`Avatar de ${chat.withUser.username}`}
                 className="w-12 h-12 rounded-full object-cover"
               />
