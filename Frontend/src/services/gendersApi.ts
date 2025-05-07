@@ -3,7 +3,7 @@ import { GenderSchema } from './schemas/GenderSchema';
 
 export const gendersApi = createApi({
   reducerPath: 'genderApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
   tagTypes: ['Genders'],
   endpoints: (builder) => ({
     

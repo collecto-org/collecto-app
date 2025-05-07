@@ -11,7 +11,7 @@ export const catalogsApi = createApi({
 
     getCatalogs: builder.query<CatalogSchema, void>({
       query: () => ({
-        url: `/api/catalogs`,
+        url: `/catalogs`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",

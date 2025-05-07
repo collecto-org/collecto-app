@@ -8,7 +8,7 @@ export const brandsApi = createApi({
   tagTypes: ['Brands'], // 
   endpoints: (builder) => ({
     getBrands: builder.query<BrandSchema[], void>({
-      query: () => '/api/brands',
+      query: () => '/brands',
       providesTags: ['Brands'], // 
     }),
         updateBrands: builder.mutation<
@@ -16,7 +16,7 @@ export const brandsApi = createApi({
           { id: string; data: Partial<BrandSchema> }
         >({
           query: ({ id, data }) => ({
-            url: `/api/brands/${id}`,
+            url: `/brands/${id}`,
             method: "PUT",
             credentials: "include",
             body: data,
@@ -25,7 +25,7 @@ export const brandsApi = createApi({
         }),
         postBrands: builder.mutation<BrandSchema, BrandSchema>({
           query: (data) => ({
-            url: `/api/brands`,
+            url: `/brands`,
             method: "POST",
             credentials: "include",
             body: data,
@@ -34,7 +34,7 @@ export const brandsApi = createApi({
         }),
         deleteBrands: builder.mutation<BrandSchema, { id: string }>({
           query: ({ id }) => ({
-            url: `/api/brands/${id}`,
+            url: `/brands/${id}`,
             method: "DELETE",
             credentials: "include",
           }),

@@ -10,7 +10,7 @@ export const paymentsApi = createApi({
   endpoints: (builder) => ({
     getMySales: builder.query<PaymentSchema[], any>({
       query: () => ({
-        url: `/api/payments/my-sales`,
+        url: `/payments/my-sales`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const paymentsApi = createApi({
     }),
     getMyPurchases: builder.query<PaymentSchema[], any>({
       query: () => ({
-        url: `/api/payments/my-purchases`,
+        url: `/payments/my-purchases`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +30,7 @@ export const paymentsApi = createApi({
     }),
     getPayment: builder.query<PaymentSchema[], {id:string}>({
       query: (id) => ({
-        url: `/api/payments/${id}`,
+        url: `/payments/${id}`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const paymentsApi = createApi({
     }),
     getPaymentStatus: builder.query<PaymentSchema[], {paymentId:string}>({
       query: (paymentId) => ({
-        url: `/api/payments/status/${paymentId}`,
+        url: `/payments/status/${paymentId}`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const paymentsApi = createApi({
     }),
     createPayment: builder.mutation<PaymentSchema, CreatePaymentSchema>({
       query: (payment) => ({
-        url: `/api/payments`,
+        url: `/payments`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ export const paymentsApi = createApi({
     }),
     confirmPayment: builder.mutation<PaymentSchema, PaymentConfirmationSchema>({
       query: (payment) => ({
-        url: `/api/payments`,
+        url: `/payments`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",

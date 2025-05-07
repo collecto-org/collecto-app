@@ -12,7 +12,7 @@ export const userApi = createApi({
     endpoints:(builder) => ({
       getMe: builder.query<User, {}>({
         query: () => ({
-          url: `/api/users/me`,
+          url: `/users/me`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"
@@ -22,7 +22,7 @@ export const userApi = createApi({
       }),
       editMe: builder.mutation<User, {  formData: FormData  }>({
         query: ({formData}) => ({
-          url: `/api/users/me`,
+          url: `/users/me`,
           credentials: "include",
           method: "PUT",
           body:formData
@@ -30,7 +30,7 @@ export const userApi = createApi({
       }),
       deleteMe: builder.mutation<User, {password:string }>({
         query: ({ password }) => ({
-          url: `/api/users/me`,
+          url: `/users/me`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"
@@ -43,7 +43,7 @@ export const userApi = createApi({
      
       getChats: builder.query<Chat[],void >({
         query: () => ({
-          url: `/api/users/me/chat`,
+          url: `/users/me/chat`,
           method: "GET",
           credentials:"include",
           
@@ -53,7 +53,7 @@ export const userApi = createApi({
 
       checkEmailExists: builder.mutation<{ exists: boolean }, { email: string }>({
         query: ({ email }) => ({
-          url: `/api/users/me/check-email`,
+          url: `/users/me/check-email`,
           method: "POST",
           credentials: "include",
           headers: {
@@ -64,7 +64,7 @@ export const userApi = createApi({
       }),
       updatePassword: builder.mutation<{ message: string }, { currentPassword: string; newPassword: string }>({
       query: (data) => ({
-        url: '/api/users/me/password',
+        url: '/users/me/password',
         method: 'PATCH',
         credentials:"include",
         body: data,

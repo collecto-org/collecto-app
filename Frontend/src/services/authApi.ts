@@ -9,7 +9,7 @@ export const authApi = createApi({
     endpoints:(builder) => ({
         login:builder.mutation<LoginResponse ,LoginSchema>({
             query:(credentials) => ({
-                url:"/api/auth/login",
+                url:"/auth/login",
                 method:"POST",
                 body:credentials,
                 credentials: "include",
@@ -18,7 +18,7 @@ export const authApi = createApi({
         }),
         logout:builder.mutation<{message:string;} ,void>({
           query:() => ({
-              url:"/api/auth/logout",
+              url:"/auth/logout",
               method:"POST",
               credentials: "include",
               
@@ -36,7 +36,7 @@ export const authApi = createApi({
             firstName:string; 
             lastName:string}>({
             query:(credentials) => ({
-                url:"/api/auth/register",
+                url:"/auth/register",
                 method:"POST",
                 body:credentials
             })
@@ -49,7 +49,7 @@ export const authApi = createApi({
             };
           }, { token: string }>({
             query: ({ token }) => ({
-              url: `/api/auth/verify-email/${token}`,
+              url: `/auth/verify-email/${token}`,
               method: "POST"
             })
           }),
@@ -57,7 +57,7 @@ export const authApi = createApi({
             message: string;
           }, { email: string }>({
             query:(credentials) => ({
-              url:"/api/auth/recover",
+              url:"/auth/recover",
               method:"POST",
               body:credentials
           })
@@ -66,7 +66,7 @@ export const authApi = createApi({
             message:string;
           }, { token: string }>({
             query: ({ token }) => ({
-              url: `/api/auth/recover/${token}`,
+              url: `/auth/recover/${token}`,
               method: "POST"
             })
           }),
@@ -74,7 +74,7 @@ export const authApi = createApi({
             message:string;
           }, { token: string, data:{newPassword:string} }>({
             query: ({ token,data }) => ({
-              url: `/api/auth/reset/${token}`,
+              url: `/auth/reset/${token}`,
               headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"

@@ -3,7 +3,7 @@ import { UniverseSchema } from './schemas/UniverseSchemas';
 
 export const universesApi = createApi({
   reducerPath: 'universesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL}),
   tagTypes: ['Universes'], // 
   endpoints: (builder) => ({
     getUniverses: builder.query<UniverseSchema[], void>({

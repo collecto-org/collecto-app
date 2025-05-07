@@ -17,7 +17,7 @@ export const ordersApi = createApi({
   endpoints: (builder) => ({
     getMyOrders: builder.query<Order[], {}>({
       query: () => ({
-        url: `/api/orders/user/me`,
+        url: `/orders/user/me`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export const ordersApi = createApi({
     }),
     getOrder: builder.query<Order, OrderId>({
       query: (_id) => ({
-        url: `/api/orders/${_id}/status`,
+        url: `/orders/${_id}/status`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export const ordersApi = createApi({
     }),
     newOrder: builder.mutation<NewOrder, AdvertId>({
       query: (advertId) => ({
-        url: `/api/orders`,
+        url: `/orders`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export const ordersApi = createApi({
     }),
     changeStatusOrder: builder.mutation<Order, UpdateOrder>({
       query: ({ _id, status }) => ({
-        url: `/api/orders/${_id}/status`,
+        url: `/orders/${_id}/status`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const ordersApi = createApi({
     }),
     deleteOrder: builder.mutation<DeleteOrder, OrderId>({
       query: (_id) => ({
-        url: `/api/orders/${_id}`,
+        url: `/orders/${_id}`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",

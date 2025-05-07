@@ -3,7 +3,7 @@ import { UserSchema } from '../schemas/UserSchemas';
 
 export const usersTableApi = createApi({
   reducerPath: 'usersApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
   tagTypes: ['Users'],
   endpoints: (builder) => ({
     getUsers: builder.query<UserSchema[], void>({
