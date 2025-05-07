@@ -7,7 +7,7 @@ export const statusApi = createApi({
   tagTypes: ["status"],
   endpoints: (builder) => ({
     getStatus: builder.query<statusSchema[], void>({
-      query: () => "/api/status",
+      query: () => "/status",
       providesTags: ["status"],
     }),
     updateStatus: builder.mutation<
@@ -15,7 +15,7 @@ export const statusApi = createApi({
       { id: string; data: Partial<statusSchema> }
     >({
       query: ({ id, data }) => ({
-        url: `/api/status/${id}`,
+        url: `/status/${id}`,
         method: "PUT",
         credentials: "include",
         body: data,
@@ -24,7 +24,7 @@ export const statusApi = createApi({
     }),
     postStatus: builder.mutation<statusSchema, statusSchema>({
       query: (data) => ({
-        url: `/api/status`,
+        url: `/status`,
         method: "POST",
         credentials: "include",
         body: data,
@@ -33,7 +33,7 @@ export const statusApi = createApi({
     }),
     deleteStatus: builder.mutation<statusSchema, { id: string }>({
       query: ({ id }) => ({
-        url: `/api/status/${id}`,
+        url: `/status/${id}`,
         method: "DELETE",
         credentials: "include",
       }),

@@ -8,7 +8,7 @@ export const collectionsApi = createApi({
   tagTypes: ['collections'], // 
   endpoints: (builder) => ({
     getCollections: builder.query<CollectionSchema[], void>({
-      query: () => '/api/collections',
+      query: () => '/collections',
       providesTags: ['collections'], // 
     }),
         updateCollections: builder.mutation<
@@ -16,7 +16,7 @@ export const collectionsApi = createApi({
           { id: string; data: Partial<CollectionSchema> }
         >({
           query: ({ id, data }) => ({
-            url: `/api/collections/${id}`,
+            url: `/collections/${id}`,
             method: "PUT",
             credentials: "include",
             body: data,
@@ -25,7 +25,7 @@ export const collectionsApi = createApi({
         }),
         postCollections: builder.mutation<CollectionSchema, CollectionSchema>({
           query: (data) => ({
-            url: `/api/collections`,
+            url: `/collections`,
             method: "POST",
             credentials: "include",
             body: data,
@@ -34,7 +34,7 @@ export const collectionsApi = createApi({
         }),
         deleteCollections: builder.mutation<CollectionSchema, { id: string }>({
           query: ({ id }) => ({
-            url: `/api/collections/${id}`,
+            url: `/collections/${id}`,
             method: "DELETE",
             credentials: "include",
           }),

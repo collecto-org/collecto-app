@@ -217,7 +217,7 @@ export default function AdvertDetail({
           <Link className="text-black" to={`/users/${user.username}`}>
             <SellerCard
               username={user.username || "Usuario"}
-              avatarUrl={user.avatarUrl || ""}
+              avatarUrl={user.avatarUrl || "https://res.cloudinary.com/ds6adqnyz/image/upload/v1746387623/sa3ooiwos6owqotkokos.webp"}
               rating={user.rating || 4}
             />
           </Link>

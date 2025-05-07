@@ -8,7 +8,7 @@ export const conditionsApi = createApi({
   tagTypes: ['conditions'], // 
   endpoints: (builder) => ({
     getConditions: builder.query<ConditionSchema[], void>({
-      query: () => '/api/conditions',
+      query: () => '/conditions',
       providesTags: ['conditions'], // 
     }),
         updateConditions: builder.mutation<
@@ -16,7 +16,7 @@ export const conditionsApi = createApi({
           { id: string; data: Partial<ConditionSchema> }
         >({
           query: ({ id, data }) => ({
-            url: `/api/conditions/${id}`,
+            url: `/conditions/${id}`,
             method: "PUT",
             credentials: "include",
             body: data,
@@ -25,7 +25,7 @@ export const conditionsApi = createApi({
         }),
         postConditions: builder.mutation<ConditionSchema, ConditionSchema>({
           query: (data) => ({
-            url: `/api/conditions`,
+            url: `/conditions`,
             method: "POST",
             credentials: "include",
             body: data,
@@ -34,7 +34,7 @@ export const conditionsApi = createApi({
         }),
         deleteConditions: builder.mutation<ConditionSchema, { id: string }>({
           query: ({ id }) => ({
-            url: `/api/conditions/${id}`,
+            url: `/conditions/${id}`,
             method: "DELETE",
             credentials: "include",
           }),

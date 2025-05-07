@@ -8,7 +8,7 @@ export const transactionsApi = createApi({
   tagTypes: ['transactions'], // 
   endpoints: (builder) => ({
     getTransactions: builder.query<TransactionSchema[], void>({
-      query: () => '/api/transactions',
+      query: () => '/transactions',
       providesTags: ['transactions'], // 
     }),
         updateTransactions: builder.mutation<
@@ -16,7 +16,7 @@ export const transactionsApi = createApi({
           { id: string; data: Partial<TransactionSchema> }
         >({
           query: ({ id, data }) => ({
-            url: `/api/transactions/${id}`,
+            url: `/transactions/${id}`,
             method: "PUT",
             credentials: "include",
             body: data,
@@ -25,7 +25,7 @@ export const transactionsApi = createApi({
         }),
         postTransactions: builder.mutation<TransactionSchema, TransactionSchema>({
           query: (data) => ({
-            url: `/api/transactions`,
+            url: `/transactions`,
             method: "POST",
             credentials: "include",
             body: data,
@@ -34,7 +34,7 @@ export const transactionsApi = createApi({
         }),
         deleteTransactions: builder.mutation<TransactionSchema, { id: string }>({
           query: ({ id }) => ({
-            url: `/api/transactions/${id}`,
+            url: `/transactions/${id}`,
             method: "DELETE",
             credentials: "include",
           }),

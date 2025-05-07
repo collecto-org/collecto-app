@@ -7,7 +7,7 @@ export const productTypesApi = createApi({
   tagTypes: ["product-types"], //
   endpoints: (builder) => ({
     getProductTypes: builder.query<ProductTypeSchema[], void>({
-      query: () => "/api/product-types",
+      query: () => "/product-types",
       providesTags: ["product-types"], //
     }),
     updateProductTypes: builder.mutation<
@@ -15,7 +15,7 @@ export const productTypesApi = createApi({
       { id: string; data: Partial<ProductTypeSchema> }
     >({
       query: ({ id, data }) => ({
-        url: `/api/product-types/${id}`,
+        url: `/product-types/${id}`,
         method: "PUT",
         credentials: "include",
         body: data,
@@ -24,7 +24,7 @@ export const productTypesApi = createApi({
     }),
     postProductTypes: builder.mutation<ProductTypeSchema, ProductTypeSchema>({
       query: (data) => ({
-        url: `/api/product-types`,
+        url: `/product-types`,
         method: "POST",
         credentials: "include",
         body: data,
@@ -33,7 +33,7 @@ export const productTypesApi = createApi({
     }),
     deleteProductTypes: builder.mutation<ProductTypeSchema, { id: string }>({
       query: ({ id }) => ({
-        url: `/api/product-types/${id}`,
+        url: `/product-types/${id}`,
         method: "DELETE",
         credentials: "include",
       }),

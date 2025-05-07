@@ -61,6 +61,8 @@ export default function ChatPage() {
     if (!roomId) return;
 
     socketRef.current?.emit("joinRoom", { roomId });
+//    socketRef.current?.emit("joinRoom", { roomId, user: username });
+
     socketRef.current?.emit("active in chat", { roomId });
 
     return () => {

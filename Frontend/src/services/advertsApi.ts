@@ -15,7 +15,7 @@ export const advertsApi = createApi({
   endpoints: (builder) => ({
     newAdvert: builder.mutation<NewAdvertResponse, { formData: FormData }>({
       query: ({ formData }) => ({
-        url: "/api/adverts",
+        url: "/adverts",
         credentials: "include",
         method: "POST",
         body: formData,
@@ -27,7 +27,7 @@ export const advertsApi = createApi({
       { formData: FormData; id: string }
     >({
       query: ({ formData, id }) => ({
-        url: `/api/adverts/${id}`,
+        url: `/adverts/${id}`,
         credentials: "include",
         method: "PUT",
         body: formData,
@@ -36,7 +36,7 @@ export const advertsApi = createApi({
     }),
     deleteAdvert: builder.mutation<{ message: string }, { id: string }>({
       query: ({ id }) => ({
-        url: `/api/adverts/${id}`,
+        url: `/adverts/${id}`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const advertsApi = createApi({
       FilterAdverts
     >({
       query: (filters) => ({
-        url: `/api/adverts`,
+        url: `/adverts`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export const advertsApi = createApi({
     }),
     getAdvertDetail: builder.query<Advert, { slug: string }>({
       query: ({ slug }) => ({
-        url: `/api/adverts/${slug}`,
+        url: `/adverts/${slug}`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export const advertsApi = createApi({
     }),
     getAdvertDetailById: builder.query<Advert, { id: string }>({
       query: ({ id }) => ({
-        url: `/api/adverts/${id}/id`,
+        url: `/adverts/${id}/id`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export const advertsApi = createApi({
       FilterAdverts
     >({
       query: (filters) => ({
-        url: `/api/adverts/search`,
+        url: `/adverts/search`,
         params: filters,
         method: "GET",
       }),
@@ -100,7 +100,7 @@ export const advertsApi = createApi({
       { id: string; status: string }
     >({
       query: ({ id, status }) => ({
-        url: `/api/adverts/${id}/status`,
+        url: `/adverts/${id}/status`,
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -112,7 +112,7 @@ export const advertsApi = createApi({
     }),
      setAdvertFav: builder.mutation<{message: string }, listingId>({
             query: (listingId) => ({
-              url: `/api/users/me/favorites/${listingId}`,
+              url: `/users/me/favorites/${listingId}`,
               method: "POST",
               credentials:"include",
       
@@ -121,7 +121,7 @@ export const advertsApi = createApi({
           }),
           removeAdvertFav: builder.mutation<{message: string },listingId >({
             query: (listingId) => ({
-              url: `/api/users/me/favorites/${listingId}`,
+              url: `/users/me/favorites/${listingId}`,
               method: "DELETE",
               credentials:"include",       
       
@@ -131,7 +131,7 @@ export const advertsApi = createApi({
           }),
                 getMyadverts: builder.query<{adverts:Advert[]; total:string},FilterAdverts>({
                   query: (filters) => ({
-                    url: `/api/users/me/adverts`,
+                    url: `/users/me/adverts`,
                     method: "GET",
                     credentials:"include",
                     params:filters
@@ -143,7 +143,7 @@ export const advertsApi = createApi({
                 }),
                 getMyFavAdverts: builder.query<{adverts:Advert[]; total:string},FilterAdverts>({
                   query: (filters) => ({
-                    url: `/api/users/me/favorites`,
+                    url: `/users/me/favorites`,
                     method: "GET",
                     credentials:"include",
                     params:filters
@@ -154,7 +154,7 @@ export const advertsApi = createApi({
                 }),
                 getUserAdverts: builder.query<{adverts:Advert[]; total:string},{username:string,filters:FilterAdverts} >({
                   query: ({username,filters}) => ({
-                    url: `/api/users/${username}/listings`,
+                    url: `/users/${username}/listings`,
                     method: "GET",
                     credentials:"include",
                     params:filters

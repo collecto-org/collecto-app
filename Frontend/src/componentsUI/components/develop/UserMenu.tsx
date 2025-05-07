@@ -20,7 +20,7 @@ export default function UserMenu(user: { user: User }) {
           <div className="flex items-center gap-1 bg-white focus:outline-none">
             <div className="w-9 h-9 rounded-full overflow-hidden">
               <Logo
-                src={user.user.avatarUrl || "/assets/default-avatar-mas.jpg"}
+                src={user.user.avatarUrl ||  "https://res.cloudinary.com/ds6adqnyz/image/upload/v1746387623/sa3ooiwos6owqotkokos.webp"}
                 alt={user.user.username}
                 width={36}
                 height={36}
@@ -47,9 +47,9 @@ export default function UserMenu(user: { user: User }) {
           Mi perfil
         </Dropdown.Item>
 
-        {/* <Dropdown.Item onClick={() => navigate("/catalogmanager")}>
+        <Dropdown.Item onClick={() => navigate("/catalogmanager")}>
           Administrar catálogos
-        </Dropdown.Item> */}
+        </Dropdown.Item>
 
         <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
       </Dropdown>

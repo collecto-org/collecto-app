@@ -9,7 +9,7 @@ export const notificationApi = createApi({
     endpoints:(builder) => ({
       statusChange: builder.mutation<{message:string}, FavoriteStatusChange>({
         query: (notificationValues) => ({
-          url: `/api/users/me/notifications/favorite-status-change`,
+          url: `/users/me/notifications/favorite-status-change`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"
@@ -20,7 +20,7 @@ export const notificationApi = createApi({
       }),
       getNotifications: builder.query<NotificationSchema[], {}>({
         query: () => ({
-          url: `/api/notifications/user`,
+          url: `/notifications/user`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"
@@ -30,7 +30,7 @@ export const notificationApi = createApi({
       }),
       readNotifications: builder.mutation<{message:string}, string>({
         query: (id) => ({
-          url: `/api/notifications/${id}/read`,
+          url: `/notifications/${id}/read`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"
@@ -40,7 +40,7 @@ export const notificationApi = createApi({
       }),
       priceChange: builder.mutation<{message:string}, FavoritePriceChange>({
         query: (notificationValues) => ({
-          url: `/api/users/me/notifications/favorite-price-change`,
+          url: `/users/me/notifications/favorite-price-change`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"
@@ -51,7 +51,7 @@ export const notificationApi = createApi({
       }),
       removeFav: builder.mutation<{message:string}, FavoriteRemove>({
         query: (notificationValues) => ({
-          url: `/api/users/me/notifications/favorite-removed`,
+          url: `/users/me/notifications/favorite-removed`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"
@@ -62,7 +62,7 @@ export const notificationApi = createApi({
       }),
       newChatMessage: builder.mutation<{message:string}, NewChatMessage>({
         query: (notificationValues) => ({
-          url: `/api/users/me/notifications/favorite-removed`,
+          url: `/users/me/notifications/favorite-removed`,
           credentials: "include",
           headers: {
             "Content-Type": "application/json"

@@ -10,7 +10,7 @@ interface ShareButtonsProps {
 
 const ShareButtons: React.FC<ShareButtonsProps> = ({ title, price, slug }) => {
   const serverUrl = "http://collecto.es";
-  const shareUrl = encodeURIComponent(`${serverUrl}/api/adverts/og/${slug}`);
+  const shareUrl = encodeURIComponent(`${serverUrl}/adverts/${slug}`);
   const text = encodeURIComponent(`${title} por €${price}`);
 
   return (

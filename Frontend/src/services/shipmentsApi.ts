@@ -11,7 +11,7 @@ export const shipmentsApi = createApi({
 
     getShipmentHistory: builder.query<ShipmentSchema, {id:string}>({
       query: (id) => ({
-        url: `/api/shipments/me/${id}/history`,
+        url: `/shipments/me/${id}/history`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +21,7 @@ export const shipmentsApi = createApi({
     }),
     getShipment: builder.query<ShipmentSchema[], {id:string}>({
       query: (id) => ({
-        url: `/api/shipments/me/${id}`,
+        url: `/shipments/me/${id}`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export const shipmentsApi = createApi({
     }),
     createShipment: builder.mutation<CreateShipmentSchema, CreateShipmentResponseSchema>({
       query: (shipment) => ({
-        url: `/api/shipments`,
+        url: `/shipments`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const shipmentsApi = createApi({
     }),
     updateShipmentHistory: builder.mutation<ShipmentHistorySchema, ShipmentSchema>({
       query: (history) => ({
-        url: `/api/shipments/history`,
+        url: `/shipments/history`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export const shipmentsApi = createApi({
     }),
     updateShipmentStatus: builder.mutation<ShipmentHistorySchema, ShipmentStatuschema>({
       query: ({id,status}) => ({
-        url: `/api/shipments/me/${id}/status`,
+        url: `/shipments/me/${id}/status`,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
