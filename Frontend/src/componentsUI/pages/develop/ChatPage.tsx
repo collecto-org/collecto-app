@@ -29,7 +29,7 @@ export default function ChatPage() {
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    socketRef.current = io("/chat", {
+    socketRef.current = io(import.meta.env.VITE_SOCKET_URL, {
       withCredentials: true,
     });
 
