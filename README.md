@@ -55,7 +55,7 @@ Instalación y Ejecución
 Clona este repositorio:
 
 ```bash
-git clone https://github.com/tu-usuario/collecto-frontend.git
+git clone https://github.com/collecto-org/collecto-app
 cd collecto-frontend
 ```
 
